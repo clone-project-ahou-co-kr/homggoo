@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="/assets/styles/common.min.css">
+    <link rel="stylesheet" href="/user/assets/styles/register.min.css">
+    <link rel="icon" href="/assets/images/favicon.png">
+    <script defer src="/user/assets/scripts/register.js"></script>
+</head>
+<body>
+<div class="container">
+    <a href="/">
+        <svg width="88" height="31" viewBox="0 0 88 31" preserveAspectRatio="xMidYMid meet">
+            <g fill="none" fill-rule="evenodd">
+                <path fill="#35C5F0"
+                      d="M23.131 0H5.03C2.424 0 0 2.411 0 5v20c0 2.59 2.424 5 5.029 5h20.114c2.603 0 5.028-2.41 5.028-5V5c0-2.589-2.425-5-5.028-5H23.13z"></path>
+                <path fill="#FFF"
+                      d="M22.114 15.615a1.99 1.99 0 0 1-1.996-1.984 1.99 1.99 0 0 1 1.996-1.985 1.99 1.99 0 0 1 1.996 1.985 1.99 1.99 0 0 1-1.996 1.984zm-1.488 5.213H9.123v-7.574l5.752-3.988 3.297 2.285a4.397 4.397 0 0 0-.52 2.08 4.44 4.44 0 0 0 2.974 4.183v3.014zm1.488-11.635c-.507 0-.995.086-1.449.24l-4.769-3.306a1.791 1.791 0 0 0-2.042 0l-7.14 4.95a1.771 1.771 0 0 0-.764 1.456v9.676c0 .98.8 1.775 1.785 1.775h14.28a1.78 1.78 0 0 0 1.785-1.775v-4.47a4.438 4.438 0 0 0 2.776-4.108c0-2.45-1.997-4.438-4.462-4.438z"></path>
+                <g fill="#000">
+                    <path d="M46.634 22.257h-3.442V19.15c0-.558-.454-1.01-1.015-1.01-.56 0-1.015.452-1.015 1.01v3.107h-3.441c-.561 0-1.016.453-1.016 1.01 0 .558.455 1.01 1.016 1.01h8.913c.56 0 1.015-.452 1.015-1.01 0-.557-.454-1.01-1.015-1.01M39.847 11.118c0-3.193 1.46-3.67 2.33-3.67.87 0 2.33.477 2.33 3.67v.251c0 3.193-1.46 3.67-2.33 3.67-.87 0-2.33-.477-2.33-3.67v-.251zm2.33 5.94c2.69 0 4.361-2.18 4.361-5.69v-.25c0-3.51-1.67-5.69-4.36-5.69-2.69 0-4.362 2.18-4.362 5.69v.251c0 3.51 1.671 5.689 4.361 5.689zM60.037 11.95H49.154c-.56 0-1.015.451-1.015 1.009 0 .558.454 1.01 1.015 1.01h10.883c.561 0 1.016-.452 1.016-1.01s-.455-1.01-1.016-1.01M58.951 22.723c-4.946 1.278-6.604.551-7.088.18-.316-.244-.457-.562-.457-1.033v-.602h7.17c.561 0 1.016-.452 1.016-1.01v-3.53c0-.558-.455-1.01-1.016-1.01H50.39c-.56 0-1.015.452-1.015 1.01 0 .557.454 1.009 1.015 1.009h7.171v1.512H50.39c-.56 0-1.015.452-1.015 1.01v1.61c0 1.094.43 2.004 1.246 2.63.836.643 2.053.965 3.642.965 1.434 0 3.17-.262 5.199-.786.543-.14.869-.692.727-1.231a1.016 1.016 0 0 0-1.238-.724M50.904 10.2h7.558c.56 0 1.015-.452 1.015-1.01 0-.557-.455-1.01-1.015-1.01h-6.543V5.768c0-.558-.454-1.01-1.015-1.01-.561 0-1.015.452-1.015 1.01V9.19c0 .558.454 1.01 1.015 1.01M86.923 5.096c-.56 0-1.015.452-1.015 1.01v8.146c0 .558.454 1.01 1.015 1.01.561 0 1.015-.452 1.015-1.01V6.106c0-.558-.454-1.01-1.015-1.01M81.798 13.986a1.016 1.016 0 0 0 1.3.6c.526-.19.799-.768.607-1.292-.032-.09-.697-1.863-2.358-3.125l2.58-2.853c.267-.296.335-.722.172-1.086a1.016 1.016 0 0 0-.928-.598h-6.326c-.56 0-1.015.452-1.015 1.01 0 .557.455 1.009 1.015 1.009h4.048L79.03 9.71a.176.176 0 0 0-.007.01l-2.933 3.242a1.006 1.006 0 0 0 .077 1.426 1.016 1.016 0 0 0 1.434-.076l2.383-2.636c1.261.887 1.8 2.275 1.814 2.309M85.338 23.19h-4.903a.569.569 0 0 1-.57-.565v-1.357h6.043v1.357a.568.568 0 0 1-.57.566m1.585-6.512c-.56 0-1.015.452-1.015 1.01v1.56h-6.043v-1.56c0-.558-.455-1.01-1.016-1.01-.56 0-1.015.452-1.015 1.01v4.936a2.596 2.596 0 0 0 2.6 2.585h4.904c1.434 0 2.6-1.16 2.6-2.585v-4.936c0-.558-.454-1.01-1.015-1.01M66.393 7.448c1.548 0 1.626 2.944 1.626 3.534 0 .59-.078 3.535-1.626 3.535-1.547 0-1.625-2.945-1.625-3.535 0-.59.078-3.534 1.625-3.534m0 9.088c1.23 0 2.256-.649 2.89-1.826.502-.933.767-2.222.767-3.728 0-1.506-.265-2.794-.767-3.727-.634-1.177-1.66-1.826-2.89-1.826-1.23 0-2.255.649-2.89 1.826-.5.933-.766 2.221-.766 3.727 0 1.506.265 2.795.767 3.728.634 1.177 1.66 1.826 2.89 1.826"></path>
+                    <path d="M72.64 5.096c-.56 0-1.016.452-1.016 1.01v12.358c-1.345.417-4.016.784-7.251.784h-1.546c-.56 0-1.015.452-1.015 1.01 0 .557.454 1.009 1.015 1.009h1.546c1.846 0 5.04-.161 7.251-.708v3.362c0 .558.455 1.01 1.016 1.01.56 0 1.015-.452 1.015-1.01V6.106c0-.558-.454-1.01-1.015-1.01"></path>
+                </g>
+            </g>
+        </svg>
+    </a>
+    <section class="register-section">
+        <form novalidate id="register-form">
+            <h1 class="title">회원가입</h1>
+            <div class="sns-login">
+                <span>SNS계정으로 간편하게 회원가입</span>
+                <ul class="list">
+                    <li class="item naver">
+                        <a href="">네이버</a>
+                    </li>
+                    <li class="item kakao">
+                        <a href="">카카오</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="email-container">
+                <input hidden name="emailSalt" type="hidden"/>
+                <strong>이메일</strong>
+                <label class="label-object">
+                    <input class="input-object" required maxlength="50" minlength="10" placeholder="이메일" type="email"
+                           name="email">@
+                    <select class="input-object stretch" name="email-address">
+                        <option value="" selected disabled hidden>선택해주세요</option>
+                        <option value="naver.com">naver.com</option>
+                        <option value="hotmail.com">hotmail.com</option>
+                        <option value="google.com">gmail.com</option>
+                        <option value="daum.net">daum.net</option>
+                        <option value="by">직접입력</option>
+                    </select>
+                </label>
+                <button class="button-object" name="emailCodeSendButton" type="button">이메일 인증하기</button>
+                <div class="email-verify">
+                    <span>이메일로 받은 인증코드를 입력해주세요.</span>
+                    <div class="email-input">
+                        <input class="input-object" placeholder="인증코드 6자리" type="text">
+                        <span>0:00</span>
+                        <button name="emailCodeVerifyButton">확인</button>
+                    </div>
+                </div>
+            </div>
+            <div class="password-container">
+                <strong>비밀번호</strong>
+                <span>영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.</span>
+                <label class="label-object">
+                    <input class="input-object stretch" required type="password" maxlength="50" minlength="8"
+                           name="password" placeholder="비밀번호">
+                </label>
+                <strong>비밀번호 확인</strong>
+                <label class="label-object">
+                    <input class="input-object stretch" required type="password" maxlength="50" minlength="8"
+                           name="passwordCheck" placeholder="비밀번호 확인">
+                </label>
+            </div>
+            <div class="nickname-container">
+                <strong>닉네임</strong>
+                <span>다른 유저와 겹치지 않도록 입력해주세요. (2~20자)</span>
+                <label class="label-object">
+                    <input class="input-object stretch" required type="text" maxlength="20" minlength="2"
+                           name="nickname"
+                           placeholder="별명 (2~20자)">
+                </label>
+            </div>
+
+            <div class="agree-container">
+                <strong>약관동의</strong>
+                <div class="contract">
+                    <label class="label-agree">
+                        <input type="checkbox" name="select-all">
+                        <strong>전체동의</strong>
+                        <span>선택항목에 대한 동의 포함</span>
+                    </label>
+                    <label class="label-agree">
+                        <input type="checkbox" name="age">
+                        <span>만 14세 이상입니다.</span>
+                        <span>(필수)</span>
+                    </label>
+                    <label class="label-agree">
+                        <input type="checkbox" name="agree">
+                        <span>이용약관</span>
+                        <span>(필수)</span>
+                    </label>
+                    <label class="label-agree">
+                        <input type="checkbox" name="marketing">
+                        <span>개인정보 마케팅 활용 동의</span>
+                        <span>(선택)</span>
+                    </label>
+                    <label class="label-agree">
+                        <input type="checkbox" name="event">
+                        <span>이벤트, 쿠폰, 특가 알림 메일 및 SMS등 수신</span>
+                        <span>(선택)</span>
+                    </label>
+                </div>
+            </div>
+            <button class="button-object" type="submit">회원가입하기</button>
+        </form>
+    </section>
+</div>
+</body>
+</html>

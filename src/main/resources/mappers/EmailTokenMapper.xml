@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hgc.homggoo.mappers.user.EmailTokenMapper">
+    <insert id="insert">
+        insert into `homggoo`.`email_token`
+            (email, code, salt, user_agent, is_used, create_at, expires_at)
+        VALUES (#{emailtoken.email}, #{emailtoken.code}, #{emailtoken.salt}, #{emailtoken.userAgent},
+                #{emailtoken.isUsed}, #{emailtoken.createAt}, #{emailtoken.expiresAt});
+    </insert>
+</mapper>

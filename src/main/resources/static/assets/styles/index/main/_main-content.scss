@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+@import "../../def";
+
+#main-content {
+  min-height: calc(100vh - 15rem);
+
+  > .hero-section {
+    @include container;
+    padding: 1.5rem 0;
+
+    > .hero-banner {
+      padding-top: 2rem;
+      position: relative;
+      border-radius: 0.75rem;
+      overflow: hidden;
+
+      > .image {
+        height: 30rem;
+      }
+
+      > .hero-content {
+        position: absolute;
+        bottom: 1.5rem;
+        left: 1.5rem;
+        color: #ffffff;
+
+        > h2 {
+          font-size: 1.5rem;
+          font-weight: 700;
+          margin-bottom: 0.25rem;
+        }
+
+        p {
+          font-size: 0.875rem;
+          opacity: 0.9;
+        }
+      }
+    }
+
+    > .shortcuts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(6.25rem, 1fr));
+      gap: 1rem;
+      margin: 0 auto;
+      > .shortcut-item {
+        @include flex(column, center, center, 1rem);
+
+        padding: 1rem 0.5rem;
+        cursor: pointer;
+        margin-bottom: 2rem;
+
+        .shortcut-icon {
+          font-size: 1.5rem;
+          margin-bottom: 0.5rem;
+        }
+
+        span {
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: black;
+        }
+      }
+    }
+  }
+}
