@@ -45,5 +45,3 @@ HTMLElement.prototype.setVisible=function(b){
 HTMLElement.prototype.getWarning=function(){
     return this.querySelector(':scope>.warning');
 }
-
-window.dialog = Dialog;
