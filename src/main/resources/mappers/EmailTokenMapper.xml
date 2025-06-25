@@ -3,8 +3,32 @@
 <mapper namespace="com.hgc.homggoo.mappers.user.EmailTokenMapper">
     <insert id="insert">
         insert into `homggoo`.`email_token`
-            (email, code, salt, user_agent, is_used, create_at, expires_at)
+            (`email`, `code`, `salt`, `user_agent`, `is_used`, `create_at`, `expires_at`)
         VALUES (#{emailtoken.email}, #{emailtoken.code}, #{emailtoken.salt}, #{emailtoken.userAgent},
                 #{emailtoken.isUsed}, #{emailtoken.createAt}, #{emailtoken.expiresAt});
     </insert>
+    <update id="update">
+        update `homggoo`.`email_token`
+        set `is_used`=#{emailToken.isUsed},
+            `user_agent`=#{emailToken.userAgent},
+            `create_at`=#{emailToken.createAt},
+            `expires_at`=#{emailToken.expiresAt}
+        where `email` = #{emailToken.email}
+          and `code` = #{emailToken.code}
+          and `salt` = #{emailToken.salt}
+        limit 1;
+    </update>
+    <select id="selectByEmailAndCodeAndSalt" resultType="com.hgc.homggoo.entities.user.EmailTokenEntity">
+        select `email`      as `email`,
+               `code`       as `code`,
+               `salt`       as `salt`,
+               `user_agent` as `userAgent`,
+               `is_used`    as `isUsed`,
+               `create_at`  as `createAt`,
+               `expires_at` as `expiresAt`
+        from `homggoo`.`email_token`
+        where `email` = #{email}
+          and `code` = #{code}
+          and `salt` = #{salt};
+    </select>
 </mapper>

@@ -64,4 +64,80 @@ ol, ul {
   padding-inline: 0;
 }
 
+.dialog {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(44, 44, 44, 0.6274509804);
+  backdrop-filter: blur(0.5rem);
+  z-index: 9;
+  opacity: 0;
+  pointer-events: none;
+  transition-duration: 175ms;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+.dialog > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.dialog > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+.dialog.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.dialog > .modal {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0.625rem;
+  width: 25rem;
+  aspect-ratio: 4/2;
+  background-color: #ffffff;
+  border-radius: 1rem;
+}
+.dialog > .modal > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.dialog > .modal > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+.dialog > .modal > .title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #000000;
+}
+.dialog > .modal > .button-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 2rem;
+}
+.dialog > .modal > .button-container > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.dialog > .modal > .button-container > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
 /*# sourceMappingURL=common.css.map */

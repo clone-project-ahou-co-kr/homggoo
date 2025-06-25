@@ -4,9 +4,12 @@
     <insert id="insert" useGeneratedKeys="true"
     keyColumn="index" keyProperty="index">
         insert into `homggoo`.`users`
-        (`email`,`profile`,`password`, `is_admin`, `nickname`, `provider_type`, `provider_key`, `created_at`, `modified_at`,
+        (`email`, `profile`, `password`, `is_admin`, `nickname`, `provider_type`, `provider_key`, `created_at`,
+         `modified_at`,
          `is_deleted`, `is_dormancy`)
-        VALUES (#{user.email}, #{user.profile}, #{user.password}, #{user.isAdmin}, #{user.nickname},#{user.providerType}, #{user.providerKey}, #{user.createdAt}, #{user.modifiedAt}, #{user.isDeleted},#{user.isDormancy})
+        VALUES (#{user.email}, #{user.profile}, #{user.password}, #{user.isAdmin}, #{user.nickname},
+                #{user.providerType}, #{user.providerKey}, #{user.createdAt}, #{user.modifiedAt}, #{user.isDeleted},
+                #{user.isDormancy})
     </insert>
     <select id="selectCountByEmail" resultType="java.lang.Integer">
         select count(0)

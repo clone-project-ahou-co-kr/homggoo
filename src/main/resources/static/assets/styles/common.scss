@@ -50,3 +50,46 @@ ol,ul{
   padding-inline: 0;
 }
 
+.dialog{
+  @include flex(column, center, center, 0.5rem);
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #2c2c2ca0;
+  backdrop-filter: blur(0.5rem);
+  z-index: 9;
+  opacity: 0;
+  pointer-events: none;
+  transition-duration: 175ms;
+  transition-property: opacity;
+  transition-timing-function: ease;
+  &.visible{
+    opacity:1;
+    pointer-events: auto;
+  }
+  >.modal {
+    @include flex(column, center, center,0.625rem);
+
+    width: 25rem;
+    aspect-ratio: 4/2;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    > .title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #000000;
+    }
+
+    > .content {
+
+    }
+
+    > .button-container {
+      @include flex(row, center, center, 2rem);
+
+    }
+  }
+}
