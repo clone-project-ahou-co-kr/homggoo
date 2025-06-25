@@ -11,6 +11,7 @@
   padding: 0 1rem;
 }
 #header > .top-banner {
+  display: block;
   background: linear-gradient(90deg, #ff6b35, #f7931e);
   padding: 0.5rem 0;
   text-align: center;
@@ -97,23 +98,7 @@
 #header .main-nav > .nav > .nav-menu > .nav-link + .nav-link {
   border-left: 0.0625rem solid #ccc;
 }
-#header .main-nav > .nav .search-container {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  flex-wrap: nowrap;
-  gap: 0;
-  border: 0.0625rem solid #f2f4f8;
-  border-radius: 0.0625rem;
-  flex-grow: 1;
-  flex-shrink: 1;
-}
-#header .main-nav > .nav .search-container > * {
-  flex-grow: 0;
-  flex-shrink: 0;
-}
-#header .main-nav > .nav .search-container > .stretch {
+#header .main-nav > .nav .--flex-stretch {
   flex-grow: 1;
   flex-shrink: 1;
 }
@@ -132,6 +117,17 @@
 #header .main-nav > .nav > .nav-right > .stretch {
   flex-grow: 1;
   flex-shrink: 1;
+}
+#header .main-nav > .nav > .nav-right > .search input[name=search] {
+  background: url("/assets/images/index/header/search-icon.png") no-repeat left center;
+  background-position-x: 0.5rem;
+  border: 0.0625rem solid #f2f4f8;
+  margin: 0 auto;
+  padding: 0 1rem 0 3rem;
+  height: 2.5rem;
+}
+#header .main-nav > .nav > .nav-right > .search input::placeholder {
+  color: gainsboro;
 }
 #header .main-nav > .nav > .nav-right > .nav-icon {
   font-size: 1rem;
@@ -280,6 +276,7 @@
   justify-content: center;
   flex-wrap: nowrap;
   gap: 1rem;
+  font-weight: 700;
 }
 #mini-header > .container > .category > * {
   flex-grow: 0;
@@ -300,13 +297,28 @@
   padding: 1.5rem 0;
 }
 #main-content > .hero-section > .hero-banner {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 2rem;
   padding-top: 2rem;
   position: relative;
   border-radius: 0.75rem;
   overflow: hidden;
 }
+#main-content > .hero-section > .hero-banner > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-content > .hero-section > .hero-banner > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
 #main-content > .hero-section > .hero-banner > .image {
-  height: 30rem;
+  height: 33rem;
+  border: none;
 }
 #main-content > .hero-section > .hero-banner > .hero-content {
   position: absolute;
@@ -353,8 +365,7 @@
   margin-bottom: 0.5rem;
 }
 #main-content > .hero-section > .shortcuts-grid > .shortcut-item span {
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 350;
   color: black;
 }
 
@@ -636,4 +647,4 @@ a {
   transition: color 0.2s ease;
 }
 
-/*# sourceMappingURL=index.css.map */
+/*# sourceMappingURL=login.css.map */

@@ -9,9 +9,24 @@
     <link rel="stylesheet" href="/assets/styles/common.min.css">
     <link rel="stylesheet" href="/user/assets/styles/register.min.css">
     <link rel="icon" href="/assets/images/favicon.png">
+    <script src="/assets/scripts/common.js"></script>
     <script defer src="/user/assets/scripts/register.js"></script>
 </head>
 <body>
+<!--<div class="dialog">-->
+<!--    <div class="modal">-->
+<!--        <div class="title">gdgd</div>-->
+<!--        <div class="content">dslfkjsdlfdskj</div>-->
+<!--        <div class="button-container">-->
+<!--            <button class="button" type="button">취소</button>-->
+<!--            <button class="button" type="button">취소</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<div class="loading" id="loading">
+    <img class="icon" src="/assets/images/loading.png" alt="">
+    <span class="caption">잠시만 기다려 주세요.</span>
+</div>
 <div class="container">
     <a href="/">
         <svg width="88" height="31" viewBox="0 0 88 31" preserveAspectRatio="xMidYMid meet">
@@ -42,10 +57,11 @@
                 </ul>
             </div>
             <div class="email-container">
-                <input hidden name="emailSalt" type="hidden"/>
+                <input type="hidden" name="emailSalt">
                 <strong>이메일</strong>
                 <label class="label-object">
-                    <input class="input-object" required maxlength="50" minlength="10" placeholder="이메일" type="email"
+                    <input class="input-object warning" required maxlength="50" minlength="10" placeholder="이메일"
+                           type="email"
                            name="email">@
                     <select class="input-object stretch" name="email-address">
                         <option value="" selected disabled hidden>선택해주세요</option>
@@ -60,9 +76,11 @@
                 <div class="email-verify">
                     <span>이메일로 받은 인증코드를 입력해주세요.</span>
                     <div class="email-input">
-                        <input class="input-object" placeholder="인증코드 6자리" type="text">
+                        <label>
+                            <input class="input-object" placeholder="인증코드 6자리" type="text" name="emailCode">
+                        </label>
                         <span>0:00</span>
-                        <button name="emailCodeVerifyButton">확인</button>
+                        <button type="button" name="emailCodeVerifyButton">확인</button>
                     </div>
                 </div>
             </div>

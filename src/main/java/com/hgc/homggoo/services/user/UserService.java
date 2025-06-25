@@ -55,7 +55,7 @@ public class UserService {
     }
 
     public Results register(UserEntity user) {
-        if (user == null) {
+        if (user == null || user.getNickname() == null || user.getNickname().trim().isEmpty()) {
             return CommonResult.FAILURE;
         }
         user.setAdmin(true);
@@ -66,7 +66,6 @@ public class UserService {
         user.setModifiedAt(LocalDateTime.now());
         user.setProviderType("ORIGIN"); // ENUM과 일치하도록 대문자
         user.setProviderKey("ORIGIN");
-
         return this.userMapper.insert(user) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 
