@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hgc.homggoo.mappers.user.UserMapper">
+    <insert id="insert" useGeneratedKeys="true"
+    keyColumn="index" keyProperty="index">
+        insert into `homggoo`.`users`
+        (`email`,`profile`,`password`, `is_admin`, `nickname`, `provider_type`, `provider_key`, `created_at`, `modified_at`,
+         `is_deleted`, `is_dormancy`)
+        VALUES (#{user.email}, #{user.profile}, #{user.password}, #{user.isAdmin}, #{user.nickname},#{user.providerType}, #{user.providerKey}, #{user.createdAt}, #{user.modifiedAt}, #{user.isDeleted},#{user.isDormancy})
+    </insert>
+    <select id="selectCountByEmail" resultType="java.lang.Integer">
+        select count(0)
+        from `homggoo`.`users`
+        where `email`=#{email};
+    </select>
+</mapper>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="/assets/styles/index.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/styles/common.min.css">
+    <link rel="stylesheet" type="text/css" href="/community/assets/styles/interior/main.min.css">
+    <title>Document</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div th:replace="fragments/header.html :: mini-header"></div>
+<main id="main">
+    <div></div>
+    <div class="category">
+        <span>
+            <a href="#">
+                <span>전체</span>
+            </a>
+        </span>
+        <span>
+            <a href="#">
+                <span>인기</span>
+            </a>
+        </span>
+        <span>
+            <a href="#">
+                <span>홈스타일링</span>
+            </a>
+        </span>
+        <span>
+            <a href="#">
+                <span>시공/모델링</span>
+            </a>
+        </span>
+        <span>
+            <a href="#">
+                <span>우리집일상</span>
+            </a>
+        </span>
+
+    </div>
+    <div class="best">
+        <div class="card">
+            네모네모사인
+        </div>
+        <div class="card">
+            네모네모사인
+        </div>
+        <div class="card">
+            네모네모사인
+        </div>
+        <div class="card">
+            네모네모사인
+        </div>
+    </div>
+    <div class="board">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+        </ul>
+    </div>
+</main>
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

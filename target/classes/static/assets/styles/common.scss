@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+@import "./_def";
+@import "./common/object";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+$border-color: #f2f4f8;
+
+*{
+  box-sizing: border-box;
+}
+html{
+  height: 100%;
+}
+body {
+  min-height: 100%;
+  font-family: 'Pretendard', sans-serif;
+  margin-block: 0;
+  margin-inline: 0;
+  user-select: none;
+}
+
+button,input,textarea,select{
+  border:none;
+  font: inherit;
+  margin:0;
+  margin-inline: 0;
+  margin-block: 0;
+  outline: none;
+  padding: 0;
+  padding-inline: 0;
+  padding-block: 0;
+}
+h1,h2,h3,h4,h5,h6{
+  //font: inherit;
+  margin-block: 0;
+  margin-inline: 0;
+}
+img{
+  -webkit-user-drag: none; //HTML 요소가 브라우저에서 드래그되지 않도록 막는 CSS 속성
+  // 추가
+  max-width: 100%;
+  height: auto;
+}
+
+ol,ul{
+  list-style-type: none;
+  margin-block: 0;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
