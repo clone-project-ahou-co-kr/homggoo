@@ -17,6 +17,7 @@ $bg-light: #f8f9fa;
   }
 
   > .top-banner {
+    display: block;
     background: linear-gradient(90deg, #ff6b35, #f7931e);
     padding: 0.5rem 0;
     text-align: center;
@@ -46,9 +47,11 @@ $bg-light: #f8f9fa;
 
       > .button-container {
         @include flex(column, center, center, 0.25rem);
+
         > .button-object {
           font-size: 0.875rem !important;
         }
+
         > .fas {
           color: white;
         }
@@ -77,16 +80,27 @@ $bg-light: #f8f9fa;
         }
       }
 
-      .search-container {
-        @include flex(row, center, center);
-        border: 0.0625rem solid #f2f4f8;
-        border-radius: 0.0625rem;
+      .--flex-stretch {
         flex-grow: 1;
         flex-shrink: 1;
       }
 
       > .nav-right {
         @include flex(row, center, center);
+        >.search {
+          input[name="search"] {
+            background: url("/assets/images/index/header/search-icon.png") no-repeat left center;
+            background-position-x: 0.5rem;
+            border: 0.0625rem solid #f2f4f8;
+            margin: 0 auto;
+            padding: 0 1rem 0 3rem;
+            height: 2.5rem;
+          }
+
+          input::placeholder {
+            color: gainsboro;
+          }
+        }
 
         > .nav-icon {
           font-size: 1rem;

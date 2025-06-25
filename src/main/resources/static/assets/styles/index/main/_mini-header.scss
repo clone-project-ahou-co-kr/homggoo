@@ -16,6 +16,7 @@
 
     > .category {
       @include flex(row, center, center, 1rem);
+      font-weight: 700;
     }
   }
 
