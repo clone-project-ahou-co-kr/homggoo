@@ -51,9 +51,9 @@
   > .best {
     @include flex(row, flex-start, flex-start, 1rem);
     max-width: 75rem;
-    margin: 0 auto;
     padding: 0 1rem;
     height: 100%;
+    margin: 0 auto 2rem;
 
     .card {
       padding: 20px;
@@ -72,5 +72,69 @@
     height: 100%;
     margin: 0 auto;
     padding: 0 1rem;
+
+    > .post-card {
+      @include flex(row, flex-start, flex-start);
+
+      > .content {
+        @include flex(column, flex-start, flex-start);
+        max-width: 80%;
+
+        > .category {
+          background: #EAEDEF;
+          color: #828C94;
+          font-weight: 700;
+          letter-spacing: -0.3px;
+          display: inline-flex;
+          font-size: 12px;
+          line-height: 16px;
+          height: 24px;
+          padding: 0 6px;
+          border-radius: 0.25rem;
+          align-items: center;
+          margin-bottom: 1rem;
+        }
+
+        > .title {
+          font-size: 18px;
+          line-height: 24px;
+          color: #2F3438;
+          font-weight: 600;
+        }
+
+        > .content {
+          width: 100%;
+          font-size: 15px;
+          line-height: 24px;
+          color: #2F3438;
+          font-weight: 400;
+          margin-bottom: 2rem;
+        }
+
+        > .info {
+          font-size: 15px;
+          line-height: 24px;
+          color: #828C94;
+          overflow: hidden;
+
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 1;
+          margin-bottom: 1rem;
+        }
+      }
+
+      > .thumbnail {
+        @include flex(column, center, center);
+        position: absolute;
+        height: 100%;
+        right: 1rem;
+
+        > img {
+          width: 6.125rem;
+          height: 6.125rem;
+        }
+      }
+    }
   }
 }
