@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Gorditas&display=swap");
 #header {
   position: sticky;
   top: 0;
@@ -593,46 +594,231 @@ a {
   background-color: #EAEDEF;
 }
 
-#main-content > .container {
-  width: 100%;
+:root {
+  --space: 6rem;
+  --bg-color: papayawhip;
+  --border: 0.25rem dashed dodgerblue;
 }
-#main-content > .container > h1 {
-  text-align: center;
-}
-#main-content > .container .album {
-  width: 100%;
-  height: 100%;
+
+#main-content .container {
+  display: grid;
+  grid-template: "container" 1fr;
+  place-items: center;
+  place-content: center;
   overflow: hidden;
+  max-height: clamp(28.125rem, 50vh, 37.5rem);
+  border-top: var(--border);
+  border-bottom: var(--border);
+  margin: 0 auto;
+  width: 100%;
+  color: white;
 }
-#main-content > .container .album > .images {
+#main-content .container > * {
+  grid-area: container;
+  max-width: 62.5rem;
+}
+#main-content .container .title {
+  place-self: start center;
+  position: relative;
+  font-family: "Gorditas", sans-serif;
+  font-size: clamp(1rem, 4vw, 2.5rem);
+  padding: 1rem;
+  text-align: center;
+  z-index: 1;
+}
+#main-content .container .carousel-viewport {
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  z-index: -1;
+}
+#main-content .container .carousel-viewport .items {
   position: relative;
   display: flex;
-  height: 100%;
-  transition: transform 0.5s;
+  transition: transform 500ms cubic-bezier(0.25, 1, 0.5, 1);
 }
-#main-content > .container .album img {
+#main-content .container .carousel-viewport .item {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  min-width: 100%;
+  transform: translateZ(0);
+}
+#main-content .container .carousel-viewport img {
+  object-fit: cover;
   width: 100%;
   height: 100%;
+  user-select: none;
 }
-#main-content > .container button, #main-content > .container button:active, #main-content > .container button:focus {
-  width: 6.25rem;
-  height: 1.875rem;
-  border: none;
+@supports not (aspect-ratio: 16/9) {
+  #main-content .container .carousel-viewport .item::before {
+    content: "";
+    float: left;
+    padding-top: 56.25%;
+  }
+  #main-content .container .carousel-viewport .item::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+#main-content .container .carousel-control {
+  --size: clamp(2.5rem, 8vw, 4rem);
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-content: center;
+  justify-content: center;
   color: white;
-  background-color: teal;
-  outline: none;
+  fill: currentcolor;
+  background: dodgerblue;
+  border: none;
+  width: var(--size);
+  height: var(--size);
+  padding: 0.25rem;
+  touch-action: manipulation;
+  transform: translateY(0);
 }
-#main-content > .container button:hover {
-  background-color: turquoise;
+#main-content .container .carousel-control:active {
+  transform: translateY(1px);
 }
-#main-content > .container button:disabled {
-  background-color: gray;
+#main-content .container .carousel-control svg {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
-#main-content > .container .prev {
-  float: left;
+#main-content .container .carousel-control.prev {
+  place-self: center left;
 }
-#main-content > .container .next {
-  float: right;
+#main-content .container .carousel-control.next {
+  place-self: center right;
+}
+#main-content .container .carousel-dots {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  place-self: end center;
+}
+#main-content .container .carousel-dots .dot {
+  --size: 1rem;
+  padding: 0;
+  font-size: 0;
+  color: transparent;
+  border: 0.1875rem solid white;
+  background-color: white;
+  border-radius: 50%;
+  width: var(--size);
+  height: var(--size);
+}
+#main-content .container .carousel-dots .dot.active {
+  background-color: dodgerblue;
+}
+#main-content .container .checkbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  cursor: pointer;
+  user-select: none;
+  background-color: inherit;
+  padding: 1rem;
+  opacity: 0.9;
+}
+#main-content .first-product {
+  padding: 2rem;
+  background-color: #fff;
+}
+#main-content .first-product .all {
+  max-width: 75rem;
+  margin: 0 auto;
+}
+#main-content .first-product .category {
+  margin-bottom: 1.5rem;
+}
+#main-content .first-product .category .items {
+  display: flex;
+  gap: 1rem;
+}
+#main-content .first-product .category .items .item label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.5rem;
+  background-color: #f5f5f5;
+  border-radius: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+#main-content .first-product .category .items .item label input[type=checkbox] {
+  display: none;
+}
+#main-content .first-product .category .items .item label span {
+  color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+#main-content .first-product .category .items .item label input[type=checkbox]:checked + span {
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem 0.5rem;
+  background-color: #2c2c2c;
+  border-radius: 999px;
+}
+#main-content .first-product .category .items .item label:hover {
+  background-color: #eaeaea;
+}
+#main-content .first-product .product-box .items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11.25rem, 1fr));
+  gap: 2rem;
+}
+#main-content .first-product .product-box .item article {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  text-decoration: none;
+  color: #333;
+}
+#main-content .first-product .product-box .item article .img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  border-radius: 0.625rem;
+}
+#main-content .first-product .product-box .item article .img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+#main-content .first-product .product-box .item article .img img:hover {
+  transform: scale(1.05);
+}
+#main-content .first-product .product-box .item article .caption {
+  margin-top: 0.8rem;
+}
+#main-content .first-product .product-box .item article .caption .store {
+  font-size: 0.85rem;
+  color: #888;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+#main-content .first-product .product-box .item article .caption .title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #222;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#main-content .first-product .product-box .item article .price {
+  margin-top: 0.5rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #333;
 }
 
 body {
