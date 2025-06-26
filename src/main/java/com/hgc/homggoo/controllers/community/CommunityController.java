@@ -14,4 +14,9 @@ public class CommunityController {
     public String getInterior() {
         return "/community/interior";
     }
+
+    @RequestMapping(value = "/posts/new", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public String getPostsNew() {
+        return "/community/posts";
+    }
 }
