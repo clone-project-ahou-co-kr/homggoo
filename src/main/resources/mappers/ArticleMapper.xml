@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hgc.homggoo.mappers.article.ArticleMapper">
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyColumn="id"
+            keyProperty="id">
+        insert into `homggoo`.`article`
+        (`board_id`, `user_email`, `title`, `content`, `view`, `created_at`, `modified_at`, `is_deleted`)
+        VALUES (#{article.boardId},
+                #{article.userEmail},
+                #{article.title},
+                #{article.content},
+                #{article.view},
+                #{article.createdAt},
+                #{article.modifiedAt},
+                #{article.isDeleted})
+    </insert>
+</mapper>
