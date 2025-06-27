@@ -1,0 +1,80 @@
+@charset "UTF-8";
+
+@import "../../def";
+
+
+#main-category {
+  @include flex(row, flex-start, flex-start);
+  width: 100%;
+  max-width: 78.5rem;
+  padding: 0 2.5rem;
+  box-sizing: border-box;
+  margin: 0 auto;
+
+  .icon {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  a {
+    font-size: 0.8rem;
+  }
+
+  > .list {
+    background-color: #03c75a;
+    width: 100%;
+    max-width: 25%;
+
+    > .category-list {
+
+      > .title {
+        > a {
+          font-size: 1.25rem;
+          font-weight: 700;
+        }
+      }
+
+      > .items {
+        > .item {
+          > div {
+            @include flex(row, center, flex-start);
+
+            > .link {
+
+              white-space: nowrap;
+              overflow: hidden;
+              transition: opacity 0.1s;
+            }
+
+            > button {
+              padding-right: 8rem;
+              cursor: pointer;
+            }
+          }
+
+          .open {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            transition-duration: 150ms;
+            transition-timing-function: ease;
+
+            // 필요하다면 padding도 함께 transition 가능
+            padding: 0;
+
+            &.open-list {
+              max-height: 34.375rem; // 실제 예상되는 최대 높이보다 약간 크게!
+              padding: 0 2rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  > .item-box {
+    background-color: #11b1e1;
+    width: 100%;
+    max-width: 75%;
+  }
+}

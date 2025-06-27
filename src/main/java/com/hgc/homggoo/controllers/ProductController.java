@@ -12,4 +12,9 @@ public class ProductController {
     public String getIndexProduct() {
         return "product/index";
     }
+
+    @RequestMapping(value = "/category", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public String getCategory() {
+        return "product/category";
+    }
 }
