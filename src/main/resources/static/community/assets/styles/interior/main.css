@@ -82,6 +82,8 @@
   justify-content: flex-start;
   flex-wrap: nowrap;
   gap: 0;
+  padding-top: 2rem;
+  border-bottom: 0.0625rem solid #f2f4f8;
 }
 #main > .board > .post-card > * {
   flex-grow: 0;
@@ -98,7 +100,7 @@
   justify-content: flex-start;
   flex-wrap: nowrap;
   gap: 0;
-  max-width: 80%;
+  width: 100%;
 }
 #main > .board > .post-card > .content > * {
   flex-grow: 0;
@@ -146,28 +148,28 @@
   -webkit-line-clamp: 1;
   margin-bottom: 1rem;
 }
-#main > .board > .post-card > .thumbnail {
+#main > .board > .post-card > .content > .thumbnail {
   align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: nowrap;
   gap: 0;
-  position: absolute;
   height: 100%;
   right: 1rem;
+  position: absolute;
 }
-#main > .board > .post-card > .thumbnail > * {
+#main > .board > .post-card > .content > .thumbnail > * {
   flex-grow: 0;
   flex-shrink: 0;
 }
-#main > .board > .post-card > .thumbnail > .stretch {
+#main > .board > .post-card > .content > .thumbnail > .stretch {
   flex-grow: 1;
   flex-shrink: 1;
 }
-#main > .board > .post-card > .thumbnail > img {
+#main > .board > .post-card > .content > .thumbnail > img {
   width: 6.125rem;
   height: 6.125rem;
 }
 
-
+/*# sourceMappingURL=main.css.map */

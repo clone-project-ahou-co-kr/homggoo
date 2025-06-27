@@ -16,4 +16,22 @@
                 #{article.modifiedAt},
                 #{article.isDeleted})
     </insert>
+    <select id="selectByBoardId" resultType="com.hgc.homggoo.vos.ArticleVo">
+        SELECT `T0`.`id`,
+               `T0`.`board_id`,
+               `T0`.`user_email`,
+               `T0`.`title`,
+               `T0`.`content`,
+               `T0`.`view`,
+               `T0`.`created_at`,
+               `T0`.`modified_at`,
+               `T0`.`is_deleted`,
+               `T1`.`nickname`
+        FROM `homggoo`.`article` AS `T0`
+            LEFT JOIN `homggoo`.`users` AS `T1`
+                ON `T0`.`user_email` = `T1`.`email`
+        WHERE `board_id` = #{boardId}
+        ORDER BY `T0`.`id` DESC
+    </select>
+
 </mapper>

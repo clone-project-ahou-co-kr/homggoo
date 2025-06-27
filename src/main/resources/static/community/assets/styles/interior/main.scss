@@ -75,10 +75,12 @@
 
     > .post-card {
       @include flex(row, flex-start, flex-start);
+      padding-top: 2rem;
+      border-bottom: 0.0625rem solid #f2f4f8;
 
       > .content {
         @include flex(column, flex-start, flex-start);
-        max-width: 80%;
+        width: 100%;
 
         > .category {
           background: #EAEDEF;
@@ -122,19 +124,19 @@
           -webkit-line-clamp: 1;
           margin-bottom: 1rem;
         }
-      }
+        > .thumbnail {
+          @include flex(column, center, flex-start);
+          height: 100%;
+          right: 1rem;
+          position: absolute;
 
-      > .thumbnail {
-        @include flex(column, center, center);
-        position: absolute;
-        height: 100%;
-        right: 1rem;
-
-        > img {
-          width: 6.125rem;
-          height: 6.125rem;
+          > img {
+            width: 6.125rem;
+            height: 6.125rem;
+          }
         }
       }
+
     }
   }
 }
