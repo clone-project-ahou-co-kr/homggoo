@@ -9,20 +9,14 @@
     <link rel="stylesheet" href="/assets/styles/common.min.css">
     <link rel="stylesheet" href="/user/assets/styles/register.min.css">
     <link rel="icon" href="/assets/images/favicon.png">
+    <script src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
+            charset="utf-8"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="/assets/scripts/common.js"></script>
+    <script src="/assets/scripts/oAuth.js"></script>
     <script defer src="/user/assets/scripts/register.js"></script>
 </head>
 <body>
-<!--<div class="dialog">-->
-<!--    <div class="modal">-->
-<!--        <div class="title">gdgd</div>-->
-<!--        <div class="content">dslfkjsdlfdskj</div>-->
-<!--        <div class="button-container">-->
-<!--            <button class="button" type="button">취소</button>-->
-<!--            <button class="button" type="button">취소</button>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 <div class="loading" id="loading">
     <img class="icon" src="/assets/images/loading.png" alt="">
     <span class="caption">잠시만 기다려 주세요.</span>
@@ -49,10 +43,14 @@
                 <span>SNS계정으로 간편하게 회원가입</span>
                 <ul class="list">
                     <li class="item naver">
-                        <a href="">네이버</a>
+                        <a href="/oauth2/authorization/naver">
+                            <img class="icon" id="naver-login-btn" src="/user/assets/images/naverLogin.png" alt="네이버">
+                        </a>
                     </li>
                     <li class="item kakao">
-                        <a href="">카카오</a>
+                        <a href="">
+                            <img class="icon" src="/user/assets/images/kakao.icon.png" alt="카카오">
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -141,5 +139,15 @@
         </form>
     </section>
 </div>
+<!--<script type="text/javascript">-->
+<!--    var naver_id_login = new naver_id_login("HRD9oEKvyHgE3W9QLwYs", "http://localhost:8080");-->
+<!--    var state = naver_id_login.getUniqState();-->
+<!--    naver_id_login.setButton("white", 2, 40);-->
+<!--    naver_id_login.setDomain("http://localhost:8080");-->
+<!--    naver_id_login.setState(state);-->
+<!--    // naver_id_login.setPopup();-->
+<!--    naver_id_login.init_naver_id_login();-->
+<!--    console.log(naver_id_login.result);-->
+<!--</script>-->
 </body>
 </html>

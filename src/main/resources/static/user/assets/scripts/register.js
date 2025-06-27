@@ -4,7 +4,8 @@ const emailDomainSelect = $registerForm.querySelector('select[name="email-addres
 const emailDomain = emailDomainSelect.value;
 const email = `${emailId}@${emailDomain}`;
 const $loading = document.getElementById('loading');
-
+const clientId = 'HRD9oEKvyHgE3W9QLwYs';
+const callbackUrl = 'http://localhost:8080/';
 const getFullEmail = ($form) => {
     const emailId = $form.querySelector('input[name="email"]').value.trim();
     const emailDomain = $form.querySelector('select[name="email-address"]').value.trim();
@@ -71,7 +72,6 @@ $registerForm['emailCodeSendButton'].addEventListener('click', () => {
         if (xhr.readyState !== XMLHttpRequest.DONE) {
             return;
         }
-        // $loading.setVisible(false);
         if (xhr.status < 200 || xhr.status >= 300) {
             alert('요청을 처리하는 도중 오류가 발생하였습니다. 잠시 후 다시 시도해주세요.');
             return;
@@ -128,4 +128,8 @@ $registerForm['emailCodeVerifyButton'].addEventListener('click', () => {
     };
     xhr.open('PATCH', '/api/user/register-email');
     xhr.send(formData);
+})
+
+document.getElementById('naver-login-btn').addEventListener('click', () => {
+    document.getElementById('naver_id_login').querySelector('a').click();
 })

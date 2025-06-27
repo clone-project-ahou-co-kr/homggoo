@@ -1,17 +1,129 @@
 @charset "UTF-8";
 @import "../../../assets/styles/def";
 
-body
-{
+body {
+  @include flex(column, center, center);
+
   width: 100%;
   height: 100%;
 }
+
 #login-form {
   @include flex(column, center, center);
-  width: 100%;
+  width: 18.75rem;
   height: 100%;
-  >.login-container,.sns-container,.order-container{
-    @include flex(column,center,flex-start)
+
+  > .title-container {
+    margin-bottom: 1.875rem;
+  }
+
+  > .login-container, .sns-container, .order-container {
+    @include flex(column, center, flex-start);
+    width: 100%;
+  }
+
+  > .login-container {
+    @include flex(column, center, center);
+
+    > .login-label {
+      @include flex(column, center, center);
+      width: 100%;
+
+      > input {
+        border: 0.0625rem solid #DBDBDB;
+
+        &:first-child {
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+          border-bottom: none;
+        }
+
+        &:last-child {
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+        }
+      }
+    }
+
+    > button {
+      margin: 1.25rem 0;
+    }
+
+    > .forgot-container {
+      @include flex(row, center, center, 1rem);
+      width: 100%;
+
+      > a {
+        color: #424242;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  > .sns-container {
+    > span {
+      margin: 2.1875rem 0 0.9375rem;
+      color: #757575;
+      font-size: 0.75rem;
+    }
+
+    > .list {
+      @include flex(row, center, center, 1rem);
+      >.item{
+        >a{
+          >.icon{
+            width: 3rem;
+            height: 3rem;
+            &:hover{
+              filter: opacity(0.7);
+              transition-duration: 175ms;
+              transition-property: filter;
+              transition-timing-function: ease;
+            }
+          }
+        }
+      }
+    }
+
+
+    > a {
+      margin-top: 1.5rem;
+      color: #cccccc;
+      font-size: 0.8rem;
+    }
+  }
+
+  > .order-container {
+    border-top: 0.0625rem solid #cccccc;
+    margin-top: 1.875rem;
+    padding-top: 1.875rem;
+
+    > span {
+      color: #828C94;
+      cursor: pointer;
+      margin-bottom: 1.25rem;
+    }
+
+    > .input-order {
+      width: 100%;
+      @include flex(column, center, center, 0.75rem);
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transform: translateY(1rem);
+      margin-top: 0;
+      transition:
+              max-height 0.8s ease,
+              opacity 0.8s ease,
+              transform 0.8s ease,
+              margin-top 0.8s ease;
+      &.visible {
+        max-height: 18rem; // 충분히 큰 높이 (내용에 따라 조정 가능)
+        opacity: 1;
+        transform: translateY(0rem);//0은 움직이지 않는다.
+        margin-top: 1.25rem;
+      }
+    }
   }
 
 

@@ -1,0 +1,55 @@
+package com.hgc.homggoo.services.oAuth;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+public class CustomOAuth2User implements OAuth2User {
+    private final Map<String, Object> attributes;
+
+    public CustomOAuth2User(Map<String, Object> attributes) {
+        this.attributes = attributes;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getName() {
+        return (String) attributes.get("name");
+    }
+
+    public String getEmail() {
+        Object valueObj = attributes.get("email");
+        if (valueObj instanceof String) {
+            return (String) valueObj;
+        }
+        return valueObj.toString();
+    }
+    public String getGender(){
+        return (String) attributes.get("gender");
+    }
+
+    public String getBirthday(){
+        return (String) attributes.get("birthday");
+    }
+
+    public String getBirthyear(){
+        return (String) attributes.get("birthyear");
+    }
+    public String getProfileImage(){
+        return(String)attributes.get("profileImage");
+    }
+}
