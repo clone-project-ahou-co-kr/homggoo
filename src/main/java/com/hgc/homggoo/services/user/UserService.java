@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 
 @Service
 public class UserService {
+
     private static EmailTokenEntity generateEmailToken(String email, String userAgent, int expMin) {
         String code = RandomStringUtils.randomNumeric(6);// 000000 - 999999 까지 준다. -> 반환타입은 String
         String salt = RandomStringUtils.randomAlphabetic(128);//a~z+ A~Z +0-9 -> 랜덤하게 128개를 반환한다.
@@ -58,9 +59,11 @@ public class UserService {
         if (user == null || user.getNickname() == null || user.getNickname().trim().isEmpty()) {
             return CommonResult.FAILURE;
         }
+        if (this.userMapper.selectCountByEmail(user.getEmail()) > 0) {
+            return CommonResult.FAILURE_DUPLICATE;
+        }
         user.setAdmin(true);
         user.setDeleted(false);
-        user.setDormancy(false);
         user.setProfile(new byte[1]); // 테스트용 기본값
         user.setCreatedAt(LocalDateTime.now());
         user.setModifiedAt(LocalDateTime.now());
@@ -97,6 +100,28 @@ public class UserService {
         return ResultTuple.<EmailTokenEntity>builder()
                 .result(CommonResult.SUCCESS)
                 .payload(emailToken).build();
+    }
+
+    public ResultTuple<UserEntity> login(String email, String password) {
+        if (email == null || password == null) {
+            return ResultTuple.<UserEntity>builder()
+                    .result(CommonResult.FAILURE)
+                    .build();
+        }
+        UserEntity dbUser = this.userMapper.selectByEmail(email);
+        if (dbUser == null) {
+            return ResultTuple.<UserEntity>builder()
+                    .result(CommonResult.FAILURE_ABSENT)
+                    .build();
+        }
+        if (dbUser.isAdmin() || dbUser.isDeleted()) {
+            return ResultTuple.<UserEntity>builder()
+                    .result(CommonResult.FAILURE_SESSION_EXPIRED)
+                    .build();
+        }
+        return ResultTuple.<UserEntity>builder()
+                .result(CommonResult.SUCCESS)
+                .payload(dbUser).build();
     }
 
 }

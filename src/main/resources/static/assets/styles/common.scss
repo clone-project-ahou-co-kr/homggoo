@@ -6,12 +6,14 @@
 
 $border-color: #f2f4f8;
 
-*{
+* {
   box-sizing: border-box;
 }
-html{
+
+html {
   height: 100%;
 }
+
 body {
   min-height: 100%;
   font-family: 'Pretendard', sans-serif;
@@ -20,10 +22,14 @@ body {
   user-select: none;
 }
 
-button,input,textarea,select{
-  border:none;
+a {
+  text-decoration: none;
+}
+
+button, input, textarea, select {
+  border: none;
   font: inherit;
-  margin:0;
+  margin: 0;
   margin-inline: 0;
   margin-block: 0;
   outline: none;
@@ -31,19 +37,21 @@ button,input,textarea,select{
   padding-inline: 0;
   padding-block: 0;
 }
-h1,h2,h3,h4,h5,h6{
+
+h1, h2, h3, h4, h5, h6 {
   //font: inherit;
   margin-block: 0;
   margin-inline: 0;
 }
-img{
+
+img {
   -webkit-user-drag: none; //HTML 요소가 브라우저에서 드래그되지 않도록 막는 CSS 속성
   // 추가
   max-width: 100%;
   height: auto;
 }
 
-ol,ul{
+ol, ul {
   list-style-type: none;
   margin-block: 0;
   margin-inline: 0;
@@ -51,6 +59,7 @@ ol,ul{
 }
 
 .--dialog {
+  @include flex(column, center, center, 0.5rem);
   top: 0;
   left: 0;
   width: 100%;
@@ -93,19 +102,39 @@ ol,ul{
       opacity: 1;
       pointer-events: auto;
       transform: scale(100%) translate(-50%, -50%);
+    & .visible {
+      opacity: 1;
+      pointer-events: auto;
     }
 
-    > .---title {
-      font-size: 1rem;
-      font-weight: 400;
-    }
+      > .modal {
+        @include flex(column, center, center, 0.625rem);
 
-    > .---content {
-      text-align: justify;
-    }
+        width: 25rem;
+        aspect-ratio: 4/2;
+        background-color: #ffffff;
+        border-radius: 1rem;
 
-    > .---button-container {
-      @include flex(row, stretch, center, 0.5rem);
+        > .title {
+          text-align: center;
+          font-size: 2rem;
+          font-weight: 600;
+          color: #000000;
+        }
+
+        > .---title {
+          font-size: 1rem;
+          font-weight: 400;
+        }
+
+        > .---content {
+          text-align: justify;
+        }
+
+        > .---button-container {
+          @include flex(row, stretch, center, 0.5rem);
+        }
+      }
     }
   }
 }

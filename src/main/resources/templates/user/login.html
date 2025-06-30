@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/user/assets/styles/login.min.css">
     <link rel="icon" href="/assets/images/favicon.png">
     <script src="/assets/scripts/common.js"></script>
+    <script defer src="/user/assets/scripts/login.js"></script>
 </head>
 <body>
 <form novalidate id="login-form">
@@ -38,7 +39,7 @@
                    placeholder="비밀번호">
         </label>
         <button type="submit" class="button-object"> 로그인</button>
-        <div>
+        <div class="forgot-container">
             <a href="#">비밀번호 재설정</a>
             <a href="/user/register">회원가입</a>
         </div>
@@ -46,23 +47,26 @@
     <div class="sns-container">
         <span>SNS계정으로 간편하게 회원가입</span>
         <ul class="list">
-            <li class="item naver">
-                <a href="">네이버</a>
-            </li>
             <li class="item kakao">
-                <a href="">카카오</a>
+                <a href="">
+                    <img class="icon" src="/user/assets/images/kakao.icon.png" alt="카카오">
+                </a>
+            </li>
+            <li class="item naver">
+                <a href="/oauth2/authorization/naver">
+                    <img class="icon" id="naver-login-btn" src="/user/assets/images/naverLogin.png" alt="네이버">
+                </a>
             </li>
         </ul>
-        로그인에 문제가 있으신가요?
+        <a href="#">로그인에 문제가 있으신가요?</a>
     </div>
     <div class="order-container">
-        <span>비회원 주문 조획하기</span>
+        <span class="unsigned-user">비회원 주문 조획하기</span>
         <label class="input-order">
-        <input class="input-object" type="text" placeholder="주문번호">
-        <input class="input-object" type="text" placeholder="이메일">
-
+            <input class="input-object" type="text" placeholder="주문번호">
+            <input class="input-object" type="text" placeholder="이메일">
+            <button type="button" class="button-object">주문조회</button>
         </label>
-        <button type="button" class="button-object">주문조회</button>
 
     </div>
 </form>

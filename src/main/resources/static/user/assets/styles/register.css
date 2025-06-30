@@ -27,7 +27,7 @@
   flex-grow: 1;
   flex-shrink: 1;
 }
-#loading.visible {
+#loading.-visible {
   opacity: 1;
   pointer-events: auto;
 }
@@ -147,22 +147,18 @@
   flex-grow: 1;
   flex-shrink: 1;
 }
-.container > .register-section > #register-form > .sns-login > .list > .item {
-  padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5rem;
-  font-size: 0.875rem;
+.container > .register-section > #register-form > .sns-login > .list > .item.naver > .icon {
+  width: 3rem;
+  height: 3rem;
   cursor: pointer;
 }
-.container > .register-section > #register-form > .sns-login > .list > .item.naver {
-  background-color: #03c75a;
-  color: #fff;
-}
-.container > .register-section > #register-form > .sns-login > .list > .item.kakao {
-  background-color: #fee500;
-  color: #000;
+.container > .register-section > #register-form > .sns-login > .list > .item > a > .icon {
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
 }
 .container > .register-section > #register-form .email-container,
+.container > .register-section > #register-form .password-container,
 .container > .register-section > #register-form .password-container,
 .container > .register-section > #register-form .nickname-container,
 .container > .register-section > #register-form .agree-container {
@@ -177,6 +173,7 @@
 }
 .container > .register-section > #register-form .email-container > *,
 .container > .register-section > #register-form .password-container > *,
+.container > .register-section > #register-form .password-container > *,
 .container > .register-section > #register-form .nickname-container > *,
 .container > .register-section > #register-form .agree-container > * {
   flex-grow: 0;
@@ -184,12 +181,14 @@
 }
 .container > .register-section > #register-form .email-container > .stretch,
 .container > .register-section > #register-form .password-container > .stretch,
+.container > .register-section > #register-form .password-container > .stretch,
 .container > .register-section > #register-form .nickname-container > .stretch,
 .container > .register-section > #register-form .agree-container > .stretch {
   flex-grow: 1;
   flex-shrink: 1;
 }
 .container > .register-section > #register-form .email-container strong,
+.container > .register-section > #register-form .password-container strong,
 .container > .register-section > #register-form .password-container strong,
 .container > .register-section > #register-form .nickname-container strong,
 .container > .register-section > #register-form .agree-container strong {
@@ -199,6 +198,7 @@
 }
 .container > .register-section > #register-form .email-container span,
 .container > .register-section > #register-form .password-container span,
+.container > .register-section > #register-form .password-container span,
 .container > .register-section > #register-form .nickname-container span,
 .container > .register-section > #register-form .agree-container span {
   font-size: 0.75rem;
@@ -206,6 +206,7 @@
   margin-bottom: 0.5rem;
 }
 .container > .register-section > #register-form .email-container > .label-object,
+.container > .register-section > #register-form .password-container > .label-object,
 .container > .register-section > #register-form .password-container > .label-object,
 .container > .register-section > #register-form .nickname-container > .label-object,
 .container > .register-section > #register-form .agree-container > .label-object {
@@ -219,6 +220,7 @@
 }
 .container > .register-section > #register-form .email-container > .label-object > *,
 .container > .register-section > #register-form .password-container > .label-object > *,
+.container > .register-section > #register-form .password-container > .label-object > *,
 .container > .register-section > #register-form .nickname-container > .label-object > *,
 .container > .register-section > #register-form .agree-container > .label-object > * {
   flex-grow: 0;
@@ -226,10 +228,25 @@
 }
 .container > .register-section > #register-form .email-container > .label-object > .stretch,
 .container > .register-section > #register-form .password-container > .label-object > .stretch,
+.container > .register-section > #register-form .password-container > .label-object > .stretch,
 .container > .register-section > #register-form .nickname-container > .label-object > .stretch,
 .container > .register-section > #register-form .agree-container > .label-object > .stretch {
   flex-grow: 1;
   flex-shrink: 1;
+}
+.container > .register-section > #register-form .email-container > .label-object.warning,
+.container > .register-section > #register-form .password-container > .label-object.warning,
+.container > .register-section > #register-form .password-container > .label-object.warning,
+.container > .register-section > #register-form .nickname-container > .label-object.warning,
+.container > .register-section > #register-form .agree-container > .label-object.warning {
+  display: flex;
+}
+.container > .register-section > #register-form .email-container > .label-object .disabled,
+.container > .register-section > #register-form .password-container > .label-object .disabled,
+.container > .register-section > #register-form .password-container > .label-object .disabled,
+.container > .register-section > #register-form .nickname-container > .label-object .disabled,
+.container > .register-section > #register-form .agree-container > .label-object .disabled {
+  background-color: #cccccc;
 }
 .container > .register-section > #register-form > .email-container > .label-object > input {
   width: 10.625rem;
@@ -263,7 +280,7 @@
   flex-grow: 1;
   flex-shrink: 1;
 }
-.container > .register-section > #register-form > .email-container > .email-verify.visible {
+.container > .register-section > #register-form > .email-container > .email-verify.-visible {
   height: 9.75rem;
   opacity: 1;
   pointer-events: auto;
@@ -300,6 +317,17 @@
 }
 .container > .register-section > #register-form > .button-object {
   margin-top: 1.2rem;
+}
+
+.warning > strong {
+  color: #e74c3c;
+}
+.warning .error-message {
+  color: #e74c3c;
+  display: flex;
+}
+.warning > label > input, .warning > label select {
+  border: 0.0625rem solid #e74c3c;
 }
 
 /*# sourceMappingURL=register.css.map */

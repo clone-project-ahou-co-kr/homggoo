@@ -17,7 +17,7 @@
   transition-property: opacity;
   transition-timing-function: ease;
 
-  &.visible {
+  &.-visible {
     opacity: 1;
     pointer-events: auto;
   }
@@ -38,7 +38,6 @@
     animation-iteration-count: infinite;
     animation-name: loadingAni;
   }
-
 
 
   > .caption {
@@ -95,26 +94,27 @@
           margin-top: 0.5rem;
 
           > .item {
-            padding: 0.5rem 1rem;
-            border: 1px solid #ccc;
-            border-radius: 5rem;
-            font-size: 0.875rem;
-            cursor: pointer;
-
             &.naver {
-              background-color: #03c75a;
-              color: #fff;
+              > .icon {
+                width: 3rem;
+                height: 3rem;
+                cursor: pointer;
+              }
             }
 
-            &.kakao {
-              background-color: #fee500;
-              color: #000;
+            > a {
+              > .icon {
+                width: 3rem;
+                height: 3rem;
+                cursor: pointer;
+              }
             }
           }
         }
       }
 
       .email-container,
+      .password-container,
       .password-container,
       .nickname-container,
       .agree-container {
@@ -137,6 +137,14 @@
         > .label-object {
           @include flex(row, center, flex-start);
           width: 100%;
+
+          &.warning {
+            display: flex;
+          }
+
+          .disabled {
+            background-color: #cccccc;
+          }
         }
       }
 
@@ -163,12 +171,13 @@
           padding: 1.25rem 1rem;
           opacity: 0;
           pointer-events: none;
-          &.visible{
+
+          &.-visible {
             height: 9.75rem;
             opacity: 1;
             pointer-events: auto;
             transition-duration: 175ms;
-            transition-property: opacity,height;
+            transition-property: opacity, height;
             transition-timing-function: ease;
 
           }
@@ -197,6 +206,24 @@
       > .button-object {
         margin-top: 1.2rem;
       }
+    }
+  }
+}
+
+.warning {
+  > strong {
+    color: #e74c3c;
+  }
+
+  .error-message {
+    color: #e74c3c;
+    display: flex;
+  }
+
+
+  > label {
+    > input, select {
+      border: 0.0625rem solid #e74c3c;
     }
   }
 }
