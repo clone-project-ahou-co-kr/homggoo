@@ -27,7 +27,7 @@
   flex-grow: 1;
   flex-shrink: 1;
 }
-#loading.visible {
+#loading.-visible {
   opacity: 1;
   pointer-events: auto;
 }
@@ -234,6 +234,20 @@
   flex-grow: 1;
   flex-shrink: 1;
 }
+.container > .register-section > #register-form .email-container > .label-object.warning,
+.container > .register-section > #register-form .password-container > .label-object.warning,
+.container > .register-section > #register-form .password-container > .label-object.warning,
+.container > .register-section > #register-form .nickname-container > .label-object.warning,
+.container > .register-section > #register-form .agree-container > .label-object.warning {
+  display: flex;
+}
+.container > .register-section > #register-form .email-container > .label-object .disabled,
+.container > .register-section > #register-form .password-container > .label-object .disabled,
+.container > .register-section > #register-form .password-container > .label-object .disabled,
+.container > .register-section > #register-form .nickname-container > .label-object .disabled,
+.container > .register-section > #register-form .agree-container > .label-object .disabled {
+  background-color: #cccccc;
+}
 .container > .register-section > #register-form > .email-container > .label-object > input {
   width: 10.625rem;
 }
@@ -266,7 +280,7 @@
   flex-grow: 1;
   flex-shrink: 1;
 }
-.container > .register-section > #register-form > .email-container > .email-verify.visible {
+.container > .register-section > #register-form > .email-container > .email-verify.-visible {
   height: 9.75rem;
   opacity: 1;
   pointer-events: auto;
@@ -303,6 +317,17 @@
 }
 .container > .register-section > #register-form > .button-object {
   margin-top: 1.2rem;
+}
+
+.warning > strong {
+  color: #e74c3c;
+}
+.warning .error-message {
+  color: #e74c3c;
+  display: flex;
+}
+.warning > label > input, .warning > label select {
+  border: 0.0625rem solid #e74c3c;
 }
 
 /*# sourceMappingURL=register.css.map */

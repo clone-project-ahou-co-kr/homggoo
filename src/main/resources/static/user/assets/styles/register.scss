@@ -17,7 +17,7 @@
   transition-property: opacity;
   transition-timing-function: ease;
 
-  &.visible {
+  &.-visible {
     opacity: 1;
     pointer-events: auto;
   }
@@ -137,6 +137,14 @@
         > .label-object {
           @include flex(row, center, flex-start);
           width: 100%;
+
+          &.warning {
+            display: flex;
+          }
+
+          .disabled {
+            background-color: #cccccc;
+          }
         }
       }
 
@@ -164,7 +172,7 @@
           opacity: 0;
           pointer-events: none;
 
-          &.visible {
+          &.-visible {
             height: 9.75rem;
             opacity: 1;
             pointer-events: auto;
@@ -198,6 +206,24 @@
       > .button-object {
         margin-top: 1.2rem;
       }
+    }
+  }
+}
+
+.warning {
+  > strong {
+    color: #e74c3c;
+  }
+
+  .error-message {
+    color: #e74c3c;
+    display: flex;
+  }
+
+
+  > label {
+    > input, select {
+      border: 0.0625rem solid #e74c3c;
     }
   }
 }

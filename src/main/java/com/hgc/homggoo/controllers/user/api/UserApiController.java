@@ -9,6 +9,8 @@ import com.hgc.homggoo.services.user.EmailTokenService;
 import com.hgc.homggoo.services.user.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.apache.ibatis.annotations.Param;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,6 +26,17 @@ public class UserApiController {
     public UserApiController(UserService userService, EmailTokenService emailTokenService) {
         this.userService = userService;
         this.emailTokenService = emailTokenService;
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String postLogin(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password, HttpSession session) {
+        ResultTuple<UserEntity> result = this.userService.login(email, password);
+        if (result.getResult() == CommonResult.SUCCESS) {
+            session.setAttribute("signedUser", result.getPayload());
+        }
+        JSONObject response = new JSONObject();
+        response.put("result", result.getResult().nameToLower());
+        return response.toString();
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,7 +64,7 @@ public class UserApiController {
 
     @RequestMapping(value = "/register-email", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String patchRegisterEmail(EmailTokenEntity emailToken,HttpServletRequest request){
+    public String patchRegisterEmail(EmailTokenEntity emailToken, HttpServletRequest request) {
         emailToken.setUserAgent(request.getHeader("User-Agent"));
         Results result = this.emailTokenService.verifyEmailToken(emailToken);
         JSONObject response = new JSONObject();

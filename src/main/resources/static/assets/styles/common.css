@@ -149,6 +149,12 @@ ol, ul {
 }
 
 .--dialog {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
   top: 0;
   left: 0;
   width: 100%;
@@ -162,6 +168,14 @@ ol, ul {
   transition-property: opacity;
   transition-timing-function: ease;
   z-index: 8;
+}
+.--dialog > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.--dialog > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 .--dialog.-visible {
   opacity: 1;
@@ -204,14 +218,44 @@ ol, ul {
   pointer-events: auto;
   transform: scale(100%) translate(-50%, -50%);
 }
-.--dialog > .---modal > .---title {
+.--dialog > .---modal.-visible .visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.--dialog > .---modal.-visible > .modal {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0.625rem;
+  width: 25rem;
+  aspect-ratio: 4/2;
+  background-color: #ffffff;
+  border-radius: 1rem;
+}
+.--dialog > .---modal.-visible > .modal > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.--dialog > .---modal.-visible > .modal > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+.--dialog > .---modal.-visible > .modal > .title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #000000;
+}
+.--dialog > .---modal.-visible > .modal > .---title {
   font-size: 1rem;
   font-weight: 400;
 }
-.--dialog > .---modal > .---content {
+.--dialog > .---modal.-visible > .modal > .---content {
   text-align: justify;
 }
-.--dialog > .---modal > .---button-container {
+.--dialog > .---modal.-visible > .modal > .---button-container {
   align-items: stretch;
   display: flex;
   flex-direction: row;
@@ -219,11 +263,11 @@ ol, ul {
   flex-wrap: nowrap;
   gap: 0.5rem;
 }
-.--dialog > .---modal > .---button-container > * {
+.--dialog > .---modal.-visible > .modal > .---button-container > * {
   flex-grow: 0;
   flex-shrink: 0;
 }
-.--dialog > .---modal > .---button-container > .stretch {
+.--dialog > .---modal.-visible > .modal > .---button-container > .stretch {
   flex-grow: 1;
   flex-shrink: 1;
 }

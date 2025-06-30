@@ -9,9 +9,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-@EqualsAndHashCode(of = "index")
+@EqualsAndHashCode(of = "email")
 public class UserEntity {
-    private int index;
     private String email;
     private byte[] profile;
     private String password;

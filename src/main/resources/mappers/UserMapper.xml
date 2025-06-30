@@ -6,14 +6,43 @@
         insert into `homggoo`.`users`
         (`email`, `profile`, `password`, `is_admin`, `nickname`, `provider_type`, `provider_key`, `created_at`,
          `modified_at`,
-         `is_deleted`, `is_dormancy`)
+         `is_deleted`)
         VALUES (#{user.email}, #{user.profile}, #{user.password}, #{user.isAdmin}, #{user.nickname},
-                #{user.providerType}, #{user.providerKey}, #{user.createdAt}, #{user.modifiedAt}, #{user.isDeleted},
-                #{user.isDormancy})
+                #{user.providerType}, #{user.providerKey}, #{user.createdAt}, #{user.modifiedAt}, #{user.isDeleted})
     </insert>
     <select id="selectCountByEmail" resultType="java.lang.Integer">
         select count(0)
         from `homggoo`.`users`
         where `email`=#{email};
+    </select>
+    <select id="selectByEmail" resultType="com.hgc.homggoo.entities.user.UserEntity">
+        select `email`         as `email`,
+               `profile`       as `profile`,
+               `password`      as `password`,
+               `is_admin`      as `isAdmin`,
+               `nickname`      as `nickname`,
+               `provider_type` as `providerType`,
+               `provider_key`  as `providerKey`,
+               `created_at`    as `createdAt`,
+               `modified_at`   as `modifiedAt`,
+               `is_deleted`    as `isDeleted`
+        from `homggoo`.`users`
+        where `email` = #{email}
+    </select>
+    <select id="selectByProviderAndEmail" resultType="com.hgc.homggoo.entities.user.UserEntity">
+        select `email`         as `email`,
+               `profile`       as `profile`,
+               `password`      as `password`,
+               `is_admin`      as `isAdmin`,
+               `nickname`      as `nickname`,
+               `provider_type` as `providerType`,
+               `provider_key`  as `providerKey`,
+               `created_at`    as `createdAt`,
+               `modified_at`   as `modifiedAt`,
+               `is_deleted`    as `isDeleted`
+        from `homggoo`.`users`
+        where `provider_key` = #{providerKey}
+          and `provider_type` = #{providerType}
+          and `email` = #{email};
     </select>
 </mapper>

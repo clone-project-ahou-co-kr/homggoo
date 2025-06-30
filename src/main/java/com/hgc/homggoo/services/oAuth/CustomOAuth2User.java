@@ -6,7 +6,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 public class CustomOAuth2User implements OAuth2User {
@@ -28,28 +27,37 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public String getName() {
-        return (String) attributes.get("name");
+        Object name = attributes.get("name");
+        if (name == null || name.toString().isBlank()) {
+            name = attributes.get("nickname");
+        }
+        if (name == null || name.toString().isBlank()) {
+            name = attributes.get("email");
+        }
+        if (name == null || name.toString().isBlank()) {
+            name = attributes.get("id");
+        }
+        return name != null ? name.toString() : java.util.UUID.randomUUID().toString();
     }
 
     public String getEmail() {
         Object valueObj = attributes.get("email");
-        if (valueObj instanceof String) {
-            return (String) valueObj;
-        }
-        return valueObj.toString();
+        return valueObj != null ? valueObj.toString() : null;
     }
-    public String getGender(){
+
+    public String getGender() {
         return (String) attributes.get("gender");
     }
 
-    public String getBirthday(){
+    public String getBirthday() {
         return (String) attributes.get("birthday");
     }
 
-    public String getBirthyear(){
+    public String getBirthyear() {
         return (String) attributes.get("birthyear");
     }
-    public String getProfileImage(){
-        return(String)attributes.get("profileImage");
+
+    public String getProfileImage() {
+        return (String) attributes.get("profileImage");
     }
 }
