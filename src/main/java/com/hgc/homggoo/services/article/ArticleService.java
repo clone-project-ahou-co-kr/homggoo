@@ -49,6 +49,10 @@ public class ArticleService {
     }
 
     public Boolean articleLike(UserEntity signedUser, int articleId) {
+        if (signedUser == null || signedUser.isDeleted() || signedUser.isDormancy()) {
+
+            return null;
+        }
         // "dd"는 로그인한 사용자
         if (this.articleUserLikeMapper.selectByArticleidAndUserEmail(articleId, "dd") == null) {
             // 음악 인덱스, 유저 이메일로 SELECT 해서 null 이면 좋아요 하지 않은 상태

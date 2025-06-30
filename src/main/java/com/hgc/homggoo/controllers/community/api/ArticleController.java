@@ -41,8 +41,5 @@ public class ArticleController {
             response.put("result", result);
         }
         return response.toString();
-        // {result: failure} : 실패한것
-        // {result: true} : 좋아하게 된 것
-        // {result: false} : 좋아하지 않게 된 것
     }
 }
