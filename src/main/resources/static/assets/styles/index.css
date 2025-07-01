@@ -1007,55 +1007,491 @@ a {
   font-size: 0.8rem;
 }
 #main-category > .list {
-  background-color: #03c75a;
-  width: 100%;
+  width: 50%;
   max-width: 25%;
 }
-#main-category > .list > .category-list > .title > a {
+#main-category > .list > .category-list.visible > #list {
+  margin-bottom: 1rem;
+}
+#main-category > .list > .category-list.visible > .list-item {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  border-top: 0.0625rem solid #888888;
+  padding-top: 1rem;
+}
+#main-category > .list > .category-list.visible > .list-item > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-category > .list > .category-list.visible > .list-item > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main-category > .list > .category-list.visible > .list-item > .item > a {
   font-size: 1.25rem;
   font-weight: 700;
 }
-#main-category > .list > .category-list > .items > .item > div {
+#main-category > .list > .category-list.visible > .title {
+  padding: 1.5rem 0;
+}
+#main-category > .list > .category-list.visible > .title > a {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+#main-category > .list > .category-list.visible > .items > .item {
+  padding: 0.5rem 0;
+}
+#main-category > .list > .category-list.visible > .items > .item > .list-btn {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0;
+}
+#main-category > .list > .category-list.visible > .items > .item > .list-btn > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-category > .list > .category-list.visible > .items > .item > .list-btn > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main-category > .list > .category-list.visible > .items > .item > .list-btn > .link {
+  white-space: nowrap;
+  overflow: hidden;
+  transition: opacity 0.1s;
+}
+#main-category > .list > .category-list.visible > .items > .item > .list-btn > button {
+  padding-right: 8rem;
+  cursor: pointer;
+}
+#main-category > .list > .category-list.visible > .items > .item > .open-box {
+  max-height: 0;
+  padding: 0;
+  overflow: hidden;
+  transition-duration: 250ms;
+  transition-property: max-height, padding;
+  transition-timing-function: ease;
+}
+#main-category > .list > .category-list.visible > .items > .item > .open-box.open {
+  max-height: 34.375rem;
+  padding: 0 1.5rem;
+}
+#main-category > .item-box {
+  width: 100%;
+  max-width: 75%;
+}
+#main-category > .item-box > .banner .slidewrap {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+#main-category > .item-box > .banner .slides {
+  display: flex;
+}
+#main-category > .item-box > .banner .slide {
+  flex: 0 0 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  color: white;
+  font-size: 2.5rem;
+}
+#main-category > .item-box > .banner .section1 {
+  background-color: blueviolet;
+}
+#main-category > .item-box > .banner .section2 {
+  background-color: aqua;
+}
+#main-category > .item-box > .banner .section3 {
+  background-color: tomato;
+}
+#main-category > .item-box > .banner .section4 {
+  background-color: greenyellow;
+}
+#main-category > .item-box > .banner .section5 {
+  background-color: goldenrod;
+}
+#main-category > .item-box > .banner > .brand-popup {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+#main-category > .item-box > .banner > .keyword {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+#main-category > .item-box > .banner > .title {
+  padding: 1.5rem 0;
+  font-size: 0.95rem;
+}
+#main-category > .item-box > .banner > .slide {
+  max-height: 16rem;
+}
+#main-category > .item-box > .brand-items > div > .section {
+  font-size: 1.075rem;
+  font-weight: 700;
+  margin: 1.25rem 0;
+}
+#main-category > .item-box > .brand-items > div > .product-box > div > .items > .item {
+  padding: 0 0 1.875rem;
+  width: 9.5rem;
+  height: 23rem;
+}
+#main-category > .item-box > .brand-items > div > .product-box > div > .items > .item > a .caption-box > .brand-title {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+}
+#main-category > .item-box > .brand-items > div > .product-box > div > .items > .item > a .caption-box > .brand-title > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-category > .item-box > .brand-items > div > .product-box > div > .items > .item > a .caption-box > .brand-title > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main-category > .item-box > .brand-items > div > .product-box > div > .items > .item > a .caption-box > .brand-title > .brand {
+  color: #828C94;
+  font-size: 0.75rem;
+  margin-top: 0.6rem;
+}
+#main-category > .item-box > .brand-items > div > .product-box > div > .items > .item > a .caption-box > .brand-title > .name {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  max-height: 2rem;
+}
+#main-category > .item-box > .brand-items > div > .product-box > div > .items > .item > a .caption-box > .price {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+#main-category > .item-box > .brand-items > div > .product-box > div > .items > .item > a .caption-box > .review {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+#main-category > .item-box > .filter-items {
+  width: 100%;
+}
+#main-category > .item-box > .filter-items > .filter > ul {
+  position: relative;
+  z-index: 9;
+}
+#main-category > .item-box > .filter-items > .filter > ul > li {
+  position: relative;
+  display: inline-block;
+  margin: 0.25rem 0.25rem;
+}
+#main-category > .item-box > .filter-items > .filter > ul > li button {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  padding: 0.5rem 0.625rem;
+  border: 0.0625rem solid #dadce0;
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+#main-category > .item-box > .filter-items > .filter > ul > li button > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-category > .item-box > .filter-items > .filter > ul > li button > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main-category > .item-box > .filter-items > .filter > ul > li button.open {
+  color: #37507d;
+  font-weight: 700;
+  border: 0.0625rem solid #37507d;
+}
+#main-category > .item-box > .filter-items > .filter > ul > li button.open > svg {
+  color: #37507d;
+}
+#main-category > .item-box > .filter-items > .filter > ul > li button > svg {
+  color: #dadce0;
+}
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-color,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-wood,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ingredient,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-category,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-personnel,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ripper,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-shop,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-brand,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-special,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-today,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-only,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-price,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-delivery {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background-color: #ffffff;
+  box-shadow: 0 0.0625rem 0.25rem 0 rgba(0, 0, 0, 0.3);
+  border-radius: 0.25rem;
+  user-select: none;
+  display: none;
+  opacity: 0;
+  width: 28.75rem;
+  overflow: hidden scroll;
+  max-height: 23.25rem;
+}
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-color.open,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-wood.open,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ingredient.open,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-category.open,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-personnel.open,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ripper.open,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-shop.open,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-brand.open,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-special.open,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-today.open,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-only.open,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-price.open,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-delivery.open {
+  display: grid;
+  opacity: 1;
+  user-select: auto;
+  z-index: 999;
+}
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-color > .items,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-wood > .items,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ingredient > .items,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-category > .items,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-personnel > .items,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ripper > .items,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-shop > .items,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-brand > .items,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-special > .items,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-today > .items,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-only > .items,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-price > .items,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-delivery > .items {
+  padding: 16px 18px 16px 22px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-color > .items > .item,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-wood > .items > .item,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ingredient > .items > .item,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-category > .items > .item,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-personnel > .items > .item,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ripper > .items > .item,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-shop > .items > .item,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-brand > .items > .item,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-special > .items > .item,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-today > .items > .item,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-only > .items > .item,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-price > .items > .item,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-delivery > .items > .item {
+  margin-bottom: 1rem;
+}
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-color > .items > .item > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-wood > .items > .item > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ingredient > .items > .item > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-category > .items > .item > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-personnel > .items > .item > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ripper > .items > .item > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-shop > .items > .item > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-brand > .items > .item > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-special > .items > .item > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-today > .items > .item > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-only > .items > .item > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-price > .items > .item > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-delivery > .items > .item > div {
   align-items: center;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: nowrap;
-  gap: 0;
+  gap: 0.5rem;
+  font-size: 0.95rem;
 }
-#main-category > .list > .category-list > .items > .item > div > * {
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-color > .items > .item > div > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-wood > .items > .item > div > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ingredient > .items > .item > div > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-category > .items > .item > div > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-personnel > .items > .item > div > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ripper > .items > .item > div > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-shop > .items > .item > div > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-brand > .items > .item > div > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-special > .items > .item > div > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-today > .items > .item > div > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-only > .items > .item > div > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-price > .items > .item > div > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-delivery > .items > .item > div > * {
   flex-grow: 0;
   flex-shrink: 0;
 }
-#main-category > .list > .category-list > .items > .item > div > .stretch {
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-color > .items > .item > div > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-wood > .items > .item > div > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ingredient > .items > .item > div > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-category > .items > .item > div > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-personnel > .items > .item > div > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ripper > .items > .item > div > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-shop > .items > .item > div > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-brand > .items > .item > div > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-special > .items > .item > div > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-today > .items > .item > div > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-only > .items > .item > div > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-price > .items > .item > div > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-delivery > .items > .item > div > .stretch {
   flex-grow: 1;
   flex-shrink: 1;
 }
-#main-category > .list > .category-list > .items > .item > div > .link {
-  white-space: nowrap;
-  overflow: hidden;
-  transition: opacity 0.1s;
-}
-#main-category > .list > .category-list > .items > .item > div > button {
-  padding-right: 8rem;
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-color > .items > .item > div > label > input,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-wood > .items > .item > div > label > input,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ingredient > .items > .item > div > label > input,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-category > .items > .item > div > label > input,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-personnel > .items > .item > div > label > input,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ripper > .items > .item > div > label > input,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-shop > .items > .item > div > label > input,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-brand > .items > .item > div > label > input,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-special > .items > .item > div > label > input,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-today > .items > .item > div > label > input,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-only > .items > .item > div > label > input,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-price > .items > .item > div > label > input,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-delivery > .items > .item > div > label > input {
   cursor: pointer;
+  width: 1.5rem;
+  height: 1.5rem;
 }
-#main-category > .list > .category-list > .items > .item .open {
-  max-height: 0;
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-color > .items > .item > div > span,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-wood > .items > .item > div > span,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ingredient > .items > .item > div > span,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-category > .items > .item > div > span,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-personnel > .items > .item > div > span,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ripper > .items > .item > div > span,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-shop > .items > .item > div > span,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-brand > .items > .item > div > span,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-special > .items > .item > div > span,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-today > .items > .item > div > span,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-only > .items > .item > div > span,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-price > .items > .item > div > span,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-delivery > .items > .item > div > span {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0.25rem;
+  color: #424242;
+}
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-color > .items > .item > div > span > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-wood > .items > .item > div > span > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ingredient > .items > .item > div > span > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-category > .items > .item > div > span > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-personnel > .items > .item > div > span > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ripper > .items > .item > div > span > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-shop > .items > .item > div > span > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-brand > .items > .item > div > span > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-special > .items > .item > div > span > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-today > .items > .item > div > span > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-only > .items > .item > div > span > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-price > .items > .item > div > span > *,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-delivery > .items > .item > div > span > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-color > .items > .item > div > span > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-wood > .items > .item > div > span > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ingredient > .items > .item > div > span > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-category > .items > .item > div > span > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-personnel > .items > .item > div > span > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ripper > .items > .item > div > span > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-shop > .items > .item > div > span > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-brand > .items > .item > div > span > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-special > .items > .item > div > span > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-today > .items > .item > div > span > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-only > .items > .item > div > span > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-price > .items > .item > div > span > .stretch,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-delivery > .items > .item > div > span > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-color > .items > .item > div > span > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-wood > .items > .item > div > span > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ingredient > .items > .item > div > span > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-category > .items > .item > div > span > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-personnel > .items > .item > div > span > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-ripper > .items > .item > div > span > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-shop > .items > .item > div > span > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-brand > .items > .item > div > span > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-special > .items > .item > div > span > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-today > .items > .item > div > span > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-only > .items > .item > div > span > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-price > .items > .item > div > span > div,
+#main-category > .item-box > .filter-items > .filter > ul > li .dropdown-delivery > .items > .item > div > span > div {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 0 1px inset;
+}
+#main-category > .item-box > .filter-items > .all-caption {
+  margin: 1.45rem 0 0.25rem;
+  display: flex;
+}
+#main-category > .item-box > .filter-items > .all-caption > .stretch {
+  flex-grow: 1;
+}
+
+.line-box {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: flex-start;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+a > .box {
   overflow: hidden;
-  transition: max-height 0.3s ease;
-  transition-duration: 150ms;
-  transition-timing-function: ease;
-  padding: 0;
 }
-#main-category > .list > .category-list > .items > .item .open.open-list {
-  max-height: 34.375rem;
-  padding: 0 2rem;
+a > .box > .img {
+  overflow: hidden;
 }
-#main-category > .item-box {
-  background-color: #11b1e1;
+a > .box > .img > img {
   width: 100%;
-  max-width: 75%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+a > .box > .img > img:hover {
+  transform: scale(1.05);
+}
+a > .box .caption {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 0;
+}
+a > .box .caption > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+a > .box .caption > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 body {

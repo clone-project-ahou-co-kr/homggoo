@@ -138,7 +138,7 @@
           @include flex(row, center, flex-start);
           width: 100%;
 
-          &.warning {
+          & ~ .---warning {
             display: flex;
           }
 
@@ -210,20 +210,12 @@
   }
 }
 
-.warning {
-  > strong {
-    color: #e74c3c;
-  }
+.error-message {
+  color: #e74c3c !important;
+  display: none;
+}
 
-  .error-message {
-    color: #e74c3c;
-    display: flex;
-  }
-
-
-  > label {
-    > input, select {
-      border: 0.0625rem solid #e74c3c;
-    }
-  }
+.common-message {
+  color: #e74c3c !important;
+  display: none;
 }

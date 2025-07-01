@@ -234,11 +234,11 @@
   flex-grow: 1;
   flex-shrink: 1;
 }
-.container > .register-section > #register-form .email-container > .label-object.warning,
-.container > .register-section > #register-form .password-container > .label-object.warning,
-.container > .register-section > #register-form .password-container > .label-object.warning,
-.container > .register-section > #register-form .nickname-container > .label-object.warning,
-.container > .register-section > #register-form .agree-container > .label-object.warning {
+.container > .register-section > #register-form .email-container > .label-object ~ .---warning,
+.container > .register-section > #register-form .password-container > .label-object ~ .---warning,
+.container > .register-section > #register-form .password-container > .label-object ~ .---warning,
+.container > .register-section > #register-form .nickname-container > .label-object ~ .---warning,
+.container > .register-section > #register-form .agree-container > .label-object ~ .---warning {
   display: flex;
 }
 .container > .register-section > #register-form .email-container > .label-object .disabled,
@@ -319,15 +319,14 @@
   margin-top: 1.2rem;
 }
 
-.warning > strong {
-  color: #e74c3c;
+.error-message {
+  color: #e74c3c !important;
+  display: none;
 }
-.warning .error-message {
-  color: #e74c3c;
-  display: flex;
-}
-.warning > label > input, .warning > label select {
-  border: 0.0625rem solid #e74c3c;
+
+.common-message {
+  color: #e74c3c !important;
+  display: none;
 }
 
 /*# sourceMappingURL=register.css.map */
