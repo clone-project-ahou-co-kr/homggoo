@@ -2,7 +2,6 @@
 
 @import "../../def";
 
-
 #main-category {
   @include flex(row, flex-start, flex-start);
   width: 100%;
@@ -21,50 +20,70 @@
   }
 
   > .list {
-    background-color: #03c75a;
-    width: 100%;
+    width: 50%;
     max-width: 25%;
 
     > .category-list {
 
-      > .title {
-        > a {
-          font-size: 1.25rem;
-          font-weight: 700;
+      &.visible {
+        > #list {
+          margin-bottom: 1rem;
         }
-      }
 
-      > .items {
-        > .item {
-          > div {
-            @include flex(row, center, flex-start);
+        > .list-item {
+          @include flex(column, flex-start, flex-start, 1rem);
+          border-top: 0.0625rem solid #888888;
+          padding-top: 1rem;
 
-            > .link {
-
-              white-space: nowrap;
-              overflow: hidden;
-              transition: opacity 0.1s;
-            }
-
-            > button {
-              padding-right: 8rem;
-              cursor: pointer;
+          > .item {
+            > a {
+              font-size: 1.25rem;
+              font-weight: 700;
             }
           }
+        }
 
-          .open {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            transition-duration: 150ms;
-            transition-timing-function: ease;
+        > .title {
+          padding: 1.5rem 0;
 
-            // 필요하다면 padding도 함께 transition 가능
-            padding: 0;
+          > a {
+            font-size: 1.25rem;
+            font-weight: 700;
+          }
+        }
 
-            &.open-list {
-              max-height: 34.375rem; // 실제 예상되는 최대 높이보다 약간 크게!
-              padding: 0 2rem;
+        > .items {
+          > .item {
+            padding: 0.5rem 0;
+
+            > .list-btn {
+              @include flex(row, center, center);
+
+              > .link {
+
+                white-space: nowrap;
+                overflow: hidden;
+                transition: opacity 0.1s;
+              }
+
+              > button {
+                padding-right: 8rem;
+                cursor: pointer;
+              }
+            }
+
+            > .open-box {
+              max-height: 0;
+              padding: 0;
+              overflow: hidden;
+              transition-duration: 250ms;
+              transition-property: max-height, padding;
+              transition-timing-function: ease;
+
+              &.open {
+                max-height: 34.375rem; // 실제 예상되는 최대 높이보다 약간 크게!
+                padding: 0 1.5rem;
+              }
             }
           }
         }
@@ -73,8 +92,280 @@
   }
 
   > .item-box {
-    background-color: #11b1e1;
     width: 100%;
     max-width: 75%;
+
+    > .banner {
+      .slidewrap {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .slides {
+        display: flex;
+      }
+
+      .slide {
+        flex: 0 0 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+
+        color: white;
+        font-size: 2.5rem; // 40px -> rem
+      }
+
+      .section1 {
+        background-color: blueviolet;
+      }
+
+      .section2 {
+        background-color: aqua;
+      }
+
+      .section3 {
+        background-color: tomato;
+      }
+
+      .section4 {
+        background-color: greenyellow;
+      }
+
+      .section5 {
+        background-color: goldenrod;
+      }
+
+      > .brand-popup {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      > .keyword {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      > .title {
+        padding: 1.5rem 0;
+        font-size: 0.95rem;
+      }
+
+      > .slide {
+        max-height: 16rem;
+      }
+    }
+
+    > .brand-items {
+      > div {
+        > .section {
+          font-size: 1.075rem;
+          font-weight: 700;
+          margin: 1.25rem 0;
+        }
+
+        > .product-box {
+          > div {
+            > .items {
+              > .item {
+                padding: 0 0 1.875rem;
+                width: 9.5rem;
+                height: 23rem;
+
+                > a {
+                  .caption-box {
+                    > .brand-title {
+                      @include flex(column, flex-start, flex-start, 0.5rem);
+
+                      > .brand {
+                        color: #828C94;
+                        font-size: 0.75rem;
+                        margin-top: 0.6rem;
+                      }
+
+                      > .name {
+                        font-size: 0.875rem;
+                        margin-top: 0.25rem;
+                        max-height: 2rem;
+                      }
+                    }
+
+                    > .price {
+                      font-size: 1.125rem;
+                      font-weight: 700;
+                      margin-top: 0.25rem;
+                    }
+
+                    > .review {
+                      font-size: 0.75rem;
+                      margin-top: 0.25rem;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    > .filter-items {
+      width: 100%;
+
+      > .filter {
+        > ul {
+          position: relative;
+          z-index: 9;
+          > li {
+            position: relative;
+            display: inline-block;
+            margin: 0.25rem 0.25rem;
+
+            button {
+              @include flex(row, flex-start, flex-start, 0.5rem);
+              padding: 0.5rem 0.625rem;
+              border: 0.0625rem solid #dadce0;
+              border-radius: 0.25rem;
+              box-sizing: border-box;
+              cursor: pointer;
+              font-size: 0.875rem;
+
+              &.open {
+                color: #37507d;
+                font-weight: 700;
+                border: 0.0625rem solid #37507d;
+
+                > svg {
+                  color: #37507d;
+                }
+              }
+
+              > svg {
+                color: #dadce0;
+              }
+            }
+
+            .dropdown-color,
+            .dropdown-wood,
+            .dropdown-ingredient,
+            .dropdown-category,
+            .dropdown-personnel,
+            .dropdown-ripper,
+            .dropdown-shop,
+            .dropdown-brand,
+            .dropdown-special,
+            .dropdown-today,
+            .dropdown-only,
+            .dropdown-price,
+            .dropdown-delivery{
+              position: absolute;
+              top: 110%;
+              left: 0;
+              background-color: #ffffff;
+              box-shadow: 0 0.0625rem 0.25rem 0 rgba(0,0,0,.3);
+              border-radius: 0.25rem;
+              user-select: none;
+              display: none;
+              opacity: 0;
+              width: 28.75rem;
+              overflow: hidden scroll;
+              max-height: 23.25rem;
+
+              &.open {
+                display: grid;
+                opacity: 1;
+                user-select: auto;
+                z-index: 999;
+              }
+
+              > .items {
+                padding: 16px 18px 16px 22px;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+
+                > .item {
+                  margin-bottom: 1rem;
+
+                  > div {
+                    @include flex(row, center, flex-start, 0.5rem);
+                    font-size: 0.95rem;
+
+                    > label {
+                      > input {
+                        cursor: pointer;
+                        width: 1.5rem;
+                        height: 1.5rem;
+
+                      }
+                    }
+
+                    > span {
+                      @include flex(row, center, center, 0.25rem);
+                      color: #424242;
+
+                      > div {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        border-radius: 50%;
+                        box-shadow: rgba(0, 0, 0, 0.1) 0 0 0 1px inset;
+                      }
+                    }
+                  }
+
+                }
+              }
+            }
+          }
+        }
+      }
+
+      > .all-caption {
+        margin: 1.45rem 0 0.25rem;
+        display: flex;
+        > .stretch {
+          flex-grow: 1;
+        }
+      }
+    }
+
+
+  }
+}
+
+.line-box {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: flex-start;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+a > .box {
+  overflow: hidden;
+
+  > .img {
+    overflow: hidden;
+
+    > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .caption {
+    @include flex(column, flex-start, flex-start);
   }
 }
