@@ -4,18 +4,23 @@ const emailRegex = new RegExp('^(?=.{8,50}$)([\\da-z\\-_.]{4,})@([\\da-z][\\da-z
 const passwordRegex = new RegExp('^([\\da-zA-Z`~!@#$%^&*()\\-_=+\\[{\\]}\\\\|;:\'",<.>/?]{8,50})$');
 const emailCodeRegex = new RegExp('^(\\d{6})$');
 const nicknameRegex = new RegExp('^([\\da-zA-Z가-힣]{2,10})$');
-const nameRegex = new RegExp('^([가-힣]{2,5})$')
+const nameRegex = new RegExp('^([가-힣]{2,5})$');
 $registerForm['emailCodeSendButton'].addEventListener('click', () => {
     let email = '';
-    if ($registerForm['email'].value==='') {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if ($registerForm['email'].value === '') {
         alert('이메일을 입력해주세요.');
         $registerForm['email'].focus();
+        $registerForm.querySelector(':scope>.email-container>.label-object:has(input[name="email"]) ~ .error-message').style.display = "none";
+        $registerForm.querySelector(':scope>.email-container>.label-object:has(input[name="email"]) + .common-message').style.display = "flex";
         return;
     }
 
-    if ($registerForm['email-address'].value==='') {
+    if ($registerForm['email-address'].value === '') {
         alert('도메인을 선택해주세요.');
         $registerForm['email-address'].focus();
+        $registerForm.querySelector(':scope>.email-container>.label-object:has(input[name="email"]) + .common-message').style.display = "none";
+        $registerForm.querySelector(':scope>.email-container>.label-object:has(input[name="email"]) ~ .error-message').style.display = "flex";
         return;
     }
 
@@ -27,7 +32,6 @@ $registerForm['emailCodeSendButton'].addEventListener('click', () => {
         email = `${$registerForm['email'].value}@${$registerForm['email-address'].value}`;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         alert('올바른 이메일 형식이 아닙니다.');
         return;
@@ -67,7 +71,7 @@ $registerForm['emailCodeVerifyButton'].addEventListener('click', () => {
     if ($registerForm['email-address'].value === 'by') {
         $registerForm['email-address'].setDisabled(true);
         email = $registerForm['email'].value;
-    }else{
+    } else {
         email = `${$registerForm['email'].value}@${$registerForm['email-address'].value}`
     }
     if ($registerForm['emailCode'].value === '') {
@@ -132,6 +136,13 @@ $registerForm.onsubmit = (e) => {
     if (nickname === '') {
         alert('닉네임을 입력해 주세요.');
         return;
+    }
+
+    if ($registerForm['email'].value === '') {
+        $registerForm.querySelector(':scope>.email-container>.label-object + .common-message').style.display = "flex";
+    }
+    if ($registerForm['email'].value === '') {
+        $registerForm.querySelector(':scope>.email-container>.label-object + .common-message').style.display = "flex";
     }
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
