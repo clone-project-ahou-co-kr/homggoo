@@ -10,4 +10,6 @@ public interface ArticleMapper {
      int insert(@Param(value = "article") ArticleEntity article);
 
      ArticleVo[] selectByBoardId(@Param(value = "boardId") String boardId);
+
+     ArticleVo selectById(@Param(value = "id") int id);
 }

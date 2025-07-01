@@ -54,7 +54,7 @@ public class ArticleService {
             return null;
         }
         // "dd"는 로그인한 사용자
-        if (this.articleUserLikeMapper.selectByArticleidAndUserEmail(articleId, "dd") == null) {
+        if (this.articleUserLikeMapper.selectByArticleIdAndUserEmail(articleId, "dd") == null) {
             // 음악 인덱스, 유저 이메일로 SELECT 해서 null 이면 좋아요 하지 않은 상태
             // > 좋아요 해주면 됨
             ArticleUserLikeEntity musicUserLike = ArticleUserLikeEntity.builder()
@@ -74,5 +74,13 @@ public class ArticleService {
 
     public ArticleVo[] getByBoardId(String boardId) {
         return this.articleMapper.selectByBoardId(boardId);
+    }
+
+    public ArticleVo read (/*UserEntity signedUser, */int id) {
+        if (id < 1) {
+            return null;
+        }
+
+        return this.articleMapper.selectById(id);
     }
 }

@@ -3,23 +3,31 @@
 <mapper namespace="com.hgc.homggoo.mappers.article.ArticleUserLikeMapper">
 
     <delete id="delete">
-
+        DELETE
+        FROM `homggoo`.`article_user_likes`
+        WHERE `article_id` = #{articleId}
+          AND `user_email` = #{userEmail}
+        LIMIT 1
     </delete>
-    <insert id="insert"
-            useGeneratedKeys="true"
-            keyColumn="article_id"
-            keyProperty="article_id">
+    <insert id="insert">
         INSERT INTO `homggoo`.`article_user_likes`
             (`article_id`,
              `user_email`,
              `created_at`)
         VALUES
-            (#{articleUserLikes.articleId},
-             #{articleUserLikes.userEmail},
-             #{articleUserLikes.createdAt})
+            (#{articleUserLike.articleId},
+             #{articleUserLike.userEmail},
+             #{articleUserLike.createdAt})
     </insert>
-    <select id="selectByArticleidAndUserEmail"
-            resultType="com.hgc.homggoo.entities.article.ArticleUserLikeEntity">
 
+    <select id="selectByArticleIdAndUserEmail"
+            resultType="com.hgc.homggoo.entities.article.ArticleUserLikeEntity">
+        SELECT `article_id` AS `articleId`,
+               `user_email`  AS `userEmail`,
+               `created_at`  AS `createdAt`
+        FROM `meltube`.`music_user_likes`
+        WHERE `article_id` = #{articleId}
+          AND `user_email` = #{userEmail}
+            LIMIT 1
     </select>
 </mapper>

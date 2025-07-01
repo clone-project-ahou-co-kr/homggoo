@@ -87,12 +87,11 @@ $button.addEventListener('click', () => {
         }
         const response = JSON.parse(xhr.responseText);
         switch (response.result) {
-            case 'failure':
-                dialog.showSimpleOk('게시글 등록', '알 수 없는 이유로 게시글을 등록하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
-                break;
             case 'success':
                 dialog.showSimpleOk('게시글 등록', '게시글이 등록되었습니다.');
                 break;
+            default:
+                dialog.showSimpleOk('게시글 등록', '알 수 없는 이유로 게시글을 등록하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
         }
 
     }

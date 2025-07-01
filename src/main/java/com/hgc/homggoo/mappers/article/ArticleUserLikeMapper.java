@@ -11,6 +11,6 @@ public interface ArticleUserLikeMapper {
 
     int insert (@Param(value = "articleUserLikes") ArticleUserLikeEntity articleUserLikes);
 
-    ArticleUserLikeEntity selectByArticleidAndUserEmail(@Param(value = "articleId") int articleId,
+    ArticleUserLikeEntity selectByArticleIdAndUserEmail(@Param(value = "articleId") int articleId,
                                                          @Param(value = "userEmail") String userEmail);
 }

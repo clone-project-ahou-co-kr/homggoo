@@ -3,6 +3,7 @@ package com.hgc.homggoo.controllers.community;
 import com.hgc.homggoo.entities.user.UserEntity;
 import com.hgc.homggoo.services.article.ArticleService;
 import com.hgc.homggoo.vos.ArticleVo;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -44,10 +45,83 @@ public class CommunityController {
     }
 
     @RequestMapping(value = "/posts", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String getPosts(
-                           Model model) {
+    public String getPosts(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                           Model model,
+                           HttpServletRequest request) {
 
         return "/community/posts";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 

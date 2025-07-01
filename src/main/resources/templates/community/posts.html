@@ -6,11 +6,75 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/assets/styles/index.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/styles/common.min.css">
+    <link rel="stylesheet" type="text/css" href="/community/assets/styles/posts/posts.min.css">
+    <script defer src="/community/assets/scripts/posts.js"></script>
 </head>
 <body>
-<header th:replace="fragments/header :: header"></header>
-<form novalidate id="main" th:action="@{/community/posts}">
 
+<header th:replace="fragments/header :: header"></header>
+<div th:replace="fragments/header :: mini-header"></div>
+<form novalidate id="main" th:action="@{/community/posts}">
+    <div class="layout">
+        <div class="layout-content" id="drawArticle">
+            <h1 class="category">홈스타일링</h1>
+            <div class="title">오프라인 간단하게 인테리어 대해서 배울 수 있는 방법 없을까요?</div>
+            <div class="name">
+                <div class="layout">
+                    <img src="/assets/images/index/header/default-profile.png" alt="">
+                    <span class="email">test1234</span>
+                </div>
+                <div class="--flex-stretch"></div>
+                <div class="follow">팔로우</div>
+            </div>
+            <div class="content"> 가구 랩핑 / 도배 / DYI 욕실 타일 페인트 등...🙄</div>
+            <div class="info">
+                <div class="layout">
+                    <span><span class="relative-time"></span> ·&nbsp;</span>
+                    <span>좋아요 <span>7</span>&nbsp;·&nbsp;</span>
+                    <span>조회 1</span>
+                </div>
+                <div class="--flex-stretch"></div>
+                <button class="--object-button">신고하기</button>
+            </div>
+        </div>
+        <div class="comment-content">
+            <div class="title">댓글 <span>0</span></div>
+            <div class="--flex-stretch"></div>
+            <div class="layout">
+                <img src="/assets/images/index/header/notification.png" alt="">
+                <span>새 댓글 알림</span>
+                <div class="switch-wrapper">
+                    <input type="checkbox" class="checkbox" id="toggle-switch">
+                    <label for="toggle-switch" class="switch"></label>
+                </div>
+            </div>
+        </div>
+        <div class="comment-input">
+            <div class="profile">
+                <img src="/assets/images/index/header/default-profile.png" alt="">
+            </div>
+            <div class="input-container">
+                <label class="label">
+                    <input required type="text" minlength="1" name="comment" class="comment-input" placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다:)" size="44">
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="side-actions">
+        <button type="button" class="icon-button -liked" title="좋아요" name="like">
+            <span class="icon"><img src="/community/assets/images/heart-outline.png" alt=""></span>
+        </button>
+        <span id="isLiked">1</span>
+        <hr>
+        <button type="button" class="icon-button" title="댓글">
+            <span class="icon"><img src="/community/assets/images/comment.png" alt=""></span>
+        </button>
+        <button type="button" class="icon-button" title="공유">
+            <span class="icon"><img src="/community/assets/images/share.png" alt=""></span>
+        </button>
+    </div>
 </form>
 <footer th:replace="fragments/footer :: footer"></footer>
 </body>

@@ -58,12 +58,11 @@
             네모네모사인
         </div>
     </div>
-
     <div class="board">
         <div class="post-card" th:each="article : ${articles}">
             <div class="content">
                 <div class="category">#홈스타일링</div>
-                <h3 class="title" th:text="${article.getTitle()}" th:href="@{/board/list (id = ${article})}">로봇청소기 배치 도와주세요..!</h3>
+                <a class="title" th:text="${article.getTitle()}" th:href="@{/community/posts (id=${article.getId()})}">로봇청소기 배치 도와주세요..!</a>
                 <p class="content" th:text="${article.getContent()}">
                     안녕하세요! 한 달 후에 입주할 집의 가구 배치를 고민 중인데, 로봇청소기 위치를 정하는 게 너무 어렵네요..
                     현재로선 거실 소파 옆이 가장 적당해 보이긴 하는데, 바로 앞에 의자가 있어서 로봇청소기가 제자리에서 나가...

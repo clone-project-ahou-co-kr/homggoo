@@ -1,15 +1,13 @@
 package com.hgc.homggoo.entities.article;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = {"articleId", "userEmail"})
 @Builder
 public class ArticleUserLikeEntity {
     private int articleId;

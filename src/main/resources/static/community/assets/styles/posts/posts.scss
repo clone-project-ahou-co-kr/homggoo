@@ -1,0 +1,245 @@
+@charset "UTF-8";
+@use "sass:color";
+@import "../../../../assets/styles/def";
+
+#main {
+  @include flex(row, center, center);
+  margin-top: 3rem;
+
+  > .layout {
+    position: relative;
+    max-width: 45rem;
+    width: 100%;
+
+    > .layout-content {
+      @include flex(column, flex-start, flex-start, 1rem);
+
+      > .category {
+        background: #EAEDEF;
+        color: #828C94;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+        display: inline-flex;
+        font-size: 12px;
+        line-height: 16px;
+        height: 24px;
+        padding: 0 6px;
+        border-radius: 0.25rem;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      > .title {
+        font-size: 1.5rem;
+        line-height: 2rem;
+        color: rgb(47, 52, 56);
+        font-weight: 700;
+      }
+
+      > .content {
+        font-size: 15px;
+        line-height: 24px;
+        word-break: break-word;
+        color: rgb(47, 52, 56);
+        text-wrap: pretty;
+        white-space: pre-wrap;
+      }
+
+      > .name {
+        @include flex(row, center, space-between, 0.625rem);
+        width: 100%;
+
+        > .layout {
+            @include flex(row, center, center, 0.625rem);
+          > .email {
+            font-size: 13px;
+            line-height: 18px;
+            font-weight: 700;
+            color: rgb(47, 52, 56);
+          }
+        }
+
+        > .follow {
+          color: rgb(10, 165, 255);
+          font-size: 14px;
+          line-height: 18px;
+        }
+      }
+
+      > .info {
+        @include flex(row, center, space-between);
+        margin: 0 0 5rem;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 18px;
+        color: rgb(130, 140, 148);
+        width: 100%;
+
+        > .--object-button {
+          font-size: 14px;
+          padding: 0;
+        }
+      }
+    }
+    > .comment-content {
+      @include flex(row, center, space-between);
+      width: 100%;
+      margin-bottom: 1.5rem;
+      > .title {
+        font-size: 20px;
+        line-height: 28px;
+        color: rgb(47, 52, 56);
+        font-weight: 700;
+      }
+
+      > .layout {
+        @include flex(row, center, center);
+
+        > img {
+          width: 1rem;
+          height: 1rem;
+        }
+
+        > span {
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 18px;
+          margin-right: 12px;
+          margin-left: 4px;
+        }
+
+        > .switch-wrapper {
+          @include flex(row, center, center);
+
+          input[type="checkbox"] {
+            display: none;
+
+            &:checked + .switch {
+              background-color: rgb(10, 165, 255);
+
+              &::after {
+                left: calc(100% - 18px);
+              }
+            }
+          }
+
+          .switch {
+            width: 36px;
+            height: 20px;
+            background-color: #cbd0d3;
+            display: inline-block;
+            border-radius: 999px;
+            position: relative;
+            transition: background-color 0.3s;
+            cursor: pointer;
+
+            &::after {
+              content: "";
+              width: 18px;
+              height: 18px;
+              background-color: #ffffff;
+              border-radius: 50%;
+              position: absolute;
+              top: 1px;
+              left: 1px;
+              box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+              transition: left 0.3s;
+            }
+          }
+        }
+
+      }
+
+    }
+
+    .comment-input {
+      @include flex(row, center, space-between);
+      width: 100%;
+      margin-bottom: 2.5rem;
+
+      > .profile {
+        img {
+          object-fit: cover;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          margin-right: 12px;
+          flex-shrink: 0;
+          border: 0.5px solid rgba(0, 0, 0, 0.08);
+        }
+      }
+
+      > .input-container {
+        width: calc(100% - 2.625rem);
+        height: 2.75rem;
+        > .label {
+          .comment-input {
+            align-items: center;
+            line-height: 0;
+            box-sizing: border-box;
+            border: 0.0625rem solid #E6E6E6;
+            border-radius: 4px;
+            display: block;
+            padding: 0 16px;
+            cursor: text;
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  > .side-actions {
+    @include flex(column, center, center);
+    position: absolute;
+    right: 10rem;
+
+    > hr {
+      width: 54px;
+      height: 1px;
+      margin: 0 0 1rem;
+      border: 0;
+      background: rgb(234, 237, 239);
+    }
+
+    > #isLiked {
+      margin: 0 0 1.5rem 0;
+      font-size: 14px;
+      line-height: 18px;
+      color: rgb(130, 140, 148);
+      white-space: nowrap;
+    }
+
+    > .icon-button {
+      margin: 1.5rem 0 1.5rem 0;
+      width: 60px;
+      height: 60px;
+      border: 1px solid rgb(194, 200, 204);
+      background: rgb(255, 255, 255);
+      box-shadow: rgba(63, 71, 77, 0.15) 0 2px 6px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      > &:hover {
+        box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        transform: translateY(-2px);
+      }
+
+      > .icon {
+        font-size: 18px;
+        color: #666;
+      }
+
+      &.-liked {
+        > .icon {
+          > img {
+          }
+        }
+      }
+    }
+  }
+}

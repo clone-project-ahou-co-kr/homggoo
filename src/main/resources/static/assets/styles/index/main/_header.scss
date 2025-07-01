@@ -50,6 +50,7 @@ $bg-light: #f8f9fa;
 
         > .button-object {
           font-size: 0.875rem !important;
+          background-color: #0198ED;
         }
 
         > .fas {
@@ -87,9 +88,9 @@ $bg-light: #f8f9fa;
 
       > .nav-right {
         @include flex(row, center, center);
-        >.search {
-          input[name="search"] {
-            background: url("../../../images/index/header/search-icon.png") no-repeat left center;
+        > .search {
+          > input[name="search"] {
+            background: url("/assets/images/index/header/search-icon.png") no-repeat left center;
             background-position-x: 0.5rem;
             border: 0.0625rem solid #f2f4f8;
             margin: 0 auto;
@@ -102,33 +103,60 @@ $bg-light: #f8f9fa;
           }
         }
 
-        > .nav-icon {
-          font-size: 1rem;
-          padding: 0.5rem;
-          border-radius: 0.5rem;
-          transition: background-color 0.2s ease;
+        > .user-true {
+          @include flex(row, center, center, 1rem);
+          color: black;
+          position: relative;
+          padding-left: 1rem;
 
-          &:hover {
-            background: #ffffff;
+          > a {
+            span {
+
+              img {
+                width: 1.5rem;
+                height: 1.5rem;
+              }
+            }
           }
         }
 
-        > .nav-link {
+        > .user-false {
           @include flex(row, center, center);
           font-size: 0.875rem;
           color: black;
-          padding: 0.5rem 0.75rem;
           position: relative;
-          border-right: 0.0625rem solid #EAEDEF;
-          height: 1rem;
-          top: 50% + translateY(-50%);
 
-          &:hover {
-            pointer-events: inherit;
+          > .nav-icon {
+            font-size: 1rem;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease;
+
+            &:hover {
+              background: #ffffff;
+            }
+
+            > img {
+              width: 1.5rem;
+              height: 1.625rem;
+            }
           }
 
-          &:last-child {
-            border-right: none;
+          > .nav-link {
+            padding: 0 10px;
+            border-left: 1px solid #EAEDEF;
+
+            &:first-of-type {
+              border-left: none;
+            }
+
+            &:hover {
+              pointer-events: inherit;
+            }
+
+            &:last-child {
+              border-right: none;
+            }
           }
         }
       }

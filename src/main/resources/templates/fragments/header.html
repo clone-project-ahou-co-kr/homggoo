@@ -35,14 +35,33 @@
                     <label class="search">
                         <input required type="text" minlength="1" maxlength="" name="search" placeholder="통합검색">
                     </label>
-                    <a href="#" class="nav-icon">🛒</a>
-                    <a href="/user/login" class="nav-link">로그인</a>
-                    <a href="/user/register" class="nav-link">회원가입</a>
-                    <a href="#" class="nav-link">고객센터</a>
+                    <div class="user-true" th:if="${signedUser != null}">
+                        <a href="#" class="nav-link">
+                            <span><img src="/assets/images/index/header/scrap.png" alt=""></span>
+                        </a>
+                        <a href="#" class="nav-link">
+                            <span><img src="/assets/images/index/header/notification.png" alt=""></span>
+                        </a>
+                        <a href="#" class="nav-link">
+                            <span><img src="/assets/images/index/header/cart.png" alt=""></span>
+                        </a>
+                        <picture>
+                            <img src="/assets/images/index/header/default-profile.png" alt="">
+                        </picture>
+                    </div>
+                    <div class="user-false" th:if="${signedUser == null}">
+                        <a href="#" class="nav-icon">
+                            <img src="/assets/images/index/header/cart.png" alt="">
+                        </a>
+                        <a href="/user/login" class="nav-link">로그인</a>
+                        <a href="/user/register" class="nav-link">회원가입</a>
+                        <a href="#" class="nav-link">고객센터</a>
+                    </div>
                 </div>
                 <div class="button-container">
-                    <div class="button-object -color-blue">글쓰기
-                        <i class="fas fa-chevron-down"></i></div>
+                    <a href="/community/posts/new" class="button-object -color-blue">글쓰기
+<!--                        <i class="fas fa-chevron-down"></i>-->
+                    </a>
                 </div>
                 <!--
                                 <ul class="nav-menu">
@@ -81,7 +100,7 @@
         <nav class="category">
             <a href="#"><span>홈</span></a>
             <a href="#">꿀템발견</a>
-            <a href="/community/interior">집꾸미기</a>
+            <a th:href="@{/community/interior(boardId='decoration')}">집꾸미기</a>
             <a href="#">추천</a>
             <a href="#">집들이</a>
             <a href="#">집사진</a>
