@@ -6,8 +6,9 @@
             keyColumn="id"
             keyProperty="id">
         insert into `homggoo`.`article`
-        (`board_id`, `user_email`, `title`, `content`, `view`, `created_at`, `modified_at`, `is_deleted`)
+        (`board_id`, `category_id`, `user_email`, `title`, `content`, `view`, `created_at`, `modified_at`, `is_deleted`)
         VALUES (#{article.boardId},
+                #{article.categoryId},
                 #{article.userEmail},
                 #{article.title},
                 #{article.content},
@@ -19,6 +20,7 @@
     <select id="selectByBoardId" resultType="com.hgc.homggoo.vos.ArticleVo">
         SELECT `T0`.`id`,
                `T0`.`board_id`,
+               `T0`.`category_id`
                `T0`.`user_email`,
                `T0`.`title`,
                `T0`.`content`,
@@ -36,6 +38,7 @@
     <select id="selectById" resultType="com.hgc.homggoo.vos.ArticleVo">
         SELECT `T0`.`id`          AS `id`,
                `T0`.`board_id`    AS `boardId`,
+               `T0`.`category_id` AS `categoryId`,
                `T0`.`user_email`  AS `userEmail`,
                `T0`.`title`       AS `title`,
                `T0`.`content`     AS `content`,

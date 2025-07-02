@@ -7,7 +7,7 @@ const $header = document.getElementById('header');
 const $button = document.getElementById('uploadButton');
 const $writeForm = document.getElementById('writeForm');
 const titleRegex = new RegExp('^(.{1,60})$');
-const contentRegex = new RegExp('^(.{1,100000})$')
+const contentRegex = new RegExp('^.{1,100000}$', 's');
 
 const optionsMap = {
     "subject": [],
@@ -38,6 +38,7 @@ $subject.addEventListener('change', () => {
 
 
 $button.addEventListener('click', () => {
+    console.log('클릭')
     if ($subject.value === '주제를 선택해주세요(필수)') {
         dialog.showSimpleOk('게시글 작성', '주제를 선택해주세요', {
             onOkCallback: () => $subject.focus()
@@ -63,7 +64,7 @@ $button.addEventListener('click', () => {
         });
         return;
     }
-    if (!titleRegex.test(content.textContent)) {
+    if (!contentRegex.test(content.textContent)) {
         dialog.showSimpleOk('게시글 작성', '올바른 내용을 입력해주세요.', {
             onOkCallback: () => content.focus()
         });
@@ -73,6 +74,7 @@ $button.addEventListener('click', () => {
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append("boardId", $subject.value);
+    formData.append("categoryId", $posts.value);
     formData.append('content', content.textContent);
     formData.append('title', $writeForm['title'].value);
     xhr.onreadystatechange = () => {
@@ -88,14 +90,17 @@ $button.addEventListener('click', () => {
         const response = JSON.parse(xhr.responseText);
         switch (response.result) {
             case 'success':
-                dialog.showSimpleOk('게시글 등록', '게시글이 등록되었습니다.');
+                dialog.showSimpleOk('게시글 등록', '게시글이 등록되었습니다.', {
+                    onOkCallback : () => location.href = `/community/posts?id=${response.id}`
+                });
+
                 break;
             default:
                 dialog.showSimpleOk('게시글 등록', '알 수 없는 이유로 게시글을 등록하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
         }
 
     }
-    xhr.open('POST','/api/posts/new/');
+    xhr.open('POST','/api/posts/new');
     xhr.send(formData);
 })
 

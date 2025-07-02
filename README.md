@@ -4,6 +4,13 @@
 ```mariadb
 create schema homggoo;
 
+/*순서 중요!! 
+users
+board_category
+boards
+article_category
+article
+article_user_likes ← 🔥 반드시 마지막*/
 CREATE TABLE homggoo.users
 (
     `email`                VARCHAR(50)                                   NOT NULL COMMENT '이메일',
@@ -12,7 +19,7 @@ CREATE TABLE homggoo.users
     `is_admin`             BOOLEAN                                       NOT NULL DEFAULT FALSE COMMENT '사용자 타입(사용자, 관리자)',
     `nickname`             VARCHAR(30)                                   NOT NULL UNIQUE COMMENT '유저 닉네임',
     `provider_type`        ENUM ('KAKAO', 'NAVER', 'ORIGIN')             NOT NULL DEFAULT 'ORIGIN' COMMENT '로그인 타입(KAKAO, NAVER, ORIGIN)',
-    `provider_key`         VARCHAR(255)                                  NOT NULL UNIQUE COMMENT '로그인 타입에 따른 식별값',
+    `provider_key`         VARCHAR(255)                                  NULL UNIQUE COMMENT '로그인 타입에 따른 식별값',
     `created_at`           DATETIME                                      NOT NULL COMMENT '유저 회원가입 생성일',
     `modified_at`          DATETIME                                      NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '유저 정보 수정일',
     `is_deleted`           BOOLEAN                                       NOT NULL DEFAULT FALSE COMMENT '회원탈퇴 여부',
@@ -21,41 +28,75 @@ CREATE TABLE homggoo.users
     CONSTRAINT UNIQUE (`provider_type`, `provider_key`)
 );
 
-CREATE TABLE `homggoo`.`boards`
+
+CREATE TABLE homggoo.board_category
 (
-    `board_id` varchar(50) not null,
-    `display_text` varchar(50) not null,
-    `is_admin_only` boolean not null,
-    `type_order` tinyint not null,
+    `category_id`   INT AUTO_INCREMENT NOT NULL COMMENT '카테고리 ID (PK)',
+    `code` VARCHAR(50) NOT NULL UNIQUE COMMENT '카테고리',
+    `display_text`  VARCHAR(50) NOT NULL COMMENT '카테고리 이름',
+
+    CONSTRAINT PRIMARY KEY (`category_id`)
+);
+
+CREATE TABLE homggoo.boards
+(
+    `board_id`      VARCHAR(50) NOT NULL COMMENT '게시판 ID',
+    `display_text`  VARCHAR(50) NOT NULL COMMENT '게시판',
+    `is_admin_only` BOOLEAN     NOT NULL COMMENT '관리자 전용 여부',
+
     CONSTRAINT PRIMARY KEY (`board_id`)
 );
 
 
-create table `homggoo`.`article`
+CREATE TABLE homggoo.article
 (
-    `id` int(10) unsigned not null auto_increment,
-    `board_id` varchar(10) not null,
-    `user_email` varchar(50) not null,
-    `title` varchar(100) not null,
-    `content` longtext not null,
-    `view` int(10) unsigned not null,
-    `created_at` datetime not null default now(),
-    `modified_at` datetime not null default now(),
-    `is_deleted` boolean not null,
-    CONSTRAINT PRIMARY KEY (`id`)
+    `id`           INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '게시글 ID',
+    `board_id`     VARCHAR(50)      NOT NULL COMMENT '게시판 ID (FK)',
+    `category_id`  VARCHAR(50)      NOT NULL COMMENT '게시판 종류',
+    `user_email`   VARCHAR(50)      NOT NULL COMMENT '작성자 이메일 (FK)',
+    `title`        VARCHAR(100)     NOT NULL COMMENT '제목',
+    `content`      LONGTEXT         NOT NULL COMMENT '내용',
+    `view`         INT(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '조회수',
+    `created_at`   DATETIME         NOT NULL DEFAULT NOW() COMMENT '작성일',
+    `modified_at`  DATETIME         NOT NULL DEFAULT NOW() COMMENT '수정일',
+    `is_deleted`   BOOLEAN          NOT NULL DEFAULT FALSE COMMENT '삭제 여부',
+
+    CONSTRAINT PRIMARY KEY (`id`),
+    CONSTRAINT FOREIGN KEY (`board_id`) REFERENCES homggoo.boards(`board_id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (`category_id`) REFERENCES homggoo.article_category(`category_id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (`user_email`) REFERENCES homggoo.users(`email`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
-create table `homggoo`.`article_user_likes`
+CREATE TABLE homggoo.article_category
 (
-    `article_id` int unsigned not null,
-    `user_email`  varchar(50)  not null,
-    `created_at`  datetime     not null default now(),
-    constraint primary key (`article_id`, `user_email`),
-    constraint foreign key (`article_id`) references `homggoo`.`article` (`id`)
-        on delete cascade
-        on update cascade,
-    constraint foreign key (`user_email`) references `homggoo`.`users` (`email`)
-        on delete cascade
-        on update cascade
+    `category_id` VARCHAR(50) NOT NULL COMMENT '게시글 종류',
+    `board_id` VARCHAR(50) NOT NULL COMMENT '어디 게시판',
+
+    CONSTRAINT PRIMARY KEY (`category_id`),
+    CONSTRAINT FOREIGN KEY (`board_id`) REFERENCES homggoo.boards(`board_id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
+
+CREATE TABLE homggoo.article_user_likes
+(
+    `article_id`   INT UNSIGNED   NOT NULL COMMENT '게시글 ID (FK)',
+    `user_email`   VARCHAR(50)    NOT NULL COMMENT '좋아요 누른 유저 이메일 (FK)',
+    `created_at`   DATETIME       NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT PRIMARY KEY (`article_id`, `user_email`),
+    CONSTRAINT FOREIGN KEY (`article_id`) REFERENCES homggoo.article(`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (`user_email`) REFERENCES homggoo.users(`email`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
 ```

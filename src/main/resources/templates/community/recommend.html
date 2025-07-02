@@ -8,13 +8,13 @@
     <link rel="stylesheet" type="text/css" href="/assets/styles/index.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/styles/common.min.css">
     <link rel="stylesheet" type="text/css" href="/community/assets/styles/interior/main.min.css">
-    <title>집꾸미기</title>
+    <title>추천</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header"></header>
-<div th:replace="fragments/header.html :: mini-header"></div>
-<form novalidate id="main" th:action="@{/community/interior}" method="get">
-    <input type="hidden" name="boardId" value="interior" />
+<header th:replace="~{fragments/header :: header}"></header>
+<div th:replace="~{fragments/header :: mini-header}"></div>
+<form novalidate id="main" th:action="@{/community/recommend}" method="get">
+    <input type="hidden" name="boardId" value="recommend" />
     <div></div>
     <div class="category">
         <span>

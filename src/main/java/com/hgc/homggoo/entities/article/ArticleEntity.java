@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class ArticleEntity {
     private int id;
     private String boardId;
+    private String categoryId;
     private String userEmail;
     private String title;
     private String content;

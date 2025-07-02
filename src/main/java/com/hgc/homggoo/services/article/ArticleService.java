@@ -44,7 +44,7 @@ public class ArticleService {
         article.setDeleted(false);
 
         return this.articleMapper.insert(article) > 0 ?
-                ResultTuple.<ArticleEntity>builder().result(CommonResult.SUCCESS).build() :
+                ResultTuple.<ArticleEntity>builder().result(CommonResult.SUCCESS).payload(article).build() :
                 ResultTuple.<ArticleEntity>builder().result(CommonResult.FAILURE).build();
     }
 

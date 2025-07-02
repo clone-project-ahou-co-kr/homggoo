@@ -98,13 +98,9 @@
 <div id="mini-header" th:fragment="mini-header">
     <div class="container">
         <nav class="category">
-            <a href="#"><span>홈</span></a>
-            <a href="#">꿀템발견</a>
+            <a href="/"><span>홈</span></a>
             <a th:href="@{/community/interior(boardId='decoration')}">집꾸미기</a>
-            <a href="#">추천</a>
-            <a href="#">집들이</a>
-            <a href="#">집사진</a>
-            <a href="#">3D인테리어</a>
+            <a th:href="@{/community/interior(boardId='recommend')}">추천</a>
         </nav>
     </div>
 </div>

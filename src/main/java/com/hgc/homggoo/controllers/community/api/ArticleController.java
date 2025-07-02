@@ -41,12 +41,14 @@ public class ArticleController {
 
         return response.toString();
     }
-
+// boardcategory테이블, articlecategory테이블 매개변수 추가하기, js한번 다시 확인 ㄱㄱ
     @RequestMapping(value = "/new", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String postNew(ArticleEntity article) {
         ResultTuple<ArticleEntity> result = this.articleService.add(article);
         JSONObject response = new JSONObject();
         response.put("result", result.getResult().nameToLower());
+        response.put("id", result.getPayload().getId());
+
         return response.toString();
     }
 

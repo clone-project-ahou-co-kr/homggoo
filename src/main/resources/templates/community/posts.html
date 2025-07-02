@@ -13,8 +13,8 @@
 </head>
 <body>
 
-<header th:replace="fragments/header :: header"></header>
-<div th:replace="fragments/header :: mini-header"></div>
+<header th:replace="~{fragments/header :: header}"></header>
+<div th:replace="~{fragments/header :: mini-header}"></div>
 <form novalidate id="main" th:action="@{/community/posts}">
     <div class="layout">
         <div class="layout-content" id="drawArticle">
@@ -76,6 +76,6 @@
         </button>
     </div>
 </form>
-<footer th:replace="fragments/footer :: footer"></footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>
