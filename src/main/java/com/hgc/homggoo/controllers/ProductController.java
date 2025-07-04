@@ -17,4 +17,9 @@ public class ProductController {
     public String getCategory() {
         return "product/category";
     }
+
+    @RequestMapping(value = "/production", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public String getproduction() {
+        return "product/production";
+    }
 }
