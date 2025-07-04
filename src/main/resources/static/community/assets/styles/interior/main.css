@@ -26,6 +26,7 @@
   padding: 0.675rem 1rem 0.675rem 1rem;
   font-size: 0.875rem;
   margin: 1rem 0 1rem 0;
+  position: relative;
 }
 #main > .category > span > a > span::after {
   content: "";
@@ -93,7 +94,7 @@
   flex-grow: 1;
   flex-shrink: 1;
 }
-#main > .board > .post-card > .content {
+#main > .board > .post-card > .item {
   align-items: flex-start;
   display: flex;
   flex-direction: column;
@@ -102,15 +103,15 @@
   gap: 0;
   width: 100%;
 }
-#main > .board > .post-card > .content > * {
+#main > .board > .post-card > .item > * {
   flex-grow: 0;
   flex-shrink: 0;
 }
-#main > .board > .post-card > .content > .stretch {
+#main > .board > .post-card > .item > .stretch {
   flex-grow: 1;
   flex-shrink: 1;
 }
-#main > .board > .post-card > .content > .category {
+#main > .board > .post-card > .item > .category {
   background: #EAEDEF;
   color: #828C94;
   font-weight: 700;
@@ -124,13 +125,13 @@
   align-items: center;
   margin-bottom: 1rem;
 }
-#main > .board > .post-card > .content > .title {
+#main > .board > .post-card > .item > .title {
   font-size: 18px;
   line-height: 24px;
   color: #2F3438;
   font-weight: 600;
 }
-#main > .board > .post-card > .content > .content {
+#main > .board > .post-card > .item > .content {
   width: 100%;
   font-size: 15px;
   line-height: 24px;
@@ -138,7 +139,7 @@
   font-weight: 400;
   margin-bottom: 2rem;
 }
-#main > .board > .post-card > .content > .info {
+#main > .board > .post-card > .item > .info {
   font-size: 15px;
   line-height: 24px;
   color: #828C94;
@@ -148,7 +149,7 @@
   -webkit-line-clamp: 1;
   margin-bottom: 1rem;
 }
-#main > .board > .post-card > .content > .thumbnail {
+#main > .board > .post-card > .item > .thumbnail {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -159,15 +160,15 @@
   right: 1rem;
   position: absolute;
 }
-#main > .board > .post-card > .content > .thumbnail > * {
+#main > .board > .post-card > .item > .thumbnail > * {
   flex-grow: 0;
   flex-shrink: 0;
 }
-#main > .board > .post-card > .content > .thumbnail > .stretch {
+#main > .board > .post-card > .item > .thumbnail > .stretch {
   flex-grow: 1;
   flex-shrink: 1;
 }
-#main > .board > .post-card > .content > .thumbnail > img {
+#main > .board > .post-card > .item > .thumbnail > img {
   width: 6.125rem;
   height: 6.125rem;
 }

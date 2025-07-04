@@ -11,29 +11,38 @@ const contentRegex = new RegExp('^.{1,100000}$', 's');
 
 const optionsMap = {
     "subject": [],
-    "honey": ['집요한생일', '살까말까', '상품후기', '꿀잼수다'],
-    "decoration": ['홈스타일링', '시공/모델링', '우리집일상']
-}
-
+    "product": {
+        '인기': 'product_popular',
+        '살까말까': 'product_question',
+        '상품후기': 'product_review',
+        '꿀템수다': 'product_free'
+    },
+    "interior": {
+        '인기': 'sub_popular',
+        '홈스타일링': 'sub_question',
+        '우리집일상': 'sub_free'
+    }
+};
 
 $subject.addEventListener('change', () => {
     const selected = $subject.value;
     $posts.innerHTML = '';
 
-    if (optionsMap[selected]) {
-        optionsMap[selected].forEach(text => {
+    const categoryObj = optionsMap[selected];
+    if (categoryObj) {
+        Object.entries(categoryObj).forEach(([text, value]) => {
             const option = document.createElement('option');
-            $subject.style.color = "black";
-            $posts.style.color = "black";
-            option.textContent = text;
-
+            option.textContent = text;  // 화면에 보여줄 값
+            option.value = value;       // 서버에 보낼 실제 값
             $posts.appendChild(option);
         });
-    }
 
-    $button.style.background = "rgb(53, 197, 240)";
-    $button.style.border = "1px solid rgb(53, 197, 240)";
-    $button.style.color = "white";
+        $subject.style.color = "black";
+        $posts.style.color = "black";
+        $button.style.background = "rgb(53, 197, 240)";
+        $button.style.border = "1px solid rgb(53, 197, 240)";
+        $button.style.color = "white";
+    }
 });
 
 
@@ -74,9 +83,9 @@ $button.addEventListener('click', () => {
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append("boardId", $subject.value);
-    formData.append("categoryId", $posts.value);
     formData.append('content', content.textContent);
     formData.append('title', $writeForm['title'].value);
+    formData.append("categoryId", $posts.value);
     xhr.onreadystatechange = () => {
         if (xhr.readyState !== XMLHttpRequest.DONE) {
             return;
@@ -93,10 +102,13 @@ $button.addEventListener('click', () => {
                 dialog.showSimpleOk('게시글 등록', '게시글이 등록되었습니다.', {
                     onOkCallback : () => location.href = `/community/posts?id=${response.id}`
                 });
-
                 break;
-            default:
+            case 'failure_session_expired':
+                dialog.showSimpleOk('게시글 등록', '세션 에러');
+                break;
+            case 'failure':
                 dialog.showSimpleOk('게시글 등록', '알 수 없는 이유로 게시글을 등록하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                break;
         }
 
     }

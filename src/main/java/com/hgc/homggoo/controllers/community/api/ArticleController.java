@@ -9,6 +9,8 @@ import com.hgc.homggoo.services.article.ArticleService;
 import com.hgc.homggoo.vos.ArticleVo;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/api/posts")
 public class ArticleController {
+    private static final Logger log = LoggerFactory.getLogger(ArticleController.class);
     private final ArticleService articleService;
 
     @Autowired
@@ -26,11 +29,14 @@ public class ArticleController {
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String postIndex(@RequestParam(value = "id") int id) {
         ArticleVo result = this.articleService.read(id);
-
+        if (result != null) {
+            this.articleService.incrementView(result);
+        }
         JSONObject response = new JSONObject();
         response.put("result", CommonResult.SUCCESS.nameToLower());
         response.put("id", result.getId());
         response.put("boardId", result.getBoardId());
+        response.put("categoryId", result.getCategoryId());
         response.put("user_email", result.getUserEmail());
         response.put("title", result.getTitle());
         response.put("content", result.getTitle());
@@ -41,13 +47,17 @@ public class ArticleController {
 
         return response.toString();
     }
-// boardcategory테이블, articlecategory테이블 매개변수 추가하기, js한번 다시 확인 ㄱㄱ
+
     @RequestMapping(value = "/new", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String postNew(ArticleEntity article) {
-        ResultTuple<ArticleEntity> result = this.articleService.add(article);
+    public String postNew(ArticleEntity article,
+                          @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser) {
+
+        ResultTuple<ArticleEntity> result = this.articleService.add(article, signedUser);
         JSONObject response = new JSONObject();
         response.put("result", result.getResult().nameToLower());
-        response.put("id", result.getPayload().getId());
+        if (result.getPayload() != null) {
+            response.put("id", result.getPayload().getId());
+        }
 
         return response.toString();
     }
