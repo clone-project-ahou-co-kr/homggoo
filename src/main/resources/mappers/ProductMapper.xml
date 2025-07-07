@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hgc.homggoo.mappers.product.ProductMapper">
+
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyColumn="id"
+            keyProperty="id">
+        insert into `homggoo`.`product` (`user_email`, `title`, `description`, `price`, `view_count`, `like_count`, `created_at`, `updated_at`, `is_deleted`)
+        values (#{product.userEmail}, #{product.title}, #{product.description}, #{product.price}, #{product.viewCount}, #{product.likeCount}, #{product.createdAt}, #{product.updatedAt}, #{product.isDeleted})
+    </insert>
+
+    <update id="update">
+        update `homggoo`.`product`
+        set `user_email` = #{product.userEmail},
+            `title` = #{product.title},
+            `description` = #{product.description},
+            `price` = #{product.price},
+            `view_count` = #{product.viewCount},
+            `like_count` = #{product.likeCount},
+            `created_at` = #{product.createdAt},
+            `updated_at` = #{product.updatedAt},
+            `is_deleted` = #{product.isDeleted}
+        where `id` = #{product.id}
+        limit 1
+    </update>
+    <select id="selectUserEmail" resultType="com.hgc.homggoo.entities.user.UserEntity">
+        select email as `email`,
+               profile as `profile`,
+               password as `password`,
+               is_admin as `isAdmin`,
+               nickname as `nickname`,
+               provider_type as `providerType`,
+               provider_key as `providerKey`,
+               created_at as `createdAt`,
+               modified_at as `modifiedAt`,
+               is_deleted as `isDeleted`
+        from `homggoo`.`users`
+        where `email` = #{signedUser}
+    </select>
+    <select id="selectById" resultType="com.hgc.homggoo.vos.ProductVo">
+        select `id`          as `id`,
+               `user_email`  as `userEmail`,
+               `title`       as `title`,
+               `description` as `description`,
+               `price`       as `price`,
+               `view_count`  as `viewCount`,
+               `like_count`  as `likeCount`,
+               `created_at`  as `createdAt`,
+               `updated_at`  as `updatedAt`,
+               `is_deleted`  as `isDeleted`
+        from `homggoo`.`product`
+        where `id` = #{id}
+    </select>
+    <select id="selectAll" resultType="com.hgc.homggoo.vos.ProductVo">
+        select id as `id`,
+               user_email as `userEmail`,
+               title as `title`,
+               description as `description`,
+               price as `price`,
+               view_count as `viewCount`,
+               like_count as `likeCount`,
+               created_at as `createdAt`,
+               updated_at as `updatedAt`,
+               is_deleted as `isDeleted`
+        from `homggoo`.`product`
+        where `is_deleted` = false
+        order by `created_at` desc
+    </select>
+
+</mapper>
