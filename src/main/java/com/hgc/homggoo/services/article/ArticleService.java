@@ -69,21 +69,21 @@ public class ArticleService {
 
             return null;
         }
-        // "dd"는 로그인한 사용자
-        if (this.articleUserLikeMapper.selectByArticleIdAndUserEmail(articleId, "dd") == null) {
+
+        if (this.articleUserLikeMapper.selectByArticleIdAndUserEmail(articleId, signedUser.getEmail()) == null) {
             // 음악 인덱스, 유저 이메일로 SELECT 해서 null 이면 좋아요 하지 않은 상태
             // > 좋아요 해주면 됨
-            ArticleUserLikeEntity musicUserLike = ArticleUserLikeEntity.builder()
+            ArticleUserLikeEntity articleUserLike = ArticleUserLikeEntity.builder()
                     .articleId(articleId)
-                    .userEmail("dd")
+                    .userEmail(signedUser.getEmail())
                     .createdAt(LocalDateTime.now())
                     .build();
-            return this.articleUserLikeMapper.insert(musicUserLike) > 0 ? true : null;
+            return this.articleUserLikeMapper.insert(articleUserLike) > 0 ? true : null;
             // true 를 반환하면 최종적으로 좋아요 한 상태라는 의미
         } else {
             // null이 아니면 좋아요한 상태
             // > 좋아요 취소
-            return this.articleUserLikeMapper.delete(articleId, "dd") > 0 ? false : null;
+            return this.articleUserLikeMapper.delete(articleId, signedUser.getEmail()) > 0 ? false : null;
             // false 를 반환하면 최종적으로 좋아요 하지 않은 상태라는 의미
         }
     }

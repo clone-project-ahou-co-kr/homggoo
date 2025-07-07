@@ -31,6 +31,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String email = null;
         String nickname = null;
         byte[] profile = new byte[0];
+        String imageUrl = null;
 
         // ✅ Naver
         if ("NAVER".equals(providerType)) {
@@ -40,6 +41,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             nickname = (String) response.get("nickname");
             String profileImageUrl = (String) response.get("profile_image");
             profile = downloadImageAsBytes(profileImageUrl);
+            imageUrl = profileImageUrl;
         }
 
         // ✅ 필수 정보 보정
@@ -64,6 +66,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             newUser.setAdmin(false);
             newUser.setDeleted(false);
             newUser.setProfile(profile);
+            newUser.setImageUrl(imageUrl);
 
             this.userMapper.insert(newUser);
             dbUser = newUser; // 방금 등록한 유저를 세션에 저장

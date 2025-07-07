@@ -6,15 +6,17 @@
         insert into `homggoo`.`users`
         (`email`, `profile`, `password`, `is_admin`, `nickname`, `provider_type`, `provider_key`, `created_at`,
          `modified_at`,
-         `is_deleted`)
+         `is_deleted`,
+         `image_url`)
         VALUES (#{user.email}, #{user.profile}, #{user.password}, #{user.isAdmin}, #{user.nickname},
-                #{user.providerType}, #{user.providerKey}, #{user.createdAt}, #{user.modifiedAt}, #{user.isDeleted})
+                #{user.providerType}, #{user.providerKey}, #{user.createdAt}, #{user.modifiedAt}, #{user.isDeleted}, #{user.imageUrl})
     </insert>
-    <update id="update">
-        UPDATE `homggoo`.`users`(`profile`)
-        SET (#{user.profile})
-        WHERE `email` = #{user.email};
-
+    <update id="update" parameterType="com.hgc.homggoo.entities.user.UserEntity">
+        UPDATE `homggoo`.`users`
+        SET `profile` = #{profile},
+            `image_url` = #{imageUrl},
+            `modified_at` = NOW()
+        WHERE `email` = #{email};
     </update>
     <select id="selectCountByEmail" resultType="java.lang.Integer">
         select count(0)
@@ -31,7 +33,8 @@
                `provider_key`  as `providerKey`,
                `created_at`    as `createdAt`,
                `modified_at`   as `modifiedAt`,
-               `is_deleted`    as `isDeleted`
+               `is_deleted`    as `isDeleted`,
+               `image_url` as `imageUrl`
         from `homggoo`.`users`
         where `email` = #{email}
     </select>
@@ -45,7 +48,8 @@
                `provider_key`  as `providerKey`,
                `created_at`    as `createdAt`,
                `modified_at`   as `modifiedAt`,
-               `is_deleted`    as `isDeleted`
+               `is_deleted`    as `isDeleted`,
+               `image_url` as `imageUrl`
         from `homggoo`.`users`
         where `provider_key` = #{providerKey}
           and `provider_type` = #{providerType}
@@ -61,7 +65,8 @@
                `provider_key`  as `providerKey`,
                `created_at`    as `createdAt`,
                `modified_at`   as `modifiedAt`,
-               `is_deleted`    as `is_deleted`
+               `is_deleted`    as `is_deleted`,
+               `image_url` as `imageUrl`
         from `homggoo`.`users`
     </select>
 

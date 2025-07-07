@@ -9,7 +9,7 @@ public interface ArticleUserLikeMapper {
     int delete(@Param(value = "articleId") int articleId,
                @Param(value = "userEmail") String userEmail);
 
-    int insert (@Param(value = "articleUserLikes") ArticleUserLikeEntity articleUserLikes);
+    int insert (@Param(value = "articleUserLike") ArticleUserLikeEntity articleUserLike);
 
     ArticleUserLikeEntity selectByArticleIdAndUserEmail(@Param(value = "articleId") int articleId,
                                                          @Param(value = "userEmail") String userEmail);

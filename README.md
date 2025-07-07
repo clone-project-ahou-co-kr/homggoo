@@ -4,7 +4,7 @@
 ```mariadb
 create schema homggoo;
 
-/*순서 중요!! 
+/*순서 중요!!
 users
 board_category
 boards
@@ -22,7 +22,8 @@ CREATE TABLE homggoo.users
     `provider_key`         VARCHAR(255)                                  NULL UNIQUE COMMENT '로그인 타입에 따른 식별값',
     `created_at`           DATETIME                                      NOT NULL COMMENT '유저 회원가입 생성일',
     `modified_at`          DATETIME                                      NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '유저 정보 수정일',
-    `is_deleted`           BOOLEAN                                       NOT NULL DEFAULT FALSE COMMENT '회원탈퇴 여부',
+    `is_deleted`           BOOLEAN                                      NOT NULL DEFAULT FALSE COMMENT '회원탈퇴 여부',
+    `image_url`            VARCHAR(512)                                  NULL COMMENT '이미지 URL',
 
     CONSTRAINT PRIMARY KEY (`email`),
     CONSTRAINT UNIQUE (`provider_type`, `provider_key`)
@@ -31,8 +32,7 @@ CREATE TABLE homggoo.users
 
 CREATE TABLE homggoo.board_category
 (
-    `category_id`   INT AUTO_INCREMENT NOT NULL COMMENT '카테고리 ID (PK)',
-    `code` VARCHAR(50) NOT NULL UNIQUE COMMENT '카테고리',
+    `category_id`   VARCHAR(50) NOT NULL COMMENT '카테고리 ID (PK)',
     `display_text`  VARCHAR(50) NOT NULL COMMENT '카테고리 이름',
 
     CONSTRAINT PRIMARY KEY (`category_id`)
@@ -77,6 +77,7 @@ CREATE TABLE homggoo.article_category
 (
     `category_id` VARCHAR(50) NOT NULL COMMENT '게시글 종류',
     `board_id` VARCHAR(50) NOT NULL COMMENT '어디 게시판',
+    `display_text` VARCHAR(50) NOT NULL,
 
     CONSTRAINT PRIMARY KEY (`category_id`),
     CONSTRAINT FOREIGN KEY (`board_id`) REFERENCES homggoo.boards(`board_id`)
@@ -97,6 +98,20 @@ CREATE TABLE homggoo.article_user_likes
     CONSTRAINT FOREIGN KEY (`user_email`) REFERENCES homggoo.users(`email`)
         ON DELETE CASCADE
         ON UPDATE CASCADE
+);
+
+CREATE TABLE `homggoo`.`comments`
+(
+    `id` INT UNSIGNED NOT NULL COMMENT '댓글 ID (PK)',
+    `article_id` INT UNSIGNED NOT NULL COMMENT '게시글 ID(FK)',
+    `user_email` VARCHAR(50) NOT NULL COMMENT '유저 테이블 PK (FK)',
+    `comment_id` INT UNSIGNED NOT NULL COMMENT '답글 ID',
+    `content` VARCHAR(1000) NOT NULL COMMENT '내용',
+    `is_deleted` boolean NOT NULL DEFAULT FALSE COMMENT '삭제여부',
+
+    CONSTRAINT PRIMARY KEY (`id`),
+    CONSTRAINT FOREIGN  KEY (`article_id`) REFERENCES `homggoo`.`article`(`id`),
+    CONSTRAINT FOREIGN KEY (`user_email`) REFERENCES `homggoo`.`users` (`email`)
 );
 
 ```

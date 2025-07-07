@@ -25,7 +25,7 @@
         SELECT `article_id` AS `articleId`,
                `user_email`  AS `userEmail`,
                `created_at`  AS `createdAt`
-        FROM `meltube`.`music_user_likes`
+        FROM `homggoo`.`article_user_likes`
         WHERE `article_id` = #{articleId}
           AND `user_email` = #{userEmail}
             LIMIT 1

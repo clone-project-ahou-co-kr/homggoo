@@ -31,57 +31,68 @@
         WHERE `id` = #{article.id} LIMIT 1
     </update>
     <select id="selectByBoardId" resultType="com.hgc.homggoo.vos.ArticleVo">
-        SELECT `T0`.`id`          AS `id`,
-               `T0`.`board_id`    AS `boardId`,
-               `T0`.`category_id` AS `categoryId`,
-               `T0`.`user_email`  AS `userEmail`,
-               `T0`.`title`       AS `title`,
-               `T0`.`content`     AS `content`,
-               `T0`.`view`        AS `view`,
-               `T0`.`created_at`  AS `createdAt`,
-               `T0`.`modified_at` AS `modifiedAt`,
-               `T0`.`is_deleted`  AS `isDeleted`,
-               `T1`.`nickname`    AS `nickname`
+        SELECT `T0`.`id`                AS `id`,
+               `T0`.`board_id`          AS `boardId`,
+               `T0`.`category_id`       AS `categoryId`,
+               `T0`.`user_email`        AS `userEmail`,
+               `T0`.`title`             AS `title`,
+               `T0`.`content`           AS `content`,
+               `T0`.`view`              AS `view`,
+               `T0`.`created_at`        AS `createdAt`,
+               `T0`.`modified_at`       AS `modifiedAt`,
+               `T0`.`is_deleted`        AS `isDeleted`,
+               `T1`.`nickname`          AS `nickname`,
+               COUNT(T2.article_id) AS likeCount
         FROM `homggoo`.`article` AS `T0`
                  LEFT JOIN `homggoo`.`users` AS `T1`
                            ON `T0`.`user_email` = `T1`.`email`
+                 LEFT JOIN homggoo.article_user_likes AS T2
+                           ON T0.id = T2.article_id
         WHERE `T0`.`board_id` = #{boardId}
+        GROUP BY `T0`.`id`
         ORDER BY `T0`.`id` DESC
     </select>
     <select id="selectByBoardIdAndCategoryId" resultType="com.hgc.homggoo.vos.ArticleVo">
-        SELECT `T0`.`id`          AS `id`,
-               `T0`.`board_id`    AS `boardId`,
-               `T0`.`category_id` AS `categoryId`,
-               `T0`.`user_email`  AS `userEmail`,
-               `T0`.`title`       AS `title`,
-               `T0`.`content`     AS `content`,
-               `T0`.`view`        AS `view`,
-               `T0`.`created_at`  AS `createdAt`,
-               `T0`.`modified_at` AS `modifiedAt`,
-               `T0`.`is_deleted`  AS `isDeleted`,
-               `T1`.`nickname`    AS `nickname`
+        SELECT `T0`.`id`                AS `id`,
+               `T0`.`board_id`          AS `boardId`,
+               `T0`.`category_id`       AS `categoryId`,
+               `T0`.`user_email`        AS `userEmail`,
+               `T0`.`title`             AS `title`,
+               `T0`.`content`           AS `content`,
+               `T0`.`view`              AS `view`,
+               `T0`.`created_at`        AS `createdAt`,
+               `T0`.`modified_at`       AS `modifiedAt`,
+               `T0`.`is_deleted`        AS `isDeleted`,
+               `T1`.`nickname`          AS `nickname`,
+               COUNT(`T2`.`article_id`) AS `likeCount`
         FROM `homggoo`.`article` AS `T0`
                  LEFT JOIN `homggoo`.`users` AS `T1`
                            ON `T0`.`user_email` = `T1`.`email`
+                 LEFT JOIN `homggoo`.`article_user_likes` AS `T2`
+                           ON `T0`.`id` = `T2`.`article_id`
         WHERE `T0`.`board_id` = #{boardId}
           AND `T0`.`category_id` = #{categoryId}
+        GROUP BY `T0`.`id`
         ORDER BY `T0`.`id` DESC
     </select>
     <select id="selectById" resultType="com.hgc.homggoo.vos.ArticleVo">
-        SELECT `T0`.`id`          AS `id`,
-               `T0`.`board_id`    AS `boardId`,
-               `T0`.`category_id` AS `categoryId`,
-               `T0`.`user_email`  AS `userEmail`,
-               `T0`.`title`       AS `title`,
-               `T0`.`content`     AS `content`,
-               `T0`.`view`        AS `view`,
-               `T0`.`created_at`  AS `createdAt`,
-               `T0`.`modified_at` AS `modifiedAt`,
-               `T0`.`is_deleted`  AS `isDeleted`,
-               `T1`.`nickname`    AS `nickname`
+        SELECT `T0`.`id`                AS `id`,
+               `T0`.`board_id`          AS `boardId`,
+               `T0`.`category_id`       AS `categoryId`,
+               `T0`.`user_email`        AS `userEmail`,
+               `T0`.`title`             AS `title`,
+               `T0`.`content`           AS `content`,
+               `T0`.`view`              AS `view`,
+               `T0`.`created_at`        AS `createdAt`,
+               `T0`.`modified_at`       AS `modifiedAt`,
+               `T0`.`is_deleted`        AS `isDeleted`,
+               `T1`.`nickname`          AS `nickname`,
+               COUNT(`T2`.`article_id`) AS `likeCount`
         FROM `homggoo`.`article` AS `T0`
                  LEFT JOIN `homggoo`.`users` AS `T1`
                            ON `T0`.`user_email` = `T1`.`email`
+                 LEFT JOIN `homggoo`.`article_user_likes` AS `T2`
+                           ON `T0`.`id` = `T2`.`article_id`
         WHERE `id` = #{id} LIMIT 1
     </select>
 </mapper>

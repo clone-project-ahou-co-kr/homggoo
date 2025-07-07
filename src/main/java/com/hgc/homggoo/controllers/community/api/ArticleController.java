@@ -44,6 +44,7 @@ public class ArticleController {
         response.put("createdAt", result.getCreatedAt());
         response.put("modifiedAt", result.getModifiedAt());
         response.put("isDeleted", result.isDeleted());
+        response.put("likeCount", result.getLikeCount());
 
         return response.toString();
     }

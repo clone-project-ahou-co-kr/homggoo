@@ -10,6 +10,9 @@
     <link rel="stylesheet" type="text/css" href="/assets/styles/common.min.css">
     <link rel="stylesheet" type="text/css" href="/community/assets/styles/posts/posts.min.css">
     <script defer src="/community/assets/scripts/posts.js"></script>
+    <script th:inline="javascript">
+        const signedUserEmail = [[${signedUser}]];
+    </script>
 </head>
 <body>
 <header th:replace="~{fragments/header :: header}"></header>

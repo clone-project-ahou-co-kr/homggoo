@@ -2,6 +2,7 @@ const $main = document.getElementById('main');
 const $like = $main.querySelector('button[name="like"]');
 const $createdAt = $main.querySelector(':scope > .layout > .layout-content > .info > span > .relative-time');
 const params = new URLSearchParams(window.location.search);
+const $isLiked = document.getElementById('isLiked');
 
 const loadArticle = () => {
 
@@ -17,10 +18,10 @@ const loadArticle = () => {
             return;
         }
         const response = JSON.parse(xhr.responseText);
-        
+
         switch (response.result) {
             case 'success':
-                drawArticle(response.id, response.title, response.content, response.view, response.createdAt);
+                drawArticle(response.id, response.title, response.content, response.view, response.createdAt, response.likeCount);
                 break;
             case 'failure':
                 dialog.showSimpleOk('게시글 오류', '해당 게시판은 존재하지 않습니다.');
@@ -47,7 +48,7 @@ const getRelativeTime = (createdAtString) => {
     return `${diffDay}일 전`;
 }
 
-const drawArticle = (id, title, content, view, createdAt) => {
+const drawArticle = (id, title, content, view, createdAt, likeCount) => {
     const $layoutContent = document.getElementById('drawArticle');
     $layoutContent.innerHTML = '';
     let html = `
@@ -65,7 +66,7 @@ const drawArticle = (id, title, content, view, createdAt) => {
             <div class="info">
                 <div class="layout">
                     <span><span class="relative-time">${getRelativeTime(createdAt)}</span> ·&nbsp;</span>
-                    <span>좋아요 <span>7</span>&nbsp;·&nbsp;</span>
+                    <span>좋아요 <span>${likeCount}</span>&nbsp;·&nbsp;</span>
                     <span>조회 <span>${view}</span></span>
                 </div>
                 <div class="--flex-stretch"></div>
@@ -73,13 +74,20 @@ const drawArticle = (id, title, content, view, createdAt) => {
             </div>
     `;
     $layoutContent.innerHTML = html;
+    $isLiked.textContent = likeCount;
 }
 
 $like.addEventListener('click', () => {
 
+    if(!signedUserEmail) {
+        location.href = '/user/login';
+        return;
+    }
+
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('index', params.get('id'));
+
     xhr.onreadystatechange = () => {
         if (xhr.readyState !== XMLHttpRequest.DONE) {
             return;
@@ -91,18 +99,19 @@ $like.addEventListener('click', () => {
             return;
         }
         const response = JSON.parse(xhr.responseText);
+
         if (response.result === true) {
             $like.classList.add('-liked');
-
+            loadArticle();
         } else if (response.result === false) {
             $like.classList.remove('-liked');
+            loadArticle();
         }
 
     }
     xhr.open('PATCH','/api/posts/like');
     xhr.send(formData);
 })
-
 
 loadArticle();
 
