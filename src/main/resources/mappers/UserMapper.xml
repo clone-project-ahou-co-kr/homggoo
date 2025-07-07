@@ -10,6 +10,11 @@
         VALUES (#{user.email}, #{user.profile}, #{user.password}, #{user.isAdmin}, #{user.nickname},
                 #{user.providerType}, #{user.providerKey}, #{user.createdAt}, #{user.modifiedAt}, #{user.isDeleted})
     </insert>
+    <update id="update">
+        UPDATE `homggoo`.`users` (`profile`)
+        SET (#{user.profile})
+        WHERE `email` = #{user.email}
+    </update>
     <select id="selectCountByEmail" resultType="java.lang.Integer">
         select count(0)
         from `homggoo`.`users`
@@ -45,4 +50,5 @@
           and `provider_type` = #{providerType}
           and `email` = #{email};
     </select>
+
 </mapper>

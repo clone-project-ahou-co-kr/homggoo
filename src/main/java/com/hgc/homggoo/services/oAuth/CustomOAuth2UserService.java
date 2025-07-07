@@ -8,44 +8,39 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Map;
 
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Autowired
     private UserMapper userMapper;
+
     @Autowired
     private HttpSession session;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        String registrationId = userRequest.getClientRegistration().getRegistrationId(); // "naver", "kakao"
-        String providerType = registrationId.toUpperCase();
+        String providerType = userRequest.getClientRegistration().getRegistrationId().toUpperCase();
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
         String providerKey = null;
         String email = null;
         String nickname = null;
-        byte[] profile = new byte[]{0};
+        byte[] profile = new byte[0];
 
+        // ✅ Naver
         if ("NAVER".equals(providerType)) {
             Map<String, Object> response = (Map<String, Object>) attributes.get("response");
             providerKey = (String) response.get("id");
             email = (String) response.get("email");
             nickname = (String) response.get("nickname");
+            String profileImageUrl = (String) response.get("profile_image");
+            profile = downloadImageAsBytes(profileImageUrl);
         }
-//        else if ("KAKAO".equals(providerType)) {
-//            providerKey = String.valueOf(attributes.get("id"));
-//            Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
-//            if (kakaoAccount != null) {
-//                email = (String) kakaoAccount.get("email");
-//                Map<String, Object> profileMap = (Map<String, Object>) kakaoAccount.get("profile");
-//                if (profileMap != null) {
-//                    nickname = (String) profileMap.get("nickname");
-//                }
-//            }
-//        }
 
         // ✅ 필수 정보 보정
         if (email == null || email.isBlank()) {
@@ -55,13 +50,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             nickname = "user_" + System.currentTimeMillis();
         }
 
-        // ✅ 이메일 기준으로 사용자 존재 여부 확인
+        // ✅ 사용자 등록 여부 확인
         UserEntity dbUser = this.userMapper.selectByEmail(email);
         if (dbUser == null) {
             UserEntity newUser = new UserEntity();
             newUser.setEmail(email);
             newUser.setNickname(nickname);
-            newUser.setPassword(providerType); // OAuth 비밀번호는 의미 없음
+            newUser.setPassword(providerType); // 의미 없음
             newUser.setProviderType(providerType);
             newUser.setProviderKey(providerKey);
             newUser.setCreatedAt(LocalDateTime.now());
@@ -69,10 +64,24 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             newUser.setAdmin(false);
             newUser.setDeleted(false);
             newUser.setProfile(profile);
+
             this.userMapper.insert(newUser);
+            dbUser = newUser; // 방금 등록한 유저를 세션에 저장
         }
+
+        // ✅ 세션 저장
         session.setAttribute("signedUser", dbUser);
 
         return new CustomOAuth2User(attributes);
+    }
+
+    // ✅ 이미지 URL을 byte[]로 다운로드
+    private byte[] downloadImageAsBytes(String imageUrl) {
+        try (InputStream in = new URL(imageUrl).openStream()) {
+            return in.readAllBytes();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new byte[0];
+        }
     }
 }

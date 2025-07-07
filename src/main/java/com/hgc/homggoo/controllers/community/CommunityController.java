@@ -64,7 +64,7 @@ public class CommunityController {
             if (vo.getBoardId() == null) {
                 vo.setBoardId(boardId); // boardId 주입
             }
-             System.out.println(vo.getBoardId());
+
         }
 
         model.addAttribute("articles", article);

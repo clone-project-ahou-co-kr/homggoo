@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.Param;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,6 +27,21 @@ public class UserApiController {
     public UserApiController(UserService userService, EmailTokenService emailTokenService) {
         this.userService = userService;
         this.emailTokenService = emailTokenService;
+    }
+
+
+    @RequestMapping(value = "/profile-image", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getProfileImage(@SessionAttribute("signedUser") UserEntity signedUser) {
+        byte[] profileImage = signedUser.getProfile();
+
+        if (profileImage == null || profileImage.length == 0) {
+            // 기본 이미지로 대체 가능
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(profileImage);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

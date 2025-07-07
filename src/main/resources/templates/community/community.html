@@ -12,8 +12,8 @@
     <title>집꾸미기</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header"></header>
-<div th:replace="fragments/header.html :: mini-header"></div>
+<header th:replace="~{fragments/header :: header}"></header>
+<div th:replace="~{fragments/header :: mini-header}"></div>
 <form novalidate id="main" th:action="@{'/community/' + ${boardId}}" method="get">
     <!-- decoration 게시판일 때 -->
     <div class="category" th:if="${boardId == 'interior'}">
@@ -55,9 +55,9 @@
                     현재로선 거실 소파 옆이 가장 적당해 보이긴 하는데, 바로 앞에 의자가 있어서 로봇청소기가 제자리에서 나가...
                 </p>
                 <div class="info">
-                    <span class="username" th:text="${article.getNickname()}">nickname ·</span>
-                    <span class="time" th:text="${article.getCreatedAt()}">1분 ·</span>
-                    <span class="views">조회 <span th:text="${article.getView()}">0</span> ·</span>
+                    <span class="username" th:text="${article.getNickname()}"><!--nickname ·--></span><span> · </span>
+                    <span class="time" th:text="${article.getCreatedAt()}"><!--1분 ·--></span><span> · </span>
+                    <span class="views">조회 <span th:text="${article.getView()}">0</span> · </span>
                     <span class="likes">❤ 0</span>
                 </div>
                 <div class="thumbnail">

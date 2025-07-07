@@ -66,7 +66,7 @@ const drawArticle = (id, title, content, view, createdAt) => {
                 <div class="layout">
                     <span><span class="relative-time">${getRelativeTime(createdAt)}</span> ·&nbsp;</span>
                     <span>좋아요 <span>7</span>&nbsp;·&nbsp;</span>
-                    <span>조회 1</span>
+                    <span>조회 <span>${view}</span></span>
                 </div>
                 <div class="--flex-stretch"></div>
                 <button class="--object-button">신고하기</button>

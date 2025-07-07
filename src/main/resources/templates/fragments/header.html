@@ -4,6 +4,8 @@
     <div class="top-banner">
         <a href="#" class="banner-link">🔥 역대급 초특가 이벤트 진행중!</a>
     </div>
+<!--    <div th:text="${signedUser}"></div>
+    <img th:src="@{/api/user/profile-image}" alt="프로필 이미지" />-->
     <div class="header-container">
         <nav class="main-nav">
             <nav class="nav">
@@ -46,7 +48,10 @@
                             <span><img src="/assets/images/index/header/cart.png" alt=""></span>
                         </a>
                         <picture>
-                            <img src="/assets/images/index/header/default-profile.png" alt="">
+                            <img th:src="@{/api/user/profile-image}" alt="프로필"
+                                 width="50" height="50"
+                                 onerror="this.src='/assets/images/index/header/default-profile.png'"
+                                 th:style="'width: 3rem; height: 3rem;'">
                         </picture>
                     </div>
                     <div class="user-false" th:if="${signedUser == null}">
@@ -59,9 +64,8 @@
                     </div>
                 </div>
                 <div class="button-container">
-                    <a href="/community/posts/new" class="button-object -color-blue">글쓰기
-<!--                        <i class="fas fa-chevron-down"></i>-->
-                    </a>
+                    <a th:if="${signedUser != null}" href="/community/posts/new" class="button-object -color-blue">글쓰기</a>
+                    <a th:if="${signedUser == null}" href="/user/login" class="button-object -color-blue">글쓰기</a>
                 </div>
                 <!--
                                 <ul class="nav-menu">
