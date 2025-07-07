@@ -3,6 +3,7 @@ const $like = $main.querySelector('button[name="like"]');
 const $createdAt = $main.querySelector(':scope > .layout > .layout-content > .info > span > .relative-time');
 const params = new URLSearchParams(window.location.search);
 const $isLiked = document.getElementById('isLiked');
+const $signedUser = document.getElementById('signedUser');
 
 const loadArticle = () => {
 
@@ -18,7 +19,6 @@ const loadArticle = () => {
             return;
         }
         const response = JSON.parse(xhr.responseText);
-
         switch (response.result) {
             case 'success':
                 drawArticle(response.id, response.title, response.content, response.view, response.createdAt, response.likeCount);
@@ -79,7 +79,7 @@ const drawArticle = (id, title, content, view, createdAt, likeCount) => {
 
 $like.addEventListener('click', () => {
 
-    if(!signedUserEmail) {
+    if(!$signedUser.value) {
         location.href = '/user/login';
         return;
     }

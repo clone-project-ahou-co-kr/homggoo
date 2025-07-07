@@ -39,7 +39,7 @@ public class ArticleController {
         response.put("categoryId", result.getCategoryId());
         response.put("user_email", result.getUserEmail());
         response.put("title", result.getTitle());
-        response.put("content", result.getTitle());
+        response.put("content", result.getContent());
         response.put("view", result.getView());
         response.put("createdAt", result.getCreatedAt());
         response.put("modifiedAt", result.getModifiedAt());
