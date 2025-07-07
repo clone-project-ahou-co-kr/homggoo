@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>관리자 로그인</title>
+    <link rel="stylesheet" href="/assets/styles/common.min.css">
+    <link rel="stylesheet" href="/user/assets/styles/login.min.css">
+    <link rel="icon" href="/assets/images/favicon.png">
+    <script src="/assets/scripts/common.js"></script>
+    <script defer src="/user/assets/scripts/adminLogin.js"></script>
+</head>
+<body>
+<form novalidate id="login-form">
+    <div class="title-container">
+        <a href="/">
+            <img src="/user/assets/images/logo.png" alt="">
+        </a>
+    </div>
+    <div class="login-container">
+        <label class="login-label">
+            <input class="input-object" required type="email" maxlength="50" minlength="5" name="loginEmail"
+                   placeholder="이메일">
+            <input class="input-object" required type="password" maxlength="50" minlength="5" name="loginPassword"
+                   placeholder="비밀번호">
+        </label>
+        <button type="submit" class="button-object"> 로그인</button>
+    </div>
+
+</form>
+</body>
+</html>

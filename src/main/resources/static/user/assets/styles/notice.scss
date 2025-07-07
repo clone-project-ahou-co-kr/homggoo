@@ -1,0 +1,57 @@
+@charset "UTF-8";
+@import "../../../assets/styles/_def.scss";
+
+//.background {
+//  position: fixed;
+//  top: 0;
+//  left: 0;
+//  width: 200%;
+//  height: 200%;
+//  background: linear-gradient(135deg, #ffffff 25%, #3498db 25%, #3498db 50%, #ffffff 50%, #ffffff 75%, #3498db 75%, #3498db);
+//  background-size: 10rem 10rem;
+//  animation: moveBackground 10s linear infinite;
+//  z-index: 0;
+//  opacity: 0.2; // 살짝만 보이게 조절
+//}
+//@keyframes moveBackground {
+//  0%{
+//    background-position: 0 0;
+//  }
+//  100%{
+//    background-position: 100px 100px;
+//  }
+//}
+body {
+  @include flex(column, center, center);
+  width: 100vw;
+  height: 100vh;
+}
+
+#notice-form {
+  @include flex(column, flex-start, stretch);
+  width: 78rem;
+  height: 50.75rem;
+  background-color: #f6f9fa;
+  border-radius: 0.625rem;
+
+  > .title-container {
+    width: 100%;
+    height: 5rem;
+    background-color: #1abc9c;
+    border-bottom: 0.0625rem solid #828C94;
+  }
+
+  > .text-container {
+    width: 100%;
+    height: 45.75rem;
+    background-color: dodgerblue;
+
+    > p {
+      padding: 2.5rem 2.5rem;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      background-color: #cccccc;
+    }
+  }
+}

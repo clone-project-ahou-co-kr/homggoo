@@ -131,7 +131,7 @@ ol, ul {
           text-align: justify;
         }
 
-        > .---button-container {
+        > .---button-container{
           @include flex(row, stretch, center, 0.5rem);
         }
       }

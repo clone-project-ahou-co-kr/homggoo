@@ -65,7 +65,7 @@ public class ArticleService {
     }
 
     public Boolean articleLike(UserEntity signedUser, int articleId) {
-        if (signedUser == null || signedUser.isDeleted() || signedUser.isDormancy()) {
+        if (signedUser == null || signedUser.isDeleted()) {
 
             return null;
         }

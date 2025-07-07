@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>공지사항</title>
+    <link rel="stylesheet" href="/user/assets/styles/notice.min.css">
+    <link rel="stylesheet" href="/assets/styles/common.min.css">
+    <script defer src="/assets/scripts/common.js"></script>
+    <script defer src="/user/assets/scripts/modify.js"></script>
+</head>
+<script th:if="${signedUser==null && !signedUser.isAdmin()}">
+    alert('관리자가 아니라서 접근이 불가능합니다.');
+    location.href = "/user/admin/login";
+</script>
+<script th:if="${notice==null || notice.isDeleted()}">
+    alert('존재하지 않는 게시물입니다.');
+    location.href = "/user/admin";
+</script>
+<body th:if="${signedUser!=null && signedUser.isAdmin() && notice != null}">
+<form novalidate id="modify-form">
+    <div class="title-container">
+        <label>
+            <input name="index" type="hidden" th:value="${notice.getIndex}">
+            <input required type="text" placeholder="제목을 입력해 주세요." minlength="1" maxlength="60" name="title" th:value="${notice.getTitle()}">
+        </label>
+        <div class="view-container">
+            <span>조회수</span>
+        <div class="view" th:text="${notice.getView()}"></div>
+        </div>
+    </div>
+    <div class="text-container">
+        <p class="custom-placeholder" contenteditable="true" spellcheck="false" data-ph="공지사항을 입력해주세요." th:text="${notice.getContent()}"></p>
+    </div>
+    <label>
+        <span>비밀번호 입력</span>
+        <input required type="password" name="password" minlength="8" maxlength="50" placeholder="확인을 위해 입력해주세요.">
+    </label>
+    <div class="button-container">
+        <button class="modify" type="submit">수정하기</button>
+        <button class="delete" type="button">삭제하기</button>
+    </div>
+</form>
+</body>
+</html>

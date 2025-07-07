@@ -21,5 +21,4 @@ public class UserEntity {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private boolean isDeleted;
-    private boolean isDormancy;
 }

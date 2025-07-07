@@ -68,7 +68,7 @@ public class UserService {
         user.setCreatedAt(LocalDateTime.now());
         user.setModifiedAt(LocalDateTime.now());
         user.setProviderType("ORIGIN"); // ENUM과 일치하도록 대문자
-        user.setProviderKey("ORIGIN");
+        user.setProviderKey(null);
         return this.userMapper.insert(user) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 
@@ -124,4 +124,22 @@ public class UserService {
                 .payload(dbUser).build();
     }
 
+    public ResultTuple<UserEntity> adminLogin(String email, String password) {
+        if (email == null || password == null) {
+            return ResultTuple.<UserEntity>builder()
+                    .result(CommonResult.FAILURE).build();
+        }
+        UserEntity dbUser = this.userMapper.selectByEmail(email);
+        if(!dbUser.isAdmin()){
+            return ResultTuple.<UserEntity>builder()
+                    .result(CommonResult.FAILURE).build();
+        }
+        return ResultTuple.<UserEntity>builder()
+                .result(CommonResult.SUCCESS_ADMIN)
+                .payload(dbUser).
+                build();
+    }
+    public UserEntity[] getAll(){
+        return this.userMapper.selectAll();
+    }
 }

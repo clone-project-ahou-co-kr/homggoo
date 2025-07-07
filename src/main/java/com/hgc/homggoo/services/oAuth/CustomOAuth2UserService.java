@@ -71,7 +71,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // ✅ 세션 저장
         session.setAttribute("signedUser", dbUser);
-
         return new CustomOAuth2User(attributes);
     }
 

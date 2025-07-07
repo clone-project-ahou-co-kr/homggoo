@@ -1,0 +1,59 @@
+body {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100vw;
+  height: 100vh;
+}
+body > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+body > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+#notice-form {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 78rem;
+  height: 50.75rem;
+  background-color: #f6f9fa;
+  border-radius: 0.625rem;
+}
+#notice-form > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#notice-form > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#notice-form > .title-container {
+  width: 100%;
+  height: 5rem;
+  background-color: #1abc9c;
+  border-bottom: 0.0625rem solid #828C94;
+}
+#notice-form > .text-container {
+  width: 100%;
+  height: 45.75rem;
+  background-color: dodgerblue;
+}
+#notice-form > .text-container > p {
+  padding: 2.5rem 2.5rem;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  background-color: #cccccc;
+}
+
+/*# sourceMappingURL=notice.css.map */

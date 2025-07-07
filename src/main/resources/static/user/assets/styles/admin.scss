@@ -1,0 +1,241 @@
+@charset "UTF-8";
+@import "../../../assets/styles/_def.scss";
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: #EEF0F7;
+  overflow: hidden;
+
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(135deg, #ffffff 25%, #3498db 25%, #3498db 50%, #ffffff 50%, #ffffff 75%, #3498db 75%, #3498db);
+  background-size: 10rem 10rem;
+  animation: moveBackground 10s linear infinite;
+  z-index: 0;
+  opacity: 0.2; // 살짝만 보이게 조절
+}
+
+@keyframes moveBackground {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100px 100px;
+  }
+}
+
+#container {
+  @include flex(column, center, center);
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  position: absolute;
+
+  > .inner-container {
+    @include flex(row, center, stretch);
+    width: 78rem;
+    height: 50.75rem;
+    border-radius: 0.625rem;
+    background-color: #F6F9FA;
+    padding: 0;
+
+    > #category {
+      width: 15rem;
+      height: 100%;
+      margin: 0;
+      background-color: #014c72;
+      border-bottom-left-radius: 0.625rem;
+      border-top-left-radius: 0.625rem;
+
+      > .list {
+        width: 100%;
+        padding: 2.5rem 2.5rem;
+        @include flex(column, flex-start, flex-start, 1.5rem);
+
+        > .item {
+          font-size: 1rem;
+          color: white;
+          cursor: pointer;
+
+          &:hover {
+            font-size: 1.625rem;
+            transition-duration: 175ms;
+            transition-timing-function: ease;
+            transition-property: font-size;
+          }
+
+          label {
+            input:checked ~ strong {
+              font-size: 1.625rem;
+            }
+          }
+
+          > strong {
+            color: white;
+          }
+        }
+      }
+    }
+
+    > #main-content {
+      width: 63rem;
+      height: 100%;
+      //background-color: #1abc9c;
+      border-top-right-radius: 0.625rem;
+      border-bottom-right-radius: 0.625rem;
+
+
+      > .board, .notice, .user, .all {
+        width: 100%;
+        height: 100%;
+        padding: 2.5rem 2.5rem;
+      }
+
+      > .all {
+        @include flex(column, flex-start, flex-start, 0.5rem);
+        width: 100%;
+        height: 100%;
+        background-color: dodgerblue;
+
+
+        > .title {
+          font-size: 1.5rem;
+          font-weight: 600;
+        }
+
+        > .short-board, .short-notice, .short-user {
+          width: 100%;
+          height: 30%;
+          border-radius: 0.625rem;
+          border: 0.0625rem solid #757575;
+          padding: 0.25rem 0.25rem;
+
+          > .content {
+            width: 100%;
+            background-color: #f6f9fa;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+          }
+        }
+
+      }
+
+      > .notice.menu {
+
+        width: 100%;
+        height: 100%;
+        @include flex(column, flex-start, stretch);
+
+        > .top-bar {
+          width: 100%;
+          @include flex(row, center, flex-start);
+
+          > a {
+            &:hover {
+              background-color: #0a6d8a;
+            }
+          }
+        }
+
+        .list-container {
+          margin-top: 3rem;
+          width: 100%;
+          height: 25rem;
+          border: 1px solid #cccccc;
+          border-radius: 0.625rem;
+          overflow: auto; // 표 내용이 넘치면 스크롤 가능하게
+
+          .list-table {
+            width: 100%;
+            border-collapse: collapse; // 이건 table에 써야 함!
+            table-layout: fixed; // 셀 너비 균등하게 분배
+            > .list-table {
+              > thead {
+                width: 100%;
+
+                > tr {
+                  background-color: #828C94;
+                }
+              }
+
+              > tbody {
+                > tr {
+                  cursor: pointer;
+                }
+
+                > .buttons {
+                  @include flex(row, center, flex-start, 0.5rem)
+                }
+              }
+            }
+          }
+        }
+      }
+      .article.menu{
+        width: 100%;
+        height: 100%;
+        @include flex(column, flex-start, stretch);
+        background-color: #828C94;
+
+        > .top-bar {
+          width: 100%;
+          @include flex(row, center, flex-start);
+
+          > a {
+            &:hover {
+              background-color: #0a6d8a;
+            }
+          }
+        }
+
+        .list-container {
+          margin-top: 3rem;
+          width: 100%;
+          height: 25rem;
+          border: 1px solid #cccccc;
+          border-radius: 0.625rem;
+          overflow: auto; // 표 내용이 넘치면 스크롤 가능하게
+
+          .list-table {
+            width: 100%;
+            border-collapse: collapse; // 이건 table에 써야 함!
+            table-layout: fixed; // 셀 너비 균등하게 분배
+            > .list-table {
+              > thead {
+                width: 100%;
+
+                > tr {
+                  background-color: #828C94;
+                }
+              }
+
+              > tbody {
+                > tr {
+                  cursor: pointer;
+                }
+
+                > .buttons {
+                  @include flex(row, center, flex-start, 0.5rem)
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.--dialog{
+  >.---modal{
+    width: 78rem;
+    height: 50.75rem;
+  }
+}
+

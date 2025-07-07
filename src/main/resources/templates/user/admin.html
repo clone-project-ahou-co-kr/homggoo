@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="/user/assets/images/favicon.png">
+    <link rel="stylesheet" href="/user/assets/styles/admin.min.css">
+    <link rel="stylesheet" href="/assets/styles/common.min.css">
+    <title>관리자 | 오늘의중고</title>
+    <script defer src="/assets/scripts/common.js"></script>
+    <script defer src="/user/assets/scripts/admin.js"></script>
+</head>
+<script th:if="${signedUser != null && !signedUser.isAdmin()}">
+    alert('관리자만 접근 가능합니다.');
+    location.href = "/";
+</script>
+<body>
+<div class="background"></div>
+<div id="container">
+    <div class="inner-container">
+        <section id="category">
+            <ul class="list">
+                <li class="item" data-mt-name="all">
+                    <label for="all">
+                        <input type="radio" name="menu" id="all" hidden>
+                        <strong>전체 보기</strong>
+                    </label>
+                </li>
+                <li class="item" data-mt-name="notice">
+                    <label for="notice">
+                        <input type="radio" name="menu" id="notice" hidden>
+                        <strong>공지사항</strong>
+                    </label>
+                </li>
+                <li class="item" data-mt-name="board">
+                    <!--                    -> article id를 통해서 삭제, 수정 관리, dataset['index']활용-->
+                    <label for="board">
+                        <input type="radio" name="menu" id="board" hidden>
+                        <strong>게시글 관리</strong>
+                    </label>
+                </li>
+                <li class="item" data-mt-name="user">
+                    <!--                    -> 이메일을 통해서 탈퇴 여부 결정-->
+                    <label for="user">
+                        <input type="radio" name="menu" id="user" hidden>
+                        <strong>회원 관리</strong>
+                    </label>
+                </li>
+            </ul>
+        </section>
+        <section id="main-content">
+            <div class="all menu">
+                <span class="title">전체관리</span>
+                <!-- 게시글 요약 -->
+                <div class="short-board">
+                    <div>
+                        <header>게시글</header>
+                        <div>
+                            <span>게시글 수</span>
+                            <span class="num" th:text="${boardCount}">0</span>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <ul class="list">
+                            <li class="item" th:each="board : ${boardList}">
+                                <span th:text="${board.title}">게시글 제목</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 공지사항 요약 -->
+                <div class="short-board short-notice">
+                    <div>
+                        <header>공지사항</header>
+                        <div>
+                            <span>공지사항 수</span>
+                            <span class="num" th:text="${noticeCount}">0</span>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <ul class="list">
+                            <li class="item" th:each="notice : ${noticeList}">
+                                <span th:text="${notice.title}">공지 제목</span>
+                                <span th:text="${notice.content}">공지 내용</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 회원 요약 -->
+                <div class="short-board short-user">
+                    <div>
+                        <header>회원</header>
+                        <div>
+                            <span>회원 수</span>
+                            <span class="num" th:text="${userCount}">0</span>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <ul class="list">
+                            <li class="item" th:each="user : ${userList}">
+                                <span th:text="${user.getNickname()}">회원 관련 내용</span>
+                                <span th:text="${user.getEmail()}">회원 관련 내용</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="notice menu">
+                <div class="top-bar">
+                    <h2>공지사항 관리</h2>
+                    <span class="stretch"></span>
+                    <a href="/user/admin/notice" class="--object-button -color-blue">글쓰기</a>
+                </div>
+                <div class="list-container">
+                    <table class="list-table">
+                        <thead>
+                        <tr>
+                            <th>제목</th>
+                            <th>내용</th>
+                            <th>날짜</th>
+                            <th>관리자</th>
+                            <th>수정</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>제목1</td>
+                            <td class="content">내용1내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</td>
+                            <td>날짜1</td>
+                            <td>괄니</td>
+                            <td class="buttons">
+                                <button>수정</button>
+                                <button>삭제</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="board menu ">
+                <h2>게시글 관리</h2>
+                <span class="stretch"></span>
+                <div class="list-container">
+                    <table class="list-table">
+                        <thead>
+                        <tr>
+                            <th>제목</th>
+                            <th>내용</th>
+                            <th>날짜</th>
+                            <th>관리자</th>
+                            <th>수정</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>제목1</td>
+                            <td class="content">내용1내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</td>
+                            <td>날짜1</td>
+                            <td>괄니</td>
+                            <td class="buttons">
+                                <button>수정</button>
+                                <button>삭제</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="user menu">
+                회원관리
+            </div>
+        </section>
+    </div>
+</div>
+</body>
+</html>

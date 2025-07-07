@@ -11,9 +11,10 @@
                 #{user.providerType}, #{user.providerKey}, #{user.createdAt}, #{user.modifiedAt}, #{user.isDeleted})
     </insert>
     <update id="update">
-        UPDATE `homggoo`.`users` (`profile`)
+        UPDATE `homggoo`.`users`(`profile`)
         SET (#{user.profile})
-        WHERE `email` = #{user.email}
+        WHERE `email` = #{user.email};
+
     </update>
     <select id="selectCountByEmail" resultType="java.lang.Integer">
         select count(0)
@@ -49,6 +50,19 @@
         where `provider_key` = #{providerKey}
           and `provider_type` = #{providerType}
           and `email` = #{email};
+    </select>
+    <select id="selectAll">
+        select `email`         as `email`,
+               `profile`       as `profile`,
+               `password`      as `password`,
+               `is_admin`      as `isAdmin`,
+               `nickname`      as `nickname`,
+               `provider_type` as `providerType`,
+               `provider_key`  as `providerKey`,
+               `created_at`    as `createdAt`,
+               `modified_at`   as `modifiedAt`,
+               `is_deleted`    as `is_deleted`
+        from `homggoo`.`users`
     </select>
 
 </mapper>
