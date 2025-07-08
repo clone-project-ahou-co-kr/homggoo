@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hgc.homggoo.mappers.notice.NoticeMapper">
-    <insert id="insert">
-insert into `homggoo`.`notice`
-(`title`, `content`, `user_email`, `view`, `created_at`, `modified_at`,`is_deleted`,`board_id`)
-VALUES (#{notice.title},#{notice.content},#{notice.userEmail},#{notice.view},#{notice.createdAt},#{notice.modifiedAt},#{notice.isDeleted},#{notice.boardId})
+    <insert id="insert" useGeneratedKeys="true" keyProperty="index" keyColumn="index">
+        insert into `homggoo`.`notice`
+        (`title`, `content`, `user_email`, `view`, `created_at`, `modified_at`, `is_deleted`)
+        values (#{notice.title}, #{notice.content}, #{notice.userEmail}, #{notice.view}, #{notice.createdAt},
+                #{notice.modifiedAt}, #{notice.isDeleted})
     </insert>
     <update id="update">
         update `homggoo`.`notice`
@@ -16,9 +17,12 @@ VALUES (#{notice.title},#{notice.content},#{notice.userEmail},#{notice.view},#{n
         limit 1;
 
     </update>
-    <delete id="delete">
-
-    </delete>
+    <update id="incrementView">
+        update `homggoo`.`notice`
+        set `view`=`view` + 1
+        where `index` = #{index}
+        limit 1;
+    </update>
     <select id="selectAll" resultType="com.hgc.homggoo.vos.NoticeVo">
         select `t0`.`index`       as `index`,
                `t0`.`title`       as `title`,
@@ -27,12 +31,10 @@ VALUES (#{notice.title},#{notice.content},#{notice.userEmail},#{notice.view},#{n
                `t0`.`view`        as `view`,
                `t0`.`created_at`  as `createdAt`,
                `t0`.`modified_at` as `modifiedAt`,
-               `t1`.`nickname`    as `nickname`,
-               `t0`.board_id      as `boardId`,
-               `t2`.display_text  as `displayText`
+               `t0`.`is_deleted` as `isDeleted`,
+               `t1`.`nickname`    as `nickname`
         from `homggoo`.`notice` as `t0`
                  left join `homggoo`.`users` `t1` on `t0`.`user_email` = `t1`.`email`
-                 left join `homggoo`.`boards` `t2` on `t0`.board_id = `t2`.board_id
         where `t0`.`is_deleted` = false
         order by `index` desc;
     </select>
@@ -44,8 +46,8 @@ VALUES (#{notice.title},#{notice.content},#{notice.userEmail},#{notice.view},#{n
                `t0`.`view`        as `view`,
                `t0`.`created_at`  as `createdAt`,
                `t0`.`modified_at` as `modifiedAt`,
-               `t1`.`nickname`    as `nickname`,
-               `t0`.`board_id`    as `boardId`
+               `t0`.`is_deleted` as `isDeleted`,
+               `t1`.`nickname`    as `nickname`
         from `homggoo`.`notice` as `t0`
                  left join `homggoo`.`users` as `t1` on `t0`.`user_email` = `t1`.`email`
         where `t0`.`index` = #{index} and `t0`.`is_deleted` = false

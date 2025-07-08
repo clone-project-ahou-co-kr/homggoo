@@ -19,6 +19,4 @@ public class NoticeEntity {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private boolean isDeleted;
-    private String boardId;
-    private String displayText;
 }

@@ -38,7 +38,6 @@ public class NoticeService {
         notice.setUserEmail(dbUser.getEmail());
         notice.setCreatedAt(LocalDateTime.now());
         notice.setModifiedAt(LocalDateTime.now());
-        notice.setBoardId("notice");
         return this.noticeMapper.insert(notice) > 0 ? ResultTuple.<NoticeVo>builder().result(CommonResult.SUCCESS).build() : ResultTuple.<NoticeVo>builder().result(CommonResult.FAILURE).build();
     }
 
@@ -60,6 +59,10 @@ public class NoticeService {
         return ResultTuple.<NoticeVo>builder().result(CommonResult.SUCCESS)
                 .payload(dbNotice).build();
 
+    }
+
+    public Results incrementView(int index) {
+        return this.noticeMapper.incrementView(index)>0?CommonResult.SUCCESS:CommonResult.FAILURE;
     }
 
     public Results modifyNotice(NoticeVo notice, String password) {

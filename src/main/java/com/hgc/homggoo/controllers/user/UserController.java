@@ -1,22 +1,24 @@
 package com.hgc.homggoo.controllers.user;
 
-import com.hgc.homggoo.entities.notice.NoticeEntity;
+import com.hgc.homggoo.entities.images.ImageEntity;
 import com.hgc.homggoo.entities.user.UserEntity;
 import com.hgc.homggoo.results.ResultTuple;
+import com.hgc.homggoo.services.article.ArticleService;
+import com.hgc.homggoo.services.image.ImageService;
 import com.hgc.homggoo.services.notice.NoticeService;
 import com.hgc.homggoo.services.oAuth.CustomOAuth2User;
 import com.hgc.homggoo.services.user.UserService;
+import com.hgc.homggoo.vos.ArticleVo;
 import com.hgc.homggoo.vos.NoticeVo;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -24,16 +26,14 @@ public class UserController {
     @Autowired
     private final NoticeService noticeService;
     private final UserService userService;
+    private final ArticleService articleService;
+    private final ImageService imageService;
 
-    public UserController(NoticeService noticeService, UserService userService) {
+    public UserController(NoticeService noticeService, UserService userService, ArticleService articleService, ImageService imageService) {
         this.noticeService = noticeService;
         this.userService = userService;
-    }
-
-    private List<NoticeVo> filterByBoardId(List<NoticeVo> list, String boardId) {
-        return list.stream()
-                .filter(vo -> boardId.equals(vo.getBoardId()))
-                .toList();
+        this.articleService = articleService;
+        this.imageService = imageService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
@@ -63,26 +63,38 @@ public class UserController {
     @RequestMapping(value = "/admin", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String getAdmin(Model model) {
         ResultTuple<NoticeVo[]> result = this.noticeService.getAll();
-        List<NoticeVo> all = Arrays.asList(result.getPayload());
+        NoticeVo[] noticeList = result.getPayload();
         //todo 유저 회원수 가지고 오기 위해서 userService getall 추가.
         UserEntity[] userList = this.userService.getAll();
-
-
-        // 게시판 종류별로 분리
-        List<NoticeVo> noticeList = filterByBoardId(all, "notice");
-        List<NoticeVo> boardList = filterByBoardId(all, "board");
+        ArticleVo[] articleList = this.articleService.getAll();
 
         // 모델에 각각 저장
         model.addAttribute("noticeList", noticeList);
-        model.addAttribute("noticeCount", noticeList.size());
+        model.addAttribute("noticeCount", noticeList.length);
 
-        model.addAttribute("boardList", boardList);
-        model.addAttribute("boardCount", boardList.size());
+        model.addAttribute("articleList", articleList);
+        model.addAttribute("articleCount", articleList.length);
 
         model.addAttribute("userList", userList);
         model.addAttribute("userCount", userList.length);
 
         return "user/admin";
+    }
+
+    @RequestMapping(value = "/notice/image", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getImage(@RequestParam(value = "index", required = false) int index) {
+        //responseentity는 응답을 돌려주기위한 상태 타입.
+        ImageEntity image = this.imageService.getByIndex(index);
+        if (image == null) {
+            return ResponseEntity.notFound().build();
+            //notFound()는 404를 날린다.
+        }
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + image.getName())
+                .contentLength(image.getData().length)
+                .contentType(MediaType.parseMediaType(image.getContentType())) //문자열이라서 mediatype으로 바꿔주어야한다.
+                .body(image.getData());//ok는 상태코드 200;
     }
 
     @RequestMapping(value = "/admin/modify", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
@@ -95,8 +107,7 @@ public class UserController {
 
     @RequestMapping(value = "/admin/notice", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String getAdminNotice() {
-
-        return "user/notice";
+        return "user/noticeWrite";
     }
 
 }

@@ -25,7 +25,7 @@ $modifyForm.onsubmit = (e) => {
                 break;
             case'success':
                 dialog.showSimpleOk('수정', '성공');
-                // location.href = "/user/admin";
+                history.back();
                 break;
             default:
                 break;

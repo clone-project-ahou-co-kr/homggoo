@@ -49,6 +49,8 @@ const loadNotice = () => {
         }
 
         const notices = result.data;
+        const users = result.user;
+        const articles = result.articles;
 
         // 공지사항, 게시글 tbody 구분해서 선택
         const $noticeTbody = document.querySelector('.notice .list-container > .list-table > tbody');
@@ -58,6 +60,7 @@ const loadNotice = () => {
         // 기존 내용 제거
         $noticeTbody.innerHTML = '';
         $articleTbody.innerHTML = '';
+        $userTbody.innerHTML = '';
 
         notices.forEach((notice) => {
             const rowHTML = `
@@ -72,15 +75,39 @@ const loadNotice = () => {
                   </td>
                 </tr>
             `;
-
-            if (notice.boardId === 'notice') {
-                $noticeTbody.insertAdjacentHTML('beforeend', rowHTML);
-            } else if (notice.boardId === 'board') {
-                $articleTbody.insertAdjacentHTML('beforeend', rowHTML);
-            }else if (notice.boardId === 'user') {
-                $userTbody.insertAdjacentHTML('beforeend', rowHTML);
-            }
+            $noticeTbody.insertAdjacentHTML('beforeend', rowHTML);
         });
+        articles.forEach((article) => {
+            const rowHTML = `
+                <tr data-index="${article.id}">
+                  <td class="category">${article.categoryDisplayText}</td>
+                  <td class="title">${article.title}</td>
+                  <td class="content">${article.content}</td>
+                  <td class="created">${new Date(article.createdAt).toLocaleString()}</td>
+                  <td class="nickname">${article.nickname}</td>
+                  <td class="buttons">
+                    <button class="edit">수정</button>
+                    <button class="delete">삭제</button>
+                  </td>
+                </tr>
+            `;
+            $articleTbody.insertAdjacentHTML('beforeend', rowHTML);
+        })
+        users.forEach((user) => {
+            const rowHTML = `
+                <tr data-index="${user.index}">
+                  <td class="email">${user.email}</td>
+                  <td class="created">${new Date(user.createdAt).toLocaleString()}</td>
+                  <td class="nickname">${user.nickname}</td>
+                  <td class="buttons">
+                    <button class="edit">승인</button>
+                    <button class="delete">거절</button>
+                  </td>
+                </tr>
+            `;
+            $userTbody.insertAdjacentHTML('beforeend', rowHTML);
+        })
+
 
         // 이벤트 바인딩 (공지사항 + 게시글)
         document.querySelectorAll('.notice .list-table tbody tr, .article .list-table tbody tr')

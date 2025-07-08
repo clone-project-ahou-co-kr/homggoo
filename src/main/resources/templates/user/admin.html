@@ -59,13 +59,13 @@
                         <header>게시글</header>
                         <div>
                             <span>게시글 수</span>
-                            <span class="num" th:text="${boardCount}">0</span>
+                            <span class="num" th:text="${articleCount}">0</span>
                         </div>
                     </div>
                     <div class="content">
                         <ul class="list">
-                            <li class="item" th:each="board : ${boardList}">
-                                <span th:text="${board.title}">게시글 제목</span>
+                            <li class="item" th:each="article : ${articleList}">
+                                <span th:text="${article.getCategoryDisplayText()}">게시글 제목</span>
                             </li>
                         </ul>
                     </div>
@@ -84,7 +84,6 @@
                         <ul class="list">
                             <li class="item" th:each="notice : ${noticeList}">
                                 <span th:text="${notice.title}">공지 제목</span>
-                                <span th:text="${notice.content}">공지 내용</span>
                             </li>
                         </ul>
                     </div>
@@ -149,10 +148,11 @@
                     <table class="list-table">
                         <thead>
                         <tr>
+                            <th>카테고리</th>
                             <th>제목</th>
                             <th>내용</th>
                             <th>날짜</th>
-                            <th>관리자</th>
+                            <th>닉네임</th>
                             <th>수정</th>
                         </tr>
                         </thead>
@@ -172,7 +172,32 @@
                 </div>
             </div>
             <div class="user menu">
-                회원관리
+                <h2>회원 관리</h2>
+                <span class="stretch"></span>
+                <div class="list-container">
+                    <table class="list-table">
+                        <thead>
+                        <tr>
+                            <th>이메일</th>
+                            <th>날짜</th>
+                            <th>닉네임</th>
+                            <th>탈퇴</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>제목1</td>
+                            <td class="content">내용1내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</td>
+                            <td>날짜1</td>
+                            <td>괄니</td>
+                            <td class="buttons">
+                                <button>수정</button>
+                                <button>삭제</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
     </div>
