@@ -9,9 +9,10 @@
     <link rel="stylesheet" type="text/css" href="/assets/styles/index.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/styles/common.min.css">
     <link rel="preconnect" href="https://cdn.jsdelivr.net"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css"/>
     <link rel="icon" href="/assets/images/favicon.png">
-    <script defer src="/assets/scripts/product/product-index.js"></script>
+    <script defer src="/product/assets/scripts/production.js"></script>
 </head>
 
 <body>
@@ -23,11 +24,29 @@
 <main id="main-production">
     <section class="img-section">
         <div class="img-box">
-            <img src="https://img2.joongna.com/media/original/2025/06/24/1750741823306Fxd_oSj90.jpg?impolicy=resizeWatermark3&ftext=%EB%A6%AC%EB%8B%88%EB%8B%B7&size=600"
-                 alt="">
+            <img th:src="@{/product/image(id=${product.id})}" alt="상품 이미지"/>
         </div>
     </section>
     <section class="explain-section">
+        <div class="menu-bar">
+            <button type="button" class="click-button">
+                <img src="/product/assets/images/production-menu.png" alt="메뉴 바" class="icon">
+            </button>
+            <div class="menu-list">
+                <ul class="list">
+                    <li class="item">
+                        <button type="button" class="button modify" name="modify">
+                            수정하기
+                        </button>
+                    </li>
+                    <li class="item">
+                        <button type="button" class="button delete" name="delete">
+                            삭제하기
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <div class="explain">
             <div class="title-box">
                 <span class="title" th:text="${product.getTitle()}">거의 안쓴 가구 정리해요</span>
