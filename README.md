@@ -108,6 +108,7 @@ CREATE TABLE `homggoo`.`comments`
     `user_email` VARCHAR(50) NOT NULL COMMENT '유저 테이블 PK (FK)',
     `comment_id` INT UNSIGNED NOT NULL COMMENT '답글 ID',
     `content` VARCHAR(1000) NOT NULL COMMENT '내용',
+    `created_at` DATETIME      NOT NULL DEFAULT NOW() COMMENT '작성 일시',
     `is_deleted` boolean NOT NULL DEFAULT FALSE COMMENT '삭제여부',
 
     CONSTRAINT PRIMARY KEY (`id`),
