@@ -8,6 +8,8 @@ create schema homggoo;
 users
 board_category
 boards
+notice
+images
 article_category
 article
 article_user_likes ← 🔥 반드시 마지막*/
@@ -42,7 +44,6 @@ CREATE TABLE homggoo.boards
 (
     `board_id`      VARCHAR(50) NOT NULL COMMENT '게시판 ID',
     `display_text`  VARCHAR(50) NOT NULL COMMENT '게시판',
-    `is_admin_only` BOOLEAN     NOT NULL COMMENT '관리자 전용 여부',
 
     CONSTRAINT PRIMARY KEY (`board_id`)
 );
@@ -113,5 +114,15 @@ CREATE TABLE `homggoo`.`comments`
     CONSTRAINT FOREIGN  KEY (`article_id`) REFERENCES `homggoo`.`article`(`id`),
     CONSTRAINT FOREIGN KEY (`user_email`) REFERENCES `homggoo`.`users` (`email`)
 );
-
+create table `homggoo`.`images`
+(
+    `index`         int unsigned not null auto_increment,
+    `notice_index`  int unsigned null,
+    `article_index` int unsigned null,
+    `name`          varchar(255) not null,
+    `content_type`  varchar(50)  not null,
+    `data`          longblob     not null, #longblob은 binary 데이터를 쓰기위함.
+    `created_at`    datetime     not null default now(),
+    constraint primary key (`index`)
+);
 ```

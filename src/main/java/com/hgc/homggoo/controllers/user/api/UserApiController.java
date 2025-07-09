@@ -1,24 +1,30 @@
 package com.hgc.homggoo.controllers.user.api;
 
+import com.hgc.homggoo.entities.images.ImageEntity;
 import com.hgc.homggoo.entities.notice.NoticeEntity;
 import com.hgc.homggoo.entities.user.EmailTokenEntity;
 import com.hgc.homggoo.entities.user.UserEntity;
 import com.hgc.homggoo.results.CommonResult;
 import com.hgc.homggoo.results.ResultTuple;
 import com.hgc.homggoo.results.Results;
+import com.hgc.homggoo.services.article.ArticleService;
+import com.hgc.homggoo.services.image.ImageService;
 import com.hgc.homggoo.services.notice.NoticeService;
 import com.hgc.homggoo.services.user.EmailTokenService;
 import com.hgc.homggoo.services.user.UserService;
+import com.hgc.homggoo.vos.ArticleVo;
 import com.hgc.homggoo.vos.NoticeVo;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.apache.ibatis.annotations.Param;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -26,12 +32,16 @@ public class UserApiController {
     private final UserService userService;
     private final EmailTokenService emailTokenService;
     private final NoticeService noticeService;
+    private final ArticleService articleService;
+    private final ImageService imageService;
 
     @Autowired
-    public UserApiController(UserService userService, EmailTokenService emailTokenService, NoticeService noticeService) {
+    public UserApiController(UserService userService, EmailTokenService emailTokenService, NoticeService noticeService, ArticleService articleService, ImageService imageService) {
         this.userService = userService;
         this.emailTokenService = emailTokenService;
         this.noticeService = noticeService;
+        this.articleService = articleService;
+        this.imageService = imageService;
     }
 
 
@@ -115,10 +125,47 @@ public class UserApiController {
     @RequestMapping(value = "/notice", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getNotice() {
         ResultTuple<NoticeVo[]> result = this.noticeService.getAll();
+        UserEntity[] user = this.userService.getAll();
+        ArticleVo[] articles = this.articleService.getAll();
         JSONObject response = new JSONObject();
         response.put("result", result.getResult().nameToLower());
         response.put("data", result.getPayload());
+        response.put("user", user);
+        response.put("articles", articles);
         return response.toString();
+    }
+
+    @RequestMapping(value = "/notice", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteNotice(@RequestParam(value = "index") int index) {
+        Results result = this.noticeService.deleteNotice(index);
+        JSONObject response = new JSONObject();
+        response.put("result", result.nameToLower());
+        return response.toString();
+    }
+
+    @RequestMapping(value = "/notice/image", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String postNoticeImage(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser, NoticeEntity notice, @RequestParam(value = "upload", required = false) MultipartFile multipartFile) throws IOException {
+        System.out.println("image controller");
+        ImageEntity image = ImageEntity.builder()
+                .name(multipartFile.getOriginalFilename())
+                .contentType(multipartFile.getContentType())
+                .data(multipartFile.getBytes())
+                .build();
+        Results result = this.imageService.add(signedUser, notice, image);
+        JSONObject response = new JSONObject();
+        if (result == CommonResult.SUCCESS) {
+            response.put("url", "/user/notice/image?index=" + image.getIndex());
+        } else if (result == CommonResult.FAILURE_SESSION_EXPIRED) {
+            JSONObject error = new JSONObject();
+            error.put("message", "세션이 만료되었거나 게시글을 작성할 권하이 없습니다. 관리자에게 문의해 주세요.");
+            response.put("error", error);
+        } else {
+            JSONObject error = new JSONObject();
+            error.put("message", "알 수 없는 이유로 이미지를 업로드하지 못하였습니다. 잠시 후 다시 시도해 주세요.");
+            response.put("error", error);
+        }
+        return response.toString();
+        //image에 파일을 올리기만 해도 실행되는것이다.
     }
 
     @RequestMapping(value = "/modify", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -142,11 +189,4 @@ public class UserApiController {
                 .build();
     }
 
-    @RequestMapping(value = "/notice", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String deleteNotice(@RequestParam(value = "index")int index) {
-        Results result = this.noticeService.deleteNotice(index);
-        JSONObject response = new JSONObject();
-        response.put("result", result.nameToLower());
-        return response.toString();
-    }
 }

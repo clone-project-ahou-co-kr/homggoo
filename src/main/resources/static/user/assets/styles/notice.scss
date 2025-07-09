@@ -41,17 +41,19 @@ body {
     border-bottom: 0.0625rem solid #828C94;
   }
 
-  > .text-container {
+  > .ck {
     width: 100%;
-    height: 45.75rem;
-    background-color: dodgerblue;
+    height: 100%;
+  }
 
-    > p {
-      padding: 2.5rem 2.5rem;
-      box-sizing: border-box;
+  > label {
+    width: 100%;
+
+    > .text-container {
       width: 100%;
-      height: 100%;
-      background-color: #cccccc;
+      height: 45.75rem;
+      background-color: dodgerblue;
     }
+
   }
 }

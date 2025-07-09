@@ -39,15 +39,15 @@ public class ArticleService {
                     build();
         }
         if (article.getTitle() == null ||
-            article.getContent() == null ||
-            article.getBoardId() == null ||
-            article.getBoardId().isEmpty() ||
-            article.getCategoryId() == null ||
-            article.getCategoryId().isEmpty()) {
+                article.getContent() == null ||
+                article.getBoardId() == null ||
+                article.getBoardId().isEmpty() ||
+                article.getCategoryId() == null ||
+                article.getCategoryId().isEmpty()) {
             return ResultTuple.<ArticleEntity>builder().result(CommonResult.FAILURE).build();
         }
         if (!ArticleRegex.title.matches(article.getTitle()) ||
-            !ArticleRegex.content.matches(article.getContent())) {
+                !ArticleRegex.content.matches(article.getContent())) {
             return ResultTuple.<ArticleEntity>builder().result(CommonResult.FAILURE).build();
         }
 
@@ -88,7 +88,7 @@ public class ArticleService {
         }
     }
 
-    public ArticleVo read (/*UserEntity signedUser, */int id) {
+    public ArticleVo read(/*UserEntity signedUser, */int id) {
         if (id < 1) {
             return null;
         }
@@ -96,7 +96,7 @@ public class ArticleService {
         return this.articleMapper.selectById(id);
     }
 
-    public Results incrementView (ArticleEntity article) {
+    public Results incrementView(ArticleEntity article) {
         if (article == null || article.getId() < 1) {
             return CommonResult.FAILURE;
         }
@@ -114,5 +114,8 @@ public class ArticleService {
         return this.articleMapper.selectByBoardIdAndCategoryId(boardId, categoryId);
     }
 
+    public ArticleVo[] getAll() {
+        return this.articleMapper.selectAll();
+    }
 
 }

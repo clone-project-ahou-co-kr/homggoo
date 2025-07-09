@@ -9,10 +9,12 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface NoticeMapper {
     int insert(@Param(value = "notice") NoticeEntity notice);
+
     NoticeVo[] selectAll();
 
     NoticeVo selectByIndex(@Param(value = "index") int index);
 
     int update(@Param(value = "notice") NoticeEntity notice);
 
+    int incrementView(@Param(value = "index") int index);
 }

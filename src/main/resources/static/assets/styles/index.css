@@ -1457,31 +1457,31 @@ a {
 }
 
 .line-box {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 1rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
 }
-
-a > .box {
+.line-box > a {
+  cursor: pointer;
+}
+.line-box a > .box {
   overflow: hidden;
 }
-a > .box > .img {
+.line-box a > .box > .img {
   overflow: hidden;
 }
-a > .box > .img > img {
+.line-box a > .box > .img > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
-a > .box > .img > img:hover {
+.line-box a > .box > .img > img:hover {
   transform: scale(1.05);
 }
-a > .box .caption {
+.line-box a > .box .caption {
   align-items: flex-start;
   display: flex;
   flex-direction: column;
@@ -1489,13 +1489,27 @@ a > .box .caption {
   flex-wrap: nowrap;
   gap: 0;
 }
-a > .box .caption > * {
+.line-box a > .box .caption > * {
   flex-grow: 0;
   flex-shrink: 0;
 }
-a > .box .caption > .stretch {
+.line-box a > .box .caption > .stretch {
   flex-grow: 1;
   flex-shrink: 1;
+}
+.line-box a > .box .caption > span {
+  margin-bottom: 0.5rem;
+}
+.line-box a > .box .caption > .title {
+  font-size: 1rem;
+}
+.line-box a > .box .caption > .price {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.line-box a > .box .caption > .review {
+  font-size: 0.75rem;
+  color: #888888;
 }
 
 #main-production {
@@ -1528,6 +1542,90 @@ a > .box .caption > .stretch {
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+#main-production > .explain-section {
+  position: relative;
+}
+#main-production > .explain-section button {
+  cursor: pointer;
+}
+#main-production > .explain-section > .menu-bar {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  top: 0;
+  left: 70%;
+  position: absolute;
+  z-index: 99;
+}
+#main-production > .explain-section > .menu-bar > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-production > .explain-section > .menu-bar > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main-production > .explain-section > .menu-bar > .click-button {
+  position: relative;
+}
+#main-production > .explain-section > .menu-bar > .click-button > .icon {
+  width: 2rem;
+  height: 2rem;
+  transform: rotate(90deg);
+  transition-duration: 250ms;
+  transition-property: transform;
+  transition-timing-function: ease;
+}
+#main-production > .explain-section > .menu-bar > .click-button > .icon.open {
+  transform: rotate(540deg);
+}
+#main-production > .explain-section > .menu-bar > .menu-list {
+  opacity: 0;
+  transition-duration: 250ms;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+#main-production > .explain-section > .menu-bar > .menu-list.visible {
+  opacity: 1;
+}
+#main-production > .explain-section > .menu-bar > .menu-list > .list {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+}
+#main-production > .explain-section > .menu-bar > .menu-list > .list > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-production > .explain-section > .menu-bar > .menu-list > .list > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main-production > .explain-section > .menu-bar > .menu-list > .list > .item {
+  position: relative;
+  overflow: hidden;
+}
+#main-production > .explain-section > .menu-bar > .menu-list > .list > .item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 100%;
+  height: 1px;
+  background-color: #888888;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  transition: transform 250ms ease;
+}
+#main-production > .explain-section > .menu-bar > .menu-list > .list > .item:hover::after {
+  transform: translateX(-50%) scaleX(1);
 }
 #main-production > .explain-section > .explain {
   align-items: flex-start;
@@ -1638,7 +1736,7 @@ a > .box .caption > .stretch {
   flex-shrink: 1;
 }
 #main-production > .explain-section > .explain > .pay > .button-container > button {
-  width: 16rem;
+  width: 14rem;
   height: 3rem;
   cursor: pointer;
   padding: 1rem 2rem;

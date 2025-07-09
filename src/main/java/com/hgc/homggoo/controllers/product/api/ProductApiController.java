@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/posts")
@@ -23,17 +25,25 @@ public class ProductApiController {
     }
 
     @RequestMapping(value = "/newProduct", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String postNewProduct(ProductEntity product,
-                                 @RequestParam(value = "image",required = false) MultipartFile image,
-                                 @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser) throws IOException {
-
-        CommonResult result = this.productService.createProduct(product, signedUser);
-        JSONObject response = new JSONObject();
-        response.put("result", result);
-        if (result == CommonResult.SUCCESS) {
-            response.put("id", product.getId());
+    public Map<String, Object> postNewProduct(@RequestParam(value = "_image", required = false) MultipartFile image,
+                                              ProductEntity product,
+                                              @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser) throws IOException {
+        Map<String, Object> response = new HashMap<>();
+        // 이미지 바이트를 엔티티에 설정
+        if (!image.isEmpty()) {
+            product.setImage(image.getBytes());
+            System.out.println(image.getOriginalFilename());
         }
-        return response.toString().toLowerCase();
+        CommonResult result = productService.createProduct(product, signedUser);
+
+        if (result == CommonResult.SUCCESS) {
+            response.put("result", "success");
+            response.put("id", product.getId()); // 만약 DB에서 생성된 ID 반환하도록 되어 있다면
+        } else {
+            response.put("result", "failure");
+        }
+
+        return response;
     }
 
 }

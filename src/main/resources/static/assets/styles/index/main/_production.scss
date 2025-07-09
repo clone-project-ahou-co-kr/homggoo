@@ -24,6 +24,69 @@
   }
 
   > .explain-section {
+    button {
+      cursor: pointer;
+    }
+    position: relative;
+    > .menu-bar {
+      @include flex(column, flex-end, flex-end,0.5rem);
+      top: 0;
+      left: 70%;
+      position: absolute;
+      z-index: 99;
+      > .click-button {
+        position: relative;
+        > .icon {
+          width: 2rem;
+          height: 2rem;
+          transform: rotate(90deg);
+          transition-duration: 250ms;
+          transition-property: transform;
+          transition-timing-function: ease;
+
+          &.open {
+            transform: rotate(540deg);
+          }
+        }
+      }
+
+      > .menu-list {
+        opacity: 0;
+        transition-duration: 250ms;
+        transition-property: opacity;
+        transition-timing-function: ease;
+
+        &.visible {
+          opacity: 1;
+        }
+
+        > .list {
+          @include flex(column, flex-start, flex-start, 0.5rem);
+          > .item {
+            position: relative;
+            overflow: hidden;
+
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: 0;
+              left: 50%;
+              width: 100%;
+              height: 1px;
+              background-color: #888888;
+              transform: translateX(-50%) scaleX(0);
+              transform-origin: center;
+              transition: transform 250ms ease;
+            }
+
+            &:hover::after {
+              transform: translateX(-50%) scaleX(1);
+            }
+          }
+        }
+      }
+    }
+
     > .explain {
       @include flex(column, flex-start, flex-start, 1rem);
       position: relative;
@@ -103,7 +166,7 @@
         > .button-container {
           @include flex(row, flex-start, center, 1rem);
           > button {
-            width: 16rem;
+            width: 14rem;
             height: 3rem;
             cursor: pointer;
             padding: 1rem 2rem;

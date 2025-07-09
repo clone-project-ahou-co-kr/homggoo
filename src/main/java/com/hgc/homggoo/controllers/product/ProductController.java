@@ -1,14 +1,20 @@
 package com.hgc.homggoo.controllers.product;
 
+import com.hgc.homggoo.entities.product.ProductEntity;
 import com.hgc.homggoo.services.product.ProductService;
 import com.hgc.homggoo.vos.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -35,7 +41,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/production", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String getProduction(@RequestParam(value = "id", required = false) Integer id,
+    public String getProduction(@RequestParam(value = "id", required = false) int id,
                                 Model model) {
         ProductVo productId = this.productService.getById(id);
         if (productId != null) {
@@ -43,6 +49,19 @@ public class ProductController {
         }
         model.addAttribute("product", productId);
         return "product/production";
+    }
+
+    @RequestMapping(value = "/image", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getImage(@RequestParam(value = "id", required = false) int id) {
+        ProductEntity product = this.productService.getById(id);
+        if (product.getImage() == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=")
+                .contentLength(product.getImage().length)
+                .body(product.getImage());
     }
 
     @RequestMapping(value = "/newProduct", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)

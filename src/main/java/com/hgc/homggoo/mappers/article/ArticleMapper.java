@@ -17,4 +17,6 @@ public interface ArticleMapper {
                                               @Param(value = "categoryId") String categoryId);
 
      ArticleVo selectById(@Param(value = "id") int id);
+
+     ArticleVo[] selectAll();
 }
