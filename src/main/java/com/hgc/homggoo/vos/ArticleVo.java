@@ -33,4 +33,5 @@ public class ArticleVo extends ArticleEntity {
     private int likeCount;
     private boolean isLiked;
     private String nickname;
+    private String imageUrl;
 }

@@ -18,14 +18,14 @@
 <form novalidate id="main" th:action="@{/community/posts}">
     <div class="layout">
         <div class="layout-content" id="drawArticle">
-            <h1 class="category">홈스타일링</h1>
+<!--            <h1 class="category">홈스타일링</h1>
             <div class="title">오프라인 간단하게 인테리어 대해서 배울 수 있는 방법 없을까요?</div>
             <div class="name">
                 <div class="layout">
                     <img src="/assets/images/index/header/default-profile.png" alt="">
                     <span class="email">test1234</span>
                 </div>
-                <div class="--flex-stretch"></div>
+                <div class="&#45;&#45;flex-stretch"></div>
                 <div class="follow">팔로우</div>
             </div>
             <div class="content"> 가구 랩핑 / 도배 / DYI 욕실 타일 페인트 등...🙄</div>
@@ -35,13 +35,11 @@
                     <span>좋아요 <span>7</span>&nbsp;·&nbsp;</span>
                     <span>조회 1</span>
                 </div>
-                <div class="--flex-stretch"></div>
-                <button class="--object-button">신고하기</button>
-            </div>
+                <button class="&#45;&#45;object-button">신고하기</button>
+            </div>-->
         </div>
         <div class="comment-content">
             <div class="title">댓글 <span>0</span></div>
-            <div class="--flex-stretch"></div>
             <div class="layout">
                 <img src="/assets/images/index/header/notification.png" alt="">
                 <span>새 댓글 알림</span>
@@ -58,8 +56,30 @@
             <div class="input-container">
                 <label class="label">
                     <input required type="text" minlength="1" name="comment" class="comment-input" placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다:)" size="44">
+                    <button class="commentButton" type="button" name="inputComment">입력</button>
                 </label>
             </div>
+        </div>
+        <div class="comment-list">
+            <!--<div class="comment">
+                <div class="profile">
+                    <img src="/assets/images/index/header/default-profile.png" alt="">
+                </div>
+                <div class="content-wrapper">
+                    <div class="name-time">
+                        <span class="nickname">은묵시</span>
+                        <span class="time">4일</span>
+                    </div>
+                    <div class="text">
+                        냄새는 사라지긴해요 근데 저 탈취제 향이 별로임 ...
+                    </div>
+                    <div class="actions">
+                        <button type="button">답글 달기</button><span>&nbsp·&nbsp</span>
+                        <button type="button">좋아요</button><span>&nbsp·&nbsp</span>
+                        <button type="button">신고</button>
+                    </div>
+                </div>
+            </div>-->
         </div>
     </div>
     <div class="side-actions">

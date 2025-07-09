@@ -14,19 +14,42 @@
     > .layout-content {
       @include flex(column, flex-start, flex-start, 1rem);
 
-      > .category {
-        background: #EAEDEF;
-        color: #828C94;
-        font-weight: 700;
-        letter-spacing: -0.3px;
-        display: inline-flex;
-        font-size: 12px;
-        line-height: 16px;
-        height: 24px;
-        padding: 0 6px;
-        border-radius: 0.25rem;
-        align-items: center;
-        margin-bottom: 1rem;
+      > .layout-row {
+        @include flex(row, center, space-between, 1rem);
+        width: 100%;
+
+        > .content {
+          background: #EAEDEF;
+          color: #828C94;
+          font-weight: 700;
+          letter-spacing: -0.3px;
+          display: inline-flex;
+          font-size: 12px;
+          line-height: 16px;
+          height: 24px;
+          padding: 0 6px;
+          border-radius: 0.25rem;
+          align-items: center;
+          margin-bottom: 1rem;
+        }
+
+        > .button-container {
+          @include flex(row, flex-start, flex-start);
+          margin-bottom: 1rem;
+          font-size: 0.875rem;
+          color: #666;
+          cursor: pointer;
+
+          > .modify {
+            padding: 0 0.625rem;
+          }
+
+          > .delete {
+            border-left: 1px solid #eaedef;
+            padding: 0 0.625rem;
+          }
+        }
+
       }
 
       > .title {
@@ -165,24 +188,116 @@
           border-radius: 50%;
           margin-right: 12px;
           flex-shrink: 0;
-          border: 0.5px solid rgba(0, 0, 0, 0.08);
+          border: 0.0625rem solid rgba(0, 0, 0, 0.08);
         }
       }
 
       > .input-container {
         width: calc(100% - 2.625rem);
-        height: 2.75rem;
+        height: 100%;
+
+
         > .label {
-          .comment-input {
-            align-items: center;
-            line-height: 0;
-            box-sizing: border-box;
-            border: 0.0625rem solid #E6E6E6;
-            border-radius: 4px;
-            display: block;
-            padding: 0 16px;
+          @include flex(row, center, center);
+          border: 0.0625rem solid #E6E6E6;
+          border-radius: 4px;
+          padding: 0 1rem 0 1rem;
+
+          > .comment-input {
+            word-break: break-word;
             cursor: text;
-            height: 100%;
+            display: inline-block;
+            padding: 0;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            line-height: 24px;
+            overflow-y: auto;
+            flex: 1 0 0;
+            min-height: 24px;
+            margin: 9px 0;
+            box-sizing: border-box;
+            resize: none;
+            vertical-align: top;
+            .label:hover {
+              border: 0.0625rem solid rgb(10, 165, 255);
+            }
+          }
+          > input::placeholder {
+            color: rgb(194, 200, 204);
+          }
+
+          > .commentButton {
+            color: rgb(194, 200, 204);
+            height: 1.875rem;
+          }
+        }
+      }
+    }
+    > .comment-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+
+      > .comment {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        margin: 1rem 0;
+
+        > .profile {
+          > img {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+        }
+
+        > .content-wrapper {
+          flex: 1;
+
+          > .name-time {
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #222;
+
+            > .time {
+              font-weight: 400;
+              font-size: 0.85rem;
+              color: #999;
+            }
+          }
+
+          > .text {
+            margin: 8px 0;
+            -webkit-box-align: center;
+            align-items: center;
+            font-size: 16px;
+            line-height: 24px;
+            word-break: break-word;
+            color: rgb(47, 52, 56);
+          }
+
+          > .actions {
+            margin-top: 0.6rem;
+
+            > button {
+              font-size: 0.85rem;
+              color: #888;
+              background: none;
+              border: none;
+              cursor: pointer;
+              padding: 0;
+
+              > &:hover {
+                color: #555;
+                text-decoration: underline;
+              }
+            }
           }
         }
       }
@@ -242,4 +357,8 @@
       }
     }
   }
+
+
+
+
 }

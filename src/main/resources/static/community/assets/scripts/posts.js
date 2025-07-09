@@ -4,6 +4,8 @@ const $createdAt = $main.querySelector(':scope > .layout > .layout-content > .in
 const params = new URLSearchParams(window.location.search);
 const $isLiked = document.getElementById('isLiked');
 const $signedUser = document.getElementById('signedUser');
+const $commentList = $main.querySelector('.comment-list');
+const $commentButton = $main.querySelector(':scope > .layout > .comment-input > .input-container > .label > .commentButton');
 
 const loadArticle = () => {
 
@@ -21,7 +23,8 @@ const loadArticle = () => {
         const response = JSON.parse(xhr.responseText);
         switch (response.result) {
             case 'success':
-                drawArticle(response.id, response.title, response.content, response.view, response.createdAt, response.likeCount);
+                drawArticle(response.id, response.title, response.content, response.view, response.createdAt, response.likeCount, response.nickname, response.profile);
+                loadComment(response.id);
                 break;
             case 'failure':
                 dialog.showSimpleOk('게시글 오류', '해당 게시판은 존재하지 않습니다.');
@@ -48,19 +51,27 @@ const getRelativeTime = (createdAtString) => {
     return `${diffDay}일 전`;
 }
 
-const drawArticle = (id, title, content, view, createdAt, likeCount) => {
+const drawArticle = (id, title, content, view, createdAt, likeCount, nickname, profile) => {
     const $layoutContent = document.getElementById('drawArticle');
     $layoutContent.innerHTML = '';
     let html = `
-            <h1 class="category">홈스타일링</h1>
+            <div class="layout-row">
+                <h1 class="content">홈스타일링</h1>
+                <div class="button-container">
+                    <a class="modify" href="#">수정</a>
+                    <a class="delete" href="#">삭제</a>
+                </div>
+            </div>
             <div class="title">${title}</div>
             <div class="name">
                 <div class="layout">
-                    <img src="/assets/images/index/header/default-profile.png" alt="">
-                    <span class="email">test1234</span>
+                    ${profile ? 
+                    `<img src="${profile}" alt="프로필 이미지" style="width: 3rem; height: 3rem;">` : 
+                    `<img src="/assets/images/index/header/default-profile.png" alt="기본 이미지">`}
+                    <span class="email">${nickname}</span>
                 </div>
                 <div class="--flex-stretch"></div>
-                <div class="follow">팔로우</div>
+                <!--<div class="follow">팔로우</div>-->
             </div>
             <div class="content">${content}</div>
             <div class="info">
@@ -70,7 +81,7 @@ const drawArticle = (id, title, content, view, createdAt, likeCount) => {
                     <span>조회 <span>${view}</span></span>
                 </div>
                 <div class="--flex-stretch"></div>
-                <button class="--object-button">신고하기</button>
+                <!--<button class="&#45;&#45;object-button">신고하기</button>-->
             </div>
     `;
     $layoutContent.innerHTML = html;
@@ -110,6 +121,95 @@ $like.addEventListener('click', () => {
 
     }
     xhr.open('PATCH','/api/posts/like');
+    xhr.send(formData);
+});
+
+const loadComment = () => {
+
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState !== XMLHttpRequest.DONE) {
+            return;
+        }
+        if (xhr.status < 200 || xhr.status >= 300) {
+            dialog.showSimpleOk('오류', '요청을 처리하는 도중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.', {
+                onClickCallback: () => location.reload()
+            });
+            return;
+        }
+        const comments = JSON.parse(xhr.responseText);
+        console.log(comments);
+        const targetComments = comments.filter((comment) => comment.commentId == null);
+        appendComments(targetComments, comments, 0);
+    }
+    xhr.open('GET','/api/posts/comment?id=' + params.get('id'));
+    xhr.send();
+}
+
+const appendComments = (targetComments, wholeComments, step) => {
+    for (const comment of targetComments) {
+        $commentList.insertAdjacentHTML('beforeend', `
+            <div class="comment ${comment['mine'] === true ? '-mine' : ''} ${comment['deleted'] === true ? '-deleted' : ''}" style="margin-left: ${step * 1.5}rem;">
+                <div class="profile">
+                    <img src="/assets/images/index/header/default-profile.png" alt="">
+                </div>
+                <div class="content-wrapper">
+                    <div class="name-time">
+                        <span class="nickname">${comment['userNickname']}</span>
+                        <span class="time">${getRelativeTime(comment['createdAt'])}</span>
+                    </div>
+                    <div class="text">
+                        ${comment['content']}
+                    </div>
+                    <div class="actions">
+                        <button type="button">답글 달기</button><span>&nbsp·&nbsp</span>
+                        <button type="button">❤ 좋아요</button><span>&nbsp·&nbsp</span>
+                        <button type="button">신고</button>
+                    </div>
+                </div>
+            </div>
+        `)
+        const nextComments = wholeComments.filter((nextComment) => nextComment.commentId === comment.id);
+        if (nextComments.length > 0) {
+            appendComments(nextComments, wholeComments, step + 1);
+        }
+    }
+}
+
+$commentButton.addEventListener('click', () => {
+
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('articleId', params.get('id'))
+    formData.append('content', $main['comment'].value);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState !== XMLHttpRequest.DONE) {
+            return;
+        }
+        if (xhr.status < 200 || xhr.status >= 300) {
+            dialog.showSimpleOk('오류', '요청을 처리하는 도중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.', {
+                onClickCallback: () => location.reload()
+            });
+            return;
+        }
+        const response = JSON.parse(xhr.responseText);
+        switch (response.result) {
+            case 'failure_session_expired':
+                dialog.showSimpleOk('댓글', '로그인 후 작성해 주세요.', {
+                    onOkCallback: location.href = "/user/login"
+                })
+                break;
+            case 'failure':
+                dialog.showSimpleOk('댓글', '잠시 후 다시 이용해 주세요.');
+                break;
+            case 'success':
+                location.reload();
+                break;
+
+        }
+
+    }
+    xhr.open('POST','/api/posts/comment');
     xhr.send(formData);
 })
 

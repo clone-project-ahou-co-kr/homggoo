@@ -1,12 +1,16 @@
 package com.hgc.homggoo.controllers.community.api;
 
 import com.hgc.homggoo.entities.article.ArticleEntity;
+import com.hgc.homggoo.entities.comment.CommentEntity;
 import com.hgc.homggoo.entities.user.UserEntity;
 import com.hgc.homggoo.mappers.article.ArticleMapper;
 import com.hgc.homggoo.results.CommonResult;
 import com.hgc.homggoo.results.ResultTuple;
+import com.hgc.homggoo.results.Results;
 import com.hgc.homggoo.services.article.ArticleService;
+import com.hgc.homggoo.services.comment.CommentService;
 import com.hgc.homggoo.vos.ArticleVo;
+import com.hgc.homggoo.vos.CommentVo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -20,10 +24,12 @@ import org.springframework.web.bind.annotation.*;
 public class ArticleController {
     private static final Logger log = LoggerFactory.getLogger(ArticleController.class);
     private final ArticleService articleService;
+    private final CommentService commentService;
 
     @Autowired
-    public ArticleController(ArticleMapper articleMapper, ArticleService articleService) {
+    public ArticleController(ArticleMapper articleMapper, ArticleService articleService, CommentService commentService) {
         this.articleService = articleService;
+        this.commentService = commentService;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,6 +51,9 @@ public class ArticleController {
         response.put("modifiedAt", result.getModifiedAt());
         response.put("isDeleted", result.isDeleted());
         response.put("likeCount", result.getLikeCount());
+        response.put("nickname", result.getNickname());
+        response.put("profile", result.getImageUrl());
+        System.out.println(result.getImageUrl());
 
         return response.toString();
     }
@@ -73,6 +82,34 @@ public class ArticleController {
         } else {
             response.put("result", result);
         }
+        return response.toString();
+    }
+
+    @RequestMapping(value = "/comment", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public CommentVo[] getComment(@RequestParam(value = "id", required = false) int id,
+                                  @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser) {
+        ResultTuple<CommentVo[]> result = this.commentService.getByArticleId(id);
+        if (result.getResult() == CommonResult.SUCCESS) {
+            CommentVo[] comments = result.getPayload();
+            String signedUserEmail = signedUser == null ? null : signedUser.getEmail();
+            for (CommentVo comment : comments) {
+                if (comment.isDeleted()) {
+                    comment.setContent(null);
+                }
+                comment.setMine(comment.getUserEmail().equals(signedUserEmail));
+            }
+            return comments;
+        }
+        return new CommentVo[0];
+    }
+
+    @RequestMapping(value = "/comment", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String postComment(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                              CommentEntity comment) {
+        Results result = this.commentService.insert(comment, signedUser);
+        JSONObject response = new JSONObject();
+        response.put("result", result.nameToLower());
+
         return response.toString();
     }
 }

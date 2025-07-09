@@ -87,6 +87,7 @@
                `T0`.`modified_at`       AS `modifiedAt`,
                `T0`.`is_deleted`        AS `isDeleted`,
                `T1`.`nickname`          AS `nickname`,
+               `T1`.`image_url`         AS `imageUrl`,
                COUNT(`T2`.`article_id`) AS `likeCount`
         FROM `homggoo`.`article` AS `T0`
                  LEFT JOIN `homggoo`.`users` AS `T1`
