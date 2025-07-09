@@ -122,7 +122,7 @@ create table `homggoo`.`images`
     `article_index` int unsigned null,
     `name`          varchar(255) not null,
     `content_type`  varchar(50)  not null,
-    `data`          longblob     not null, #longblob은 binary 데이터를 쓰기위함.
+    `data`          longblob     not null,
     `created_at`    datetime     not null default now(),
     constraint primary key (`index`)
 );
