@@ -149,7 +149,7 @@ const loadComment = () => {
 const appendComments = (targetComments, wholeComments, step) => {
     for (const comment of targetComments) {
         $commentList.insertAdjacentHTML('beforeend', `
-            <div class="comment ${comment['mine'] === true ? '-mine' : ''} ${comment['deleted'] === true ? '-deleted' : ''}" style="margin-left: ${step * 1.5}rem;">
+            <div class="comment">
                 <div class="profile">
                     <img src="/assets/images/index/header/default-profile.png" alt="">
                 </div>
