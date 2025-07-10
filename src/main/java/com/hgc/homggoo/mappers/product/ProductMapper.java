@@ -19,4 +19,6 @@ public interface ProductMapper {
     ProductVo selectById(@Param(value = "id") int id);
 
     List<ProductVo> selectAll();
+
+    int countByUserEmail(@Param("userEmail") String userEmail);
 }

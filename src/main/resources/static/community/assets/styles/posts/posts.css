@@ -36,7 +36,24 @@
   flex-grow: 1;
   flex-shrink: 1;
 }
-#main > .layout > .layout-content > .category {
+#main > .layout > .layout-content > .layout-row {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  width: 100%;
+}
+#main > .layout > .layout-content > .layout-row > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main > .layout > .layout-content > .layout-row > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main > .layout > .layout-content > .layout-row > .content {
   background: #EAEDEF;
   color: #828C94;
   font-weight: 700;
@@ -49,6 +66,33 @@
   border-radius: 0.25rem;
   align-items: center;
   margin-bottom: 1rem;
+}
+#main > .layout > .layout-content > .layout-row > .button-container {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 0;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  color: #666;
+  cursor: pointer;
+}
+#main > .layout > .layout-content > .layout-row > .button-container > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main > .layout > .layout-content > .layout-row > .button-container > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main > .layout > .layout-content > .layout-row > .button-container > .modify {
+  padding: 0 0.625rem;
+}
+#main > .layout > .layout-content > .layout-row > .button-container > .delete {
+  border-left: 1px solid #eaedef;
+  padding: 0 0.625rem;
 }
 #main > .layout > .layout-content > .title {
   font-size: 1.5rem;
@@ -232,7 +276,7 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   transition: left 0.3s;
 }
-#main > .layout .comment-input {
+#main > .layout > .comment-input {
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -242,37 +286,129 @@
   width: 100%;
   margin-bottom: 2.5rem;
 }
-#main > .layout .comment-input > * {
+#main > .layout > .comment-input > * {
   flex-grow: 0;
   flex-shrink: 0;
 }
-#main > .layout .comment-input > .stretch {
+#main > .layout > .comment-input > .stretch {
   flex-grow: 1;
   flex-shrink: 1;
 }
-#main > .layout .comment-input > .profile img {
+#main > .layout > .comment-input > .profile img {
   object-fit: cover;
   width: 30px;
   height: 30px;
   border-radius: 50%;
   margin-right: 12px;
   flex-shrink: 0;
-  border: 0.5px solid rgba(0, 0, 0, 0.08);
+  border: 0.0625rem solid rgba(0, 0, 0, 0.08);
 }
-#main > .layout .comment-input > .input-container {
+#main > .layout > .comment-input > .input-container {
   width: calc(100% - 2.625rem);
-  height: 2.75rem;
+  height: 100%;
 }
-#main > .layout .comment-input > .input-container > .label .comment-input {
+#main > .layout > .comment-input > .input-container > .label {
   align-items: center;
-  line-height: 0;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0;
   border: 0.0625rem solid #E6E6E6;
   border-radius: 4px;
-  display: block;
-  padding: 0 16px;
+  padding: 0 1rem 0 1rem;
+}
+#main > .layout > .comment-input > .input-container > .label > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main > .layout > .comment-input > .input-container > .label > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main > .layout > .comment-input > .input-container > .label > .comment-input {
+  word-break: break-word;
   cursor: text;
-  height: 100%;
+  display: inline-block;
+  padding: 0;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  line-height: 24px;
+  overflow-y: auto;
+  flex: 1 0 0;
+  min-height: 24px;
+  margin: 9px 0;
+  box-sizing: border-box;
+  resize: none;
+  vertical-align: top;
+}
+#main > .layout > .comment-input > .input-container > .label > .comment-input .label:hover {
+  border: 0.0625rem solid rgb(10, 165, 255);
+}
+#main > .layout > .comment-input > .input-container > .label > input::placeholder {
+  color: rgb(194, 200, 204);
+}
+#main > .layout > .comment-input > .input-container > .label > .commentButton {
+  color: rgb(194, 200, 204);
+  height: 1.875rem;
+}
+#main > .layout > .comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+#main > .layout > .comment-list > .comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+#main > .layout > .comment-list > .comment > .profile > img {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+#main > .layout > .comment-list > .comment > .content-wrapper {
+  flex: 1;
+}
+#main > .layout > .comment-list > .comment > .content-wrapper > .name-time {
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #222;
+}
+#main > .layout > .comment-list > .comment > .content-wrapper > .name-time > .time {
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: #999;
+}
+#main > .layout > .comment-list > .comment > .content-wrapper > .text {
+  margin: 8px 0;
+  -webkit-box-align: center;
+  align-items: center;
+  font-size: 16px;
+  line-height: 24px;
+  word-break: break-word;
+  color: rgb(47, 52, 56);
+}
+#main > .layout > .comment-list > .comment > .content-wrapper > .actions {
+  margin-top: 0.6rem;
+}
+#main > .layout > .comment-list > .comment > .content-wrapper > .actions > button {
+  font-size: 0.85rem;
+  color: #888;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+> #main > .layout > .comment-list > .comment > .content-wrapper > .actions > button:hover {
+  color: #555;
+  text-decoration: underline;
 }
 #main > .side-actions {
   align-items: center;

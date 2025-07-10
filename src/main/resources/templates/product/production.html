@@ -28,7 +28,7 @@
         </div>
     </section>
     <section class="explain-section">
-        <div class="menu-bar">
+        <div class="menu-bar" th:if="${user != null}">
             <button type="button" class="click-button">
                 <img src="/product/assets/images/production-menu.png" alt="메뉴 바" class="icon">
             </button>
@@ -36,7 +36,7 @@
                 <ul class="list">
                     <li class="item">
                         <button type="button" class="button modify" name="modify">
-                            수정하기
+                            <a th:href="@{/product/modifyProduct (id = ${product.getId()})}">수정하기</a>
                         </button>
                     </li>
                     <li class="item">
@@ -61,8 +61,8 @@
                     <img src="https://media.bunjang.co.kr/images/crop/1076848144_w160.jpg" alt="" class="image">
                 </div>
                 <div class="text-container">
-                    <a href="#" class="name">불사신</a>
-                    <span class="spec-container"> <a href="#" class="link">상품 1</a> </span>
+                    <a href="#" class="name" th:text="${user != null ? product.nickname : '로그인이 필요합니다.'}">로그인이 필요합니다.</a>
+                    <span class="spec-container"> <a href="#" class="link" th:text="${user != null ? '상품 ' + productCount : '상품 정보 없음'}">상품 정보 없음</a> </span>
                 </div>
             </div>
             <div class="pay">

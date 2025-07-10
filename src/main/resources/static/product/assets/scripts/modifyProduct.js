@@ -1,3 +1,49 @@
+const placeholder = document.getElementById('imagePlaceholder');
+
+document.addEventListener("DOMContentLoaded", () => {
+    const previewImg = document.getElementById('imagePreview');
+    const imageBox = document.getElementById('imageBox');
+    const imageInput = document.getElementById('productImage');
+    const removeBtn = document.getElementById('removeImageBtn');
+    const placeholder = document.getElementById('imagePlaceholder');
+
+    // 최초 로딩 시 이미지 있으면 보여주기
+    const defaultImageUrl = previewImg.dataset.image;
+    if (defaultImageUrl) {
+        previewImg.src = defaultImageUrl;
+        previewImg.style.display = 'block';
+        removeBtn.style.display = 'block';
+        placeholder.style.display = 'none';
+    }
+
+    imageBox.addEventListener('click', () => {
+        imageInput.click();
+    });
+
+    imageInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            previewImg.src = e.target.result;
+            previewImg.style.display = 'block';
+            placeholder.style.display = 'none';
+            removeBtn.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    });
+
+    removeBtn.addEventListener('click', function (e) {
+        e.stopPropagation(); // input 열리지 않도록
+        previewImg.src = '';
+        previewImg.style.display = 'none';
+        removeBtn.style.display = 'none';
+        placeholder.style.display = 'block';
+        imageInput.value = ''; // 파일 초기화
+    });
+});
+
 const $main = document.getElementById('main');
 const $button = document.getElementById('uploadButton');
 const $writeForm = document.getElementById('writeForm');
@@ -7,25 +53,6 @@ const price = $writeForm.querySelector(':scope > .content > .main-content > .tex
 const titleRegex = new RegExp('^(.{1,60})$');
 const contentRegex = new RegExp('^.{1,100000}$', 's');
 const imageInput = document.getElementById('productImage');
-const imageBox = document.getElementById('imageBox');
-const previewImg = document.getElementById('imagePreview');
-
-imageBox.addEventListener('click', () => {
-    imageInput.click();
-});
-
-imageInput.addEventListener('change', function () {
-    const file = this.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        previewImg.src = e.target.result;
-        previewImg.style.display = 'block';
-        imageBox.querySelector('span').style.display = 'none';
-    };
-    reader.readAsDataURL(file);
-});
 
 $button.addEventListener('click', () => {
     if ($writeForm['title'].value === '') {
@@ -60,11 +87,12 @@ $button.addEventListener('click', () => {
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
+    const url = new URL(location.href);
+    const id = url.searchParams.get("id");
     formData.append('description', content.textContent);
     formData.append('price', price.textContent);
     formData.append('title', $writeForm['title'].value);
-    formData.append('productId', $writeForm['productId'].value);
-    console.log(imageInput.files[0]);
+    formData.append('id', id);
     formData.append('_image', imageInput.files[0]);
 
     xhr.onreadystatechange = () => {
@@ -81,16 +109,15 @@ $button.addEventListener('click', () => {
         console.log(response)
         switch (response.result) {
             case 'success':
-                dialog.showSimpleOk('게시글 등록', '게시글이 등록되었습니다.', {
+                dialog.showSimpleOk('게시글 등록', '게시글이 수정되었습니다.', {
                     onOkCallback : () => location.href = `/product/production?id=${response.id}`
                 });
                 break;
             default:
-                dialog.showSimpleOk('게시글 등록', '알 수 없는 이유로 게시글을 등록하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                dialog.showSimpleOk('게시글 등록', '알 수 없는 이유로 게시글을 수정하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
         }
 
     }
-    xhr.open('POST','/api/posts/newProduct');
+    xhr.open('PATCH','/api/posts/modifyProduct');
     xhr.send(formData);
 })
-

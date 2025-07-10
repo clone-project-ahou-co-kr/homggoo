@@ -4,6 +4,7 @@ import com.hgc.homggoo.entities.product.ProductEntity;
 import com.hgc.homggoo.entities.user.UserEntity;
 import com.hgc.homggoo.results.CommonResult;
 import com.hgc.homggoo.services.product.ProductService;
+import com.hgc.homggoo.vos.ProductVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -29,10 +30,8 @@ public class ProductApiController {
                                               ProductEntity product,
                                               @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser) throws IOException {
         Map<String, Object> response = new HashMap<>();
-        // 이미지 바이트를 엔티티에 설정
         if (!image.isEmpty()) {
             product.setImage(image.getBytes());
-            System.out.println(image.getOriginalFilename());
         }
         CommonResult result = productService.createProduct(product, signedUser);
 
@@ -46,4 +45,28 @@ public class ProductApiController {
         return response;
     }
 
+    @RequestMapping(value = "/modifyProduct", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Object> postModifyProduct(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                                                 @RequestParam(value = "_image", required = false) MultipartFile image,
+                                                 ProductEntity product) throws IOException {
+        Map<String, Object> response = new HashMap<>();
+
+        if (image != null && !image.isEmpty()) {
+            product.setImage(image.getBytes());
+        } else {
+            ProductVo existing = productService.getById(product.getId());
+            product.setImage(existing.getImage());
+        }
+
+        CommonResult result = productService.updateProduct(product, signedUser);
+
+        if (result == CommonResult.SUCCESS) {
+            response.put("result", "success");
+            response.put("id", product.getId());
+        } else {
+            response.put("result", "failure");
+        }
+
+        return response;
+    }
 }
