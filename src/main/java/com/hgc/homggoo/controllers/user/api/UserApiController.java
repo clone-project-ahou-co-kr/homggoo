@@ -47,6 +47,8 @@ public class UserApiController {
 
     @RequestMapping(value = "/profile-image", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getProfileImage(@SessionAttribute("signedUser") UserEntity signedUser) {
+        //byte[]로 이미지주는건 model에 담지 못하기 때문에 REsponseEntity로 사용하여서 api호출로 가지고 와야한다.
+        //th:src="/api/user/profile-image
         byte[] profileImage = signedUser.getProfile();
 
         if (profileImage == null || profileImage.length == 0) {
@@ -99,6 +101,12 @@ public class UserApiController {
         JSONObject response = new JSONObject();
         response.put("result", result.nameToLower());
         return response.toString();
+    }
+
+    //Mypage 회원 탈퇴
+    @RequestMapping(value="/mypage",method = RequestMethod.DELETE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteMypage(){
+        return  null;
     }
 
     //    admin

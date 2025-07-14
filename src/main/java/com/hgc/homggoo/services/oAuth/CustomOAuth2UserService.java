@@ -26,7 +26,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         String providerType = userRequest.getClientRegistration().getRegistrationId().toUpperCase();
         Map<String, Object> attributes = oAuth2User.getAttributes();
-
+        System.out.println(attributes);
         String providerKey = null;
         String email = null;
         String nickname = null;
@@ -42,7 +42,25 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             String profileImageUrl = (String) response.get("profile_image");
             profile = downloadImageAsBytes(profileImageUrl);
             imageUrl = profileImageUrl;
+        } else if ("KAKAO".equals(providerType)) {
+            providerKey = String.valueOf(attributes.get("id"));
+
+            Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+            if (kakaoAccount != null) {
+                email = (String) kakaoAccount.get("email");
+
+                Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
+                if (kakaoProfile != null) {
+                    nickname = (String) kakaoProfile.get("nickname");
+                    String profileImageUrl = (String) kakaoProfile.get("profile_image_url");
+                    if (profileImageUrl != null) {
+                        profile = downloadImageAsBytes(profileImageUrl);
+                        imageUrl = profileImageUrl;
+                    }
+                }
+            }
         }
+
 
         // ✅ 필수 정보 보정
         if (email == null || email.isBlank()) {
@@ -53,7 +71,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
         // ✅ 사용자 등록 여부 확인
-        UserEntity dbUser = this.userMapper.selectByEmail(email);
+        UserEntity dbUser = this.userMapper.selectByEmailAndProviderType(email,providerType);
         if (dbUser == null) {
             UserEntity newUser = new UserEntity();
             newUser.setEmail(email);
@@ -67,7 +85,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             newUser.setDeleted(false);
             newUser.setProfile(profile);
             newUser.setImageUrl(imageUrl);
-
             this.userMapper.insert(newUser);
             dbUser = newUser; // 방금 등록한 유저를 세션에 저장
         }

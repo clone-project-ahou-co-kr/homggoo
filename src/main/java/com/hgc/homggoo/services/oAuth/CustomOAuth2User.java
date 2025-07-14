@@ -49,7 +49,8 @@ public class CustomOAuth2User implements OAuth2User {
     }
 
     public String getGender() {
-        return (String) attributes.get("gender");
+        Object gender = attributes.get("gender");
+        return gender != null ? gender.toString() : null;
     }
 
     public String getBirthday() {

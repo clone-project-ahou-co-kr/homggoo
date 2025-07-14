@@ -2,6 +2,7 @@ package com.hgc.homggoo.controllers.user;
 
 import com.hgc.homggoo.entities.images.ImageEntity;
 import com.hgc.homggoo.entities.user.UserEntity;
+import com.hgc.homggoo.results.CommonResult;
 import com.hgc.homggoo.results.ResultTuple;
 import com.hgc.homggoo.services.article.ArticleService;
 import com.hgc.homggoo.services.image.ImageService;
@@ -98,7 +99,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin/modify", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String getAdminModify(@RequestParam(value = "index")int index,Model model) {
+    public String getAdminModify(@RequestParam(value = "index") int index, Model model) {
         ResultTuple<NoticeVo> result = this.noticeService.getByIndex(index);
         NoticeVo notice = result.getPayload();
         model.addAttribute("notice", notice);
@@ -108,6 +109,18 @@ public class UserController {
     @RequestMapping(value = "/admin/notice", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String getAdminNotice() {
         return "user/noticeWrite";
+    }
+
+    //마이페이지
+    @RequestMapping(value = "/mypage", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE
+    )
+    public String getMypage(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                            Model model) {
+        if (signedUser == null) {
+            return "redirect:/user/login"; // 또는 401 페이지로 리다이렉트
+        }
+        model.addAttribute("signedUser", signedUser);
+        return "user/mypage";
     }
 
 }

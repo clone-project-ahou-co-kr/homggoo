@@ -17,4 +17,7 @@ public interface UserMapper {
      int update(@Param(value = "user") UserEntity user);
 
      UserEntity[] selectAll();
+
+     UserEntity selectByEmailAndProviderType(@Param("email") String email, @Param("providerType") String providerType);
+
 }
