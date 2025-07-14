@@ -47,12 +47,20 @@
                         <a href="#" class="nav-link">
                             <span><img src="/assets/images/index/header/cart.png" alt=""></span>
                         </a>
-                        <picture>
-                            <img th:src="@{/api/user/profile-image}"  alt="프로필"
-                                 width="50" height="50"
-                                 onerror="this.src='/assets/images/index/header/default-profile.png'"
-                                 th:style="'width: 3rem; height: 3rem;'">
-                        </picture>
+                        <div class="wrapper">
+                            <picture>
+                                <img th:src="@{/api/user/profile-image}"  alt="프로필"
+                                     width="50" height="50"
+                                     onerror="this.src='/assets/images/index/header/default-profile.png'"
+                                     th:style="'width: 3rem; height: 3rem;'"
+                                     id="profile">
+                            </picture>
+                            <ul class="menu" id="menu">
+                                <li><a href="/user/mypage">마이페이지 <span class="new">N</span></a></li>
+                                <li><a href="#">나의 쇼핑</a></li>
+                                <li><a href="/logout">로그아웃</a></li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="user-false" th:if="${signedUser == null}">
                         <a href="#" class="nav-icon">

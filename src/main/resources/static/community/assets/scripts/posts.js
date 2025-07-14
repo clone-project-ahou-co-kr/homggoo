@@ -167,12 +167,12 @@ const appendComments = (targetComments, wholeComments, step) => {
                     <div class="text">${replyTag}${comment['content']}</div>
                     <div class="actions">
                         <button type="button" onclick="openReply(this)">답글 달기</button><span>&nbsp·&nbsp</span>
-                        <button type="button">❤ 좋아요</button><span>&nbsp·&nbsp</span>
+                        <!--<button type="button">❤ 좋아요</button><span>&nbsp·&nbsp</span>-->
                         <button type="button">신고</button>
                     </div>
                 </div>
             </div>
-            <div class="reply-container" style="margin-left: ${step * 3}rem; display: none;">
+            <div class="reply-container"  style="margin-left: ${step * 3}rem; display: none;">
                 <div class="profile">
                     <img src="/assets/images/index/header/default-profile.png" alt="">
                 </div>
@@ -221,6 +221,7 @@ document.addEventListener('click', (e) => {
         const content = $button.closest('.reply-container').querySelector('input.reply-input').value;
 
         sendReply({ parentId, content });
+
     }
 });
 /*
@@ -266,11 +267,12 @@ const sendReply = ({ parentId, content }) =>{
         dialog.showSimpleOk('대댓글', '내용을 입력해주세요.');
         return;
     }
+    console.log(parentId);
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('articleId', params.get('id'));
-    formData.append('commentId', parentId);
+    formData.append('commentId', parentId ?? '');
     formData.append('content', content);
 
     xhr.onreadystatechange = () => {
@@ -294,7 +296,7 @@ const sendReply = ({ parentId, content }) =>{
                 dialog.showSimpleOk('댓글', '잠시 후 다시 시도해 주세요.');
                 break;
             case 'success':
-                location.reload();
+                loadComment();
                 break;
         }
     };
