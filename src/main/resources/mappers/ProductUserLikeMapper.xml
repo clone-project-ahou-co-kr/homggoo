@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hgc.homggoo.mappers.product.ProductUserLikeMapper">
+
+    <insert id="insertProductLike">
+        insert into `homggoo`.`product_user_likes` (`product_id`, `user_email`, `created_at`)
+        values (#{productLike.productId}, #{productLike.userEmail}, #{productLike.createdAt})
+    </insert>
+
+    <delete id="delete">
+        delete
+        from `homggoo`.`product_user_likes`
+        where `product_id` = #{id}
+          and `user_email` = #{userEmail}
+        limit 1
+    </delete>
+
+    <select id="selectProductIndexAndUserEmail"
+            resultType="com.hgc.homggoo.entities.product.ProductUserLikeEntity">
+        select `product_id` as `productId`,
+               `user_email` as `userEmail`,
+               `created_at` as `createdAt`
+        from `homggoo`.`product_user_likes`
+        where `product_id` = #{id}
+          and `user_email` = #{userEmail}
+        limit 1
+    </select>
+
+    <select id="countByProductId" resultType="java.lang.Integer">
+    select count(0)
+    from `homggoo`.`product_user_likes`
+    where `product_id` = #{id}
+    </select>
+
+</mapper>

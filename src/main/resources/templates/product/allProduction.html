@@ -2967,11 +2967,12 @@
         </div>
         <div class="all-product">
             <div class="line-box">
-                <a th:href="@{/product/production (id = ${product.getId()})}" th:each="product: ${products}">
+                <a th:each="product : ${products}"
+                   th:if="${!product.isDeleted}"
+                   th:href="@{/product/production(id=${product.id})}">
                     <div class="box">
                         <div class="img">
-                            <img src="https://prs.ohousecdn.com/apne2/any/uploads/productions/v1-220003987431552.jpg?w=360&h=360&c=c&q=50"
-                                 alt="">
+                            <img th:src="@{/product/image(id=${product.id})}" alt="">
                         </div>
                         <div class="caption">
                             <span class="title" th:text="${product.getTitle()}">제목칸</span>

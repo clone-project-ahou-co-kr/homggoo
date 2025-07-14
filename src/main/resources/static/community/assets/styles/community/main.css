@@ -150,7 +150,6 @@
   -webkit-line-clamp: 1;
   margin-bottom: 1rem;
 }
-<<<<<<< HEAD
 #main > .board > .post-card > .item > .info > .comments {
   display: inline-flex;
   align-items: center;
@@ -161,8 +160,6 @@
   display: inline-block;
   padding-bottom: 0.125rem;
 }
-=======
->>>>>>> b343d34297baecec910edb0f2d8d3287cc507e50
 #main > .board > .post-card > .item > .thumbnail {
   align-items: center;
   display: flex;
