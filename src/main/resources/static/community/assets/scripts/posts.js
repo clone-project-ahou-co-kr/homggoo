@@ -55,34 +55,35 @@ const drawArticle = (id, title, content, view, createdAt, likeCount, nickname, p
 
     $layoutContent.innerHTML = '';
     let html = `
-            <div class="layout-row">
-                <h1 class="content">홈스타일링</h1>
-                <div class="button-container">
-                    <a class="modify" href="#">수정</a>
-                    <a class="delete" href="#">삭제</a>
-                </div>
+        <div class="layout-row">
+            <h1 class="content">홈스타일링</h1>
+            <div class="button-container">
+                <a class="modify" href="#">수정</a>
+                <a class="delete" href="#">삭제</a>
             </div>
-            <div class="title">${title}</div>
-            <div class="name">
-                <div class="layout">
-                    ${profile ? 
-                    `<img src="${profile}" alt="프로필 이미지" style="width: 3rem; height: 3rem;">` : 
-                    `<img src="/assets/images/index/header/default-profile.png" alt="기본 이미지">`}
-                    <span class="email">${nickname}</span>
-                </div>
-                <div class="--flex-stretch"></div>
-                <!--<div class="follow">팔로우</div>-->
+        </div>
+        <div class="title">${title}</div>
+        <div class="name">
+            <div class="layout">
+                ${
+            profile
+                ? `<img src="${profile}" alt="프로필 이미지" style="width: 3rem; height: 3rem;">`
+                : `<img src="/assets/images/index/header/default-profile.png" alt="기본 이미지">`
+        }
+                <span class="email">${nickname}</span>
             </div>
-            <div class="content">${content}</div>
-            <div class="info">
-                <div class="layout">
-                    <span><span class="relative-time">${getRelativeTime(createdAt)}</span> ·&nbsp;</span>
-                    <span>좋아요 <span>${likeCount}</span>&nbsp;·&nbsp;</span>
-                    <span>조회 <span>${view}</span></span>
-                </div>
-                <div class="--flex-stretch"></div>
-                <!--<button class="&#45;&#45;object-button">신고하기</button>-->
+            <div class="flex-stretch"></div>
+        </div>
+        <div class="content">${content}</div>
+        <div class="info">
+            <div class="layout">
+                <span><span class="relative-time">${getRelativeTime(createdAt)}</span> ·&nbsp;</span>
+                <span>좋아요 <span>${likeCount}</span>&nbsp;·&nbsp;</span>
+                <span>조회 <span>${view}</span></span>
             </div>
+            <div class="flex-stretch"></div>
+            <!-- <button class="--object-button">신고하기</button> -->
+        </div>
     `;
     $layoutContent.innerHTML = html;
     $isLiked.textContent = likeCount;
