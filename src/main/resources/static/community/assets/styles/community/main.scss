@@ -125,6 +125,17 @@
           -webkit-box-orient: vertical;
           -webkit-line-clamp: 1;
           margin-bottom: 1rem;
+          > .comments {
+            display: inline-flex;
+            align-items: center;
+            vertical-align: text-top;
+            height: 18px;
+            > img {
+              display: inline-block;
+              padding-bottom: 0.125rem;
+            }
+          }
+
         }
         > .thumbnail {
           @include flex(column, center, flex-start);

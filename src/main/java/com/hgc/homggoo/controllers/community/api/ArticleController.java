@@ -112,4 +112,10 @@ public class ArticleController {
 
         return response.toString();
     }
+
+//    @RequestMapping(value = "/reply", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public String postReply(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+//                            CommentEntity comment) {
+//
+//    }
 }

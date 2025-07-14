@@ -36,6 +36,7 @@ public class CommentService {
 
         comment.setUserEmail(user.getEmail());
         comment.setContent(comment.getContent());
+        comment.setCommentId(comment.getCommentId());
         comment.setDeleted(false);
         comment.setCreatedAt(LocalDateTime.now());
 

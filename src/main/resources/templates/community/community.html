@@ -58,7 +58,11 @@
                     <span class="username" th:text="${article.getNickname()}"><!--nickname ·--></span><span> · </span>
                     <span class="time" th:text="${article.getCreatedAt()}"><!--1분 ·--></span><span> · </span>
                     <span class="views">조회 <span th:text="${article.getView()}">0</span> · </span>
-                    <span class="likes">❤ <span th:text="${article.getLikeCount()}"></span></span>
+                    <span class="likes">❤ <span th:text="${article.getLikeCount()}"></span> · </span>
+                    <span class="comments">
+                        <img src="/community/assets/images/comment.png" alt="">
+                        <span th:text="${article.getCommentCount()}"></span>
+                    </span>
                 </div>
                 <div class="thumbnail">
                     <img src="/assets/images/example-thumbnail.png" alt="thumbnail" />

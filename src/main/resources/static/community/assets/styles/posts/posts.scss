@@ -238,11 +238,66 @@
       display: flex;
       flex-direction: column;
       gap: 1.2rem;
+      > .reply-container {
+        @include flex(row, center, space-between);
+        width: 100%;
+        > .profile {
+          img {
+            object-fit: cover;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+            border: 0.0625rem solid rgba(0, 0, 0, 0.08);
+          }
+        }
+
+        > .input-container {
+          width: calc(100% - 2.625rem);
+          height: 100%;
+
+
+          > .label {
+            @include flex(row, center, center);
+            border: 0.0625rem solid #E6E6E6;
+            border-radius: 4px;
+            padding: 0 1rem 0 1rem;
+
+            > .reply-input {
+              word-break: break-word;
+              cursor: text;
+              display: inline-block;
+              padding: 0;
+              border: none;
+              outline: none;
+              font-size: 16px;
+              line-height: 24px;
+              overflow-y: auto;
+              flex: 1 0 0;
+              min-height: 24px;
+              margin: 9px 0;
+              box-sizing: border-box;
+              resize: none;
+              vertical-align: top;
+              .label:hover {
+                border: 0.0625rem solid rgb(10, 165, 255);
+              }
+            }
+            > input::placeholder {
+              color: rgb(194, 200, 204);
+            }
+
+            > .input-button {
+              color: rgb(194, 200, 204);
+              height: 1.875rem;
+            }
+          }
+        }
+      }
 
       > .comment {
-        display: flex;
-        align-items: flex-start;
-        gap: 1rem;
+        @include flex(row, flex-start, flex-start, 1rem);
         margin: 1rem 0;
 
         > .profile {
@@ -306,8 +361,9 @@
 
   > .side-actions {
     @include flex(column, center, center);
-    position: absolute;
-    right: 10rem;
+    position: fixed;
+    top: 8.75rem;
+    right: 6rem;
 
     > hr {
       width: 54px;

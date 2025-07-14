@@ -1,11 +1,10 @@
 const $main = document.getElementById('main');
 const $like = $main.querySelector('button[name="like"]');
-const $createdAt = $main.querySelector(':scope > .layout > .layout-content > .info > span > .relative-time');
 const params = new URLSearchParams(window.location.search);
 const $isLiked = document.getElementById('isLiked');
 const $signedUser = document.getElementById('signedUser');
 const $commentList = $main.querySelector('.comment-list');
-const $commentButton = $main.querySelector(':scope > .layout > .comment-input > .input-container > .label > .commentButton');
+const $commentsCount = $main.querySelector(':scope > .layout > .comment-content > .title > .comment-count');
 
 const loadArticle = () => {
 
@@ -53,6 +52,7 @@ const getRelativeTime = (createdAtString) => {
 
 const drawArticle = (id, title, content, view, createdAt, likeCount, nickname, profile) => {
     const $layoutContent = document.getElementById('drawArticle');
+
     $layoutContent.innerHTML = '';
     let html = `
             <div class="layout-row">
@@ -113,10 +113,10 @@ $like.addEventListener('click', () => {
 
         if (response.result === true) {
             $like.classList.add('-liked');
-            loadArticle();
+            location.reload();
         } else if (response.result === false) {
             $like.classList.remove('-liked');
-            loadArticle();
+            location.reload();
         }
 
     }
@@ -140,6 +140,7 @@ const loadComment = () => {
         const comments = JSON.parse(xhr.responseText);
         console.log(comments);
         const targetComments = comments.filter((comment) => comment.commentId == null);
+        $commentsCount.textContent = comments.length;
         appendComments(targetComments, comments, 0);
     }
     xhr.open('GET','/api/posts/comment?id=' + params.get('id'));
@@ -148,8 +149,12 @@ const loadComment = () => {
 
 const appendComments = (targetComments, wholeComments, step) => {
     for (const comment of targetComments) {
+        const isReply = comment.commentId !== null;
+        const replyTag = isReply ? `<span style="color: #0AA5FF;">@${comment.userNickname} &nbsp;</span>` : '';
+
+        // noinspection CssInvalidPropertyValue
         $commentList.insertAdjacentHTML('beforeend', `
-            <div class="comment">
+            <div class="comment" style="margin-left: ${step * 3}rem;">
                 <div class="profile">
                     <img src="/assets/images/index/header/default-profile.png" alt="">
                 </div>
@@ -158,14 +163,24 @@ const appendComments = (targetComments, wholeComments, step) => {
                         <span class="nickname">${comment['userNickname']}</span>
                         <span class="time">${getRelativeTime(comment['createdAt'])}</span>
                     </div>
-                    <div class="text">
-                        ${comment['content']}
-                    </div>
+                    <div class="text">${replyTag}${comment['content']}</div>
                     <div class="actions">
-                        <button type="button">답글 달기</button><span>&nbsp·&nbsp</span>
+                        <button type="button" onclick="openReply(this)">답글 달기</button><span>&nbsp·&nbsp</span>
                         <button type="button">❤ 좋아요</button><span>&nbsp·&nbsp</span>
                         <button type="button">신고</button>
                     </div>
+                </div>
+            </div>
+            <div class="reply-container" style="margin-left: ${step * 3}rem; display: none;">
+                <div class="profile">
+                    <img src="/assets/images/index/header/default-profile.png" alt="">
+                </div>
+                <div class="input-container">
+                    <label class="label" style="width: calc(100% - ${step * 3}rem);">
+                        <span style="color: #0AA5FF;">@${comment['userNickname']}</span>
+                        <input required type="text" minlength="1" name="reply" class="reply-input" placeholder="" size="44" style="width: calc(100% - 3rem);">                        
+                        <button class="input-button" type="button" name="inputButton" data-type="reply" data-parent-id="${comment['id']}" data-nickname="${comment['userNickname']}">입력</button>
+                    </label>
                 </div>
             </div>
         `)
@@ -176,6 +191,38 @@ const appendComments = (targetComments, wholeComments, step) => {
     }
 }
 
+const openReply = (button) => {
+    const reply = button.parentElement.parentElement.parentElement.nextElementSibling;
+
+    if (reply.style.display === 'flex') {
+        reply.style.display = 'none';
+    } else {
+        reply.style.display = 'flex';
+    }
+}
+
+
+document.addEventListener('click', (e) => {
+    const $button = e.target.closest('.input-button');
+    if (!$button) return;
+
+    const type = $button.dataset.type;
+    console.log(type)
+
+    if (type === 'comment') {
+        const content = $main.querySelector('input[name="comment"]').value;
+
+        sendReply({parentId: null, content });
+    }
+
+    if (type === 'reply') {
+        const parentId = $button.dataset.parentId;
+        const content = $button.closest('.reply-container').querySelector('input.reply-input').value;
+
+        sendReply({ parentId, content });
+    }
+});
+/*
 $commentButton.addEventListener('click', () => {
 
     const xhr = new XMLHttpRequest();
@@ -211,7 +258,49 @@ $commentButton.addEventListener('click', () => {
     }
     xhr.open('POST','/api/posts/comment');
     xhr.send(formData);
-})
+})*/
+
+const sendReply = ({ parentId, content }) =>{
+    if (!content || content.trim() === '') {
+        dialog.showSimpleOk('대댓글', '내용을 입력해주세요.');
+        return;
+    }
+
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('articleId', params.get('id'));
+    formData.append('commentId', parentId);
+    formData.append('content', content);
+
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+        if (xhr.status < 200 || xhr.status >= 300) {
+            dialog.showSimpleOk('오류', '요청을 처리하는 도중 오류가 발생했습니다.', {
+                onClickCallback: () => location.reload()
+            });
+            return;
+        }
+
+        const response = JSON.parse(xhr.responseText);
+        switch (response.result) {
+            case 'failure_session_expired':
+                dialog.showSimpleOk('댓글', '로그인 후 작성해 주세요.', {
+                    onOkCallback: () => location.href = "/user/login"
+                });
+                break;
+            case 'failure':
+                dialog.showSimpleOk('댓글', '잠시 후 다시 시도해 주세요.');
+                break;
+            case 'success':
+                location.reload();
+                break;
+        }
+    };
+
+    xhr.open('POST', '/api/posts/comment');
+    xhr.send(formData);
+}
 
 loadArticle();
 
