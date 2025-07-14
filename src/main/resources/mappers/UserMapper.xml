@@ -69,5 +69,20 @@
                `image_url` as `imageUrl`
         from `homggoo`.`users`
     </select>
+    <select id="selectByEmailAndProviderType" resultType="com.hgc.homggoo.entities.user.UserEntity">
+        select `email`         as `email`,
+               `profile`       as `profile`,
+               `password`      as `password`,
+               `is_admin`      as `isAdmin`,
+               `nickname`      as `nickname`,
+               `provider_type` as `providerType`,
+               `provider_key`  as `providerKey`,
+               `created_at`    as `createdAt`,
+               `modified_at`   as `modifiedAt`,
+               `is_deleted`    as `is_deleted`,
+               `image_url` as `imageUrl`
+        from `homggoo`.`users`
+        where `email`=#{email} and `provider_type`=#{providerType}
+    </select>
 
 </mapper>

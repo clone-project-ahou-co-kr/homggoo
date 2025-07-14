@@ -1,5 +1,4 @@
 const $main = document.getElementById('main');
-const $header = document.getElementById('header');
 const $button = document.getElementById('uploadButton');
 const $writeForm = document.getElementById('writeForm');
 const $title = $main.querySelector('input[name="title"]');

@@ -74,6 +74,18 @@ CREATE TABLE homggoo.article
         ON UPDATE CASCADE
 );
 
+CREATE TABLE `homggoo`.`email_token`
+(
+    `email`      VARCHAR(50)  NOT NULL,
+    `code`       VARCHAR(6)   NOT NULL,
+    `salt`       VARCHAR(128) NOT NULL,
+    `user_agent` VARCHAR(256) NOT NULL,
+    `is_used`    BOOLEAN      NOT NULL DEFAULT FALSE,
+    `create_at`  DATETIME     NOT NULL DEFAULT NOW(),
+    `expires_at` DATETIME     NULL,
+    CONSTRAINT PRIMARY KEY (`email`, `code`, `salt`)
+);
+
 CREATE TABLE homggoo.article_category
 (
     `category_id` VARCHAR(50) NOT NULL COMMENT '게시글 종류',

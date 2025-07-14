@@ -38,8 +38,25 @@ public class ProductService {
         return this.productMapper.insert(product) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 
+    public CommonResult updateProduct(ProductEntity product, UserEntity signedUser) {
+        UserEntity userEmail = this.productMapper.selectUserEmail(signedUser.getEmail());
+
+        product.setUserEmail(userEmail.getEmail());
+        product.setCreatedAt(LocalDateTime.now());
+        product.setUpdatedAt(LocalDateTime.now());
+        return this.productMapper.update(product) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
+
     public List<ProductVo> getAllProducts() {
         return this.productMapper.selectAll();
+    }
+
+    public int countProduct(String email) {
+        return this.productMapper.countByUserEmail(email);
+    }
+
+    public UserEntity getUserEmail(String email) {
+        return this.productMapper.selectUserEmail(email);
     }
 
     public CommonResult incrementView(ProductEntity product) {
@@ -47,7 +64,7 @@ public class ProductService {
             System.out.println(1);
             return CommonResult.FAILURE;
         }
-        if (product.getId() < 1){
+        if (product.getId() < 1) {
             System.out.println(2);
             return CommonResult.FAILURE;
         }

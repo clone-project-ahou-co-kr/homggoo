@@ -358,6 +358,7 @@
   flex-direction: column;
   gap: 1.2rem;
 }
+<<<<<<< HEAD
 #main > .layout > .comment-list > .reply-container {
   align-items: center;
   display: flex;
@@ -387,6 +388,59 @@
 #main > .layout > .comment-list > .reply-container > .input-container {
   width: calc(100% - 2.625rem);
   height: 100%;
+=======
+#main > .layout > .comment-list > .comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+#main > .layout > .comment-list > .comment > .profile > img {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+#main > .layout > .comment-list > .comment > .content-wrapper {
+  flex: 1;
+}
+#main > .layout > .comment-list > .comment > .content-wrapper > .name-time {
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #222;
+}
+#main > .layout > .comment-list > .comment > .content-wrapper > .name-time > .time {
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: #999;
+}
+#main > .layout > .comment-list > .comment > .content-wrapper > .text {
+  margin: 8px 0;
+  -webkit-box-align: center;
+  align-items: center;
+  font-size: 16px;
+  line-height: 24px;
+  word-break: break-word;
+  color: rgb(47, 52, 56);
+}
+#main > .layout > .comment-list > .comment > .content-wrapper > .actions {
+  margin-top: 0.6rem;
+}
+#main > .layout > .comment-list > .comment > .content-wrapper > .actions > button {
+  font-size: 0.85rem;
+  color: #888;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+> #main > .layout > .comment-list > .comment > .content-wrapper > .actions > button:hover {
+  color: #555;
+  text-decoration: underline;
+>>>>>>> b343d34297baecec910edb0f2d8d3287cc507e50
 }
 #main > .layout > .comment-list > .reply-container > .input-container > .label {
   align-items: center;

@@ -16,26 +16,6 @@ $menuOpen.addEventListener('click', () => {
     }
 });
 
-$modify.addEventListener('click', () => {
-    const xhr = new XMLHttpRequest();
-    const formData = new FormData();
-    const url = new URL(location.href);
-    const id = url.searchParams.get("id");
-    formData.append("id", id);
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState !== XMLHttpRequest.DONE) {
-            return;
-        }
-        if (xhr.status < 200 || xhr.status >= 300) {
-
-            return;
-        }
-
-    };
-    xhr.open('PATCH', );
-    xhr.send(formData);
-});
-
 $delete.addEventListener('click', () => {
     alert('!@!!!');
 });

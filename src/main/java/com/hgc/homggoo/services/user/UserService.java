@@ -130,7 +130,7 @@ public class UserService {
                     .result(CommonResult.FAILURE).build();
         }
         UserEntity dbUser = this.userMapper.selectByEmail(email);
-        if(!dbUser.isAdmin()){
+        if (!dbUser.isAdmin()) {
             return ResultTuple.<UserEntity>builder()
                     .result(CommonResult.FAILURE).build();
         }
@@ -139,7 +139,24 @@ public class UserService {
                 .payload(dbUser).
                 build();
     }
-    public UserEntity[] getAll(){
+
+    public UserEntity[] getAll() {
         return this.userMapper.selectAll();
+    }
+
+    public ResultTuple<UserEntity> getInfo(String email, String providerKey) {
+        if (email == null || providerKey == null) {
+            return ResultTuple.<UserEntity>builder()
+                    .result(CommonResult.FAILURE).build();
+        }
+        UserEntity dbUser = this.userMapper.selectByEmailAndProviderType(email, providerKey);
+        if (dbUser == null || dbUser.isAdmin() || dbUser.isDeleted()) {
+            return ResultTuple.<UserEntity>builder()
+                    .result(CommonResult.FAILURE_SESSION_EXPIRED).build();
+        }
+        return ResultTuple.<UserEntity>builder()
+                .result(CommonResult.SUCCESS)
+                .payload(dbUser)
+                .build();
     }
 }

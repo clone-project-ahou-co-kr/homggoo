@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>마이 페이지</title>
+    <script th:if="${signedUser==null}">
+        alert('없다.');
+        history.back();
+    </script>
+    <script defer src="/assets/scripts/common.js"></script>
+    <script defer src="/user/assets/scripts/mypage.js"></script>
+</head>
+<body th:if="${signedUser != null}">
+<div class="mypage-container">
+    <span th:text="${signedUser.nickname}"></span>
+    <span th:text="${signedUser.email}"></span>
+
+    <img th:src="@{/api/user/profile-image}" alt="profileImage">
+    <button class="modify">정보수정</button>
+    <button class="delete">회원탈퇴</button>
+</div>
+<form id="mypage-form" class="visible">
+    <label>
+        <input type="hidden" name="email" th:value="${signedUser.email}">
+        <input type="hidden" name="providerType" th:value="${signedUser.providerType}"/>
+        <input type="password" name="password" placeholder="입력해주세요.">
+    </label>
+    <button type="submit"></button>
+</form>
+
+
+</body>
+</html>
