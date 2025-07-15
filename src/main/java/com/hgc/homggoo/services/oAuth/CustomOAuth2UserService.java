@@ -76,7 +76,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             UserEntity newUser = new UserEntity();
             newUser.setEmail(email);
             newUser.setNickname(nickname);
-            newUser.setPassword(providerType); // 의미 없음
+            newUser.setPassword(providerKey); // 의미 없음
             newUser.setProviderType(providerType);
             newUser.setProviderKey(providerKey);
             newUser.setCreatedAt(LocalDateTime.now());

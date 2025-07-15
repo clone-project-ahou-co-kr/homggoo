@@ -115,7 +115,6 @@
 
       .email-container,
       .password-container,
-      .password-container,
       .nickname-container,
       .agree-container {
         @include flex(column, flex-start, flex-start, 0.625rem);
@@ -184,6 +183,18 @@
         }
       }
 
+      > .password-container {
+        > label {
+          .input-object {
+
+            &disabled {
+              background-color: #828C94;
+              color: #888888;
+            }
+          }
+        }
+      }
+
       > .agree-container {
         > .contract {
           @include flex(column, center, center, 0.5rem);
@@ -210,12 +221,14 @@
   }
 }
 
-.error-message {
+ [data-role="passwordCheck-error"],[data-role="password-error"]
+,[data-role="email-error"],[data-role="nickname-error"]{
   color: #e74c3c !important;
   display: none;
 }
 
-.common-message {
+[data-role="passwordCheck-common"],[data-role="password-common"]
+,[data-role="email-common"],[data-role="nickname-common"]{
   color: #e74c3c !important;
   display: none;
 }
