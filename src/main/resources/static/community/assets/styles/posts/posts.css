@@ -1,7 +1,7 @@
 #main {
   align-items: center;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   flex-wrap: nowrap;
   gap: 0;
@@ -441,7 +441,7 @@
   justify-content: flex-start;
   flex-wrap: nowrap;
   gap: 1rem;
-  margin: 1rem 0;
+  padding: 1rem;
 }
 #main > .layout > .comment-list > .comment > * {
   flex-grow: 0;
@@ -496,6 +496,9 @@
 > #main > .layout > .comment-list > .comment > .content-wrapper > .actions > button:hover {
   color: #555;
   text-decoration: underline;
+}
+#main > .stretch {
+  height: 3rem;
 }
 #main > .side-actions {
   align-items: center;
