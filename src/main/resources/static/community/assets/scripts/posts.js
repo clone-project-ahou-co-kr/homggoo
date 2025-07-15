@@ -152,10 +152,11 @@ const appendComments = (targetComments, wholeComments, step) => {
     for (const comment of targetComments) {
         const isReply = comment.commentId !== null;
         const replyTag = isReply ? `<span style="color: #0AA5FF;">@${comment.userNickname} &nbsp;</span>` : '';
+        const replyBackgroundColor = step > 0 ? `background-color: rgb(247, 249, 250);` : ``;
 
         // noinspection CssInvalidPropertyValue
         $commentList.insertAdjacentHTML('beforeend', `
-            <div class="comment" style="margin-left: ${step * 3}rem;">
+            <div class="comment" style="margin-left: ${step * 3}rem; ${replyBackgroundColor};" th:if="step != 0 ? ">
                 <div class="profile">
                     <img src="/assets/images/index/header/default-profile.png" alt="">
                 </div>
@@ -166,9 +167,9 @@ const appendComments = (targetComments, wholeComments, step) => {
                     </div>
                     <div class="text">${replyTag}${comment['content']}</div>
                     <div class="actions">
-                        <button type="button" onclick="openReply(this)">답글 달기</button><span>&nbsp·&nbsp</span>
+                        <button type="button" onclick="openReply(this)">답글 달기</button><!--<span>&nbsp·&nbsp</span>-->
                         <!--<button type="button">❤ 좋아요</button><span>&nbsp·&nbsp</span>-->
-                        <button type="button">신고</button>
+                        <!--<button type="button">신고</button>-->
                     </div>
                 </div>
             </div>
@@ -187,7 +188,7 @@ const appendComments = (targetComments, wholeComments, step) => {
         `)
         const nextComments = wholeComments.filter((nextComment) => nextComment.commentId === comment.id);
         if (nextComments.length > 0) {
-            appendComments(nextComments, wholeComments, step + 1);
+            appendComments(nextComments, wholeComments, 1);
         }
     }
 }
@@ -219,7 +220,8 @@ document.addEventListener('click', (e) => {
     if (type === 'reply') {
         const parentId = $button.dataset.parentId;
         const content = $button.closest('.reply-container').querySelector('input.reply-input').value;
-
+        document.querySelector('.reply-container').style.display = 'none';
+        document.querySelector('.reply-container').style.backgroundColor = 'rgb(247, 249, 250)';
         sendReply({ parentId, content });
 
     }
@@ -284,7 +286,7 @@ const sendReply = ({ parentId, content }) =>{
             });
             return;
         }
-
+        $commentList.innerHTML = '';
         const response = JSON.parse(xhr.responseText);
         switch (response.result) {
             case 'failure_session_expired':

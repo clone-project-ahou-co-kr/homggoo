@@ -3,7 +3,7 @@
 @import "../../../../assets/styles/def";
 
 #main {
-  @include flex(row, center, center);
+  @include flex(column, center, center);
   margin-top: 3rem;
 
   > .layout {
@@ -298,7 +298,7 @@
 
       > .comment {
         @include flex(row, flex-start, flex-start, 1rem);
-        margin: 1rem 0;
+        padding: 1rem;
 
         > .profile {
           > img {
@@ -359,6 +359,10 @@
     }
   }
 
+  > .stretch {
+    height: 3rem;
+  }
+
   > .side-actions {
     @include flex(column, center, center);
     position: fixed;
@@ -413,7 +417,4 @@
       }
     }
   }
-
-
-
 }

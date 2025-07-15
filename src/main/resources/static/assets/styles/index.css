@@ -153,6 +153,53 @@
   width: 1.5rem;
   height: 1.5rem;
 }
+#header .main-nav > .nav > .nav-right > .user-true .wrapper {
+  position: relative;
+  display: inline-block;
+}
+#header .main-nav > .nav > .nav-right > .user-true .wrapper picture img {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #dfe3e8;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+#header .main-nav > .nav > .nav-right > .user-true .wrapper .menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 3rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0.5rem;
+  min-width: 160px;
+  z-index: 999;
+}
+#header .main-nav > .nav > .nav-right > .user-true .wrapper .menu li {
+  list-style: none;
+}
+#header .main-nav > .nav > .nav-right > .user-true .wrapper .menu li a {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+}
+#header .main-nav > .nav > .nav-right > .user-true .wrapper .menu li a:hover {
+  background-color: #f5f5f5;
+}
+#header .main-nav > .nav > .nav-right > .user-true .wrapper .menu li a .new {
+  background-color: #ff3d3d;
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 5px;
+  border-radius: 50%;
+  margin-left: 6px;
+}
 #header .main-nav > .nav > .nav-right > .user-false {
   align-items: center;
   display: flex;
