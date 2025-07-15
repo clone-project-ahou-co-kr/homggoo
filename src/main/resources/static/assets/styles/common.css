@@ -32,14 +32,14 @@
   filter: opacity(66.66%) !important;
 }
 .--object-button.-color-blue {
-  background-color: #3498db;
+  background-color: #0478F8;
   color: #fafcfe;
 }
 .--object-button.-color-blue:hover {
-  background-color: rgb(41.1705020921, 146.5052301255, 217.0794979079);
+  background-color: rgb(3.7976190476, 113.9285714286, 235.4523809524);
 }
 .--object-button.-color-blue:active {
-  background-color: rgb(36.9790794979, 139.6987447699, 208.5209205021);
+  background-color: rgb(3.5952380952, 107.8571428571, 222.9047619048);
 }
 .--object-button.-color-gray {
   background-color: #727476;
@@ -81,7 +81,7 @@
 .button-object {
   width: 100%;
   padding: 0.75rem;
-  background-color: #35c5f0;
+  background-color: #0478F8;
   color: #fff;
   font-size: 1rem;
   font-weight: 600;
@@ -218,44 +218,14 @@ ol, ul {
   pointer-events: auto;
   transform: scale(100%) translate(-50%, -50%);
 }
-.--dialog > .---modal.-visible .visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-.--dialog > .---modal.-visible > .modal {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex-wrap: nowrap;
-  gap: 0.625rem;
-  width: 25rem;
-  aspect-ratio: 4/2;
-  background-color: #ffffff;
-  border-radius: 1rem;
-}
-.--dialog > .---modal.-visible > .modal > * {
-  flex-grow: 0;
-  flex-shrink: 0;
-}
-.--dialog > .---modal.-visible > .modal > .stretch {
-  flex-grow: 1;
-  flex-shrink: 1;
-}
-.--dialog > .---modal.-visible > .modal > .title {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 600;
-  color: #000000;
-}
-.--dialog > .---modal.-visible > .modal > .---title {
+.--dialog > .---modal > .---title {
   font-size: 1rem;
   font-weight: 400;
 }
-.--dialog > .---modal.-visible > .modal > .---content {
+.--dialog > .---modal > .---content {
   text-align: justify;
 }
-.--dialog > .---modal.-visible > .modal > .---button-container {
+.--dialog > .---modal > .---button-container {
   align-items: stretch;
   display: flex;
   flex-direction: row;
@@ -263,11 +233,11 @@ ol, ul {
   flex-wrap: nowrap;
   gap: 0.5rem;
 }
-.--dialog > .---modal.-visible > .modal > .---button-container > * {
+.--dialog > .---modal > .---button-container > * {
   flex-grow: 0;
   flex-shrink: 0;
 }
-.--dialog > .---modal.-visible > .modal > .---button-container > .stretch {
+.--dialog > .---modal > .---button-container > .stretch {
   flex-grow: 1;
   flex-shrink: 1;
 }

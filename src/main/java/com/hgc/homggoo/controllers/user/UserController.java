@@ -55,6 +55,11 @@ public class UserController {
         }
         return "user/login"; // 로그인 폼
     }
+    @RequestMapping(value = "/logout", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public String postLogout(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser, HttpSession session) {
+        session.setAttribute("signedUser", null);
+        return "redirect:/";
+    }
 
     @RequestMapping(value = "/admin/login", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String getAdminLogin() {

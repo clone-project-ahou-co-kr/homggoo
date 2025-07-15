@@ -64,7 +64,6 @@ $button.addEventListener('click', () => {
     formData.append('price', price.textContent);
     formData.append('title', $writeForm['title'].value);
     formData.append('productId', $writeForm['productId'].value);
-    console.log(imageInput.files[0]);
     formData.append('_image', imageInput.files[0]);
 
     xhr.onreadystatechange = () => {

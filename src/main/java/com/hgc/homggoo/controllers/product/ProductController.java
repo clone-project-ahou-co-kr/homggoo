@@ -49,9 +49,14 @@ public class ProductController {
         if (signedUser != null) {
             UserEntity signed = this.productService.getUserEmail(signedUser.getEmail());
             int productCount = this.productService.countProduct(productId.getUserEmail());
+            boolean liked = this.productService.isLikedByUser(id, signedUser.getEmail());
+
             model.addAttribute("user", signed);
             model.addAttribute("productCount", productCount);
+            model.addAttribute("liked", liked);
         }
+        int likeCount = this.productService.getLikeCount(id);
+        model.addAttribute("likeCount", likeCount);
         model.addAttribute("product", productId);
         return "product/production";
     }

@@ -37,20 +37,22 @@ body {
   height: 100%;
   z-index: 2;
   position: absolute;
+  background-color: #98b3e2;
+
 
   > .inner-container {
     @include flex(row, center, stretch);
     width: 78rem;
     height: 50.75rem;
     border-radius: 0.625rem;
-    background-color: #F6F9FA;
     padding: 0;
+    box-shadow: 4px 4px 10px gray;
 
     > #category {
       width: 15rem;
       height: 100%;
       margin: 0;
-      background-color: #014c72;
+      background-color: #395886;
       border-bottom-left-radius: 0.625rem;
       border-top-left-radius: 0.625rem;
 
@@ -90,7 +92,7 @@ body {
       //background-color: #1abc9c;
       border-top-right-radius: 0.625rem;
       border-bottom-right-radius: 0.625rem;
-
+      background-color: #f0f3fa;
 
       > .board, .notice, .user, .all {
         width: 100%;
@@ -102,7 +104,6 @@ body {
         @include flex(column, flex-start, flex-start, 0.5rem);
         width: 100%;
         height: 100%;
-        background-color: dodgerblue;
 
 
         > .title {
@@ -177,7 +178,8 @@ body {
           }
         }
       }
-      .article.menu{
+
+      .article.menu {
         width: 100%;
         height: 100%;
         @include flex(column, flex-start, stretch);
@@ -232,8 +234,8 @@ body {
   }
 }
 
-.--dialog{
-  >.---modal{
+.--dialog {
+  > .---modal {
     width: 78rem;
     height: 50.75rem;
   }

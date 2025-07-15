@@ -1,6 +1,7 @@
 package com.hgc.homggoo.controllers.product.api;
 
 import com.hgc.homggoo.entities.product.ProductEntity;
+import com.hgc.homggoo.entities.product.ProductUserLikeEntity;
 import com.hgc.homggoo.entities.user.UserEntity;
 import com.hgc.homggoo.results.CommonResult;
 import com.hgc.homggoo.services.product.ProductService;
@@ -54,8 +55,8 @@ public class ProductApiController {
         if (image != null && !image.isEmpty()) {
             product.setImage(image.getBytes());
         } else {
-            ProductVo existing = productService.getById(product.getId());
-            product.setImage(existing.getImage());
+            ProductVo already = productService.getById(product.getId());
+            product.setImage(already.getImage());
         }
 
         CommonResult result = productService.updateProduct(product, signedUser);
@@ -66,7 +67,28 @@ public class ProductApiController {
         } else {
             response.put("result", "failure");
         }
-
         return response;
+    }
+
+    @RequestMapping(value = "/deleteProduct", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteProduct (@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                                 ProductEntity product) {
+        CommonResult result = this.productService.deleteProduct(product, signedUser);
+        JSONObject response = new JSONObject();
+        response.put("result", result);
+        return response.toString().toLowerCase();
+    }
+
+    @RequestMapping(value = "/productLike", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String patchProductUserLike (@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                                        @RequestParam(value = "id")int id) {
+        Boolean result = this.productService.productUserLike(signedUser, id);
+        JSONObject response = new JSONObject();
+        if (result == null) {
+            response.put("result", CommonResult.FAILURE.nameToLower());
+        } else {
+            response.put("result", result);
+        }
+        return response.toString();
     }
 }

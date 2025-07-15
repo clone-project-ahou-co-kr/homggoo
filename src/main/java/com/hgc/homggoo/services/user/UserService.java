@@ -4,9 +4,11 @@ import com.hgc.homggoo.entities.user.EmailTokenEntity;
 import com.hgc.homggoo.entities.user.UserEntity;
 import com.hgc.homggoo.mappers.user.EmailTokenMapper;
 import com.hgc.homggoo.mappers.user.UserMapper;
+import com.hgc.homggoo.regexes.UserRegex;
 import com.hgc.homggoo.results.CommonResult;
 import com.hgc.homggoo.results.ResultTuple;
 import com.hgc.homggoo.results.Results;
+import com.hgc.homggoo.utils.Bcrypt;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
@@ -21,6 +24,8 @@ import java.time.LocalDateTime;
 
 @Service
 public class UserService {
+
+    private final RestClient.Builder builder;
 
     private static EmailTokenEntity generateEmailToken(String email, String userAgent, int expMin) {
         String code = RandomStringUtils.randomNumeric(6);// 000000 - 999999 까지 준다. -> 반환타입은 String
@@ -48,34 +53,46 @@ public class UserService {
     private final SpringTemplateEngine springTemplateEngine;
 
     @Autowired
-    public UserService(UserMapper userMapper, EmailTokenMapper emailTokenMapper, JavaMailSender javaMailSender, SpringTemplateEngine springTemplateEngine) {
+    public UserService(UserMapper userMapper, EmailTokenMapper emailTokenMapper, JavaMailSender javaMailSender, SpringTemplateEngine springTemplateEngine, RestClient.Builder builder) {
         this.userMapper = userMapper;
         this.emailTokenMapper = emailTokenMapper;
         this.javaMailSender = javaMailSender;
         this.springTemplateEngine = springTemplateEngine;
+        this.builder = builder;
     }
 
-    public Results register(UserEntity user) {
-        if (user == null || user.getNickname() == null || user.getNickname().trim().isEmpty()) {
+    public Results isPasswordAvailable(String password) {
+        if (!UserRegex.password.matches(password)) {
             return CommonResult.FAILURE;
         }
-        if (this.userMapper.selectCountByEmail(user.getEmail()) > 0) {
-            return CommonResult.FAILURE_DUPLICATE;
-        }
-        user.setAdmin(true);
-        user.setDeleted(false);
-        user.setProfile(new byte[1]); // 테스트용 기본값
-        user.setCreatedAt(LocalDateTime.now());
-        user.setModifiedAt(LocalDateTime.now());
-        user.setProviderType("ORIGIN"); // ENUM과 일치하도록 대문자
-        user.setProviderKey(null);
-        return this.userMapper.insert(user) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+        return CommonResult.SUCCESS;
     }
+
+    public Results isNicknameAvailable(String nickname) {
+        if (!UserRegex.nickname.matches(nickname)) {
+            return CommonResult.FAILURE;
+        }
+        return CommonResult.SUCCESS;
+    }
+
+    public Results isEmailAvailable(String email) {
+        if (!UserRegex.email.matches(email)) {
+            return CommonResult.FAILURE;
+        }
+        return CommonResult.SUCCESS;
+    }
+
 
     public ResultTuple<EmailTokenEntity> sendRegisterEmail(String email, String userAgent) throws MessagingException {
         if (userAgent == null) {
             return ResultTuple.<EmailTokenEntity>builder()
                     .result(CommonResult.FAILURE).build();
+        }
+        int dbUser = this.userMapper.selectCountByEmail(email);
+        if (dbUser > 0) {
+            return ResultTuple.<EmailTokenEntity>builder()
+                    .result(CommonResult.FAILURE)
+                    .build();
         }
         if (this.userMapper.selectCountByEmail(email) > 0) {
             return ResultTuple.<EmailTokenEntity>builder()
@@ -119,10 +136,34 @@ public class UserService {
                     .result(CommonResult.FAILURE_SESSION_EXPIRED)
                     .build();
         }
+        if (!Bcrypt.isMatch(password, dbUser.getPassword())) {
+            return ResultTuple.<UserEntity>builder()
+                    .result(CommonResult.FAILURE).build();
+        }
         return ResultTuple.<UserEntity>builder()
                 .result(CommonResult.SUCCESS)
                 .payload(dbUser).build();
     }
+
+    public Results register(UserEntity user) {
+        if (user == null || user.getNickname() == null || user.getNickname().trim().isEmpty()) {
+            return CommonResult.FAILURE;
+        }
+
+        if (this.userMapper.selectCountByEmail(user.getEmail()) > 0) {
+            return CommonResult.FAILURE_DUPLICATE;
+        }
+        user.setAdmin(false);
+        user.setDeleted(false);
+        user.setPassword(Bcrypt.encrypt(user.getPassword()));
+        user.setProfile(new byte[1]); // 테스트용 기본값
+        user.setCreatedAt(LocalDateTime.now());
+        user.setModifiedAt(LocalDateTime.now());
+        user.setProviderType("ORIGIN"); // ENUM과 일치하도록 대문자
+        user.setProviderKey(null);
+        return this.userMapper.insert(user) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
+
 
     public ResultTuple<UserEntity> adminLogin(String email, String password) {
         if (email == null || password == null) {
@@ -134,6 +175,10 @@ public class UserService {
             return ResultTuple.<UserEntity>builder()
                     .result(CommonResult.FAILURE).build();
         }
+        if(!Bcrypt.isMatch(password,dbUser.getPassword())){
+            return ResultTuple.<UserEntity>builder()
+                    .result(CommonResult.FAILURE_ABSENT).build();
+        }
         return ResultTuple.<UserEntity>builder()
                 .result(CommonResult.SUCCESS_ADMIN)
                 .payload(dbUser).
@@ -142,21 +187,5 @@ public class UserService {
 
     public UserEntity[] getAll() {
         return this.userMapper.selectAll();
-    }
-
-    public ResultTuple<UserEntity> getInfo(String email, String providerKey) {
-        if (email == null || providerKey == null) {
-            return ResultTuple.<UserEntity>builder()
-                    .result(CommonResult.FAILURE).build();
-        }
-        UserEntity dbUser = this.userMapper.selectByEmailAndProviderType(email, providerKey);
-        if (dbUser == null || dbUser.isAdmin() || dbUser.isDeleted()) {
-            return ResultTuple.<UserEntity>builder()
-                    .result(CommonResult.FAILURE_SESSION_EXPIRED).build();
-        }
-        return ResultTuple.<UserEntity>builder()
-                .result(CommonResult.SUCCESS)
-                .payload(dbUser)
-                .build();
     }
 }

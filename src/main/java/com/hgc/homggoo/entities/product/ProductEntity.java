@@ -20,5 +20,4 @@ public class ProductEntity {
     private int likeCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private boolean isDeleted;
 }

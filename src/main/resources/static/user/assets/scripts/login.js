@@ -17,11 +17,21 @@ $loginForm.querySelector(':scope > .order-container > .unsigned-user')
 $loginForm.onsubmit = (e) => {
     e.preventDefault();
     if ($loginForm['loginEmail'].value === '') {
-        alert('이메일을 입력해주세요.');
+        dialog.showSimpleOk('로그인', '이메일을 입력해주세요');
+        $loginForm['loginEmail'].focus();
+        return;
+    }else if (!$loginForm['loginEmail'].validity.valid) {
+        dialog.showSimpleOk('경고', '이메일이 올바르지 않습니다.');
+        $loginForm['loginEmail'].focus();
         return;
     }
     if ($loginForm['loginPassword'].value === '') {
-        alert('비밀번호를 입력해주세요.');
+        dialog.showSimpleOk('로그인', '비밀번호를 입력해주세요');
+        $loginForm['loginPassword'].focus();
+        return;
+    }else if (!$loginForm['loginPassword'].validity.valid) {
+        dialog.showSimpleOk('로그인', '비밀번호가 올바르지 않습니다.');
+        $loginForm['loginPassword'].focus();
         return;
     }
     const xhr = new XMLHttpRequest();

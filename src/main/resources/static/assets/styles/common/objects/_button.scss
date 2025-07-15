@@ -40,7 +40,7 @@ $button-field-height: 2rem;
   }
 
   &.-color-blue {
-    @include buttonEffect(#3498db, #fafcfe, -2.5%);
+    @include buttonEffect(#0478F8, #fafcfe, -2.5%);
   }
 
   &.-color-gray {
@@ -66,7 +66,7 @@ $button-field-height: 2rem;
 .button-object {
   width: 100%;
   padding: 0.75rem;
-  background-color: #35c5f0;
+  background-color: #0478F8;
   color: #fff;
   font-size: 1rem;
   font-weight: 600;
