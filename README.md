@@ -170,4 +170,21 @@ CREATE TABLE homggoo.product_user_likes
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
+create table `homggoo`.`notice`
+(
+    `index`       INT UNSIGNED AUTO_INCREMENT NOT NULL,
+    `title`       VARCHAR(100)                NOT NULL,
+    `content`     LONGTEXT                    NOT NULL,
+    `user_email`  VARCHAR(50)                 NOT NULL COMMENT '작성자 이메일 (FK)',
+    `view`        INT(10) UNSIGNED            NOT NULL DEFAULT 0,
+    `created_at`  DATETIME                    NOT NULL DEFAULT NOW() COMMENT '작성일',
+    `modified_at` DATETIME                    NOT NULL DEFAULT NOW() COMMENT '수정일',
+    `is_deleted`  BOOLEAN                     NOT NULL DEFAULT FALSE COMMENT '삭제여부',
+    `board_id`    VARCHAR(20)                 NOT NULL COMMENT '보드아이디',
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT FOREIGN KEY (`user_email`) REFERENCES homggoo.users (`email`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
 ```

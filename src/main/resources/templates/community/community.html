@@ -32,20 +32,20 @@
         <span><a th:href="@{/community/product(categoryId='product_review')}"><span>상품후기</span></a></span>
         <span><a th:href="@{/community/product(categoryId='product_free')}"><span>꿀템수다</span></a></span>
     </div>
-    <div class="best">
-        <div class="card">
-            네모네모사인
-        </div>
-        <div class="card">
-            네모네모사인
-        </div>
-        <div class="card">
-            네모네모사인
-        </div>
-        <div class="card">
-            네모네모사인
-        </div>
-    </div>
+<!--    <div class="best">-->
+<!--        <div class="card">-->
+<!--            네모네모사인-->
+<!--        </div>-->
+<!--        <div class="card">-->
+<!--            네모네모사인-->
+<!--        </div>-->
+<!--        <div class="card">-->
+<!--            네모네모사인-->
+<!--        </div>-->
+<!--        <div class="card">-->
+<!--            네모네모사인-->
+<!--        </div>-->
+<!--    </div>-->
     <div class="board">
         <div class="post-card" th:each="article : ${articles}">
             <div class="item" th:attr="data-board=${article.getBoardId}, data-category-id=${article.getCategoryId}">

@@ -56,7 +56,7 @@
             </div>
             <div class="input-container">
                 <label class="label">
-                    <input required type="text" minlength="1" name="comment" class="comment-input" placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다:)" size="44">
+                    <input required autocomplete="off" type="text" minlength="1" name="comment" class="comment-input" placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다:)" size="44">
                     <button class="input-button" type="button" name="inputComment" data-type="comment">입력</button>
                 </label>
             </div>
@@ -90,10 +90,10 @@
         </button>
         <span id="isLiked">1</span>
         <hr>
-        <button type="button" class="icon-button" title="댓글">
+        <button type="button" class="icon-button comment" name="comment-button" title="댓글">
             <span class="icon"><img src="/community/assets/images/comment.png" alt=""></span>
         </button>
-        <button type="button" class="icon-button" title="공유">
+        <button type="button" class="icon-button share" name="share-button" title="공유">
             <span class="icon"><img src="/community/assets/images/share.png" alt=""></span>
         </button>
     </div>

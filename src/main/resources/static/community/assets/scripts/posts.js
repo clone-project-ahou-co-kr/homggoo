@@ -5,6 +5,7 @@ const $isLiked = document.getElementById('isLiked');
 const $signedUser = document.getElementById('signedUser');
 const $commentList = $main.querySelector('.comment-list');
 const $commentsCount = $main.querySelector(':scope > .layout > .comment-content > .title > .comment-count');
+const $sideCommentBtn = $main.querySelector(':scope > .side-actions > .icon-button.comment');
 
 const loadArticle = () => {
 
@@ -205,7 +206,8 @@ const openReply = (button) => {
 
 
 document.addEventListener('click', (e) => {
-    const $button = e.target.closest('.input-button');
+    const $button = e.target.closest('.input-button.-liked');
+
     if (!$button) return;
 
     const type = $button.dataset.type;
@@ -221,48 +223,14 @@ document.addEventListener('click', (e) => {
         const parentId = $button.dataset.parentId;
         const content = $button.closest('.reply-container').querySelector('input.reply-input').value;
         document.querySelector('.reply-container').style.display = 'none';
-        document.querySelector('.reply-container').style.backgroundColor = 'rgb(247, 249, 250)';
         sendReply({ parentId, content });
 
     }
 });
-/*
-$commentButton.addEventListener('click', () => {
 
-    const xhr = new XMLHttpRequest();
-    const formData = new FormData();
-    formData.append('articleId', params.get('id'))
-    formData.append('content', $main['comment'].value);
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState !== XMLHttpRequest.DONE) {
-            return;
-        }
-        if (xhr.status < 200 || xhr.status >= 300) {
-            dialog.showSimpleOk('오류', '요청을 처리하는 도중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.', {
-                onClickCallback: () => location.reload()
-            });
-            return;
-        }
-        const response = JSON.parse(xhr.responseText);
-        switch (response.result) {
-            case 'failure_session_expired':
-                dialog.showSimpleOk('댓글', '로그인 후 작성해 주세요.', {
-                    onOkCallback: location.href = "/user/login"
-                })
-                break;
-            case 'failure':
-                dialog.showSimpleOk('댓글', '잠시 후 다시 이용해 주세요.');
-                break;
-            case 'success':
-                location.reload();
-                break;
-
-        }
-
-    }
-    xhr.open('POST','/api/posts/comment');
-    xhr.send(formData);
-})*/
+$sideCommentBtn.addEventListener('click', () => {
+    $main.querySelector('input[name="comment"]').focus();
+})
 
 const sendReply = ({ parentId, content }) =>{
     if (!content || content.trim() === '') {

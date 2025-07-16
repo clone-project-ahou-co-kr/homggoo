@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const $profile = document.getElementById('profile');
     const $menu = document.getElementById('menu');
+    if ($profile === null || $menu === null) {
+        return null;
+    }
 
     $profile.addEventListener('click', (e) => {
         e.stopPropagation(); // 부모 전파 방지
