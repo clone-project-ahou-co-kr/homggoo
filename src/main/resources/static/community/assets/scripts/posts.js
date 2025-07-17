@@ -169,8 +169,8 @@ const appendComments = (targetComments, wholeComments, step) => {
                     <div class="text">${replyTag}${comment['content']}</div>
                     <div class="actions">
                         <button type="button" onclick="openReply(this)">답글 달기</button><!--<span>&nbsp·&nbsp</span>-->
-                        <!--<button type="button">❤ 좋아요</button><span>&nbsp·&nbsp</span>-->
-                        <!--<button type="button">신고</button>-->
+                        <!--<button type="button">❤ 좋아요</button><span>&nbsp·&nbsp</span>
+                        <button type="button">신고</button>-->
                     </div>
                 </div>
             </div>
@@ -206,7 +206,7 @@ const openReply = (button) => {
 
 
 document.addEventListener('click', (e) => {
-    const $button = e.target.closest('.input-button.-liked');
+    const $button = e.target.closest('.input-button');
 
     if (!$button) return;
 
