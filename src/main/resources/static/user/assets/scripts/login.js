@@ -43,17 +43,22 @@ $loginForm.onsubmit = (e) => {
             return;
         }
         if (xhr.status < 200 || xhr.status >= 300) {
-            alert('요청중 오류')
+            dialog.showSimpleOk('경고', '요청 중 오류');
             return;
         }
         const response = JSON.parse(xhr.responseText);
         switch (response.result) {
             case 'failure':
-                alert('로그인 실패');
+                dialog.showSimpleOk('로그인', '로그인에 실패하였습니다. 비밀번호 또는 이메일을 확인해주세요.');
                 break;
             case'success':
-                alert('로그인 성공');
                 location.href = '/';
+                break;
+            case'failure_session_expired':
+                dialog.showSimpleOk('로그인', '탈퇴한 이메일 입니다.');
+                break;
+            case'failure_absent':
+                dialog.showSimpleOk('로그인', '일치하는 정보를 찾지 못하였습니다.');
                 break;
             default:
                 break;

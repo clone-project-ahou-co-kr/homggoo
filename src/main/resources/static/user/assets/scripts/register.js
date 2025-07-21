@@ -166,7 +166,7 @@ $registerForm['emailCodeVerifyButton'].addEventListener('click', () => {
             case 'success':
                 clearInterval(timerInterval);
                 dialog.showSimpleOk('이메일 인증', '인증에 성공했습니다!');
-                emailVerifyContainer.setVisible?.(false);  // 너가 쓰는 커스텀 유틸
+                emailVerifyContainer.setVisible?.(false);
                 $registerForm['password'].removeAttribute('disabled');
                 break;
             default:

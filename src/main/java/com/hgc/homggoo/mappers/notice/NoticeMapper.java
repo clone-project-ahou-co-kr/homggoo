@@ -17,4 +17,6 @@ public interface NoticeMapper {
     int update(@Param(value = "notice") NoticeEntity notice);
 
     int incrementView(@Param(value = "index") int index);
+
+
 }

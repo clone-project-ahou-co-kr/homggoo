@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>회원정보수정 | homggoo</title>
+    <link rel="icon" href="/user/assets/images/favicon.png">
+    <link rel="stylesheet" href="/assets/styles/common.min.css">
+    <link rel="stylesheet" href="/assets/styles/index.min.css">
+    <link rel="stylesheet" href="/user/assets/styles/edit.min.css">
+    <script defer src="/assets/scripts/common.js"></script>
+    <script defer src="/user/assets/scripts/edit.js"></script>
+</head>
+<body th:if="${signedUser!=null}">
+<header th:replace="~{fragments/header :: header}"></header>
+<div id="main-content">
+    <div class="edit-container">
+        <form novalidate id="edit-form">
+            <div class="img-container">
+<!--                todo profile-image 교환.-->
+                <img th:src="@{/api/user/profile-image}"
+                     onerror="this.src='/assets/images/index/header/default-profile.png'">
+            </div>
+            <div class="nickname-container common">
+                <strong>닉네임</strong>
+                <label class="label-object">
+                    <input class="input-object stretch" required type="text"
+                           name="nickname"
+                           th:value="${signedUser.nickname}">
+                </label>
+            </div>
+            <div class="email-container common">
+                <input type="hidden" name="emailSalt">
+                <strong>이메일</strong>
+                <label class="label-object">
+                    <input class="input-object" type="text" name="email"
+                           disabled
+                           th:value="${signedUser.email}">
+                </label>
+                <span class="signed-naver"
+                      th:if="${signedUser.providerType.toString().equals('NAVER')}"
+                      th:text="'네이버로 가입한 계정이에요.'"></span>
+
+                <span class="signed-kakao"
+                      th:if="${signedUser.providerType.toString().equals('KAKAO')}"
+                      th:text="'카카오로 가입한 계정이에요.'"></span>
+            </div>
+            <button type="submit" class="button-object">수정하기</button>
+
+            <div class="divider"></div>
+            <div class="retire-container">
+                <button class="button-object retire-button" name="retire">탈퇴하기</button>
+                <div id="retire-form">
+                    <label for="retire-check" class="check">
+                        <input type="checkbox" id="retire-check" name="agree">
+                        <span>회원 탈퇴에 동의하시면 체크 해주십시오.(필수)</span>
+                    </label>
+                    <label class="button">
+                        <input required class="input-object password" name="password" type="password"
+                               placeholder="비밀번호를 입력해주세요" minlength="5" maxlength="50">
+                    </label>
+                    <button type="button" class="button-object confirm">탈퇴</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

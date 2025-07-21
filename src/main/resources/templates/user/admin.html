@@ -18,7 +18,41 @@
     location.href = "/";
 </script>
 <body>
-<!--<div class="background"></div>-->
+<div class="--dialog" id="userDialog">
+    <div class="---modal">
+        <div class="---title">회원 정보</div>
+        <div class="---content">
+            <p><strong>닉네임:</strong> <span class="dialogNickname"></span></p>
+            <p><strong>이메일:</strong> <span class="dialogEmail"></span></p>
+            <p><strong>가입일:</strong> <span class="dialogCreatedAt"></span></p>
+            <p><strong>탈퇴 여부:</strong> <span class="dialogDeleted"></span></p>
+
+            <div class="dialogArticles">
+                <h4>작성한 게시글</h4>
+                <ul class="articleList"></ul>
+            </div>
+            <button class="dialogCloseBtn">닫기</button>
+        </div>
+    </div>
+</div>
+
+<div class="--dialog" id="articleDialog">
+    <div class="---modal">
+        <div class="---title"><strong>카테고리:</strong><span class="dialogCategory"></span></div>
+        <div class="---content">
+            <p>
+                <strong>제목:</strong> <span class="dialogTitle"></span>
+            </p>
+            <p><strong>내용:</strong> <span class="dialogContent"></span></p>
+            <p><strong>닉네임:</strong> <span class="dialogNickname"></span></p>
+            <p><strong>작성일:</strong> <span class="dialogCreatedAt"></span></p>
+
+            <button class="dialogCloseBtn">닫기</button>
+        </div>
+    </div>
+</div>
+
+
 <div id="container">
     <div class="inner-container">
         <section id="category">
@@ -26,7 +60,7 @@
                 <li class="item" data-mt-name="all">
                     <label for="all">
                         <input type="radio" name="menu" id="all" hidden>
-                        <strong>전체 보기</strong>
+                        <strong>전체 보기 <span class="space"></span></strong>
                     </label>
                 </li>
                 <li class="item" data-mt-name="notice">
@@ -35,10 +69,10 @@
                         <strong>공지사항</strong>
                     </label>
                 </li>
-                <li class="item" data-mt-name="board">
+                <li class="item" data-mt-name="article">
                     <!--                    -> article id를 통해서 삭제, 수정 관리, dataset['index']활용-->
-                    <label for="board">
-                        <input type="radio" name="menu" id="board" hidden>
+                    <label for="article">
+                        <input type="radio" name="menu" id="article" hidden>
                         <strong>게시글 관리</strong>
                     </label>
                 </li>
@@ -56,61 +90,102 @@
                 <span class="title">전체관리</span>
                 <!-- 게시글 요약 -->
 
-
-                <div class="short-board">
-                    <div>
+                <div class="short-board short-article">
+                    <div class="short-container">
                         <header>게시글</header>
                         <div>
-                            <span>게시글 수</span>
                             <span class="num" th:text="${articleCount}">0</span>
                         </div>
                     </div>
                     <div class="content">
-                        <ul class="list">
-                            <li class="item" th:each="article : ${articleList}">
-                                <span th:text="${article.getCategoryDisplayText()}">게시글 제목</span>
-                            </li>
-                        </ul>
+                        <table class="list-table">
+                            <thead>
+                            <tr>
+                                <th>카테고리</th>
+                                <th>제목</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="article : ${articleList}">
+                                <td th:text="${article.getCategoryDisplayText()}">게시글 제목</td>
+                                <td th:text="${article.getTitle()}">제목</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
                     </div>
                 </div>
 
                 <!-- 공지사항 요약 -->
                 <div class="short-board short-notice">
-                    <div>
+                    <div class="short-container">
                         <header>공지사항</header>
                         <div>
-                            <span>공지사항 수</span>
                             <span class="num" th:text="${noticeCount}">0</span>
                         </div>
                     </div>
                     <div class="content">
-                        <ul class="list">
-                            <li class="item" th:each="notice : ${noticeList}">
-                                <span th:text="${notice.title}">공지 제목</span>
-                            </li>
-                        </ul>
+                        <table class="list-table">
+                            <thead>
+                            <tr>
+                                <th>공지 제목</th>
+                                <th>내용</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="notice : ${noticeList}">
+                                <td th:text="${notice.title}">공지 제목</td>
+
+                                <td th:utext="${notice.content}">내용</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
                     </div>
                 </div>
 
                 <!-- 회원 요약 -->
                 <div class="short-board short-user">
-                    <div>
+                    <div class="short-container">
                         <header>회원</header>
                         <div>
-                            <span>회원 수</span>
-                            <span class="num" th:text="${userCount}">0</span>
+                            <span class="num" th:text="(${userCount})">0</span>
                         </div>
                     </div>
 
                     <div class="content">
-                        <ul class="list">
-                            <li class="item" th:each="user : ${userList}">
-                                <span th:text="${user.getNickname()}">회원 관련 내용</span>
-                                <span th:text="${user.getEmail()}">회원 관련 내용</span>
-                            </li>
-                        </ul>
-                    </div>
+                        <table class="list-table">
+                            <thead>
+                            <tr>
+                                <th>닉네임</th>
+                                <th>이메일</th>
+                                <th>타입</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="user : ${userList}">
+                                <td th:text="${user.nickname}">공지 제목</td>
+                                <td th:utext="${user.email}">내용</td>
+                                <td th:text="${user.providerType}">로그</td>
+                            </tr>
+                            </tbody>
+                        </table>
 
+                    </div>
+                </div>
+                <div class="graph-container">
+                    <div class="chart-container" style="margin-top: 2rem;">
+                        <h3>공지사항별 조회수</h3>
+                        <div id="notice-chart" style="max-width: 100%; height: 350px;"></div>
+                    </div>
+                    <div class="chart-container" style="margin-top: 2rem;">
+                        <h3>날짜별 게시글 등록 수</h3>
+                        <div id="article-chart" style="max-width: 100%; height: 350px;"></div>
+                    </div>
+                    <div class="chart-container" style="margin-top: 2rem;">
+                        <h3>회원 상태 분포</h3>
+                        <div id="user-chart" style="max-width: 100%; height: 350px;"></div>
+                    </div>
                 </div>
 
             </div>
@@ -122,6 +197,13 @@
                 </div>
                 <div class="list-container">
                     <table class="list-table">
+                        <colgroup>
+                            <col style="width: 15%;">
+                            <col style="width: 15%;">
+                            <col style="width: auto;">
+                            <col style="width:15% ;">
+                            <col style="width:10% ;">
+                        </colgroup>
                         <thead>
                         <tr>
                             <th>제목</th>
@@ -145,16 +227,20 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="chart-container" style="margin-top: 2rem;">
-                    <h3>공지사항별 조회수</h3>
-                    <div id="notice-chart" style="max-width: 100%; height: 350px;"></div>
-                </div>
+
             </div>
-            <div class="board menu ">
+            <div class="article menu ">
                 <h2>게시글 관리</h2>
-                <span class="stretch"></span>
                 <div class="list-container">
                     <table class="list-table">
+                        <colgroup>
+                            <col style="width: 15%;">
+                            <col style="width: 15%;">
+                            <col style="width: auto;">
+                            <col style="width:15% ;">
+                            <col style="width:10% ;">
+                            <col style="width:10% ; ">
+                        </colgroup>
                         <thead>
                         <tr>
                             <th>카테고리</th>
@@ -180,21 +266,39 @@
                     </table>
                 </div>
                 <!-- 날짜별 게시글 등록 수 차트 -->
-                <div class="chart-container" style="margin-top: 2rem;">
-                    <h3>날짜별 게시글 등록 수</h3>
-                    <div id="article-chart" style="max-width: 100%; height: 350px;"></div>
-                </div>
+
             </div>
             <div class="user menu">
                 <h2>회원 관리</h2>
-                <span class="stretch"></span>
+                <div class="search-container">
+                    <form novalidate id="find-form">
+                        <label>
+                            <select name="by" id="by" class="--object-field ---field">
+                                <option value="nickname">닉네임</option>
+                                <option value="email">이메일</option>
+                            </select>
+                        </label>
+                        <label>
+                            <input type="text" class="input-object" placeholder="찾을 회원의 닉네임을 입력해주세요." name="keyword">
+                        </label>
+                        <button type="submit" class="button-object">찾기</button>
+                    </form>
+                </div>
                 <div class="list-container">
                     <table class="list-table">
+                        <colgroup>
+                            <col style="width: 15%">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
+                        </colgroup>
                         <thead>
                         <tr>
                             <th>이메일</th>
                             <th>날짜</th>
                             <th>닉네임</th>
+                            <th>타입</th>
                             <th>탈퇴</th>
                         </tr>
                         </thead>
@@ -212,11 +316,6 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="chart-container" style="margin-top: 2rem;">
-                    <h3>회원 상태 분포</h3>
-                    <div id="user-chart" style="max-width: 100%; height: 350px;"></div>
-                </div>
-
             </div>
         </section>
     </div>

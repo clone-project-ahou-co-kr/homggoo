@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration  // ✅ 이 클래스는 Spring의 설정 클래스로 사용됨 (Spring Security 설정을 담당)
@@ -46,6 +47,12 @@ public class SecurityConfig {
                         // ✅ 로그인 성공 후 실행할 커스텀 핸들러 등록
                         // 이 핸들러에서 세션에 사용자 정보(signedUser)를 저장함
                         .successHandler(oAuth2LoginSuccessHandler)
+
+                        .authorizationEndpoint(endpoint -> endpoint
+                                .authorizationRequestRepository(new HttpSessionOAuth2AuthorizationRequestRepository())
+                        )
+
+
                 )
 
                 // ✅ 로그아웃 설정

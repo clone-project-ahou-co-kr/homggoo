@@ -9,13 +9,16 @@ import com.hgc.homggoo.results.CommonResult;
 import com.hgc.homggoo.results.ResultTuple;
 import com.hgc.homggoo.results.Results;
 import com.hgc.homggoo.utils.Bcrypt;
+import com.hgc.homggoo.vos.SearchVo;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.apache.catalina.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.client.RestClient;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -83,6 +86,7 @@ public class UserService {
     }
 
 
+    //sendRegisterEmail=> provider 가 필요없다.
     public ResultTuple<EmailTokenEntity> sendRegisterEmail(String email, String userAgent) throws MessagingException {
         if (userAgent == null) {
             return ResultTuple.<EmailTokenEntity>builder()
@@ -125,15 +129,16 @@ public class UserService {
                     .result(CommonResult.FAILURE)
                     .build();
         }
-        UserEntity dbUser = this.userMapper.selectByEmail(email);
+        UserEntity dbUser = this.userMapper.selectLocalUserEmail(email);
         if (dbUser == null) {
             return ResultTuple.<UserEntity>builder()
-                    .result(CommonResult.FAILURE_ABSENT)
+                    .result(CommonResult.FAILURE_SESSION_EXPIRED)
                     .build();
         }
-        if (dbUser.isAdmin() || dbUser.isDeleted()) {
+        if (dbUser.isDeleted()) {
+            System.out.println("isdeleted");
             return ResultTuple.<UserEntity>builder()
-                    .result(CommonResult.FAILURE_SESSION_EXPIRED)
+                    .result(CommonResult.FAILURE_ABSENT)
                     .build();
         }
         if (!Bcrypt.isMatch(password, dbUser.getPassword())) {
@@ -149,7 +154,7 @@ public class UserService {
         if (user == null || user.getNickname() == null || user.getNickname().trim().isEmpty()) {
             return CommonResult.FAILURE;
         }
-
+        UserEntity dbUser = this.userMapper.selectByProviderAndEmail(user.getProviderType(), user.getEmail());
         if (this.userMapper.selectCountByEmail(user.getEmail()) > 0) {
             return CommonResult.FAILURE_DUPLICATE;
         }
@@ -170,12 +175,12 @@ public class UserService {
             return ResultTuple.<UserEntity>builder()
                     .result(CommonResult.FAILURE).build();
         }
-        UserEntity dbUser = this.userMapper.selectByEmail(email);
+        UserEntity dbUser = this.userMapper.selectLocalUserEmail(email);
         if (!dbUser.isAdmin()) {
             return ResultTuple.<UserEntity>builder()
                     .result(CommonResult.FAILURE).build();
         }
-        if(!Bcrypt.isMatch(password,dbUser.getPassword())){
+        if (!Bcrypt.isMatch(password, dbUser.getPassword())) {
             return ResultTuple.<UserEntity>builder()
                     .result(CommonResult.FAILURE_ABSENT).build();
         }
@@ -188,4 +193,39 @@ public class UserService {
     public UserEntity[] getAll() {
         return this.userMapper.selectAll();
     }
+
+    public Results retire(UserEntity signedUser, String password) {
+        if (password.isBlank()) {
+            return CommonResult.FAILURE;
+        }
+        UserEntity dbUser = this.userMapper.selectByEmailAndProviderType(signedUser.getEmail(), signedUser.getProviderType());
+        if (dbUser == null) {
+            return CommonResult.FAILURE;
+        }
+        if (!Bcrypt.isMatch(password, dbUser.getPassword())) {
+            System.out.println("failure");
+            return CommonResult.FAILURE;
+        }
+        dbUser.setDeleted(true);
+        return this.userMapper.update(dbUser) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
+
+    public ResultTuple<UserEntity[]> adminSearch(UserEntity signedUser, SearchVo searchVo) {
+        if (searchVo == null || signedUser == null) {
+            return ResultTuple.<UserEntity[]>builder()
+                    .result(CommonResult.FAILURE_ABSENT).build();
+        }
+        if (!signedUser.isAdmin()) {
+            return ResultTuple.<UserEntity[]>builder()
+                    .result(CommonResult.FAILURE).build();
+        }
+        UserEntity[] dbSearch = this.userMapper.selectBySearch(searchVo);
+        System.out.println(searchVo.getBy());
+        if (dbSearch == null) {
+            return ResultTuple.<UserEntity[]>builder().result(CommonResult.FAILURE_ABSENT).build();
+        }
+        return ResultTuple.<UserEntity[]>builder().result(CommonResult.SUCCESS)
+                .payload(dbSearch).build();
+    }
+
 }

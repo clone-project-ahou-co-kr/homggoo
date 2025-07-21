@@ -1,0 +1,211 @@
+@charset "UTF-8";
+@import "../../../assets/styles/def";
+
+#main-content {
+  @include flex(column, center, center);
+
+  height: 100%;
+
+  > .mypage-container {
+    @include flex(row, center, center);
+    width: 100%;
+    max-width: 78.5rem;
+    min-height: calc(100vh - 15rem);
+    //background-color: #828C94;
+    height: 100%;
+    padding: 0 3.75rem;
+
+    > .info-container {
+      @include flex(column, center, center, 0.5rem);
+      width: 25%;
+      height: 100%;
+      //background-color: dodgerblue;
+      padding-top: 1.875rem;
+
+
+      > .content {
+        padding: 1.875rem 1.5625rem 1.125rem;
+        @include flex(column, center, center, 0.5rem);
+        width: 100%;
+        height: 100%;
+        border-radius: 0.625rem;
+        border: 0.0625rem solid #cccccc;
+        box-shadow: 1rem 1rem #cccccc;
+
+        > .img-container {
+          @include flex(column, center, center);
+          //background-color: #11b1e1;
+
+          width: 7.5rem;
+          height: 7.5rem;
+          >img{
+            width: 5rem;
+            height: 5rem;
+          }
+        }
+
+        > .info {
+          @include flex(column, center, center, 1rem);
+          width: 100%;
+          //background-color: #e0e2e4;
+          height: 100%;
+
+          > .nickname {
+            font-size: 1.5rem;
+            font-weight: 800;
+          }
+
+          > a {
+            @include flex(column, center, center);
+            width: 3rem;
+            height: 1.5rem;
+            padding: 0.625rem;
+            border: 0.0625rem solid #cccccc;
+            border-radius: 0.25rem;
+            white-space: nowrap;
+            text-align: center;
+            position: relative;
+
+
+          }
+
+          .divider {
+            width: 100%;
+            border: none;
+            border-top: 0.0625rem solid #cccccc;
+            margin-top: 0.5rem;
+          }
+
+
+          > .mini-info {
+            @include flex(row, center, center);
+            width: 100%;
+            height: 100%;
+
+            > .list {
+              @include flex(row, center, center);
+
+
+              > .item {
+                @include flex(column, center, center, 0.5rem);
+                height: 100%;
+                width: 4.521rem;
+
+                > a {
+                  @include flex(column, center, center, 0.625rem);
+                  cursor: pointer;
+
+                  > img {
+                    width: 1.75rem;
+                    height: 1.75rem;
+                  }
+
+                  > .caption {
+                    color: #424242;
+                    font-size: 0.8125rem;
+                  }
+                }
+              }
+
+            }
+          }
+        }
+      }
+
+
+    }
+
+    > .content-container {
+      @include flex(column, flex-start, flex-start, 0.5rem);
+      width: 43.75rem;
+      height: 37.5rem;
+      padding: 3.125rem 0 0;
+      margin: 0 auto;
+
+      > .product-info {
+        @include flex(row, center, flex-start, 0.5rem);
+        width: 100%;
+        height: 3rem;
+
+        > .caption {
+          font-size: 1.5rem;
+          font-weight: 800;
+        }
+
+        > .number {
+          color: #0198ED;
+          font-size: 1.5rem;
+          font-weight: 500;
+        }
+      }
+
+      .divider {
+        width: 100%;
+        border: none;
+        border-top: 0.2rem dotted #cccccc;
+        margin-top: 0.5rem;
+      }
+
+      > .product-container {
+        width: 100%;
+        height: calc(100% - 3rem);
+        //background-color: #888888;
+        padding: 0.625rem;
+        border-radius: 0.25rem;
+
+
+        > .list {
+          width: 11.875rem;
+          height: 15.5rem;
+          background-color: #0198ED;
+          border-radius: 0.625rem;
+          padding:0.5rem;
+
+          > .item {
+            width: 100%;
+            height: 100%;
+
+            a {
+              @include flex(column, center, center,0.6rem);
+
+              > img {
+                width: 100%;
+                height: 11.875rem;
+                border-radius: 0.625rem;
+              }
+
+              > .title {
+
+                width: 100%;
+                font-size: 0.875rem;
+                text-align: left;
+              }
+
+              > .price {
+                width: 100%;
+                font-size: 0.875rem;
+                font-weight: 800;
+                text-align: left;
+              }
+
+              &:hover{
+                >img{
+                  transform:scale(1.05);
+                  transition-property: transform;
+                  transition-duration: 175ms;
+                  transition-timing-function: ease;
+                }
+              }
+            }
+          }
+        }
+
+      }
+    }
+  }
+}
+
+img {
+  width: 3rem;
+  height: 3rem;
+}

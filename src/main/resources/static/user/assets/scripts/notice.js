@@ -30,7 +30,7 @@ $noticeForm.onsubmit = (e) => {
                 dialog.showSimpleOk('공지사항', '글쓰기 성공');
                 location.href=`${origin}/user/admin`
                 break;
-            default:
+            defaul
                 dialog.showSimpleOk('공지사항', '알수없는오류');
                 break;
         }

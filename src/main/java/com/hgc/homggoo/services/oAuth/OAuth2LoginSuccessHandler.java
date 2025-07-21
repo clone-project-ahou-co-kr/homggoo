@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 
 import java.io.IOException;
 
@@ -28,8 +29,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     /**
      * ✅ 로그인 성공 시 자동으로 호출되는 메서드
      *
-     * @param request       클라이언트의 요청 정보 (HttpServletRequest)
-     * @param response      응답 객체 (HttpServletResponse)
+     * @param request        클라이언트의 요청 정보 (HttpServletRequest)
+     * @param response       응답 객체 (HttpServletResponse)
      * @param authentication 인증된 사용자 정보가 담긴 Authentication 객체
      */
     @Override
@@ -42,10 +43,10 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         // ✅ OAuth2로 로그인한 사용자의 이메일을 가져온다
         String email = oAuth2User.getEmail();
-
+        String providerType = oAuth2User.getProviderType();
         // ✅ 이메일을 기반으로 실제 DB에 저장된 사용자 정보를 조회한다
         // 왜 다시 조회하냐면, OAuth2User에는 최소한의 정보(이름, 이메일 등)만 있기 때문
-        UserEntity dbUser = userMapper.selectByEmail(email);
+        UserEntity dbUser = userMapper.selectByEmailAndProviderType(email, providerType);
 
         // ✅ 사용자 정보가 존재한다면, 세션에 저장한다
         if (dbUser != null) {

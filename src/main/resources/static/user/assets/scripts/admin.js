@@ -1,9 +1,11 @@
+// import fa from "../../../assets/libraries/ckeditor5/translations/fa";
+
+const $findForm = document.getElementById('find-form');
 document.addEventListener('DOMContentLoaded', () => {
     const $container = document.getElementById('container');
     const $category = document.getElementById('category');
     const $items = $category.querySelectorAll(':scope > .list > .item');
     const $mainContent = document.getElementById('main-content');
-
     const ininContentDiv = () => {
         $mainContent.querySelectorAll(':scope>.menu').forEach(menu => {
             menu.style.display = 'none';
@@ -53,9 +55,9 @@ const loadNotice = () => {
         const articles = result.articles;
 
         // 공지사항, 게시글 tbody 구분해서 선택
-        const $noticeTbody = document.querySelector('.notice .list-container > .list-table > tbody');
-        const $articleTbody = document.querySelector('.board .list-container > .list-table > tbody');
-        const $userTbody = document.querySelector('.user .list-container > .list-table > tbody');
+        const $noticeTbody = document.querySelector('.notice> .list-container > .list-table > tbody');
+        const $articleTbody = document.querySelector('.article> .list-container > .list-table > tbody');
+        const $userTbody = document.querySelector('.user> .list-container > .list-table > tbody');
 
         // 기존 내용 제거
         $noticeTbody.innerHTML = '';
@@ -69,45 +71,57 @@ const loadNotice = () => {
                   <td class="content">${notice.content}</td>
                   <td class="created">${new Date(notice.createdAt).toLocaleString()}</td>
                   <td class="nickname">${notice.nickname || '관리자'}</td>
-                  <td class="buttons">
-                    <button class="edit">수정</button>
-                    <button class="delete">삭제</button>
-                  </td>
+                  
                 </tr>
             `;
             $noticeTbody.insertAdjacentHTML('beforeend', rowHTML);
         });
 
         const renderNoticeChart = (notices) => {
-            const titles = notices.map(n => n.title.length >5 ? n.title.slice(0, 5) + '...' : n.title);
+            const dateCounts = {};
+
+            // 날짜별 게시글 수 집계
+            articles.forEach((article) => {
+                const date = new Date(article.createdAt).toISOString().split('T')[0];
+                dateCounts[date] = (dateCounts[date] || 0) + 1;
+            });
+
+            const sortedDates = Object.keys(dateCounts).sort(); // 날짜 순 정렬
+            const counts = sortedDates.map(date => dateCounts[date]);
+
             const views = notices.map(n => n.view || 0);
             const options = {
                 chart: {
                     type: 'bar',
-                    height: 350,
+                    height: '200',
+                    width: '300'
                 }, plotOptions: {
                     bar: {
                         distributed: true, // 각 막대 독립 스타일
-                        horizontal: true, // 수직 막대
-                        columnWidth: '25%', // 막대 너비
+                        horizontal: false, // 수직 막대
+                        columnWidth: '20%', // 막대 너비
                     }
                 }, dataLabels: {
-                    enabled: true,
+                    enabled: false,
                 },
                 xaxis: {
-                    categories: titles,
+                    categories: sortedDates,
                     title: {
-                        text: '제목'
+                        text: '날짜'
                     },
-                    labels: {
-                        rotate: 10 // 날짜 겹침 방지
+                    style: {
+                        fontSize: '1rem' // 글자 크기도 줄이기
                     }
                 },
                 yaxis: {
                     title: {
                         text: '조회수'
                     },
-                    min: 0
+                    min: 0,
+                    style: {
+                        fontSize: '1rem',
+
+                    }
                 },
                 title: {
                     text: '공지사항별 조회수',
@@ -134,15 +148,38 @@ const loadNotice = () => {
                   <td class="category">${article.categoryDisplayText}</td>
                   <td class="title">${article.title}</td>
                   <td class="content">${article.content}</td>
-                  <td class="created">${new Date(article.createdAt).toLocaleString()}</td>
+                  <td class="created">${article.createdAt.split('T')[0]}</td>
                   <td class="nickname">${article.nickname}</td>
                   <td class="buttons">
-                    <button class="edit">수정</button>
+                    <button class="hide">숨김</button>
                     <button class="delete">삭제</button>
                   </td>
                 </tr>
             `;
             $articleTbody.insertAdjacentHTML('beforeend', rowHTML);
+        })
+        const articleRows = $articleTbody.querySelectorAll(':scope>tr');
+        articleRows.forEach((article) => {
+            article.addEventListener('click', () => {
+                const $articleDialog = document.getElementById('articleDialog');
+                const $articleModal = $articleDialog.querySelector(':scope>.---modal');
+                const $articleContent = $articleModal.querySelector(':scope>.---content');
+
+                $articleDialog.classList.add('-visible');
+                $articleModal.classList.add('-visible');
+                const nickname = article.querySelector('.nickname').textContent;
+                $articleContent.querySelector(':scope > p >.dialogTitle').innerHTML = article.querySelector(':scope>.title').textContent;
+                $articleContent.querySelector(':scope>p>.dialogContent').innerHTML =
+                    article.querySelector(':scope>.content').textContent;
+                $articleContent.querySelector(':scope>p>.dialogNickname').innerHTML = article.querySelector(':scope>.nickname').textContent;
+                $articleContent.querySelector(':scope>p>.dialogCreatedAt').innerHTML = article.querySelector(':scope>.created').textContent;
+
+
+                $articleContent.querySelector('.dialogCloseBtn').addEventListener('click', () => {
+                    $articleDialog.classList.remove('-visible');
+                    $articleModal.classList.remove('-visible');
+                });
+            })
         })
         // 게시글 날짜별 등록 수 차트 생성
         const renderArticleChart = (articles) => {
@@ -160,13 +197,14 @@ const loadNotice = () => {
             const options = {
                 chart: {
                     type: 'bar',
-                    height: 350,
+                    height: 200,
+                    width: 300,
                 },
                 plotOptions: {
                     bar: {
                         distributed: true, // 각 막대 독립 스타일
-                        horizontal: true, // 수직 막대
-                        columnWidth: '25%', // 막대 너비
+                        horizontal: false, // 수직 막대
+                        columnWidth: '15%', // 막대 너비
                     }
                 },
                 dataLabels: {
@@ -180,6 +218,9 @@ const loadNotice = () => {
                     },
                     labels: {
                         rotate: 10 // 날짜 겹침 방지
+                    },
+                    style: {
+                        fontSize: '1rem'
                     }
                 },
                 yaxis: {
@@ -212,17 +253,58 @@ const loadNotice = () => {
         renderArticleChart(articles);
         users.forEach((user) => {
             const rowHTML = `
-                <tr data-index="${user.index}">
+                <tr>
                   <td class="email">${user.email}</td>
-                  <td class="created">${new Date(user.createdAt).toLocaleString()}</td>
+                  <td class="created">${user.createdAt.split('T')[0]}</td>
                   <td class="nickname">${user.nickname}</td>
-                  <td class="buttons">
-                    <button class="edit">승인</button>
-                    <button class="delete">거절</button>
-                  </td>
+                  <td class="providerType">${user.providerType}</td>
+                  <td class="deleted">${user.isDeleted ? '탈퇴됨' : '정상'}</td>
                 </tr>
             `;
             $userTbody.insertAdjacentHTML('beforeend', rowHTML);
+        })
+        const rows = $userTbody.querySelectorAll('tr');
+        rows.forEach((row) => {
+            row.addEventListener('click', () => {
+                const $userDialog = document.getElementById('userDialog');
+                const $userModal = $userDialog.querySelector(':scope > .---modal');
+                const $userContent = $userModal.querySelector(':scope > .---content');
+
+                const nickname = row.querySelector('.nickname').textContent;
+
+                $userContent.querySelector('.dialogNickname').innerHTML = nickname;
+                $userContent.querySelector('.dialogEmail').innerHTML = row.querySelector('.email').textContent;
+                $userContent.querySelector('.dialogCreatedAt').innerHTML = row.querySelector('.created').textContent;
+                $userContent.querySelector('.dialogDeleted').innerHTML = row.querySelector('.deleted').textContent;
+
+                const articleList = $userContent.querySelector(':scope>.dialogArticles>.articleList');
+                articleList.innerHTML = '';
+
+                const userArticles = articles.filter((article) => article.nickname === nickname)
+                if (userArticles.length === 0) {
+                    articleList.innerHTML = `<li>작성된 게시글이 없습니다.</li>`;
+                } else {
+                    userArticles.forEach((article) => {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.setAttribute('href', `${origin}/community/posts?id=${article.id}`);
+                        a.textContent = `(${article.categoryDisplayText}) ${article.title}`;
+                        li.appendChild(a);
+                        articleList.appendChild(li);
+                    })
+                }
+
+                // 다이얼로그 표시
+                $userDialog.classList.add('-visible');
+                $userModal.classList.add('-visible');
+
+                // 닫기 버튼 이벤트 등록
+                $userModal.querySelector('.dialogCloseBtn').addEventListener('click', () => {
+                    $userDialog.classList.remove('-visible');
+                    $userModal.classList.remove('-visible');
+                });
+            });
+
         })
         const renderUserChart = (users) => {
             let total = users.length;
@@ -232,14 +314,15 @@ const loadNotice = () => {
             const options = {
                 chart: {
                     type: 'donut',
-                    height: 350
+                    height: 200,
+                    width: 300
                 },
                 labels: ['정상 회원', '탈퇴 회원'],
                 series: [active, deleted],//series는 ApexCharts에서 실제 데이터를 차트에 넣는 핵심 속성이에요. -> 실제 시각화 할 데이터를 넣는곳.
-                colors: ['#4CAF50', '#FF6B6B'],
+                colors: ['#0478F8', '#727476'],
                 tooltip: {//툴팁이란, 사용자가 차트의 항목 위에 마우스를 올렸을 때 뜨는 말풍선입니다.
                     x: {
-                        formatter: (val) => `${val}명`
+                        formatter: (val) => `${val}명`,
                     }
                 },
                 title: {
@@ -273,21 +356,20 @@ const loadNotice = () => {
         renderUserChart(users);
 
 
-        // 이벤트 바인딩 (공지사항 + 게시글)
-        document.querySelectorAll('.notice .list-table tbody tr, .article .list-table tbody tr')
+        // 이벤트 바인딩 (공지사항)
+        document.querySelectorAll('.notice>.list-container> .list-table> tbody> tr')
             .forEach((row) => {
                 row.addEventListener('click', () => {
                     const index = row.dataset['index'];
                     showNotice(index);
                 });
             });
+
     };
 
     xhr.open('GET', '/api/user/notice');
     xhr.send();
 };
-
-
 const showNotice = (index) => {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
@@ -328,3 +410,69 @@ const showNotice = (index) => {
     xhr.send();
 };
 loadNotice();
+
+
+$findForm.onsubmit = (e) => {
+    e.preventDefault();
+    const by = $findForm['by'].value;
+    const keyword = $findForm['keyword'].value;
+    const params = new URLSearchParams();
+    params.append('by', by);
+    params.append('keyword', keyword);
+
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+        if (xhr.status < 200 || xhr.status >= 300) {
+            dialog.showSimpleOk('경고', '요청중 오류');
+            return;
+        }
+
+        const response = JSON.parse(xhr.responseText);
+        switch (response.result) {
+            case 'success':
+                console.log('success');
+                updateList('success', response.data);
+                break;
+            case 'failure':
+                updateList('failure',undefined);
+                break;
+        }
+    };
+
+    xhr.open('GET', `/api/user/search?${params.toString()}`);
+    xhr.send();
+};
+
+const updateList = (state,data) => {
+    const $userSection = document.querySelector('#main-content .user.menu');
+    const $userTbody = $userSection.querySelector('.list-container > table > tbody');
+    $userTbody.innerHTML = '';
+
+    if (state === 'success') {
+        if (data.length === 0) {
+            $userTbody.insertAdjacentHTML('beforeend', `
+                <tr><td colspan="5"><h3>검색 결과가 없습니다.</h3></td></tr>
+            `);
+            return;
+        }
+        let rows = '';
+        data.forEach(user => {
+            rows += `
+                <tr>
+                    <td>${user.email}</td>
+                    <td>${user.createdAt.split('T')[0]}</td>
+                    <td>${user.nickname}</td>
+                    <td>${user.providerType}</td>
+                    <td>${user.deleted ? '탈퇴' : '정상'}</td>
+                </tr>
+            `;
+        });
+        $userTbody.insertAdjacentHTML('beforeend', rows);
+    } else {
+        $userTbody.insertAdjacentHTML('beforeend', `
+            <tr><td colspan="5">검색 실패</td></tr>
+        `);
+    }
+};

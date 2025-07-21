@@ -1,5 +1,4 @@
 const $deleteBtn = document.body.querySelector(':scope>.delete');
-alert('mypage');
 const $mypageForm = document.getElementById('mypage-form');
 $deleteBtn.addEventListener('click',()=>{
     const xhr = new XMLHttpRequest();

@@ -1,0 +1,209 @@
+#main-content {
+  align-items: column;
+  display: flex;
+  flex-direction: column;
+  justify-content: column;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+}
+#main-content > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-content > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main-content > .edit-container {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+  max-width: 78.5rem;
+  min-height: calc(100vh - 15rem);
+  height: 100%;
+  padding: 0 3.75rem;
+  margin: 0 auto;
+}
+#main-content > .edit-container > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-content > .edit-container > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main-content > .edit-container > #edit-form {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  gap: 1.5rem;
+  width: 21.4375rem;
+  height: 100%;
+  padding: 2.5rem 0;
+}
+#main-content > .edit-container > #edit-form > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-content > .edit-container > #edit-form > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main-content > .edit-container > #edit-form > .img-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+  height: 7.25rem;
+}
+#main-content > .edit-container > #edit-form > .img-container > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-content > .edit-container > #edit-form > .img-container > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main-content > .edit-container > #edit-form > .img-container > img {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 999rem;
+}
+#main-content > .edit-container > #edit-form > .email-container {
+  width: 100%;
+}
+#main-content > .edit-container > #edit-form > .email-container > .label-object {
+  width: 100%;
+}
+#main-content > .edit-container > #edit-form > .email-container > .label-object > input {
+  background-color: #F6F9FA;
+  color: #757575;
+}
+#main-content > .edit-container > #edit-form > .email-container > .signed-naver, #main-content > .edit-container > #edit-form > .email-container .signed-kakao {
+  color: #888888;
+  font-size: 0.8rem;
+}
+#main-content > .edit-container > #edit-form > .nickname-container {
+  width: 100%;
+}
+#main-content > .edit-container > #edit-form > .nickname-container > .label-object {
+  width: 100%;
+}
+#main-content > .edit-container > #edit-form > .divider {
+  width: 100%;
+  content: "";
+  height: 0.0625rem;
+  background-color: #cccccc;
+}
+#main-content > .edit-container > #edit-form > .retire-container {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  width: 100%;
+}
+#main-content > .edit-container > #edit-form > .retire-container > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-content > .edit-container > #edit-form > .retire-container > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main-content > .edit-container > #edit-form > .retire-container > .retire-button {
+  width: 100%;
+  height: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ccc;
+}
+#main-content > .edit-container > #edit-form > .retire-container > #retire-form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0.8rem;
+  border: 0.0625rem solid #cccccc;
+  border-radius: 0.625rem;
+  width: 100%;
+  max-height: 0;
+  padding: 1rem;
+  opacity: 0;
+  transform: translateY(1rem);
+  transition-property: max-height, opacity, transform;
+  transition-duration: 800ms;
+  transition-timing-function: ease;
+}
+#main-content > .edit-container > #edit-form > .retire-container > #retire-form > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-content > .edit-container > #edit-form > .retire-container > #retire-form > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main-content > .edit-container > #edit-form > .retire-container > #retire-form.visible {
+  max-height: 9rem;
+  opacity: 1;
+}
+#main-content > .edit-container > #edit-form > .retire-container > #retire-form > label {
+  width: 100%;
+}
+#main-content > .edit-container > #edit-form > .retire-container > #retire-form > label.check {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 0.6rem;
+}
+#main-content > .edit-container > #edit-form > .retire-container > #retire-form > label.check > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-content > .edit-container > #edit-form > .retire-container > #retire-form > label.check > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main-content > .edit-container > #edit-form > .retire-container > #retire-form > label.check > span {
+  color: #888;
+  font-size: 0.8rem;
+}
+#main-content > .edit-container > #edit-form > .retire-container > #retire-form > label.button > .confirm {
+  height: 3rem;
+}
+
+.common {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+}
+.common > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.common > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+/*# sourceMappingURL=edit.css.map */

@@ -24,9 +24,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) {
         OAuth2User oAuth2User = super.loadUser(userRequest);
+        String accessToken = userRequest.getAccessToken().getTokenValue();
         String providerType = userRequest.getClientRegistration().getRegistrationId().toUpperCase();
         Map<String, Object> attributes = oAuth2User.getAttributes();
         System.out.println(attributes);
+        System.out.println(accessToken);
+        System.out.println(providerType);
         String providerKey = null;
         String email = null;
         String nickname = null;
@@ -90,8 +93,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
         // ✅ 세션 저장
+        // ✅ 세션 저장
         session.setAttribute("signedUser", dbUser);
-        return new CustomOAuth2User(attributes);
+
+// ✅ OAuth2User 반환 (providerType 포함)
+        return new CustomOAuth2User(attributes, providerType,accessToken);
+
     }
 
     // ✅ 이미지 URL을 byte[]로 다운로드

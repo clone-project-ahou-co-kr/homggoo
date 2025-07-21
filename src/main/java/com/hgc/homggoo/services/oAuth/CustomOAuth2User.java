@@ -12,10 +12,14 @@ import java.util.Map;
 
 public class CustomOAuth2User implements OAuth2User{
     private final Map<String, Object> attributes;
+    private final String providerType;
+    private final String accessToken;
 
 
-    public CustomOAuth2User(Map<String, Object> attributes) {
+    public CustomOAuth2User(Map<String, Object> attributes, String providerType, String accessToken) {
         this.attributes = attributes;
+        this.providerType = providerType;
+        this.accessToken = accessToken;
     }
 
     @Override
@@ -65,5 +69,8 @@ public class CustomOAuth2User implements OAuth2User{
         Object image = attributes.get("profile_image");
 
         return image != null ? image.toString() : null;
+    }
+    public String getProviderType() {
+        return providerType;
     }
 }

@@ -14,6 +14,7 @@ import com.hgc.homggoo.services.user.EmailTokenService;
 import com.hgc.homggoo.services.user.UserService;
 import com.hgc.homggoo.vos.ArticleVo;
 import com.hgc.homggoo.vos.NoticeVo;
+import com.hgc.homggoo.vos.SearchVo;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -103,12 +104,6 @@ public class UserApiController {
         return response.toString();
     }
 
-    //Mypage 회원 탈퇴
-    @RequestMapping(value="/mypage",method = RequestMethod.DELETE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public String deleteMypage(){
-        return  null;
-    }
-
     //    admin
     @RequestMapping(value = "/admin", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String postAdmin(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password, HttpSession session) {
@@ -135,6 +130,7 @@ public class UserApiController {
         ResultTuple<NoticeVo[]> result = this.noticeService.getAll();
         UserEntity[] user = this.userService.getAll();
         ArticleVo[] articles = this.articleService.getAll();
+
         JSONObject response = new JSONObject();
         response.put("result", result.getResult().nameToLower());
         response.put("data", result.getPayload());
@@ -195,6 +191,31 @@ public class UserApiController {
                 .result(result.getResult())
                 .payload(null)
                 .build();
+    }
+    @RequestMapping(value="/userInfo",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getUserInfo(@RequestParam(value="nickname",required = false)String nickname){
+        return null;
+    }
+
+    @RequestMapping(value = "/mypage/edit", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String patchMypageEdit(@RequestParam(value = "password") String password,@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,HttpSession session) {
+        Results result = this.userService.retire(signedUser, password);
+        session.removeAttribute("signedUser");
+        JSONObject response = new JSONObject();
+        response.put("result", result.nameToLower());
+        return response.toString();
+    }
+
+    @RequestMapping(value="/search",method = RequestMethod.GET,produces = MediaType
+            .APPLICATION_JSON_VALUE)
+    public String getSearch(@SessionAttribute(value="signedUser",required = false)UserEntity signedUser, SearchVo searchVo){
+        ResultTuple<UserEntity[]> result = this.userService.adminSearch(signedUser,searchVo);
+        JSONObject response = new JSONObject();
+        if (signedUser != null) {
+            response.put("data", result.getPayload());
+        }
+        response.put("result", result.getResult().nameToLower());
+        return response.toString();
     }
 
 }

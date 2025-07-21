@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hgc.homggoo.mappers.user.UserMapper">
     <insert id="insert" useGeneratedKeys="true"
-    keyColumn="index" keyProperty="index">
+    keyColumn="id" keyProperty="id">
         insert into `homggoo`.`users`
         (`email`, `profile`, `password`, `is_admin`, `nickname`, `provider_type`, `provider_key`, `created_at`,
          `modified_at`,
@@ -13,31 +13,12 @@
     </insert>
     <update id="update" parameterType="com.hgc.homggoo.entities.user.UserEntity">
         UPDATE `homggoo`.`users`
-        SET `profile` = #{profile},
-            `image_url` = #{imageUrl},
+        SET `profile` = #{user.profile},
+            `image_url` = #{user.imageUrl},
+            `is_deleted` = #{user.isDeleted},
             `modified_at` = NOW()
-        WHERE `email` = #{email};
+        WHERE `email` = #{user.email} and `provider_type`=#{user.providerType};
     </update>
-    <select id="selectCountByEmail" resultType="java.lang.Integer">
-        select count(0)
-        from `homggoo`.`users`
-        where `email`=#{email};
-    </select>
-    <select id="selectByEmail" resultType="com.hgc.homggoo.entities.user.UserEntity">
-        select `email`         as `email`,
-               `profile`       as `profile`,
-               `password`      as `password`,
-               `is_admin`      as `isAdmin`,
-               `nickname`      as `nickname`,
-               `provider_type` as `providerType`,
-               `provider_key`  as `providerKey`,
-               `created_at`    as `createdAt`,
-               `modified_at`   as `modifiedAt`,
-               `is_deleted`    as `isDeleted`,
-               `image_url` as `imageUrl`
-        from `homggoo`.`users`
-        where `email` = #{email}
-    </select>
     <select id="selectByProviderAndEmail" resultType="com.hgc.homggoo.entities.user.UserEntity">
         select `email`         as `email`,
                `profile`       as `profile`,
@@ -51,8 +32,7 @@
                `is_deleted`    as `isDeleted`,
                `image_url` as `imageUrl`
         from `homggoo`.`users`
-        where `provider_key` = #{providerKey}
-          and `provider_type` = #{providerType}
+        where `provider_type` = #{providerType}
           and `email` = #{email};
     </select>
     <select id="selectAll">
@@ -65,9 +45,9 @@
                `provider_key`  as `providerKey`,
                `created_at`    as `createdAt`,
                `modified_at`   as `modifiedAt`,
-               `is_deleted`    as `is_deleted`,
+               `is_deleted`    as `isDeleted`,
                `image_url` as `imageUrl`
-        from `homggoo`.`users`
+        from `homggoo`.`users`;
     </select>
     <select id="selectByEmailAndProviderType" resultType="com.hgc.homggoo.entities.user.UserEntity">
         select `email`         as `email`,
@@ -79,10 +59,47 @@
                `provider_key`  as `providerKey`,
                `created_at`    as `createdAt`,
                `modified_at`   as `modifiedAt`,
-               `is_deleted`    as `is_deleted`,
+               `is_deleted`    as `isDeleted`,
                `image_url` as `imageUrl`
         from `homggoo`.`users`
         where `email`=#{email} and `provider_type`=#{providerType}
     </select>
-
+    <select id="selectCountByEmail" resultType="java.lang.Integer">
+        select count(0)
+        from `homggoo`.`users`
+        where `email`=#{email};
+    </select>
+    <select id="selectLocalUserEmail" resultType="com.hgc.homggoo.entities.user.UserEntity">
+        select `email`         as `email`,
+               `profile`       as `profile`,
+               `password`      as `password`,
+               `is_admin`      as `isAdmin`,
+               `nickname`      as `nickname`,
+               `provider_type` as `providerType`,
+               `provider_key`  as `providerKey`,
+               `created_at`    as `createdAt`,
+               `modified_at`   as `modifiedAt`,
+               `is_deleted`    as `isDeleted`,
+               `image_url` as `imageUrl`
+        from `homggoo`.`users`
+        where`email`=#{email} and `provider_type`='ORIGIN'
+        limit 1;
+    </select>
+    <select id="selectBySearch">
+        select `t0`.`email`         as `email`,
+               `t0`.`profile`       as `profile`,
+               `t0`.`password`      as `password`,
+               `t0`.`is_admin`      as `isAdmin`,
+               `t0`.`nickname`      as `nickname`,
+               `t0`.`provider_type` as `providerType`,
+               `t0`.`provider_key`  as `providerKey`,
+               `t0`.`created_at`    as `createdAt`,
+               `t0`.`modified_at`   as `modifiedAt`,
+               `t0`.`is_deleted`    as `isDeleted`,
+               `t0`.`image_url`     as `imageUrl`
+        from `homggoo`.`users` as `t0`
+        where if(#{searchVo.by} = 'nickname', `t0`.`nickname` LIKE CONCAT('%', #{searchVo.keyword}, '%'), TRUE)
+          and if(#{searchVo.by} = 'email', `t0`.`email` LIKE CONCAT('%', #{searchVo.keyword}, '%'), TRUE)
+        order by `t0`.`created_at` desc;
+    </select>
 </mapper>

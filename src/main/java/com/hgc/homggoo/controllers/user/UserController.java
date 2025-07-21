@@ -11,6 +11,7 @@ import com.hgc.homggoo.services.oAuth.CustomOAuth2User;
 import com.hgc.homggoo.services.user.UserService;
 import com.hgc.homggoo.vos.ArticleVo;
 import com.hgc.homggoo.vos.NoticeVo;
+import com.hgc.homggoo.vos.SearchVo;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -55,19 +56,25 @@ public class UserController {
         }
         return "user/login"; // 로그인 폼
     }
+
     @RequestMapping(value = "/logout", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String postLogout(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser, HttpSession session) {
-        session.setAttribute("signedUser", null);
+//        session.setAttribute("signedUser", null);
+        session.removeAttribute("signedUser");
         return "redirect:/";
     }
 
     @RequestMapping(value = "/admin/login", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String getAdminLogin() {
+
         return "user/adminLogin";
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String getAdmin(Model model) {
+    public String getAdmin(Model model,@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser) {
+        if(signedUser==null || !signedUser.isAdmin()){
+            return "redirect:/";
+        }
         ResultTuple<NoticeVo[]> result = this.noticeService.getAll();
         NoticeVo[] noticeList = result.getPayload();
         //todo 유저 회원수 가지고 오기 위해서 userService getall 추가.
@@ -126,6 +133,22 @@ public class UserController {
         }
         model.addAttribute("signedUser", signedUser);
         return "user/mypage";
+    }
+
+    @RequestMapping(value = "/mypage/edit", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public String getMypageEdit(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser, Model model) {
+        if (signedUser == null) {
+            return "redirect:/user/login";
+        }
+        model.addAttribute("signedUser", signedUser);
+        return "user/edit";
+    }
+
+
+    //회원관리 search by nicknmae
+    @RequestMapping(value = "/search", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public String getSearch() {
+        return "user/admin";
     }
 
 }

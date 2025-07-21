@@ -29,7 +29,7 @@ public class NoticeService {
             return ResultTuple.<NoticeVo>builder()
                     .result(CommonResult.FAILURE_SESSION_EXPIRED).build();
         }
-        UserEntity dbUser = this.userMapper.selectByEmail(user.getEmail());
+        UserEntity dbUser = this.userMapper.selectLocalUserEmail(user.getEmail());
         if (!dbUser.isAdmin()) {
             return ResultTuple.<NoticeVo>builder()
                     .result(CommonResult.FAILURE).build();
@@ -38,6 +38,7 @@ public class NoticeService {
         notice.setUserEmail(dbUser.getEmail());
         notice.setCreatedAt(LocalDateTime.now());
         notice.setModifiedAt(LocalDateTime.now());
+
         return this.noticeMapper.insert(notice) > 0 ? ResultTuple.<NoticeVo>builder().result(CommonResult.SUCCESS).build() : ResultTuple.<NoticeVo>builder().result(CommonResult.FAILURE).build();
     }
 

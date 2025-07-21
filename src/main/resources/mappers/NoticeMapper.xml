@@ -15,7 +15,6 @@
             `is_deleted`=#{notice.isDeleted}
         where `index` = #{notice.index}
         limit 1;
-
     </update>
     <update id="incrementView">
         update `homggoo`.`notice`
@@ -36,7 +35,7 @@
         from `homggoo`.`notice` as `t0`
                  left join `homggoo`.`users` `t1` on `t0`.`user_email` = `t1`.`email`
         where `t0`.`is_deleted` = false
-        order by `index` desc;
+        order by `index` asc;
     </select>
     <select id="selectByIndex" resultType="com.hgc.homggoo.vos.NoticeVo">
         select `t0`.`index`       as `index`,
