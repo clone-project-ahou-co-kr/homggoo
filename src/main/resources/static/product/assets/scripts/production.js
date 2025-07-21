@@ -4,7 +4,7 @@ const $main = document.getElementById('main-production');
 const $menuBar = $main.querySelector(':scope > .explain-section > .menu-bar');
 const $menuOpen = $menuBar.querySelector(':scope > .menu > .click-button');
 const $open = $menuBar.querySelector(':scope > .menu > .click-button > .dot-container');
-const $menuList = $menuBar.querySelector(':scope > .menu  > .menu-list')
+const $menuList = $menuBar.querySelector(':scope > .menu-list')
 const $delete = $menuList.querySelector(':scope > .list > .item > .button[name="delete"]');
 const $favorite = $main.querySelector(':scope > .explain-section > .explain > .pay > .button-container > .favorites > .favorite-button');
 const $favoriteSvg = $favorite.querySelector(':scope > svg');
@@ -88,7 +88,7 @@ $delete.addEventListener('click', () => {
                                 });
                                 break;
                             default:
-                                dialog.showSimpleOk('상품 삭제', '알 수 없는 이유로 게시글을 등록하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                                dialog.showSimpleOk('상품 삭제', '알 수 없는 이유로 상품을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                         }
                     };
                     xhr.open('DELETE', '/api/posts/deleteProduct');
@@ -97,4 +97,34 @@ $delete.addEventListener('click', () => {
             }
         ]
     })
+});
+
+const $payButton = $main.querySelector(':scope > .explain-section > .explain > .pay > .button-container > button:last-child');
+
+$payButton.addEventListener('click', () => {
+    const imp = window.IMP;
+    imp.init('imp73305074'); // PortOne 가맹점 식별코드
+
+    const url = new URL(location.href);
+    const productId = url.searchParams.get("id");
+    const productTitle = $main.querySelector(':scope .title').innerText;
+    const productPriceText = $main.querySelector(':scope .price').innerText;
+    const productPrice = parseInt(productPriceText.replace(/[^0-9]/g, ''), 10); // "10,000원" → 10000
+
+    imp.request_pay({
+        pg: 'kakaopay.TC0ONETIME',
+        pay_method: 'card',
+        merchant_uid: `IMP-${Date.now()}`,
+        name: productTitle,
+        amount: productPrice,
+        buyer_email: 'dbswjdgus94@naver.com',
+        buyer_name: '윤정현'
+    }, (resp) => {
+        if (resp.success === true) {
+            dialog.showSimpleOk('상품 결제', '상품 결제완료!');
+            location.reload();
+        } else {
+            dialog.showSimpleOk('상품 결제', `${resp.error_msg}`);
+        }
+    });
 });

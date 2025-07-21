@@ -1,45 +1,28 @@
-/* Overflow toggle */
-const hideOverflow = document.getElementById("overflow");
+const track = document.querySelector(".carousel-track");
+const items = document.querySelectorAll(".carousel-item");
+const prevBtn = document.querySelector(".carousel-control.prev");
+const nextBtn = document.querySelector(".carousel-control.next");
 
-hideOverflow.addEventListener("click", () => {
-    document.querySelector(".container").style.overflow = hideOverflow.checked
-        ? "hidden"
-        : "visible";
+let carouselIndex = 0;
+const totalItems = items.length;
+const visibleItems = 3;
+
+const updateCarousel = () => {
+    track.style.transform = `translateX(-${carouselIndex * (100 / visibleItems)}%)`;
+};
+
+nextBtn.addEventListener("click", () => {
+    carouselIndex++;
+    if (carouselIndex > totalItems - visibleItems) {
+        carouselIndex = 0; // 순환 슬라이드로 처음으로
+    }
+    updateCarousel();
 });
 
-/* Carousel */
-const items = document.querySelector(".items");
-const dots = document.querySelectorAll(".dot");
-const prev = document.querySelector(".prev");
-const next = document.querySelector(".next");
-const total = items.children.length - 1;
-const active = "active";
-let current = 0;
-
-const setActiveDot = () => {
-    dots.forEach((button, i) => {
-        i === current
-            ? button.classList.add(active)
-            : button.classList.remove(active);
-    });
-};
-
-const scrollToCurrent = () => {
-    items.style.transform = `translateX(${current * -100}%`;
-    setActiveDot();
-};
-
-const scrollPrev = () => {
-    if (current === 0) return;
-    current--;
-    scrollToCurrent();
-};
-
-const scrollNext = () => {
-    if (current === total) return;
-    current++;
-    scrollToCurrent();
-};
-
-prev.addEventListener("click", scrollPrev);
-next.addEventListener("click", scrollNext);
+prevBtn.addEventListener("click", () => {
+    carouselIndex--;
+    if (carouselIndex < 0) {
+        carouselIndex = totalItems - visibleItems; // 끝으로 순환
+    }
+    updateCarousel();
+});

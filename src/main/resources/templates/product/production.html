@@ -7,6 +7,7 @@
     <meta name="description" content="감도높은 유저들의 일상 구경부터 제품 구매까지 한번에"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <link rel="stylesheet" type="text/css" href="/assets/styles/index.min.css">
+    <link rel="stylesheet" type="text/css" href="/product/assets/styles/production.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/styles/common.min.css">
     <link rel="preconnect" href="https://cdn.jsdelivr.net"/>
     <link rel="stylesheet"
@@ -39,20 +40,20 @@
                         <span class="dot"></span>
                     </div>
                 </button>
-                <div class="menu-list">
-                    <ul class="list">
-                        <li class="item">
-                            <button type="button" class="button modify" name="modify">
-                                <a th:href="@{/product/modifyProduct (id = ${product.getId()})}">수정하기</a>
-                            </button>
-                        </li>
-                        <li class="item">
-                            <button type="button" class="button delete" name="delete">
-                                삭제하기
-                            </button>
-                        </li>
-                    </ul>
-                </div>
+            </div>
+            <div class="menu-list">
+                <ul class="list">
+                    <li class="item">
+                        <button type="button" class="button modify" name="modify">
+                            <a th:href="@{/product/modifyProduct (id = ${product.getId()})}">수정하기</a>
+                        </button>
+                    </li>
+                    <li class="item">
+                        <button type="button" class="button delete" name="delete">
+                            삭제하기
+                        </button>
+                    </li>
+                </ul>
             </div>
         </div>
         <div class="explain">
@@ -66,7 +67,7 @@
             </div>
             <div class="profile">
                 <div class="image-wrapper">
-                    <img src="https://media.bunjang.co.kr/images/crop/1076848144_w160.jpg" alt="" class="image">
+                    <img th:src="${user != null} ? '/api/user/profile-image' : '/images/default.png'" alt="" class="image">
                 </div>
                 <div class="text-container">
                     <a href="#" class="name" th:text="${user != null ? product.nickname : '로그인이 필요합니다.'}">로그인이

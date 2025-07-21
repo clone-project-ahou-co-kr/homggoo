@@ -27,7 +27,11 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String getIndexProduct() {
+    public String getIndexProduct(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                                  Model model) {
+        List<ProductVo> products = this.productService.getAllProducts();
+
+        model.addAttribute("products", products);
         return "product/index";
     }
 
