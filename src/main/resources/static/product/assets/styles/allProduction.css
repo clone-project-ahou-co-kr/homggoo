@@ -51,6 +51,11 @@
   font-size: 1.25rem;
   font-weight: 700;
 }
+#main-category > .list.visible > .category-list > .list-item .item.active a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0d65ff;
+}
 #main-category > .item-box {
   width: 100%;
   max-width: 75%;
@@ -109,7 +114,7 @@
   flex-shrink: 1;
 }
 .line-box a > .box .caption > span {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 .line-box a > .box .caption > .title {
   font-size: 1rem;
@@ -118,9 +123,8 @@
   font-size: 1.25rem;
   font-weight: 600;
 }
-.line-box a > .box .caption > .review {
-  font-size: 0.75rem;
-  color: #888888;
+.line-box a > .box .caption > .date {
+  font-size: 0.85rem;
 }
 
 /*# sourceMappingURL=allProduction.css.map */

@@ -122,4 +122,20 @@
         order by `created_at` desc
     </select>
 
+    <select id="selectByUserEmail" resultType="com.hgc.homggoo.vos.ProductVo">
+        select `id` as `id`,
+               `user_email` as `userEmail`,
+               `category_code` as `categoryCode`,
+               `image` as `image`,
+               `title` as `title`,
+               `description` as `description`,
+               `price` as `price`,
+               `view_count` as `viewCount`,
+               `like_count` as `likeCount`,
+               `created_at` as `createdAt`,
+               `updated_at` as `updatedAt`
+        from `homggoo`.`product`
+        where `user_email` = #{userEmail}
+    </select>
+
 </mapper>

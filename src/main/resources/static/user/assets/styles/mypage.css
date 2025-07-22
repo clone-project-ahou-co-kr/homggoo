@@ -284,19 +284,44 @@
 #main-content > .mypage-container > .content-container > .product-container {
   width: 100%;
   height: calc(100% - 3rem);
+  position: relative;
   padding: 0.625rem;
   border-radius: 0.25rem;
+  overflow: scroll;
+}
+#main-content > .mypage-container > .content-container > .product-container > .more-box {
+  top: 18%;
+  right: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999rem;
+  background-color: #0d65ff;
+  color: #ffffff;
+  position: absolute;
 }
 #main-content > .mypage-container > .content-container > .product-container > .list {
   width: 11.875rem;
   height: 15.5rem;
-  background-color: #0198ED;
   border-radius: 0.625rem;
   padding: 0.5rem;
 }
 #main-content > .mypage-container > .content-container > .product-container > .list > .item {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 1rem;
   width: 100%;
   height: 100%;
+}
+#main-content > .mypage-container > .content-container > .product-container > .list > .item > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main-content > .mypage-container > .content-container > .product-container > .list > .item > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 #main-content > .mypage-container > .content-container > .product-container > .list > .item a {
   align-items: center;
@@ -315,9 +340,11 @@
   flex-shrink: 1;
 }
 #main-content > .mypage-container > .content-container > .product-container > .list > .item a > img {
-  width: 100%;
-  height: 11.875rem;
+  width: 12rem;
+  height: 12rem;
   border-radius: 0.625rem;
+  object-fit: cover;
+  object-position: center;
 }
 #main-content > .mypage-container > .content-container > .product-container > .list > .item a > .title {
   width: 100%;

@@ -33,6 +33,10 @@ public class ProductService {
         return this.productMapper.selectById(id);
     }
 
+    public List<ProductVo> selectByUserEmail(String email) {
+        return this.productMapper.selectByUserEmail(email);
+    }
+
     public ProductVo getByIdAndCategory(int id, String category) {
         if (id < 1 || category == null) {
             return null;
@@ -41,6 +45,9 @@ public class ProductService {
     }
 
     public CommonResult createProduct(ProductEntity product, UserEntity signedUser) throws IOException {
+        if (signedUser == null || signedUser.isDeleted()) {
+            return CommonResult.FAILURE_ABSENT;
+        }
         UserEntity userEmail = this.productMapper.selectUserEmail(signedUser.getEmail());
 
         product.setUserEmail(userEmail.getEmail());
@@ -59,7 +66,9 @@ public class ProductService {
     }
 
     public CommonResult deleteProduct(ProductEntity product, UserEntity signedUser) {
-
+        if (signedUser == null || signedUser.isDeleted()) {
+            return CommonResult.FAILURE_ABSENT;
+        }
         return this.productMapper.delete(product) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 

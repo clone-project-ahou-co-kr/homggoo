@@ -28,21 +28,21 @@ public class ProductApiController {
 
     @RequestMapping(value = "/newProduct", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> postNewProduct(@RequestParam(value = "_image", required = false) MultipartFile image,
-                                              ProductEntity product,
-                                              @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser) throws IOException {
+                                              @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                                              ProductEntity product) throws IOException {
         Map<String, Object> response = new HashMap<>();
         if (!image.isEmpty()) {
             product.setImage(image.getBytes());
         }
         CommonResult result = productService.createProduct(product, signedUser);
-
         if (result == CommonResult.SUCCESS) {
             response.put("result", "success");
-            response.put("id", product.getId()); // 만약 DB에서 생성된 ID 반환하도록 되어 있다면
+            response.put("id", product.getId());
+        } else if (result == CommonResult.FAILURE_ABSENT){
+            response.put("result", "failure_absent");
         } else {
             response.put("result", "failure");
         }
-
         return response;
     }
 

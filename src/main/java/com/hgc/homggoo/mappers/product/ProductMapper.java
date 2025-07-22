@@ -23,6 +23,8 @@ public interface ProductMapper {
     ProductVo selectByIdAndCategory(@Param(value = "id") int id,
             @Param(value = "category") String category);
 
+    List<ProductVo> selectByUserEmail(@Param(value = "userEmail") String userEmail);
+
     List<ProductVo> selectAll();
 
     List<ProductVo> selectByCategory(@Param("category") String category);

@@ -8,9 +8,11 @@ import com.hgc.homggoo.services.article.ArticleService;
 import com.hgc.homggoo.services.image.ImageService;
 import com.hgc.homggoo.services.notice.NoticeService;
 import com.hgc.homggoo.services.oAuth.CustomOAuth2User;
+import com.hgc.homggoo.services.product.ProductService;
 import com.hgc.homggoo.services.user.UserService;
 import com.hgc.homggoo.vos.ArticleVo;
 import com.hgc.homggoo.vos.NoticeVo;
+import com.hgc.homggoo.vos.ProductVo;
 import com.hgc.homggoo.vos.SearchVo;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
@@ -30,12 +34,14 @@ public class UserController {
     private final UserService userService;
     private final ArticleService articleService;
     private final ImageService imageService;
+    private final ProductService productService;
 
-    public UserController(NoticeService noticeService, UserService userService, ArticleService articleService, ImageService imageService) {
+    public UserController(NoticeService noticeService, UserService userService, ArticleService articleService, ImageService imageService, ProductService productService) {
         this.noticeService = noticeService;
         this.userService = userService;
         this.articleService = articleService;
         this.imageService = imageService;
+        this.productService = productService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
@@ -128,9 +134,15 @@ public class UserController {
     )
     public String getMypage(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
                             Model model) {
+
         if (signedUser == null) {
             return "redirect:/user/login"; // 또는 401 페이지로 리다이렉트
         }
+        List<ProductVo> products = this.productService.selectByUserEmail(signedUser.getEmail());
+        if (products.size() > 3) {
+            products = products.subList(0, 3); // 앞 3개만
+        }
+        model.addAttribute("products", products);
         model.addAttribute("signedUser", signedUser);
         return "user/mypage";
     }

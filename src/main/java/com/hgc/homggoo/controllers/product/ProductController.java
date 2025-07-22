@@ -48,7 +48,7 @@ public class ProductController {
         }
 
         model.addAttribute("products", products);
-        model.addAttribute("selectedCategory", category);
+        model.addAttribute("category", category);
         return "product/allProduction";
     }
 

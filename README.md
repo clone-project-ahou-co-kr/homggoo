@@ -86,29 +86,44 @@ CREATE TABLE `homggoo`.`email_token`
     CONSTRAINT PRIMARY KEY (`email`, `code`, `salt`)
 );
 
-CREATE TABLE homggoo.article_category
+CREATE TABLE `homggoo`.`product_category`
 (
-    `category_id` VARCHAR(50) NOT NULL COMMENT '게시글 종류',
-    `board_id` VARCHAR(50) NOT NULL COMMENT '어디 게시판',
-    `display_text` VARCHAR(50) NOT NULL,
+    `code`         VARCHAR(50) NOT NULL COMMENT '카테고리 코드 (bed, closet 등)',
+    `display_name` VARCHAR(50) NOT NULL COMMENT '카테고리 이름 (침대 등)',
+    CONSTRAINT PRIMARY KEY (`code`)
+);
 
-    CONSTRAINT PRIMARY KEY (`category_id`),
-    CONSTRAINT FOREIGN KEY (`board_id`) REFERENCES homggoo.boards(`board_id`)
+CREATE TABLE `homggoo`.`product`
+(
+    `id`            INT UNSIGNED AUTO_INCREMENT COMMENT '상품 ID',
+    `user_email`    VARCHAR(50)  NOT NULL COMMENT '등록자 이메일 (FK)',
+    `category_code` VARCHAR(50)  NOT NULL COMMENT '카테고리 코드 (FK)',
+    `image`         LONGBLOB     NOT NULL COMMENT '등록 사진',
+    `title`         VARCHAR(100) NOT NULL COMMENT '상품 제목',
+    `description`   TEXT         NOT NULL COMMENT '상품 설명',
+    `price`         INT          NOT NULL COMMENT '상품 가격',
+    `view_count`    INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '조회수',
+    `created_at`    DATETIME     NOT NULL DEFAULT NOW() COMMENT '등록일',
+    `updated_at`    DATETIME     NOT NULL DEFAULT NOW() COMMENT '수정일',
+    CONSTRAINT PRIMARY KEY (`id`),
+    CONSTRAINT FOREIGN KEY (`user_email`) REFERENCES `homggoo`.`users` (`email`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (`category_code`) REFERENCES `homggoo`.`product_category` (`code`)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
-CREATE TABLE homggoo.article_user_likes
+CREATE TABLE homggoo.product_user_likes
 (
-    `article_id`   INT UNSIGNED   NOT NULL COMMENT '게시글 ID (FK)',
-    `user_email`   VARCHAR(50)    NOT NULL COMMENT '좋아요 누른 유저 이메일 (FK)',
-    `created_at`   DATETIME       NOT NULL DEFAULT NOW(),
-
-    CONSTRAINT PRIMARY KEY (`article_id`, `user_email`),
-    CONSTRAINT FOREIGN KEY (`article_id`) REFERENCES homggoo.article(`id`)
+    `product_id` INT UNSIGNED NOT NULL COMMENT '상품 ID (FK)',
+    `user_email` VARCHAR(50)  NOT NULL COMMENT '유저 이메일 (FK)',
+    `created_at` DATETIME     NOT NULL DEFAULT NOW() COMMENT '찜한 시간',
+    CONSTRAINT PRIMARY KEY (product_id, user_email),
+    CONSTRAINT FOREIGN KEY (product_id) REFERENCES homggoo.product (id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    CONSTRAINT FOREIGN KEY (`user_email`) REFERENCES homggoo.users(`email`)
+    CONSTRAINT FOREIGN KEY (user_email) REFERENCES homggoo.users (email)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -139,38 +154,6 @@ create table `homggoo`.`images`
     constraint primary key (`index`)
 );
 
-CREATE TABLE `homggoo`.`product`
-(
-    `id`          INT UNSIGNED AUTO_INCREMENT COMMENT '상품 ID',
-    `user_email`  VARCHAR(50)  NOT NULL COMMENT '등록자 이메일 (FK)',
-    `image`       longblob     not null COMMENT '등록사진',
-    `title`       VARCHAR(100) NOT NULL COMMENT '상품 제목',
-    `description` TEXT         NOT NULL COMMENT '상품 설명',
-    `price`       INT          NOT NULL COMMENT '상품 가격',
-    `view_count`  INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '조회수',
-    `like_count`  INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '찜 수',
-    `created_at`  DATETIME     NOT NULL DEFAULT NOW() COMMENT '등록일',
-    `updated_at`  DATETIME     NOT NULL DEFAULT NOW() COMMENT '수정일',
-    constraint primary key (`id`),
-    CONSTRAINT FOREIGN KEY (user_email) REFERENCES homggoo.users (email)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
-
-CREATE TABLE homggoo.product_user_likes
-(
-    `product_id` INT UNSIGNED NOT NULL COMMENT '상품 ID (FK)',
-    `user_email` VARCHAR(50)  NOT NULL COMMENT '유저 이메일 (FK)',
-    `created_at`   DATETIME     NOT NULL DEFAULT NOW() COMMENT '찜한 시간',
-    CONSTRAINT PRIMARY KEY (product_id, user_email),
-    CONSTRAINT FOREIGN KEY (product_id) REFERENCES homggoo.product (id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT FOREIGN KEY (user_email) REFERENCES homggoo.users (email)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
-
 create table `homggoo`.`notice`
 (
     `index`       INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -187,4 +170,16 @@ create table `homggoo`.`notice`
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
+INSERT INTO `homggoo`.`product_category` (`code`, `display_name`)
+VALUES
+    ('bed', '침대'),
+    ('closet', '옷장'),
+    ('desk', '책상'),
+    ('chair', '의자'),
+    ('tray', '선반'),
+    ('sofa', '소파'),
+    ('table', '테이블'),
+    ('stand', '스탠드'),
+    ('etc', '기타');
 ```

@@ -27,34 +27,34 @@
     <section class="list visible">
         <div class="category-list">
             <ul class="list-item">
-                <li class="item">
+                <li class="item" th:classappend="${category} == null ? 'active' : ''">
                     <a th:href="@{/product/all}">전체</a>
                 </li>
-                <li class="item">
+                <li class="item" th:classappend="${category} == 'bed' ? 'active' : ''">
                     <a th:href="@{/product/all(category='bed')}">침대</a>
                 </li>
-                <li class="item">
+                <li class="item" th:classappend="${category} == 'closet' ? 'active' : ''">
                     <a th:href="@{/product/all(category='closet')}">옷장</a>
                 </li>
-                <li class="item">
+                <li class="item" th:classappend="${category} == 'desk' ? 'active' : ''">
                     <a th:href="@{/product/all(category='desk')}">책상</a>
                 </li>
-                <li class="item">
+                <li class="item" th:classappend="${category} == 'chair' ? 'active' : ''">
                     <a th:href="@{/product/all(category='chair')}">의자</a>
                 </li>
-                <li class="item">
+                <li class="item" th:classappend="${category} == 'tray' ? 'active' : ''">
                     <a th:href="@{/product/all(category='tray')}">선반</a>
                 </li>
-                <li class="item">
+                <li class="item" th:classappend="${category} == 'sofa' ? 'active' : ''">
                     <a th:href="@{/product/all(category='sofa')}">소파</a>
                 </li>
-                <li class="item">
+                <li class="item" th:classappend="${category} == 'table' ? 'active' : ''">
                     <a th:href="@{/product/all(category='table')}">테이블</a>
                 </li>
-                <li class="item">
+                <li class="item" th:classappend="${category} == 'stand' ? 'active' : ''">
                     <a th:href="@{/product/all(category='stand')}">스탠드</a>
                 </li>
-                <li class="item">
+                <li class="item" th:classappend="${category} == 'etc' ? 'active' : ''">
                     <a th:href="@{/product/all(category='etc')}">기타</a>
                 </li>
             </ul>
