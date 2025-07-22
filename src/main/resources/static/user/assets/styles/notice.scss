@@ -27,19 +27,78 @@ body {
   height: 100vh;
 }
 
+header {
+  width: 78rem;
+  margin-bottom: 3rem;
+
+  > div {
+    width: 100%;
+
+    > span {
+      font-weight: 600;
+      font-size: 1.5rem;
+    }
+
+  }
+}
+
 #notice-form {
   @include flex(column, flex-start, stretch);
   width: 78rem;
   height: 50.75rem;
-  background-color: #f6f9fa;
+  //background-color: #f6f9fa;
   border-radius: 0.625rem;
 
   > .title-container {
+    @include flex(column, flex-start, flex-start, 0.625rem);
     width: 100%;
     height: 5rem;
-    background-color: #1abc9c;
+    //background-color: #828C94;
     border-bottom: 0.0625rem solid #828C94;
+    position: relative;
+    > span {
+      font-weight: 500;
+    }
+
+    > label {
+      @include flex(row, flex-start, space-between);
+      width: 100%;
+      height: 100%;
+
+      > input {
+        width: 70rem;
+        height: 2rem;
+        //border: 0.0625rem solid #828C94;
+        padding: 0.625rem;
+        background-color: #f6f9fa;
+        border-radius: 0.08125rem;
+      }
+
+      > button {
+        width: 4rem;
+        height: 2rem;
+        background-color: #0478F8;
+        color: #fff;
+
+        &:hover {
+          background-color: #025bbe;
+        }
+
+        border-radius: 0.625rem;
+      }
+    }
+    >.divider {
+      content: '';
+      width: 100%;
+      height: 0.0625rem;
+      //margin-top: -0.6rem;
+      background-color: #828C94;
+      top: 90%;
+      position: absolute;
+    }
   }
+
+
 
   > .ck {
     width: 100%;
@@ -51,8 +110,7 @@ body {
 
     > .text-container {
       width: 100%;
-      height: 45.75rem;
-      background-color: dodgerblue;
+      height:rem;
     }
 
   }

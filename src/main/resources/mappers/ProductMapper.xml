@@ -6,9 +6,9 @@
             useGeneratedKeys="true"
             keyColumn="id"
             keyProperty="id">
-        insert into `homggoo`.`product` (`user_email`, `title`, `description`, `price`, `view_count`, `like_count`,
+        insert into `homggoo`.`product` (`user_email`, `title`, `category_code`, `description`, `price`, `view_count`, `like_count`,
                                          `created_at`, `updated_at`, `image`)
-        values (#{product.userEmail}, #{product.title}, #{product.description}, #{product.price}, #{product.viewCount},
+        values (#{product.userEmail}, #{product.title}, #{product.categoryCode}, #{product.description}, #{product.price}, #{product.viewCount},
                 #{product.likeCount}, #{product.createdAt}, #{product.updatedAt}, #{product.image})
     </insert>
 
@@ -35,21 +35,22 @@
     </delete>
 
     <select id="selectUserEmail" resultType="com.hgc.homggoo.entities.user.UserEntity">
-        select email         as `email`,
-               profile       as `profile`,
-               password      as `password`,
-               is_admin      as `isAdmin`,
-               nickname      as `nickname`,
-               provider_type as `providerType`,
-               provider_key  as `providerKey`,
-               created_at    as `createdAt`,
-               modified_at   as `modifiedAt`
+        select `email`         as `email`,
+               `profile`       as `profile`,
+               `password`      as `password`,
+               `is_admin`      as `isAdmin`,
+               `nickname`      as `nickname`,
+               `provider_type` as `providerType`,
+               `provider_key`  as `providerKey`,
+               `created_at`    as `createdAt`,
+               `modified_at`   as `modifiedAt`
         from `homggoo`.`users`
         where `email` = #{signedUser}
     </select>
     <select id="selectById" resultType="com.hgc.homggoo.vos.ProductVo">
         select `t0`.`id`          as `id`,
                `t0`.`user_email`  as `userEmail`,
+               `t0`.`category_code` as `categoryCode`,
                `t0`.`title`       as `title`,
                `t0`.`description` as `description`,
                `t0`.`price`       as `price`,
@@ -66,6 +67,7 @@
     <select id="selectAll" resultType="com.hgc.homggoo.vos.ProductVo">
         select `id`          as `id`,
                `user_email`  as `userEmail`,
+               `category_code` as `categoryCode`,
                `title`       as `title`,
                `description` as `description`,
                `price`       as `price`,
@@ -82,6 +84,58 @@
             SELECT COUNT(0)
             FROM `homggoo`.`product`
             WHERE `user_email` = #{userEmail}
+    </select>
+
+    <select id="selectByIdAndCategory" resultType="com.hgc.homggoo.vos.ProductVo">
+        select `t0`.`id`            as `id`,
+               `t0`.`user_email`    as `userEmail`,
+               `t0`.`category_code` as `categoryCode`,
+               `t0`.`title`         as `title`,
+               `t0`.`description`   as `description`,
+               `t0`.`price`         as `price`,
+               `t0`.`view_count`    as `viewCount`,
+               `t0`.`like_count`    as `likeCount`,
+               `t0`.`created_at`    as `createdAt`,
+               `t0`.`updated_at`    as `updatedAt`,
+               `t0`.`image`         as `image`,
+               `t1`.`nickname`      as `nickname`
+        from `homggoo`.`product` as `t0`
+                 join `homggoo`.`users` `t1` on `t0`.`user_email` = `t1`.`email`
+        where `id` = #{id}
+          and `category_code` = #{category}
+    </select>
+
+    <select id="selectByCategory" resultType="com.hgc.homggoo.vos.ProductVo">
+        select `id`            as `id`,
+               `user_email`    as `userEmail`,
+               `category_code` as `categoryCode`,
+               `title`         as `title`,
+               `description`   as `description`,
+               `price`         as `price`,
+               `view_count`    as `viewCount`,
+               `like_count`    as `likeCount`,
+               `created_at`    as `createdAt`,
+               `updated_at`    as `updatedAt`,
+               `image`
+        from `homggoo`.`product`
+        where `category_code` = #{category}
+        order by `created_at` desc
+    </select>
+
+    <select id="selectByUserEmail" resultType="com.hgc.homggoo.vos.ProductVo">
+        select `id` as `id`,
+               `user_email` as `userEmail`,
+               `category_code` as `categoryCode`,
+               `image` as `image`,
+               `title` as `title`,
+               `description` as `description`,
+               `price` as `price`,
+               `view_count` as `viewCount`,
+               `like_count` as `likeCount`,
+               `created_at` as `createdAt`,
+               `updated_at` as `updatedAt`
+        from `homggoo`.`product`
+        where `user_email` = #{userEmail}
     </select>
 
 </mapper>

@@ -36,17 +36,28 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String getAll(Model model) {
-        List<ProductVo> products = this.productService.getAllProducts();
+    public String getAll(@RequestParam(value = "category", required = false) String category,
+                         @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                         Model model) {
+        List<ProductVo> products;
+
+        if (category == null || category.isBlank()) {
+            products = this.productService.getAllProducts();
+        } else {
+            products = this.productService.getProductsByCategory(category);
+        }
+
         model.addAttribute("products", products);
+        model.addAttribute("category", category);
         return "product/allProduction";
     }
 
     @RequestMapping(value = "/production", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String getProduction(@RequestParam(value = "id", required = false) int id,
+    public String getProduction(@RequestParam(value = "category", required = false) String category,
+                                @RequestParam(value = "id", required = false) int id,
                                 @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
                                 Model model) {
-        ProductVo productId = this.productService.getById(id);
+        ProductVo productId = this.productService.getByIdAndCategory(id, category);
         if (productId != null) {
             this.productService.incrementView(productId);
         }

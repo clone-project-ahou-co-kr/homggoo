@@ -33,7 +33,7 @@
                `image_url` as `imageUrl`
         from `homggoo`.`users`
         where `provider_type` = #{providerType}
-          and `email` = #{email};
+          and `email` = #{email}
     </select>
     <select id="selectAll">
         select `email`         as `email`,
@@ -101,5 +101,21 @@
         where if(#{searchVo.by} = 'nickname', `t0`.`nickname` LIKE CONCAT('%', #{searchVo.keyword}, '%'), TRUE)
           and if(#{searchVo.by} = 'email', `t0`.`email` LIKE CONCAT('%', #{searchVo.keyword}, '%'), TRUE)
         order by `t0`.`created_at` desc;
+    </select>
+    <select id="selectByEmail" resultType="com.hgc.homggoo.entities.user.UserEntity">
+        select `t0`.`email`         as `email`,
+               `t0`.`profile`       as `profile`,
+               `t0`.`password`      as `password`,
+               `t0`.`is_admin`      as `isAdmin`,
+               `t0`.`nickname`      as `nickname`,
+               `t0`.`provider_type` as `providerType`,
+               `t0`.`provider_key`  as `providerKey`,
+               `t0`.`created_at`    as `createdAt`,
+               `t0`.`modified_at`   as `modifiedAt`,
+               `t0`.`is_deleted`    as `isDeleted`,
+               `t0`.`image_url`     as `imageUrl`
+        from `homggoo`.`users` as `t0`
+        where `email` = #{email}
+        limit 1;
     </select>
 </mapper>

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class ProductEntity {
     private int id;
     private String userEmail;
+    private String categoryCode;
     private byte[] image;
     private String title;
     private String description;

@@ -33,7 +33,21 @@ public class ProductService {
         return this.productMapper.selectById(id);
     }
 
+    public List<ProductVo> selectByUserEmail(String email) {
+        return this.productMapper.selectByUserEmail(email);
+    }
+
+    public ProductVo getByIdAndCategory(int id, String category) {
+        if (id < 1 || category == null) {
+            return null;
+        }
+        return this.productMapper.selectByIdAndCategory(id, category);
+    }
+
     public CommonResult createProduct(ProductEntity product, UserEntity signedUser) throws IOException {
+        if (signedUser == null || signedUser.isDeleted()) {
+            return CommonResult.FAILURE_ABSENT;
+        }
         UserEntity userEmail = this.productMapper.selectUserEmail(signedUser.getEmail());
 
         product.setUserEmail(userEmail.getEmail());
@@ -52,12 +66,18 @@ public class ProductService {
     }
 
     public CommonResult deleteProduct(ProductEntity product, UserEntity signedUser) {
-
+        if (signedUser == null || signedUser.isDeleted()) {
+            return CommonResult.FAILURE_ABSENT;
+        }
         return this.productMapper.delete(product) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 
     public List<ProductVo> getAllProducts() {
         return this.productMapper.selectAll();
+    }
+
+    public List<ProductVo> getProductsByCategory(String category) {
+        return this.productMapper.selectByCategory(category);
     }
 
     public int countProduct(String email) {

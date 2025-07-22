@@ -298,11 +298,14 @@ $registerForm.onsubmit = (e) => {
         const response = JSON.parse(xhr.responseText);
         switch (response.result) {
             case'failure':
-                alert('failure');
+                dialog.showSimpleOk('회원가입', '필요한 정보들을 다 입력하셨는지 확인해주세요.');
                 break;
             case 'success':
-                alert('success');
+                dialog.showSimpleOk('회원가입', '회원가입에 성공하셨습니다.');
                 location.href = `${origin}/`;
+                break;
+            case'failure_duplicate':
+                dialog.showSimpleOk('회원가입', '이미 가입된 이메일이 있습니다.');
                 break;
             default:
                 break;
