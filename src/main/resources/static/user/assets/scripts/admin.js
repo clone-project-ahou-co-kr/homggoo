@@ -69,20 +69,19 @@ const loadNotice = () => {
                 <tr data-index="${notice.index}">
                   <td class="title">${notice.title}</td>
                   <td class="content">${notice.content}</td>
-                  <td class="created">${new Date(notice.createdAt).toLocaleString()}</td>
+                  <td class="created">${notice.createdAt.split('T')[0]}</td>
                   <td class="nickname">${notice.nickname || '관리자'}</td>
                   
                 </tr>
             `;
             $noticeTbody.insertAdjacentHTML('beforeend', rowHTML);
         });
-
         const renderNoticeChart = (notices) => {
             const dateCounts = {};
 
             // 날짜별 게시글 수 집계
-            articles.forEach((article) => {
-                const date = new Date(article.createdAt).toISOString().split('T')[0];
+            notices.forEach((notice) => {
+                const date = new Date(notice.createdAt).toISOString().split('T')[0];
                 dateCounts[date] = (dateCounts[date] || 0) + 1;
             });
 
@@ -148,10 +147,9 @@ const loadNotice = () => {
                   <td class="category">${article.categoryDisplayText}</td>
                   <td class="title">${article.title}</td>
                   <td class="content">${article.content}</td>
-                  <td class="created">${article.createdAt.split('T')[0]}</td>
                   <td class="nickname">${article.nickname}</td>
+                  <td class="created">${article.createdAt.split('T')[0]}</td>
                   <td class="buttons">
-                    <button class="hide">숨김</button>
                     <button class="delete">삭제</button>
                   </td>
                 </tr>
@@ -167,12 +165,12 @@ const loadNotice = () => {
 
                 $articleDialog.classList.add('-visible');
                 $articleModal.classList.add('-visible');
-                const nickname = article.querySelector('.nickname').textContent;
-                $articleContent.querySelector(':scope > p >.dialogTitle').innerHTML = article.querySelector(':scope>.title').textContent;
-                $articleContent.querySelector(':scope>p>.dialogContent').innerHTML =
+                $articleModal.querySelector(':scope>.---title>.dialogCategory').innerHTML=article.querySelector(':scope>.category').textContent;
+                $articleContent.querySelector(':scope > div >.dialogTitle').innerHTML = article.querySelector(':scope>.title').textContent;
+                $articleContent.querySelector(':scope>div>.dialogContent').innerHTML =
                     article.querySelector(':scope>.content').textContent;
-                $articleContent.querySelector(':scope>p>.dialogNickname').innerHTML = article.querySelector(':scope>.nickname').textContent;
-                $articleContent.querySelector(':scope>p>.dialogCreatedAt').innerHTML = article.querySelector(':scope>.created').textContent;
+                $articleContent.querySelector(':scope>div>.dialogNickname').innerHTML = article.querySelector(':scope>.nickname').textContent;
+                $articleContent.querySelector(':scope>div>.dialogCreatedAt').innerHTML = article.querySelector(':scope>.created').textContent;
 
 
                 $articleContent.querySelector('.dialogCloseBtn').addEventListener('click', () => {
@@ -255,9 +253,9 @@ const loadNotice = () => {
             const rowHTML = `
                 <tr>
                   <td class="email">${user.email}</td>
-                  <td class="created">${user.createdAt.split('T')[0]}</td>
                   <td class="nickname">${user.nickname}</td>
                   <td class="providerType">${user.providerType}</td>
+                  <td class="created">${user.createdAt.split('T')[0]}</td>
                   <td class="deleted">${user.isDeleted ? '탈퇴됨' : '정상'}</td>
                 </tr>
             `;
@@ -277,7 +275,7 @@ const loadNotice = () => {
                 $userContent.querySelector('.dialogCreatedAt').innerHTML = row.querySelector('.created').textContent;
                 $userContent.querySelector('.dialogDeleted').innerHTML = row.querySelector('.deleted').textContent;
 
-                const articleList = $userContent.querySelector(':scope>.dialogArticles>.articleList');
+                const articleList = $userContent.querySelector(':scope>.dialogArticles>.articleLists');
                 articleList.innerHTML = '';
 
                 const userArticles = articles.filter((article) => article.nickname === nickname)
@@ -372,6 +370,9 @@ const loadNotice = () => {
 };
 const showNotice = (index) => {
     const xhr = new XMLHttpRequest();
+    const $noticeDialog = document.getElementById('noticeDialog');
+    const $noticeModal = $noticeDialog.querySelector(':scope>.---modal');
+    const $noticeContent = $noticeDialog.querySelector(':scope>.---modal>.---content');
     xhr.onreadystatechange = () => {
         if (xhr.readyState !== XMLHttpRequest.DONE) return;
 
@@ -382,28 +383,22 @@ const showNotice = (index) => {
 
         const response = JSON.parse(xhr.responseText);
         const notice = response.payload;
-        dialog.show({
-            title: notice.title,
-            content: notice.content,
-            isContentHtml: true,
-            buttons: [
-                {
-                    caption: "수정",
-                    color: "blue",
-                    onclick: (modalElement) => {
-                        location.href = `${origin}/user/admin/modify?index=${notice.index}`;
-                    }
-                },
-                {
-                    caption: "닫기",
-                    color: "gray",
-                    onclick: ($modal) => {
-                        dialog.hide($modal);
-                    }
-                }
-            ]
-        });
-
+        $noticeContent.querySelector(':scope>div>.dialogNickname').innerHTML = notice.nickname;
+        $noticeContent.querySelector(':scope>div>.dialogContent').innerHTML = notice.content;
+        $noticeContent.querySelector(':scope>div>.dialogCreatedAt').innerHTML = `${notice.createdAt.split('T')[0]} ${notice.createdAt.split('T')[1]}`;
+        $noticeContent.querySelector(':scope>.button-container>.dialogModifyBtn').addEventListener('click',()=>{
+            location.href = `${origin}/user/admin/modify?index=${notice.index}`;
+        })
+        $noticeDialog.setVisible(true);
+        $noticeModal.setVisible(true);
+        $noticeContent.querySelector(':scope>.button-container>.dialogCloseBtn').addEventListener('click',()=>{
+            $noticeDialog.setVisible(false);
+            $noticeModal.setVisible(false);
+        })
+        $noticeDialog.addEventListener('click',()=>{
+            $noticeDialog.setVisible(false);
+            $noticeModal.setVisible(false);
+        })
     };
 
     xhr.open('GET', `/api/user/admin/notice/view?index=${index}`);
@@ -453,7 +448,7 @@ const updateList = (state,data) => {
     if (state === 'success') {
         if (data.length === 0) {
             $userTbody.insertAdjacentHTML('beforeend', `
-                <tr><td colspan="5"><h3>검색 결과가 없습니다.</h3></td></tr>
+                <tr style="border-bottom:none"><td colspan="5"><h3>검색 결과가 없습니다.</h3></td></tr>
             `);
             return;
         }
@@ -462,9 +457,9 @@ const updateList = (state,data) => {
             rows += `
                 <tr>
                     <td>${user.email}</td>
-                    <td>${user.createdAt.split('T')[0]}</td>
                     <td>${user.nickname}</td>
                     <td>${user.providerType}</td>
+                    <td>${user.createdAt.split('T')[0]}</td>
                     <td>${user.deleted ? '탈퇴' : '정상'}</td>
                 </tr>
             `;

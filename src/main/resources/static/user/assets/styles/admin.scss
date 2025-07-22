@@ -124,8 +124,6 @@ body {
             border-radius: 0.625rem;
             width: 61.875rem;
             height: 8rem;
-            background-color: #f2f4f6;
-            padding: 0.5rem;
             box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
             border: 1px solid #ccc;
 
@@ -206,31 +204,41 @@ body {
           height: 40rem;
           border: 1px solid #cccccc;
           border-radius: 0.625rem;
-          overflow: auto; // 표 내용이 넘치면 스크롤 가능하게
+          //overflow: auto; // 표 내용이 넘치면 스크롤 가능하게
+          overflow: hidden auto;
 
           .list-table {
             width: 100%;
+            height: 40rem;
             border-collapse: collapse; // 이건 table에 써야 함!
             table-layout: fixed; // 셀 너비 균등하게 분배
             > thead {
               width: 100%;
+              table-layout: fixed;
+              position: sticky;
+              top: 0;
 
               > tr {
                 background-color: #e0e0e0;
+
+                > th {
+                  padding: 0.5rem;
+                }
               }
             }
 
             > tbody {
               border-collapse: collapse;
+              height: calc(40rem - 2.1875rem);
 
               > tr {
                 cursor: pointer;
                 width: 100%;
+                border-bottom: 0.0625rem solid #cccccc;
+                line-height: 1.5rem;
 
                 > td {
-                  width: 5rem;
-                  height: 2rem;
-                  padding: 0.0625rem;
+                  padding: 0.5rem;
                   text-align: center;
                   text-overflow: ellipsis;
                   overflow: hidden;
@@ -244,6 +252,7 @@ body {
             }
           }
         }
+
       }
 
 
@@ -265,12 +274,12 @@ body {
         }
 
         .list-container {
+          margin-top: 2.5rem;
           width: 100%;
           height: 40rem;
           border: 0.0625rem solid #cccccc;
           border-radius: 0.625rem;
-          overflow: auto; // 표 내용이 넘치면 스크롤 가능하게
-          margin-top: 2.5rem;
+          overflow: hidden auto; // 표 내용이 넘치면 스크롤 가능하게
 
           > .list-table {
             width: 100%;
@@ -278,22 +287,32 @@ body {
             table-layout: fixed; // 셀 너비 균등하게 분배
             > thead {
               width: 100%;
+              table-layout: fixed;
+              position: sticky;
+              top: 0;
 
               > tr {
                 background-color: #e0e0e0;
+
+                > th {
+                  padding: 0.5rem;
+                }
               }
             }
 
             > tbody {
               border-collapse: collapse;
+              max-height: calc(40rem - 2.1875rem);
 
               > tr {
                 cursor: pointer;
+                width: 100%;
+                border-bottom: 0.0625rem solid #cccccc;
+                line-height: 1.5rem;
 
                 > td {
-                  width: 5rem;
-                  height: 2rem;
-                  padding: 0.0625rem;
+                  padding: 0.5rem;
+
                   text-align: center;
                   text-overflow: ellipsis;
                   overflow: hidden;
@@ -347,10 +366,125 @@ body {
 }
 
 
-.--dialog {
+#noticeDialog, #articleDialog {
   > .---modal {
-    width: 78rem;
-    height: 50.75rem;
+    @include flex(column, center, center);
+    width: 78.5rem;
+    max-height: 50.75rem;
+
+    > .---title {
+      width: 100%;
+      height: 3rem;
+      //background-color: #0d65ff;
+
+      > span {
+        font-size: 1.5rem;
+        font-weight: 500;
+      }
+    }
+
+    > .---content {
+      @include flex(column, flex-start, flex-start, 0.5rem);
+      width: 100%;
+      max-height: 50.75rem;
+
+      > div {
+        @include flex(column, flex-start, flex-start);
+        width: 100%;
+
+        .dialogContent {
+          width: 100%;
+          max-height: 35rem;
+          padding: 0.5rem;
+          overflow: hidden scroll;
+          word-break: break-word;
+          border: 0.0625rem solid #ccc;
+        }
+      }
+
+      > .button-container {
+        @include flex(row, center, center, 0.5rem);
+        width: 100%;
+
+        > button {
+          width: 5rem;
+          height: 2rem;
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: row;
+        }
+      }
+
+
+    }
+  }
+}
+
+#userDialog {
+  > .---modal {
+    @include flex(column, center, center);
+    width: 30rem;
+    height: 35.75rem;
+
+    > .---title {
+      width: 100%;
+      height: 3rem;
+      //background-color: #0d65ff;
+
+      > span {
+        font-size: 1.5rem;
+        font-weight: 500;
+      }
+    }
+
+    > .---content {
+      width: 100%;
+      height: calc(100% - 3rem);
+      @include flex(column, flex-start, space-between);
+      //background-color: #0198ED;
+      > div {
+        @include flex(column, flex-start, flex-start);
+        width: 26.5rem;
+
+        .dialogContent {
+          width: 26.5rem;
+          height: 8rem;
+          overflow: hidden scroll;
+          background-color: #0198ED;
+          white-space: normal;
+          word-break: break-word;
+        }
+      }
+
+      > .dialogArticles {
+        height: 8rem;
+        width: inherit;
+
+        > .articleLists {
+          border: 0.0625rem solid #cccccc;
+          border-radius: 0.0625rem;
+          padding: 0.5rem;
+          width: 100%;
+          max-height: 7rem;
+          overflow: hidden auto;
+          background: #0198ED;
+        }
+      }
+
+
+      > button {
+        width: 100%;
+        height: 3rem;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        cursor: pointer;
+      }
+    }
   }
 }
 

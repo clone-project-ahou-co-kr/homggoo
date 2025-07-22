@@ -17,6 +17,18 @@ body > .stretch {
   flex-shrink: 1;
 }
 
+header {
+  width: 78rem;
+  margin-bottom: 3rem;
+}
+header > div {
+  width: 100%;
+}
+header > div > span {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
 #notice-form {
   align-items: flex-start;
   display: flex;
@@ -26,7 +38,6 @@ body > .stretch {
   gap: 0;
   width: 78rem;
   height: 50.75rem;
-  background-color: #f6f9fa;
   border-radius: 0.625rem;
 }
 #notice-form > * {
@@ -38,10 +49,70 @@ body > .stretch {
   flex-shrink: 1;
 }
 #notice-form > .title-container {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 0.625rem;
   width: 100%;
   height: 5rem;
-  background-color: #1abc9c;
   border-bottom: 0.0625rem solid #828C94;
+  position: relative;
+}
+#notice-form > .title-container > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#notice-form > .title-container > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#notice-form > .title-container > span {
+  font-weight: 500;
+}
+#notice-form > .title-container > label {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+}
+#notice-form > .title-container > label > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#notice-form > .title-container > label > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#notice-form > .title-container > label > input {
+  width: 70rem;
+  height: 2rem;
+  padding: 0.625rem;
+  background-color: #f6f9fa;
+  border-radius: 0.08125rem;
+}
+#notice-form > .title-container > label > button {
+  width: 4rem;
+  height: 2rem;
+  background-color: #0478F8;
+  color: #fff;
+  border-radius: 0.625rem;
+}
+#notice-form > .title-container > label > button:hover {
+  background-color: #025bbe;
+}
+#notice-form > .title-container > .divider {
+  content: "";
+  width: 100%;
+  height: 0.0625rem;
+  background-color: #828C94;
+  top: 90%;
+  position: absolute;
 }
 #notice-form > .ck {
   width: 100%;
@@ -52,8 +123,7 @@ body > .stretch {
 }
 #notice-form > label > .text-container {
   width: 100%;
-  height: 45.75rem;
-  background-color: dodgerblue;
+  height: rem;
 }
 
 /*# sourceMappingURL=notice.css.map */

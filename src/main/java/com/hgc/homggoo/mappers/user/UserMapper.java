@@ -25,6 +25,8 @@ public interface UserMapper {
     UserEntity selectByEmailAndProviderType(@Param("email") String email,
                                             @Param("providerType") String providerType);
 
+    UserEntity selectByEmail(@Param(value = "email") String email);
+
     UserEntity[] selectBySearch(@Param(value = "searchVo") SearchVo searchVo);
 
 }

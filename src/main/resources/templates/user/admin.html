@@ -18,36 +18,57 @@
     location.href = "/";
 </script>
 <body>
-<div class="--dialog" id="userDialog">
+<div class="--dialog" id="noticeDialog">
     <div class="---modal">
-        <div class="---title">회원 정보</div>
+        <div class="---title">
+            <span>공지사항</span>
+        </div>
         <div class="---content">
-            <p><strong>닉네임:</strong> <span class="dialogNickname"></span></p>
-            <p><strong>이메일:</strong> <span class="dialogEmail"></span></p>
-            <p><strong>가입일:</strong> <span class="dialogCreatedAt"></span></p>
-            <p><strong>탈퇴 여부:</strong> <span class="dialogDeleted"></span></p>
-
-            <div class="dialogArticles">
-                <h4>작성한 게시글</h4>
-                <ul class="articleList"></ul>
+            <div><strong>닉네임:</strong> <span class="dialogNickname"></span></div>
+            <div><strong>날짜:</strong> <span class="dialogCreatedAt"></span></div>
+            <div><strong>내용:</strong> <span class="dialogContent"></span></div>
+            <div class="button-container">
+                <button class="button-object dialogModifyBtn -color-blue">수정</button>
+                <button class="dialogCloseBtn --object-button -color-gray">닫기</button>
             </div>
-            <button class="dialogCloseBtn">닫기</button>
         </div>
     </div>
 </div>
-
 <div class="--dialog" id="articleDialog">
     <div class="---modal">
         <div class="---title"><strong>카테고리:</strong><span class="dialogCategory"></span></div>
         <div class="---content">
-            <p>
+            <div>
                 <strong>제목:</strong> <span class="dialogTitle"></span>
-            </p>
-            <p><strong>내용:</strong> <span class="dialogContent"></span></p>
-            <p><strong>닉네임:</strong> <span class="dialogNickname"></span></p>
-            <p><strong>작성일:</strong> <span class="dialogCreatedAt"></span></p>
+            </div>
+            <div><strong>닉네임:</strong> <span class="dialogNickname"></span></div>
+            <div><strong>작성일:</strong> <span class="dialogCreatedAt"></span></div>
+            <div><strong>내용:</strong>
+                <span class="dialogContent"></span>
+            </div>
+            <div class="button-container">
 
-            <button class="dialogCloseBtn">닫기</button>
+                <button class="dialogCloseBtn articleBtn --object-button -color-gray ">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="--dialog" id="userDialog">
+    <div class="---modal">
+        <div class="---title">
+            <span>회원 정보</span>
+        </div>
+        <div class="---content">
+            <div><strong>이름:</strong> <span class="dialogNickname"></span></div>
+            <div><strong>이메일:</strong> <span class="dialogEmail"></span></div>
+            <div><strong>날짜:</strong> <span class="dialogCreatedAt"></span></div>
+            <div><strong>탈퇴여부:</strong> <span class="dialogDeleted"></span></div>
+
+            <div class="dialogArticles">
+                <h4>작성한 게시글</h4>
+                <ul class="articleLists"></ul>
+            </div>
+            <button class="dialogCloseBtn --object-button -color-gray">닫기</button>
         </div>
     </div>
 </div>
@@ -198,19 +219,17 @@
                 <div class="list-container">
                     <table class="list-table">
                         <colgroup>
-                            <col style="width: 15%;">
-                            <col style="width: 15%;">
-                            <col style="width: auto;">
-                            <col style="width:15% ;">
-                            <col style="width:10% ;">
+                            <col style="width: 10%;">
+                            <col style="width: 10%;">
+                            <col style="width: 10%;">
+                            <col style="width:5% ;">
                         </colgroup>
                         <thead>
                         <tr>
                             <th>제목</th>
                             <th>내용</th>
-                            <th>날짜</th>
                             <th>관리자</th>
-                            <th>수정</th>
+                            <th>날짜</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -246,8 +265,8 @@
                             <th>카테고리</th>
                             <th>제목</th>
                             <th>내용</th>
-                            <th>날짜</th>
                             <th>닉네임</th>
+                            <th>날짜</th>
                             <th>수정</th>
                         </tr>
                         </thead>
@@ -296,9 +315,9 @@
                         <thead>
                         <tr>
                             <th>이메일</th>
-                            <th>날짜</th>
                             <th>닉네임</th>
                             <th>타입</th>
+                            <th>날짜</th>
                             <th>탈퇴</th>
                         </tr>
                         </thead>
