@@ -39,7 +39,7 @@
                         <input required type="text" minlength="1" maxlength="" name="search" placeholder="통합검색">
                     </label>
                     <div class="user-true" th:if="${signedUser != null}">
-                        <a href="#" class="nav-link">
+                        <a th:href="@{/user/myproductlike}" class="nav-link">
                             <span><img src="/assets/images/index/header/scrap.png" alt=""></span>
                         </a>
                         <a href="#" class="nav-link">

@@ -356,6 +356,7 @@
   flex-wrap: nowrap;
   gap: 1rem;
   font-weight: 700;
+  height: 100%;
 }
 #mini-header > .container > .category > * {
   flex-grow: 0;
@@ -364,6 +365,35 @@
 #mini-header > .container > .category > .stretch {
   flex-grow: 1;
   flex-shrink: 1;
+}
+#mini-header > .container > .category > a {
+  align-items: center;
+  display: flex;
+  flex-direction: row center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  height: 100%;
+}
+#mini-header > .container > .category > a > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#mini-header > .container > .category > a > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#mini-header > .container > .category > a:hover {
+  animation: none;
+  color: #0aa5ff;
+}
+#mini-header > .container > .category > .active {
+  color: #0aa5ff;
+  border-bottom: 0.0625rem solid #0aa5ff;
+}
+
+#mini-header.hovered {
+  transition: all 0.2s ease;
 }
 
 #main-content {

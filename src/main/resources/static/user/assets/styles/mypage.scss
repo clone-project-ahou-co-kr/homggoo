@@ -155,14 +155,20 @@
         overflow: scroll;
 
         > .more-box {
-          top: 18%;
-          right: 0;
-          width: 2rem;
-          height: 2rem;
-          border-radius: 999rem;
-          background-color: #0d65ff;
-          color: #ffffff;
-          position: absolute;
+          > label {
+            > .more {
+              @include flex(column, center, center);
+              cursor: pointer;
+              top: 18%;
+              right: 0;
+              width: 2rem;
+              height: 2rem;
+              border-radius: 999rem;
+              background-color: #0d65ff;
+              color: #ffffff;
+              position: absolute;
+            }
+          }
         }
 
         > .list {

@@ -15,9 +15,12 @@
     <link rel="stylesheet" href="/user/assets/styles/mypage.min.css">
     <script defer src="/assets/scripts/common.js"></script>
     <script defer src="/user/assets/scripts/mypage.js"></script>
+    <script defer src="/assets/scripts/index.js" type="text/javascript"></script>
 </head>
 <body th:if="${signedUser != null}">
 <header th:replace="~{fragments/header :: header}"></header>
+<div th:replace="~{fragments/header :: mini-header}"></div>
+
 <div id="main-content">
     <div class="mypage-container">
 
@@ -36,7 +39,7 @@
                     <div class="mini-info">
                         <ul class="list">
                             <li class="item">
-                                <a href="#">
+                                <a th:href="@{/user/myproductlike}">
                                     <img src="/assets/images/index/header/scrap.png" alt="">
                                     <span class="caption">스크랩북</span>
                                 </a>
@@ -86,6 +89,7 @@
         </div>
     </div>
 </div>
+
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

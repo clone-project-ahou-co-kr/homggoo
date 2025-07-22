@@ -110,7 +110,7 @@ $button.addEventListener('click', () => {
         switch (response.result) {
             case 'success':
                 dialog.showSimpleOk('게시글 등록', '게시글이 수정되었습니다.', {
-                    onOkCallback : () => location.href = `/product/production?id=${response.id}`
+                    onOkCallback : () => location.href = `/product/production?category=${response.categoryId}&id=${response.id}`
                 });
                 break;
             default:
