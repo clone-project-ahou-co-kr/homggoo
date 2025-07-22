@@ -20,7 +20,12 @@ public interface ProductMapper {
 
     ProductVo selectById(@Param(value = "id") int id);
 
+    ProductVo selectByIdAndCategory(@Param(value = "id") int id,
+            @Param(value = "category") String category);
+
     List<ProductVo> selectAll();
+
+    List<ProductVo> selectByCategory(@Param("category") String category);
 
     int countByUserEmail(@Param("userEmail") String userEmail);
 }

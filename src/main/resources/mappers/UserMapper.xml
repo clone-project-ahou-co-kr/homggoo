@@ -33,7 +33,7 @@
                `image_url` as `imageUrl`
         from `homggoo`.`users`
         where `provider_type` = #{providerType}
-          and `email` = #{email};
+          and `email` = #{email}
     </select>
     <select id="selectAll">
         select `email`         as `email`,

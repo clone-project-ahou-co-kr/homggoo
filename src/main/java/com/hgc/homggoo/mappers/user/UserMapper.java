@@ -13,7 +13,8 @@ public interface UserMapper {
 
     int selectCountByEmail(@Param(value = "email") String email);
 
-    UserEntity selectByProviderAndEmail(@Param(value = "providerType") String providerType, @Param(value = "email") String email);
+    UserEntity selectByProviderAndEmail(@Param(value = "providerType") String providerType,
+                                        @Param(value = "email") String email);
 
     int update(@Param(value = "user") UserEntity user);
 
@@ -21,7 +22,8 @@ public interface UserMapper {
 
     UserEntity selectLocalUserEmail(@Param(value = "email") String email);
 
-    UserEntity selectByEmailAndProviderType(@Param("email") String email, @Param("providerType") String providerType);
+    UserEntity selectByEmailAndProviderType(@Param("email") String email,
+                                            @Param("providerType") String providerType);
 
     UserEntity[] selectBySearch(@Param(value = "searchVo") SearchVo searchVo);
 

@@ -33,6 +33,13 @@ public class ProductService {
         return this.productMapper.selectById(id);
     }
 
+    public ProductVo getByIdAndCategory(int id, String category) {
+        if (id < 1 || category == null) {
+            return null;
+        }
+        return this.productMapper.selectByIdAndCategory(id, category);
+    }
+
     public CommonResult createProduct(ProductEntity product, UserEntity signedUser) throws IOException {
         UserEntity userEmail = this.productMapper.selectUserEmail(signedUser.getEmail());
 
@@ -58,6 +65,10 @@ public class ProductService {
 
     public List<ProductVo> getAllProducts() {
         return this.productMapper.selectAll();
+    }
+
+    public List<ProductVo> getProductsByCategory(String category) {
+        return this.productMapper.selectByCategory(category);
     }
 
     public int countProduct(String email) {

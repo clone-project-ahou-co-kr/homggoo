@@ -42,6 +42,24 @@
 </header>
 <main id="main">
     <form novalidate action="" id="writeForm">
+        <div class="select posts">
+            <label>
+                <select name="subject" id="subject">
+                    <option disabled hidden selected>
+                        종류를 선택해주세요(필수)
+                    </option>
+                    <option value="bed">침대</option>
+                    <option value="closet">옷장</option>
+                    <option value="desk">책상</option>
+                    <option value="chair">의자</option>
+                    <option value="tray">선반</option>
+                    <option value="sofa">소파</option>
+                    <option value="table">테이블</option>
+                    <option value="stand">스탠드</option>
+                    <option value="etc">기타</option>
+                </select>
+            </label>
+        </div>
         <input hidden name="productId" type="hidden">
         <div class="content">
             <div class="title-container">
