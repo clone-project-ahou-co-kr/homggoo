@@ -1,5 +1,6 @@
 package com.hgc.homggoo.mappers.article;
 
+import com.hgc.homggoo.entities.user.UserEntity;
 import com.hgc.homggoo.vos.ArticleVo;
 import com.hgc.homggoo.entities.article.ArticleEntity;
 import org.apache.ibatis.annotations.Mapper;
@@ -19,4 +20,8 @@ public interface ArticleMapper {
      ArticleVo selectById(@Param(value = "id") int id);
 
      ArticleVo[] selectAll();
+
+     int modify(@Param(value = "article") ArticleEntity article);
+
+     int delete(@Param(value = "article") ArticleEntity article);
 }

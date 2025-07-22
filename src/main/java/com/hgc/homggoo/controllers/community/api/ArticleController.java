@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/api/posts")
 public class ArticleController {
-    private static final Logger log = LoggerFactory.getLogger(ArticleController.class);
     private final ArticleService articleService;
     private final CommentService commentService;
 
@@ -30,6 +29,34 @@ public class ArticleController {
     public ArticleController(ArticleMapper articleMapper, ArticleService articleService, CommentService commentService) {
         this.articleService = articleService;
         this.commentService = commentService;
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteId(@PathVariable(value = "id", required = false) String id,
+                           @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser) {
+        if (signedUser == null) {
+            return "redirect:/";
+        }
+
+        Results result = this.articleService.delete(Integer.parseInt(id));
+        JSONObject response = new JSONObject();
+        response.put("result", result.nameToLower());
+
+        return response.toString();
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String patchId(@PathVariable(value = "id", required = false) String id,
+                         ArticleEntity article,
+                         @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser) {
+        if (signedUser == null) {
+            return "redirect:/";
+        }
+        Results result = this.articleService.update(article, Integer.parseInt(id), signedUser);
+        JSONObject response = new JSONObject();
+        response.put("result", result.nameToLower());
+
+        return response.toString();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -43,7 +70,7 @@ public class ArticleController {
         response.put("id", result.getId());
         response.put("boardId", result.getBoardId());
         response.put("categoryId", result.getCategoryId());
-        response.put("user_email", result.getUserEmail());
+        response.put("userEmail", result.getUserEmail());
         response.put("title", result.getTitle());
         response.put("content", result.getContent());
         response.put("view", result.getView());

@@ -15,7 +15,7 @@
 <body>
 <header th:replace="~{fragments/header :: header}"></header>
 <div th:replace="~{fragments/header :: mini-header}"></div>
-<input type="hidden" id="signedUser" th:value="${signedUser}" />
+<input type="hidden" id="signedUser" th:value="${signedUser.email}" />
 <form novalidate id="main" th:action="@{/community/posts}">
     <div class="layout">
         <div class="layout-content" id="drawArticle">

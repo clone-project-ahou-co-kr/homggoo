@@ -27,6 +27,20 @@ public class CommunityController {
         return "/community/interior";
     }*/
 
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public String getModify(@PathVariable(value = "id") int id,
+                            @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                            Model model) {
+        if(signedUser == null) {
+            System.out.println("세션에러");
+            return "redirect:/user/login";
+        }
+
+        model.addAttribute("article", this.articleService.read(id));
+
+        return "community/modify";
+    }
+
     @RequestMapping(value = "/posts/new", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String getPostsNew(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser) {
         if (signedUser == null) {

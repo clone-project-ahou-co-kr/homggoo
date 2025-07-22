@@ -115,4 +115,22 @@ public class ArticleService {
         return this.articleMapper.selectAll();
     }
 
+    public Results update(ArticleEntity article, int id, UserEntity user) {
+        if (article == null || article.getId() < 1) {
+            return CommonResult.FAILURE;
+        }
+        article.setModifiedAt(LocalDateTime.now());
+
+        return this.articleMapper.modify(article) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
+
+    public Results delete(int id) {
+        if (id < 1) {
+            return CommonResult.FAILURE;
+        }
+        ArticleEntity dbArticle = this.articleMapper.selectById(id);
+        dbArticle.setDeleted(true);
+
+        return this.articleMapper.delete(dbArticle) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
 }

@@ -7,6 +7,7 @@ const $commentList = $main.querySelector('.comment-list');
 const $commentsCount = $main.querySelector(':scope > .layout > .comment-content > .title > .comment-count');
 const $sideCommentBtn = $main.querySelector(':scope > .side-actions > .icon-button.comment');
 
+
 const loadArticle = () => {
 
     const xhr = new XMLHttpRequest();
@@ -21,9 +22,13 @@ const loadArticle = () => {
             return;
         }
         const response = JSON.parse(xhr.responseText);
+        // alert(response.userEmail)
+        console.log('signedUser:', $signedUser.value);
+        console.log('userEmail:', response.userEmail);
+        console.log($signedUser.value === response.userEmail);
         switch (response.result) {
             case 'success':
-                drawArticle(response.id, response.title, response.content, response.view, response.createdAt, response.likeCount, response.nickname, response.profile);
+                drawArticle(response.id, response.title, response.content, response.view, response.createdAt, response.likeCount, response.nickname, response.profile, response.userEmail);
                 loadComment(response.id);
                 break;
             case 'failure':
@@ -51,17 +56,24 @@ const getRelativeTime = (createdAtString) => {
     return `${diffDay}일 전`;
 }
 
-const drawArticle = (id, title, content, view, createdAt, likeCount, nickname, profile) => {
+const drawArticle = (id, title, content, view, createdAt, likeCount, nickname, profile, userEmail) => {
     const $layoutContent = document.getElementById('drawArticle');
-
+    console.log(userEmail)
+    console.log($signedUser.value)
     $layoutContent.innerHTML = '';
+
     let html = `
         <div class="layout-row">
             <h1 class="content">홈스타일링</h1>
-            <div class="button-container">
-                <a class="modify" href="#">수정</a>
-                <a class="delete" href="#">삭제</a>
-            </div>
+            ${
+        $signedUser.value === userEmail
+            ? `<div class="button-container">
+                    <a class="modify" href="/community/modify/${id}">수정</a>
+                    <a class="delete" onclick="deleteArticle(${id})">삭제</a>
+                </div>`
+            : ''
+    }
+            
         </div>
         <div class="title">${title}</div>
         <div class="name">
@@ -88,6 +100,39 @@ const drawArticle = (id, title, content, view, createdAt, likeCount, nickname, p
     `;
     $layoutContent.innerHTML = html;
     $isLiked.textContent = likeCount;
+}
+
+const deleteArticle = (id) => {
+
+    if (!confirm('정말로 삭제하시겠습니까?')) {
+        return;
+    }
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState !== XMLHttpRequest.DONE) {
+            return;
+        }
+        if (xhr.status < 200 || xhr.status >= 300) {
+            dialog.showSimpleOk('오류', '요청을 처리하는 도중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.', {
+                onClickCallback: () => location.reload()
+            });
+            return;
+        }
+        const response = JSON.parse(xhr.responseText);
+        switch (response.result) {
+            case 'success':
+                alert('삭제되었습니다.')
+                location.href = "/";
+                break;
+            default:
+                dialog.showSimpleOk('게시글 등록', '알 수 없는 이유로 게시글을 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+        }
+
+    }
+    xhr.open('DELETE',`/api/posts/${id}`);
+    xhr.send();
 }
 
 $like.addEventListener('click', () => {
@@ -203,6 +248,8 @@ const openReply = (button) => {
         reply.style.display = 'flex';
     }
 }
+
+
 
 
 document.addEventListener('click', (e) => {

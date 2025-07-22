@@ -28,6 +28,22 @@
             `created_at`  = #{article.createdAt},
             `modified_at` = #{article.modifiedAt},
             `is_deleted`  = #{article.isDeleted}
+        WHERE `id` = #{article.id}
+        AND   `is_deleted` = FALSE
+            LIMIT 1
+    </update>
+    <update id="modify">
+        UPDATE `homggoo`.`article`
+        SET `title`       = #{article.title},
+            `content`     = #{article.content},
+            `modified_at` = #{article.modifiedAt}
+        WHERE `id` = #{article.id}
+        AND   `is_deleted` = FALSE
+            LIMIT 1
+    </update>
+    <update id = "delete">
+        UPDATE `homggoo`.`article`
+        SET `is_deleted` = #{article.isDeleted}
         WHERE `id` = #{article.id} LIMIT 1
     </update>
     <select id="selectByBoardId" resultType="com.hgc.homggoo.vos.ArticleVo">
@@ -53,6 +69,7 @@
                  LEFT JOIN `homggoo`.`comments` AS `T3`
                            ON `T0`.`id` = `T3`.`article_id`
         WHERE `T0`.`board_id` = #{boardId}
+          AND `T0`.`is_deleted` = FALSE
         GROUP BY `T0`.`id`
         ORDER BY `T0`.`id` DESC
     </select>
@@ -79,6 +96,7 @@
                            ON `T0`.`id` = `T3`.`article_id`
         WHERE `T0`.`board_id` = #{boardId}
           AND `T0`.`category_id` = #{categoryId}
+          AND  `T0`.`is_deleted` = FALSE
         GROUP BY `T0`.`id`
         ORDER BY `T0`.`id` DESC
     </select>
@@ -101,7 +119,9 @@
                            ON `T0`.`user_email` = `T1`.`email`
                  LEFT JOIN `homggoo`.`article_user_likes` AS `T2`
                            ON `T0`.`id` = `T2`.`article_id`
-        WHERE `T0`.`id` = #{id} LIMIT 1
+        WHERE `T0`.`id` = #{id}
+        AND   `T0`.`is_deleted` = FALSE
+            LIMIT 1
     </select>
     <select id="selectAll">
         SELECT `T0`.`id`           AS `id`,
@@ -121,5 +141,6 @@
                            ON `T0`.`user_email` = `T1`.`email`
                  LEFT JOIN `homggoo`.`article_category` AS `T2`
                            ON `T0`.`category_id` = `T2`.`category_id`;
+        WHERE `T0`.`is_deleted` = FALSE
     </select>
 </mapper>
