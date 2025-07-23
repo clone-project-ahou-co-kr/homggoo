@@ -26,7 +26,7 @@ public class ExpertApiController {
 
     @RequestMapping(value = "/notice", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getNotice() {
-        ResultTuple<NoticeVo[]> results = this.noticeService.getAll();
+        ResultTuple<NoticeVo[]> results = this.noticeService.getAllExceptDelete();
         JSONObject response = new JSONObject();
         response.put("result", results.getResult());
         response.put("notices", results.getPayload());

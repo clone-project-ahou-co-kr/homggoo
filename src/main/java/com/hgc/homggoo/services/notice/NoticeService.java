@@ -50,6 +50,11 @@ public class NoticeService {
         return ResultTuple.<NoticeVo[]>builder()
                 .result(CommonResult.SUCCESS).payload(dbNotice).build();
     }
+    public ResultTuple<NoticeVo[]> getAllExceptDelete() {
+        NoticeVo[] dbNotice = this.noticeMapper.selectAllExceptDeleted();
+        return ResultTuple.<NoticeVo[]>builder()
+                .result(CommonResult.SUCCESS).payload(dbNotice).build();
+    }
 
     public ResultTuple<NoticeVo> getByIndex(int index) {
         if (index < 0) {

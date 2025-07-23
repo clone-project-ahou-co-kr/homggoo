@@ -415,21 +415,28 @@ const showNotice = (index) => {
     const $noticeModal = $noticeDialog.querySelector(':scope>.---modal');
     const $noticeContent = $noticeDialog.querySelector(':scope>.---modal>.---content');
     const restoreBtn = (index) => {
-        $noticeContent.querySelector(':scope>.button-container>.dialogRestoreBtn').addEventListener('click', () => {
+        const $restoreBtn = $noticeContent.querySelector(':scope>.button-container>.dialogRestoreBtn');
+
+        // 기존 이벤트 제거 (중복 방지)
+        const newBtn = $restoreBtn.cloneNode(true);
+        $restoreBtn.parentNode.replaceChild(newBtn, $restoreBtn);
+
+        newBtn.addEventListener('click', () => {
             const xhr = new XMLHttpRequest();
             const formData = new FormData();
             formData.append('index', index);
+
             xhr.onreadystatechange = () => {
-                if (xhr.readyState !== XMLHttpRequest.DONE) {
-                    return;
-                }
+                if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
                 if (xhr.status < 200 || xhr.status >= 300) {
                     dialog.showSimpleOk('경고', '요청 중 오류');
                     return;
                 }
+
                 const response = JSON.parse(xhr.responseText);
-                switch (response.results) {
-                    case'success':
+                switch (response.result) {
+                    case 'success':
                         dialog.show({
                             title: '공지사항',
                             content: '복구 완료 하였습니다.',
@@ -439,31 +446,26 @@ const showNotice = (index) => {
                                     color: 'blue',
                                     onclick: ($modal) => {
                                         $modal.hide();
-                                        document.body.querySelector(':scope>.--dialog').classList.remove('-visible');
-                                    }
-                                },
-                                {
-                                    caption: '취소',
-                                    onclick: ($modal) => {
-                                        $modal.hide();
-                                        document.body.querySelector(':scope>.--dialog').classList.remove('-visible');
+                                        $noticeDialog.setVisible(false);
+                                        $noticeModal.setVisible(false);
+                                        loadNotice();
                                     }
                                 }
                             ]
                         });
-                        loadNotice();
                         break;
-                    case'failure':
-                        dialog.showSimpleOk('공지사항', '게시글이 존재하지 않아 복구 시키는데 실패하였습니다.');
+                    case 'failure':
+                        dialog.showSimpleOk('공지사항', '게시글이 존재하지 않아 복구에 실패하였습니다.');
                         break;
                     default:
-                        break;
+                        dialog.showSimpleOk('오류', '알 수 없는 오류가 발생했습니다.');
                 }
             };
+
             xhr.open('PATCH', '/api/user/notice-restore');
             xhr.send(formData);
-        })
-    }
+        });
+    };
 
     xhr.onreadystatechange = () => {
         if (xhr.readyState !== XMLHttpRequest.DONE) return;

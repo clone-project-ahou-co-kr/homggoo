@@ -384,16 +384,14 @@
   flex-shrink: 1;
 }
 #mini-header > .container > .category > a:hover {
-  animation: none;
   color: #0aa5ff;
+  transition: none;
 }
 #mini-header > .container > .category > .active {
   color: #0aa5ff;
   border-bottom: 0.0625rem solid #0aa5ff;
-}
-
-#mini-header.hovered {
-  transition: all 0.2s ease;
+  animation-delay: 0ms;
+  transition: none;
 }
 
 #main-content {

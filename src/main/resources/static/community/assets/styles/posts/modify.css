@@ -1,0 +1,121 @@
+#header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: #ffffff;
+  border-bottom: 0.0625rem solid #dbdbdb;
+}
+#header > .header-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 0;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: #ffffff;
+}
+#header > .header-container > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#header > .header-container > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#header > .header-container > .logo {
+  margin: 1.5rem 0 1.438rem 3.75rem;
+}
+#header > .header-container > .--flex-stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#header > .header-container > .button-container {
+  align-content: center;
+  top: 0;
+  right: 0;
+  padding-right: 1.563rem;
+}
+#header > .header-container > .button-container > button {
+  display: inline-block;
+  cursor: pointer;
+  width: 8.25rem;
+  height: 2.813rem;
+  box-sizing: border-box;
+  margin: 0 0.425rem;
+  padding: 0.75rem 0.425rem 0.75rem;
+  background: rgb(237, 237, 237);
+  border: 0.0625rem solid rgb(237, 237, 237);
+  border-radius: 4px;
+  font-style: inherit;
+  font-variant: inherit;
+  font-stretch: inherit;
+  font-family: inherit;
+  font-optical-sizing: inherit;
+  font-size-adjust: inherit;
+  font-kerning: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: bold;
+  color: rgb(158, 158, 158);
+  transition: opacity 0.1s;
+}
+#header > .header-container > .button-container > button > span {
+  display: inline;
+}
+
+#main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0;
+}
+#main #modifyForm {
+  margin: 0 auto;
+  padding: 0;
+}
+#main #modifyForm > .title-container {
+  align-content: center;
+  font-size: 1.5rem;
+  padding-top: 2.5rem;
+  border-bottom: 0.0625rem solid #dbdbdb;
+}
+#main #modifyForm > .title-container > label > input {
+  width: 100%;
+  padding-bottom: 1rem;
+}
+#main #modifyForm > .title-container > label > input::placeholder {
+  color: #d7d7d7;
+}
+#main #modifyForm > .text-container {
+  padding-top: 2rem;
+  height: 100%;
+}
+#main #modifyForm > .text-container .custom-placeholder {
+  height: 30rem;
+  position: relative;
+  min-height: 1.5em;
+}
+#main #modifyForm > .text-container .custom-placeholder:empty::before {
+  content: attr(data-ph);
+  color: #ccc;
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 1;
+}
+#main #modifyForm > .text-container .custom-placeholder:focus:empty::before {
+  opacity: 0;
+}
+#main #modifyForm > .text-container > p[contenteditable=true] {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  text-decoration: none !important;
+}
+
+/*# sourceMappingURL=modify.css.map */

@@ -72,7 +72,7 @@
             <div class="password-container common">
                 <strong>비밀번호</strong>
                 <span>영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.</span>
-                <label class="label-object warning">
+                <label class="label-object">
                     <input  class="input-object stretch" required type="password" maxlength="50" minlength="8"
                            name="password" placeholder="비밀번호"
                            th:pattern="${T(com.hgc.homggoo.regexes.UserRegex).password.pattern}">

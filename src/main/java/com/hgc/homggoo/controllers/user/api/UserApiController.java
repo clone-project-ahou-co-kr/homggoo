@@ -127,7 +127,7 @@ public class UserApiController {
 
     @RequestMapping(value = "/notice", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getNotice() {
-        ResultTuple<NoticeVo[]> result = this.noticeService.getAll();
+        ResultTuple<NoticeVo[]> result = this.noticeService.getAllExceptDelete();
         UserEntity[] user = this.userService.getAll();
         ArticleVo[] articles = this.articleService.getAll();
 
@@ -197,7 +197,7 @@ public class UserApiController {
     public String patchNoticeRestore(@RequestParam(value = "index") int index) {
         Results results = this.noticeService.restoreNotice(index);
         JSONObject response = new JSONObject();
-        response.put("results", results.nameToLower());
+        response.put("result", results.nameToLower());
         return response.toString();
     }
 
