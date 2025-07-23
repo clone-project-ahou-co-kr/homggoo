@@ -2,9 +2,6 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <script defer src="/assets/scripts/index.js" type="text/javascript"></script>
 <header id="header" th:fragment="header">
-    <div class="top-banner">
-        <a href="#" class="banner-link">🔥 역대급 초특가 이벤트 진행중!</a>
-    </div>
 <!--    <div th:text="${signedUser}"></div>
     <img th:src="@{/api/user/profile-image}" alt="프로필 이미지" />-->
     <div class="header-container">
@@ -29,8 +26,8 @@
                     </a>
                 </div>
                 <div class="nav-menu">
-                    <a href="#" class="nav-menu community"><span class="community">커뮤니티</span></a>
-                    <a href="#" class="nav-menu shopping"><span class="shopping">쇼핑</span></a>
+                    <a href="/" class="nav-menu community"><span class="community">커뮤니티</span></a>
+                    <a href="/product/" class="nav-menu shopping"><span class="shopping">쇼핑</span></a>
                     <a href="/experts/" class="nav-menu notice"><span class="interior">공지사항</span></a>
                 </div>
                 <div class="--flex-stretch"></div>

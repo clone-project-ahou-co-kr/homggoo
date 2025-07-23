@@ -20,10 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
       <a href="/product/all">카테고리</a>
     `;
 
-    // const noticeCategoryHTML = `
-    //   <a href="/experts">공지사항</a>
-    //   <a href="/experts/event">이벤트</a>
-    // `;
+    const noticeCategoryHTML = `
+      <a href="/experts/">공지사항</a>
+    `;
 
     const setCategoryHTML = (html) => {
         categoryNav.innerHTML = html;
@@ -45,14 +44,13 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTimeout(hoverTimeout);
         showMiniHeader();
 
-        // 현재 섹션 상태에 따라 카테고리 표시
         switch (currentSection) {
             case 'shopping':
                 setCategoryHTML(shoppingCategoryHTML);
                 break;
-            // case 'notice':
-            //     setCategoryHTML(noticeCategoryHTML);
-            //     break;
+            case 'notice':
+                setCategoryHTML(noticeCategoryHTML);
+                break;
             case 'community':
             default:
                 setCategoryHTML(defaultCategoryHTML);
@@ -69,6 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     setCategoryHTML(shoppingCategoryHTML);
                 }  else if (currentPath.startsWith('/community')) {
                     setCategoryHTML(defaultCategoryHTML);
+                } else if (currentPath.startsWith('/experts')) {
+                    setCategoryHTML(noticeCategoryHTML);
                 }
             }
         }, 100);
