@@ -169,7 +169,7 @@ ol, ul {
   transition-duration: 175ms;
   transition-property: opacity;
   transition-timing-function: ease;
-  z-index: 8;
+  z-index: 999;
 }
 .--dialog > * {
   flex-grow: 0;
@@ -242,6 +242,10 @@ ol, ul {
 .--dialog > .---modal > .---button-container > .stretch {
   flex-grow: 1;
   flex-shrink: 1;
+}
+
+.warning {
+  border: 0.0625rem solid #e74c3c;
 }
 
 /*# sourceMappingURL=common.css.map */

@@ -19,7 +19,7 @@ body > .stretch {
 
 header {
   width: 78rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
 }
 header > div {
   width: 100%;
@@ -70,6 +70,7 @@ header > div > span {
 }
 #notice-form > .title-container > span {
   font-weight: 500;
+  font-size: 1.125rem;
 }
 #notice-form > .title-container > label {
   align-items: flex-start;
@@ -101,7 +102,7 @@ header > div > span {
   height: 2rem;
   background-color: #0478F8;
   color: #fff;
-  border-radius: 0.625rem;
+  border-radius: 0.25rem;
 }
 #notice-form > .title-container > label > button:hover {
   background-color: #025bbe;
@@ -123,7 +124,120 @@ header > div > span {
 }
 #notice-form > label > .text-container {
   width: 100%;
-  height: rem;
+}
+
+#modify-form {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 78rem;
+  height: 50.75rem;
+}
+#modify-form > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#modify-form > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#modify-form > .title-container {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 0.625rem;
+  width: 100%;
+  height: 5rem;
+  border-bottom: 0.0625rem solid #828C94;
+  position: relative;
+}
+#modify-form > .title-container > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#modify-form > .title-container > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#modify-form > .title-container > span {
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+#modify-form > .title-container > label {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+}
+#modify-form > .title-container > label > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#modify-form > .title-container > label > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#modify-form > .title-container > label > input {
+  width: 70rem;
+  height: 2rem;
+  padding: 0.625rem;
+  background-color: #f6f9fa;
+  border-radius: 0.08125rem;
+}
+#modify-form > label {
+  width: 100%;
+  height: 45rem;
+}
+#modify-form > .button-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+#modify-form > .button-container > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#modify-form > .button-container > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#modify-form > .button-container > label > input {
+  padding: 0.75rem;
+  border: 0.0625rem solid #cccccc;
+}
+#modify-form > .button-container > label > input.warning {
+  border: 0.0625rem solid #e74c3c;
+}
+#modify-form > .button-container > .buttons {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  height: 2.5rem;
+}
+#modify-form > .button-container > .buttons > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#modify-form > .button-container > .buttons > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 /*# sourceMappingURL=notice.css.map */

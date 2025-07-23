@@ -73,7 +73,7 @@ ol, ul {
   transition-duration: 175ms;
   transition-property: opacity;
   transition-timing-function: ease;
-  z-index: 8;
+  z-index: 999;
 
   &.-visible {
     opacity: 1;
@@ -118,4 +118,8 @@ ol, ul {
       @include flex(row, stretch, center, 0.5rem);
     }
   }
+}
+
+.warning{
+  border: 0.0625rem solid #e74c3c;
 }

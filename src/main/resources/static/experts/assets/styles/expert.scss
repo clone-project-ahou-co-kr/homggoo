@@ -45,15 +45,16 @@
             border-radius: 0.625rem;
             height: 90%;
             padding: 1.5rem;
+            overflow: hidden scroll;
 
             > .search-container {
               @include flex(row, center, center, 1rem);
               width: 100%;
 
+
               > .find-input {
                 @include flex(column, center, center);
                 width: 20rem;
-
                 > #find {
                   width: 20rem;
                 }
@@ -64,13 +65,19 @@
               width: 100%;
               max-height: calc(100% - 3rem);
               border-collapse: collapse;
-
+              overflow: hidden scroll;
               > thead {
                 border-top: 0.0925rem solid black;
                 border-bottom: 0.0625rem solid #cccccc;
+                height: 3rem;
+                >tr{
+                  position: sticky;
+                  top: 0;
+                }
               }
 
               > tbody {
+                overflow: hidden scroll;
                 > tr {
                   cursor: pointer;
                   text-align: center;

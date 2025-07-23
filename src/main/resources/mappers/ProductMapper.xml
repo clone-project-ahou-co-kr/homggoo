@@ -81,9 +81,9 @@
     </select>
 
     <select id="countByUserEmail" resultType="java.lang.Integer">
-            SELECT COUNT(0)
-            FROM `homggoo`.`product`
-            WHERE `user_email` = #{userEmail}
+        SELECT COUNT(0)
+        FROM `homggoo`.`product`
+        WHERE `user_email` = #{userEmail}
     </select>
 
     <select id="selectByIdAndCategory" resultType="com.hgc.homggoo.vos.ProductVo">

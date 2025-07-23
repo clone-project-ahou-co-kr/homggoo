@@ -3,12 +3,32 @@ $modifyForm.onsubmit = (e) => {
     e.preventDefault();
     const url = new URL(location.href);
     const index = url.searchParams.get("index");
+    $modifyForm['password'].classList.remove('warning');
+    if ($modifyForm['password'].value === '') {
+        dialog.show({
+            title:'수정',
+            content:'수정하시려면 비밀번호를 입력해주세요.',
+            buttons:[
+                {
+                    caption:'확인',
+                    color:'blue',
+                    onclick:($modal)=>{
+                        $modal.hide();
+                        $modifyForm['password'].focus();
+                        document.body.querySelector(':scope>.--dialog').classList.remove('-visible');
+                    }
+                }
+            ]
+        });
+        $modifyForm['password'].classList.add('warning');
+        return;
+    }
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('index', $modifyForm['index'].value);
     formData.append('title', $modifyForm['title'].value);
-    formData.append('content', $modifyForm.querySelector(':scope>.text-container>.custom-placeholder').textContent);
+    formData.append('content', $modifyForm['content'].value);
     formData.append('password', $modifyForm['password'].value);
     xhr.onreadystatechange = () => {
         if (xhr.readyState !== XMLHttpRequest.DONE) {
@@ -35,8 +55,7 @@ $modifyForm.onsubmit = (e) => {
     xhr.send(formData);
 }
 
-$modifyForm.querySelector(':scope>.button-container>.delete').addEventListener('click', () => {
-    alert('삭제')
+$modifyForm.querySelector(':scope>.button-container>.buttons>.delete').addEventListener('click', () => {
     const url = new URL(location.href);
     const index = url.searchParams.get("index");
 
@@ -57,8 +76,19 @@ $modifyForm.querySelector(':scope>.button-container>.delete').addEventListener('
                 dialog.showSimpleOk('삭제', '실패');
                 break;
             case'success':
-                dialog.showSimpleOk('삭제', '성공');
-                location.href = "/user/admin";
+                dialog.show(
+                    {
+                        title:'삭제',
+                        content: '삭제하시는데 성공하셨습니다.',
+                        buttons:[
+                            {
+                                caption:'확인',
+                                color:'blue',
+                                onclick:()=>{history.back()}
+                            }
+                        ]
+                    }
+                )
                 break;
             default:
                 break;

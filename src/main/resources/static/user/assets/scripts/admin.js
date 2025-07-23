@@ -65,82 +65,79 @@ const loadNotice = () => {
         $userTbody.innerHTML = '';
 
         notices.forEach((notice) => {
+            const noticeContentWithHiddenFigure = notice.content.replace(
+                /<figure([^>]*)>/g,
+                '<figure$1 hidden style="display:none;">'
+            ); //ckeditor는 figure안에 img를 감싸고 있어서 figure를 Hidden으로 준다.
+
+
+            const hasImgTag = notice.content.includes('<img');
+            const noticeContentImg = `<img src="/user/assets/images/picture.png" alt=""/>`;
             const rowHTML = `
                 <tr data-index="${notice.index}">
                   <td class="title">${notice.title}</td>
-                  <td class="content">${notice.content}</td>
+                  <td class="content" style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center;gap:0.5rem">${hasImgTag ? noticeContentImg + noticeContentWithHiddenFigure : notice.content}</td>
                   <td class="created">${notice.createdAt.split('T')[0]}</td>
-                  <td class="nickname">${notice.nickname || '관리자'}</td>
-                  
+                  <td  class="nickname">${notice.nickname || '관리자'}</td>
+                  <td  class="view">${notice.view}</td>
+                  <td  class="deleted" style="color: ${notice.deleted ? 'red' : 'inherit'};">${notice.deleted ? '삭제' : '정상'}</td>
                 </tr>
             `;
             $noticeTbody.insertAdjacentHTML('beforeend', rowHTML);
         });
         const renderNoticeChart = (notices) => {
-            const dateCounts = {};
-
-            // 날짜별 게시글 수 집계
+            const viewsByDate = {};
             notices.forEach((notice) => {
-                const date = new Date(notice.createdAt).toISOString().split('T')[0];
-                dateCounts[date] = (dateCounts[date] || 0) + 1;
+                const date = new Date(notice.createdAt);
+                const formattedDate = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+                viewsByDate[formattedDate] = (viewsByDate[formattedDate] || 0) + (notice.view || 0);
             });
 
-            const sortedDates = Object.keys(dateCounts).sort(); // 날짜 순 정렬
-            const counts = sortedDates.map(date => dateCounts[date]);
+            const sortedDates = Object.keys(viewsByDate).sort();
+            const views = sortedDates.map(date => viewsByDate[date]);
 
-            const views = notices.map(n => n.view || 0);
             const options = {
-                chart: {
-                    type: 'bar',
-                    height: '200',
-                    width: '300'
-                }, plotOptions: {
+                chart: {type: 'bar', height: 200}, // width 생략하면 자동 맞춤
+                plotOptions: {
                     bar: {
-                        distributed: true, // 각 막대 독립 스타일
-                        horizontal: false, // 수직 막대
-                        columnWidth: '20%', // 막대 너비
+                        distributed: true,
+                        horizontal: false,
+                        columnWidth: '30%',
                     }
-                }, dataLabels: {
-                    enabled: false,
                 },
+                dataLabels: {enabled: true},
                 xaxis: {
                     categories: sortedDates,
-                    title: {
-                        text: '날짜'
-                    },
-                    style: {
-                        fontSize: '1rem' // 글자 크기도 줄이기
+                    labels: {
+                        rotate: -45,
+                        style: {
+                            fontSize: '0.75rem'
+                        }
                     }
                 },
                 yaxis: {
-                    title: {
-                        text: '조회수'
-                    },
-                    min: 0,
-                    style: {
-                        fontSize: '1rem',
-
-                    }
+                    title: {text: '조회수'},
+                    min: 0
                 },
                 title: {
                     text: '공지사항별 조회수',
                     align: 'center'
-                }
-            }
+                },
+                legend: {show: false}
+            };
+
             const chartContainer = document.querySelector("#notice-chart");
             if (chartContainer) {
-                chartContainer.innerHTML = ''; // 기존 차트 제거
+                chartContainer.innerHTML = '';
                 const chart = new ApexCharts(chartContainer, {
                     ...options,
-                    series: [{
-                        name: '조회수',
-                        data: views
-                    }]
+                    series: [{name: '조회수', data: views}]
                 });
                 chart.render();
             }
-        }
+        };
         renderNoticeChart(notices);
+
         articles.forEach((article) => {
             const rowHTML = `
                 <tr data-index="${article.id}">
@@ -149,9 +146,6 @@ const loadNotice = () => {
                   <td class="content">${article.content}</td>
                   <td class="nickname">${article.nickname}</td>
                   <td class="created">${article.createdAt.split('T')[0]}</td>
-                  <td class="buttons">
-                    <button class="delete">삭제</button>
-                  </td>
                 </tr>
             `;
             $articleTbody.insertAdjacentHTML('beforeend', rowHTML);
@@ -165,28 +159,77 @@ const loadNotice = () => {
 
                 $articleDialog.classList.add('-visible');
                 $articleModal.classList.add('-visible');
-                $articleModal.querySelector(':scope>.---title>.dialogCategory').innerHTML=article.querySelector(':scope>.category').textContent;
+                $articleModal.querySelector(':scope>.---title>.dialogCategory').innerHTML = article.querySelector(':scope>.category').textContent;
                 $articleContent.querySelector(':scope > div >.dialogTitle').innerHTML = article.querySelector(':scope>.title').textContent;
                 $articleContent.querySelector(':scope>div>.dialogContent').innerHTML =
                     article.querySelector(':scope>.content').textContent;
                 $articleContent.querySelector(':scope>div>.dialogNickname').innerHTML = article.querySelector(':scope>.nickname').textContent;
                 $articleContent.querySelector(':scope>div>.dialogCreatedAt').innerHTML = article.querySelector(':scope>.created').textContent;
-
-
                 $articleContent.querySelector('.dialogCloseBtn').addEventListener('click', () => {
                     $articleDialog.classList.remove('-visible');
                     $articleModal.classList.remove('-visible');
                 });
+                $articleContent.querySelector(':scope>.button-container>.deleteBtn').addEventListener('click', () => {
+                    $articleDialog.classList.remove('-visible');
+                    $articleModal.classList.remove('-visible');
+                    let index = article.dataset['index'];
+                    const xhr = new XMLHttpRequest();
+                    const formData = new FormData();
+                    formData.append('index', index);
+                    xhr.onreadystatechange = () => {
+                        if (xhr.readyState !== XMLHttpRequest.DONE) {
+                            return;
+                        }
+                        if (xhr.status < 200 || xhr.status >= 300) {
+                            dialog.showSimpleOk('경고', '요청중 오류');
+                            return;
+                        }
+                        const response = JSON.parse(xhr.responseText);
+                        switch (response.result) {
+                            case'success':
+                                dialog.show({
+                                    title: '삭제',
+                                    content: '삭제하시는데 성공하였습니다.',
+                                    buttons: [
+                                        {
+                                            caption: '확인',
+                                            color: 'blue',
+                                            onclick: ($modal) => {
+                                                $modal.hide();
+                                                document.body.querySelector(':scope>.--dialog').classList.remove('-visible');
+                                            }
+                                        }
+                                    ]
+                                })
+                                loadNotice();
+                                break;
+                            case'failure':
+                                dialog.showSimpleOk('삭제', '알 수 없는 이유로 삭제하지 못하였습니다. ')
+                                break;
+                            case'failure_session_expired':
+                                dialog.showSimpleOk('삭제', '이미 삭제된 게시글입니다.');
+                                break;
+                            case'failure_absent':
+                                dialog.showSimpleOk('삭제', '존재하지 않는 게시글입니다.');
+                                break;
+                            default:
+                                break;
+                        }
+                    };
+                    xhr.open('DELETE', '/api/user/article-delete');
+                    xhr.send(formData);
+                })
             })
         })
         // 게시글 날짜별 등록 수 차트 생성
         const renderArticleChart = (articles) => {
             const dateCounts = {};
 
-            // 날짜별 게시글 수 집계
+            // 날짜별 게시글 수 집계 (YYYY.MM.DD 형식으로)
             articles.forEach((article) => {
-                const date = new Date(article.createdAt).toISOString().split('T')[0];
-                dateCounts[date] = (dateCounts[date] || 0) + 1;
+                const date = new Date(article.createdAt);
+                const formattedDate = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+                dateCounts[formattedDate] = (dateCounts[formattedDate] || 0) + 1;
             });
 
             const sortedDates = Object.keys(dateCounts).sort(); // 날짜 순 정렬
@@ -196,29 +239,25 @@ const loadNotice = () => {
                 chart: {
                     type: 'bar',
                     height: 200,
-                    width: 300,
+                    toolbar: {show: false}
                 },
                 plotOptions: {
                     bar: {
-                        distributed: true, // 각 막대 독립 스타일
-                        horizontal: false, // 수직 막대
-                        columnWidth: '15%', // 막대 너비
+                        distributed: true,
+                        horizontal: false,
+                        columnWidth: '20%',
                     }
                 },
                 dataLabels: {
-                    //각 막대 위에 숫자(값)을 표시
                     enabled: true
                 },
                 xaxis: {
                     categories: sortedDates,
-                    title: {
-                        text: '날짜'
-                    },
                     labels: {
-                        rotate: 10 // 날짜 겹침 방지
-                    },
-                    style: {
-                        fontSize: '1rem'
+                        rotate: -20,
+                        style: {
+                            fontSize: '0.75rem'
+                        }
                     }
                 },
                 yaxis: {
@@ -231,7 +270,8 @@ const loadNotice = () => {
                     text: '날짜별 게시글 등록 수',
                     align: 'center'
                 },
-                colors: undefined // 기본 색상 사용 (분산 색상 적용됨)
+                legend: {show: false},
+                colors: undefined
             };
 
             const chartContainer = document.querySelector("#article-chart");
@@ -247,6 +287,7 @@ const loadNotice = () => {
                 chart.render();
             }
         };
+
 
         renderArticleChart(articles);
         users.forEach((user) => {
@@ -373,6 +414,57 @@ const showNotice = (index) => {
     const $noticeDialog = document.getElementById('noticeDialog');
     const $noticeModal = $noticeDialog.querySelector(':scope>.---modal');
     const $noticeContent = $noticeDialog.querySelector(':scope>.---modal>.---content');
+    const restoreBtn = (index) => {
+        $noticeContent.querySelector(':scope>.button-container>.dialogRestoreBtn').addEventListener('click', () => {
+            const xhr = new XMLHttpRequest();
+            const formData = new FormData();
+            formData.append('index', index);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState !== XMLHttpRequest.DONE) {
+                    return;
+                }
+                if (xhr.status < 200 || xhr.status >= 300) {
+                    dialog.showSimpleOk('경고', '요청 중 오류');
+                    return;
+                }
+                const response = JSON.parse(xhr.responseText);
+                switch (response.results) {
+                    case'success':
+                        dialog.show({
+                            title: '공지사항',
+                            content: '복구 완료 하였습니다.',
+                            buttons: [
+                                {
+                                    caption: '확인',
+                                    color: 'blue',
+                                    onclick: ($modal) => {
+                                        $modal.hide();
+                                        document.body.querySelector(':scope>.--dialog').classList.remove('-visible');
+                                    }
+                                },
+                                {
+                                    caption: '취소',
+                                    onclick: ($modal) => {
+                                        $modal.hide();
+                                        document.body.querySelector(':scope>.--dialog').classList.remove('-visible');
+                                    }
+                                }
+                            ]
+                        });
+                        loadNotice();
+                        break;
+                    case'failure':
+                        dialog.showSimpleOk('공지사항', '게시글이 존재하지 않아 복구 시키는데 실패하였습니다.');
+                        break;
+                    default:
+                        break;
+                }
+            };
+            xhr.open('PATCH', '/api/user/notice-restore');
+            xhr.send(formData);
+        })
+    }
+
     xhr.onreadystatechange = () => {
         if (xhr.readyState !== XMLHttpRequest.DONE) return;
 
@@ -383,19 +475,31 @@ const showNotice = (index) => {
 
         const response = JSON.parse(xhr.responseText);
         const notice = response.payload;
-        $noticeContent.querySelector(':scope>div>.dialogNickname').innerHTML = notice.nickname;
+        $noticeContent.querySelector(':scope>div>.dialogTitle').innerHTML =
+            notice.deleted ? `${notice.title} (삭제됨)` : notice.title;
+        $noticeContent.querySelector(':scope>div>.dialogTitle').style.color = notice.deleted ? 'red' : 'black';
+
         $noticeContent.querySelector(':scope>div>.dialogContent').innerHTML = notice.content;
         $noticeContent.querySelector(':scope>div>.dialogCreatedAt').innerHTML = `${notice.createdAt.split('T')[0]} ${notice.createdAt.split('T')[1]}`;
-        $noticeContent.querySelector(':scope>.button-container>.dialogModifyBtn').addEventListener('click',()=>{
+        $noticeContent.querySelector(':scope>.button-container>.dialogRestoreBtn').style.display = 'none';
+        $noticeContent.querySelector(':scope>.button-container>.dialogModifyBtn').style.display = 'none';
+
+        if (notice.deleted) {
+            $noticeContent.querySelector(':scope>.button-container>.dialogRestoreBtn').style.display = 'flex';
+            restoreBtn(notice.index);
+        } else {
+            $noticeContent.querySelector(':scope>.button-container>.dialogModifyBtn').style.display = 'flex';
+        }
+        $noticeContent.querySelector(':scope>.button-container>.dialogModifyBtn').addEventListener('click', () => {
             location.href = `${origin}/user/admin/modify?index=${notice.index}`;
         })
         $noticeDialog.setVisible(true);
         $noticeModal.setVisible(true);
-        $noticeContent.querySelector(':scope>.button-container>.dialogCloseBtn').addEventListener('click',()=>{
+        $noticeContent.querySelector(':scope>.button-container>.dialogCloseBtn').addEventListener('click', () => {
             $noticeDialog.setVisible(false);
             $noticeModal.setVisible(false);
         })
-        $noticeDialog.addEventListener('click',()=>{
+        $noticeDialog.addEventListener('click', () => {
             $noticeDialog.setVisible(false);
             $noticeModal.setVisible(false);
         })
@@ -431,7 +535,7 @@ $findForm.onsubmit = (e) => {
                 updateList('success', response.data);
                 break;
             case 'failure':
-                updateList('failure',undefined);
+                updateList('failure', undefined);
                 break;
         }
     };
@@ -440,7 +544,7 @@ $findForm.onsubmit = (e) => {
     xhr.send();
 };
 
-const updateList = (state,data) => {
+const updateList = (state, data) => {
     const $userSection = document.querySelector('#main-content .user.menu');
     const $userTbody = $userSection.querySelector('.list-container > table > tbody');
     $userTbody.innerHTML = '';

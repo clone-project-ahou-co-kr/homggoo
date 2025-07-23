@@ -1,5 +1,6 @@
 package com.hgc.homggoo.services.article;
 
+import com.hgc.homggoo.mappers.user.UserMapper;
 import com.hgc.homggoo.results.Results;
 import com.hgc.homggoo.vos.ArticleVo;
 import com.hgc.homggoo.entities.article.ArticleEntity;
@@ -23,11 +24,13 @@ public class ArticleService {
     private static final Logger log = LoggerFactory.getLogger(ArticleService.class);
     private final ArticleMapper articleMapper;
     private final ArticleUserLikeMapper articleUserLikeMapper;
+    private final UserMapper userMapper;
 
     @Autowired
-    public ArticleService(ArticleMapper articleMapper, ArticleUserLikeMapper articleUserLikeMapper) {
+    public ArticleService(ArticleMapper articleMapper, ArticleUserLikeMapper articleUserLikeMapper, UserMapper userMapper) {
         this.articleMapper = articleMapper;
         this.articleUserLikeMapper = articleUserLikeMapper;
+        this.userMapper = userMapper;
     }
 
     public ResultTuple<ArticleEntity> add(ArticleEntity article,
@@ -128,9 +131,32 @@ public class ArticleService {
         if (id < 1) {
             return CommonResult.FAILURE;
         }
+
         ArticleEntity dbArticle = this.articleMapper.selectById(id);
+        if (dbArticle == null) {
+            return CommonResult.FAILURE_ABSENT;
+        }
+        if (dbArticle.isDeleted()) {
+            return CommonResult.FAILURE_SESSION_EXPIRED;
+        }
         dbArticle.setDeleted(true);
 
+        return this.articleMapper.delete(dbArticle) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
+
+    public Results adminDelete(UserEntity signedUser, int index) {
+        if (index < 1) {
+            return CommonResult.FAILURE;
+        }
+        if (!signedUser.isAdmin()) {
+            return CommonResult.FAILURE_SESSION_EXPIRED;
+        }
+        UserEntity dbUser = this.userMapper.selectByEmail(signedUser.getEmail());
+        ArticleEntity dbArticle = this.articleMapper.selectById(index);
+        if (dbArticle.isDeleted()) {
+            return CommonResult.FAILURE_ABSENT;
+        }
+        dbArticle.setDeleted(true);
         return this.articleMapper.delete(dbArticle) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 }

@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="/user/assets/styles/admin.min.css">
     <link rel="stylesheet" href="/assets/styles/common.min.css">
     <title>관리자 | 오늘의중고</title>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script defer src="/assets/scripts/common.js"></script>
     <script defer src="/user/assets/scripts/admin.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 <script th:if="${signedUser != null && !signedUser.isAdmin()}">
     alert('관리자만 접근 가능합니다.');
@@ -24,11 +24,12 @@
             <span>공지사항</span>
         </div>
         <div class="---content">
-            <div><strong>닉네임:</strong> <span class="dialogNickname"></span></div>
-            <div><strong>날짜:</strong> <span class="dialogCreatedAt"></span></div>
-            <div><strong>내용:</strong> <span class="dialogContent"></span></div>
+            <div><strong>제목</strong> <span class="dialogTitle"></span></div>
+            <div><strong>날짜</strong> <span class="dialogCreatedAt"></span></div>
+            <div><strong>내용</strong> <span class="dialogContent"></span></div>
             <div class="button-container">
                 <button class="button-object dialogModifyBtn -color-blue">수정</button>
+                <button class="button-object dialogRestoreBtn -color-blue">복구</button>
                 <button class="dialogCloseBtn --object-button -color-gray">닫기</button>
             </div>
         </div>
@@ -39,15 +40,15 @@
         <div class="---title"><strong>카테고리:</strong><span class="dialogCategory"></span></div>
         <div class="---content">
             <div>
-                <strong>제목:</strong> <span class="dialogTitle"></span>
+                <strong>제목</strong> <span class="dialogTitle"></span>
             </div>
-            <div><strong>닉네임:</strong> <span class="dialogNickname"></span></div>
-            <div><strong>작성일:</strong> <span class="dialogCreatedAt"></span></div>
-            <div><strong>내용:</strong>
+            <div><strong>닉네임</strong> <span class="dialogNickname"></span></div>
+            <div><strong>작성일</strong> <span class="dialogCreatedAt"></span></div>
+            <div><strong>내용</strong>
                 <span class="dialogContent"></span>
             </div>
             <div class="button-container">
-
+                <button class="deleteBtn articleBtn --object-button -color-blue ">삭제</button>
                 <button class="dialogCloseBtn articleBtn --object-button -color-gray ">닫기</button>
             </div>
         </div>
@@ -59,10 +60,10 @@
             <span>회원 정보</span>
         </div>
         <div class="---content">
-            <div><strong>이름:</strong> <span class="dialogNickname"></span></div>
-            <div><strong>이메일:</strong> <span class="dialogEmail"></span></div>
-            <div><strong>날짜:</strong> <span class="dialogCreatedAt"></span></div>
-            <div><strong>탈퇴여부:</strong> <span class="dialogDeleted"></span></div>
+            <div><strong>이름</strong> <span class="dialogNickname"></span></div>
+            <div><strong>이메일</strong> <span class="dialogEmail"></span></div>
+            <div><strong>날짜</strong> <span class="dialogCreatedAt"></span></div>
+            <div><strong>탈퇴여부</strong> <span class="dialogDeleted"></span></div>
 
             <div class="dialogArticles">
                 <h4>작성한 게시글</h4>
@@ -156,8 +157,7 @@
                             <tbody>
                             <tr th:each="notice : ${noticeList}">
                                 <td th:text="${notice.title}">공지 제목</td>
-
-                                <td th:utext="${notice.content}">내용</td>
+                                <td class="content" th:utext="${notice.content}">내용</td>
                             </tr>
                             </tbody>
                         </table>
@@ -186,7 +186,7 @@
                             <tbody>
                             <tr th:each="user : ${userList}">
                                 <td th:text="${user.nickname}">공지 제목</td>
-                                <td th:utext="${user.email}">내용</td>
+                                <td th:text="${user.email}">내용</td>
                                 <td th:text="${user.providerType}">로그</td>
                             </tr>
                             </tbody>
@@ -210,6 +210,8 @@
                 </div>
 
             </div>
+
+
             <div class="notice menu">
                 <div class="top-bar">
                     <h2>공지사항 관리</h2>
@@ -223,6 +225,8 @@
                             <col style="width: 10%;">
                             <col style="width: 10%;">
                             <col style="width:5% ;">
+                            <col style="width:5% ;">
+                            <col style="width:5% ;">
                         </colgroup>
                         <thead>
                         <tr>
@@ -230,6 +234,8 @@
                             <th>내용</th>
                             <th>관리자</th>
                             <th>날짜</th>
+                            <th>조회수</th>
+                            <th>삭제</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -248,6 +254,8 @@
                 </div>
 
             </div>
+
+
             <div class="article menu ">
                 <h2>게시글 관리</h2>
                 <div class="list-container">
@@ -258,7 +266,6 @@
                             <col style="width: auto;">
                             <col style="width:15% ;">
                             <col style="width:10% ;">
-                            <col style="width:10% ; ">
                         </colgroup>
                         <thead>
                         <tr>
@@ -267,7 +274,6 @@
                             <th>내용</th>
                             <th>닉네임</th>
                             <th>날짜</th>
-                            <th>수정</th>
                         </tr>
                         </thead>
                         <tbody>

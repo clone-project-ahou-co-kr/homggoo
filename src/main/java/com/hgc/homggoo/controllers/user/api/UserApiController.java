@@ -192,13 +192,17 @@ public class UserApiController {
                 .payload(null)
                 .build();
     }
-    @RequestMapping(value="/userInfo",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getUserInfo(@RequestParam(value="nickname",required = false)String nickname){
-        return null;
+
+    @RequestMapping(value = "/notice-restore", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String patchNoticeRestore(@RequestParam(value = "index") int index) {
+        Results results = this.noticeService.restoreNotice(index);
+        JSONObject response = new JSONObject();
+        response.put("results", results.nameToLower());
+        return response.toString();
     }
 
     @RequestMapping(value = "/mypage/edit", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String patchMypageEdit(@RequestParam(value = "password") String password,@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,HttpSession session) {
+    public String patchMypageEdit(@RequestParam(value = "password") String password, @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser, HttpSession session) {
         Results result = this.userService.retire(signedUser, password);
         session.removeAttribute("signedUser");
         JSONObject response = new JSONObject();
@@ -206,15 +210,23 @@ public class UserApiController {
         return response.toString();
     }
 
-    @RequestMapping(value="/search",method = RequestMethod.GET,produces = MediaType
+    @RequestMapping(value = "/search", method = RequestMethod.GET, produces = MediaType
             .APPLICATION_JSON_VALUE)
-    public String getSearch(@SessionAttribute(value="signedUser",required = false)UserEntity signedUser, SearchVo searchVo){
-        ResultTuple<UserEntity[]> result = this.userService.adminSearch(signedUser,searchVo);
+    public String getSearch(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser, SearchVo searchVo) {
+        ResultTuple<UserEntity[]> result = this.userService.adminSearch(signedUser, searchVo);
         JSONObject response = new JSONObject();
         if (signedUser != null) {
             response.put("data", result.getPayload());
         }
         response.put("result", result.getResult().nameToLower());
+        return response.toString();
+    }
+
+    @RequestMapping(value = "/article-delete", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String deleteArticleDelete(@SessionAttribute(value = "signedUser") UserEntity signedUser, @RequestParam(value = "index") int index) {
+        Results result = this.articleService.adminDelete(signedUser, index);
+        JSONObject response = new JSONObject();
+        response.put("result", result.nameToLower());
         return response.toString();
     }
 

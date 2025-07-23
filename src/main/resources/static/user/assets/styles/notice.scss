@@ -29,7 +29,7 @@ body {
 
 header {
   width: 78rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
 
   > div {
     width: 100%;
@@ -56,8 +56,10 @@ header {
     //background-color: #828C94;
     border-bottom: 0.0625rem solid #828C94;
     position: relative;
+
     > span {
       font-weight: 500;
+      font-size: 1.125rem;
     }
 
     > label {
@@ -84,10 +86,11 @@ header {
           background-color: #025bbe;
         }
 
-        border-radius: 0.625rem;
+        border-radius: 0.25rem;
       }
     }
-    >.divider {
+
+    > .divider {
       content: '';
       width: 100%;
       height: 0.0625rem;
@@ -97,7 +100,6 @@ header {
       position: absolute;
     }
   }
-
 
 
   > .ck {
@@ -110,8 +112,61 @@ header {
 
     > .text-container {
       width: 100%;
-      height:rem;
+    }
+  }
+}
+
+#modify-form {
+  @include flex(column, flex-start, stretch);
+  width: 78rem;
+  height: 50.75rem;
+
+  > .title-container {
+    @include flex(column, flex-start, flex-start, 0.625rem);
+    width: 100%;
+    height: 5rem;
+    //background-color: #828C94;
+    border-bottom: 0.0625rem solid #828C94;
+    position: relative;
+
+    > span {
+      font-weight: 500;
+      font-size: 1.5rem;
     }
 
+    > label {
+      @include flex(row, flex-start, space-between);
+      width: 100%;
+      height: 100%;
+
+      > input {
+        width: 70rem;
+        height: 2rem;
+        //border: 0.0625rem solid #828C94;
+        padding: 0.625rem;
+        background-color: #f6f9fa;
+        border-radius: 0.08125rem;
+      }
+    }
+  }
+  >label{
+    width: 100%;
+    height: 45rem;
+  }
+  >.button-container {
+    @include flex(row, center, flex-end,0.5rem);
+    margin-top: 1rem;
+    width: 100%;
+    >label>input{
+      padding: 0.75rem;
+      border: 0.0625rem solid #cccccc;
+      &.warning{
+        border: 0.0625rem solid #e74c3c;
+      }
+    }
+    >.buttons{
+      @include flex(row, center, center,0.5rem);
+      height: 2.5rem;
+    }
   }
 }

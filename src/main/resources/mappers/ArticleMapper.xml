@@ -140,7 +140,7 @@
                  LEFT JOIN `homggoo`.`users` AS `T1`
                            ON `T0`.`user_email` = `T1`.`email`
                  LEFT JOIN `homggoo`.`article_category` AS `T2`
-                           ON `T0`.`category_id` = `T2`.`category_id`;
-        WHERE `T0`.`is_deleted` = FALSE
+                           ON `T0`.`category_id` = `T2`.`category_id`
+        WHERE `T0`.`is_deleted` = FALSE;
     </select>
 </mapper>

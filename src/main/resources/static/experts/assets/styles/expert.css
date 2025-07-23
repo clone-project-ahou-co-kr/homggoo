@@ -97,6 +97,7 @@
   border-radius: 0.625rem;
   height: 90%;
   padding: 1.5rem;
+  overflow: hidden scroll;
 }
 #main-content > .info-section > .inner-container > .info-container > .menu-container > .notice-container > * {
   flex-grow: 0;
@@ -147,10 +148,19 @@
   width: 100%;
   max-height: calc(100% - 3rem);
   border-collapse: collapse;
+  overflow: hidden scroll;
 }
 #main-content > .info-section > .inner-container > .info-container > .menu-container > .notice-container table > thead {
   border-top: 0.0925rem solid black;
   border-bottom: 0.0625rem solid #cccccc;
+  height: 3rem;
+}
+#main-content > .info-section > .inner-container > .info-container > .menu-container > .notice-container table > thead > tr {
+  position: sticky;
+  top: 0;
+}
+#main-content > .info-section > .inner-container > .info-container > .menu-container > .notice-container table > tbody {
+  overflow: hidden scroll;
 }
 #main-content > .info-section > .inner-container > .info-container > .menu-container > .notice-container table > tbody > tr {
   cursor: pointer;

@@ -6,8 +6,44 @@ $noticeForm.onsubmit = (e) => {
     const $title = $titleContainer.querySelector(':scope>label>input[name="title"]').value;
     const temp = document.createElement('div');
     temp.innerHTML = editor.getData();
-    const textOnly = temp.textContent || temp.innerText || '';
+    $titleContainer.querySelector(':scope>label>input[name="title"]').classList.remove('warning');
+    if ($title === '') {
+        dialog.show({
+            title:'공지사항',
+            content:'공지사항 제목을 입력해주세요.',
+            buttons:[
+                {
+                    caption:'확인',
+                    color:'blue',
+                    onclick:($modal)=>{
+                        $modal.hide();
+                        document.body.querySelector(':scope>.--dialog').classList.remove('-visible');
+                        $titleContainer.querySelector(':scope>label>input[name="title"]').focus();
+                    }
 
+                }
+            ]
+        });
+        $titleContainer.querySelector(':scope>label>input[name="title"]').classList.add('warning');
+        return;
+    }
+    if (editor.getData() === '') {
+        dialog.show({
+            title:'공지사항',
+            content:'공지사항 글을 입력해주세요.',
+            buttons:[
+                {
+                    caption:'확인',
+                    color:'blue',
+                    onclick:($modal)=>{
+                        $modal.hide();
+                        document.body.querySelector(':scope>.--dialog').classList.remove('-visible');
+                    }
+                }
+            ]
+        });
+        return;
+    }
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('title', $title);
@@ -29,7 +65,7 @@ $noticeForm.onsubmit = (e) => {
                 dialog.showSimpleOk('공지사항', '없다.');
                 break;
             case'success':
-                dialog.showSimpleOk('공지사항', '글쓰기 성공');
+                dialog.showSimpleOk('공지사항', '글쓰기 성공하셨습니다.');
                 location.href = `${origin}/user/admin`
                 break;
             default:

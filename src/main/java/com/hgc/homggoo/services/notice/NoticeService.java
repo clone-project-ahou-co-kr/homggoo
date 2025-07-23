@@ -7,9 +7,12 @@ import com.hgc.homggoo.mappers.user.UserMapper;
 import com.hgc.homggoo.results.CommonResult;
 import com.hgc.homggoo.results.ResultTuple;
 import com.hgc.homggoo.results.Results;
+import com.hgc.homggoo.utils.Bcrypt;
 import com.hgc.homggoo.vos.NoticeVo;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.time.LocalDateTime;
 
@@ -50,20 +53,42 @@ public class NoticeService {
 
     public ResultTuple<NoticeVo> getByIndex(int index) {
         if (index < 0) {
-            return ResultTuple.<NoticeVo>builder().result(CommonResult.FAILURE).build();
-        }
-        NoticeVo dbNotice = this.noticeMapper.selectByIndex(index);
-        if (dbNotice == null || dbNotice.isDeleted()) {
             return ResultTuple.<NoticeVo>builder()
-                    .result(CommonResult.FAILURE_ABSENT).build();
+                    .result(CommonResult.FAILURE)
+                    .build();
         }
-        return ResultTuple.<NoticeVo>builder().result(CommonResult.SUCCESS)
-                .payload(dbNotice).build();
 
+        NoticeVo dbNotice = this.noticeMapper.selectByIndex(index);
+
+        if (dbNotice == null) {
+            return ResultTuple.<NoticeVo>builder()
+                    .result(CommonResult.FAILURE_ABSENT)
+                    .build();
+        }
+
+        // ✅ 삭제된 경우도 payload는 전달, result는 SUCCESS 유지
+        return ResultTuple.<NoticeVo>builder()
+                .result(CommonResult.SUCCESS)
+                .payload(dbNotice)
+                .build();
     }
+
+
 
     public Results incrementView(int index) {
         return this.noticeMapper.incrementView(index)>0?CommonResult.SUCCESS:CommonResult.FAILURE;
+    }
+    public Results restoreNotice(int index) {
+        if (index < 1) {
+            return CommonResult.FAILURE;
+        }
+        NoticeVo dbNotice = this.noticeMapper.selectByIndex(index);
+        if (dbNotice == null) {
+            return CommonResult.FAILURE_ABSENT;
+        }
+        dbNotice.setModifiedAt(LocalDateTime.now());
+        dbNotice.setDeleted(false);
+        return this.noticeMapper.update(dbNotice) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 
     public Results modifyNotice(NoticeVo notice, String password) {
@@ -74,6 +99,7 @@ public class NoticeService {
         if (dbNotice == null) {
             return CommonResult.FAILURE_ABSENT;
         }
+
         dbNotice.setTitle(notice.getTitle());
         dbNotice.setNickname(notice.getNickname());
         dbNotice.setUserEmail(notice.getUserEmail());

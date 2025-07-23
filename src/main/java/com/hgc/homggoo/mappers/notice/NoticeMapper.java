@@ -12,6 +12,8 @@ public interface NoticeMapper {
 
     NoticeVo[] selectAll();
 
+    NoticeVo[] selectAllExceptDeleted();
+
     NoticeVo selectByIndex(@Param(value = "index") int index);
 
     int update(@Param(value = "notice") NoticeEntity notice);

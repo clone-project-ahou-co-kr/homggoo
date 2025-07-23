@@ -34,7 +34,6 @@
                `t1`.`nickname`    as `nickname`
         from `homggoo`.`notice` as `t0`
                  left join `homggoo`.`users` `t1` on `t0`.`user_email` = `t1`.`email`
-        where `t0`.`is_deleted` = false
         order by `index` asc;
     </select>
     <select id="selectByIndex" resultType="com.hgc.homggoo.vos.NoticeVo">
@@ -49,8 +48,23 @@
                `t1`.`nickname`    as `nickname`
         from `homggoo`.`notice` as `t0`
                  left join `homggoo`.`users` as `t1` on `t0`.`user_email` = `t1`.`email`
-        where `t0`.`index` = #{index} and `t0`.`is_deleted` = false
+        where `t0`.`index` = #{index}
         limit 1;
+    </select>
+    <select id="selectAllExceptDeleted">
+        select `t0`.`index`       as `index`,
+               `t0`.`title`       as `title`,
+               `t0`.`content`     as `content`,
+               `t0`.`user_email`  as `userEmail`,
+               `t0`.`view`        as `view`,
+               `t0`.`created_at`  as `createdAt`,
+               `t0`.`modified_at` as `modifiedAt`,
+               `t0`.`is_deleted`  as `isDeleted`,
+               `t1`.`nickname`    as `nickname`
+        from `homggoo`.`notice` as `t0`
+                 left join `homggoo`.`users` `t1` on `t0`.`user_email` = `t1`.`email`
+        where t0.`is_deleted` = false
+        order by `index` asc;
     </select>
 
 </mapper>
