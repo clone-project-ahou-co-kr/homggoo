@@ -52,37 +52,51 @@ const content = $writeForm.querySelector(':scope > .content > .main-content > .t
 const price = $writeForm.querySelector(':scope > .content > .main-content > .text-container > .custom-placeholder.price');
 const titleRegex = new RegExp('^(.{1,60})$');
 const contentRegex = new RegExp('^.{1,100000}$', 's');
+const priceRegex = /^[0-9]+$/;
 const imageInput = document.getElementById('productImage');
+const productData = document.getElementById('productData');
+const ownerEmail = productData.dataset.ownerEmail;
+const loggedEmail = productData.dataset.loggedEmail;
 
 $button.addEventListener('click', () => {
+    if (ownerEmail !== loggedEmail) {
+        dialog.showSimpleOk('권한 없음', '상품을 수정할 권한이 없습니다.');
+        return;
+    }
+
     if ($writeForm['title'].value === '') {
-        dialog.showSimpleOk('게시글 작성', '제목을 입력해주세요.', {
+        dialog.showSimpleOk('상품 수정', '제목을 입력해주세요.', {
             onOkCallback: () => $writeForm['title'].focus()
         });
         return;
     }
     if (!titleRegex.test($writeForm['title'].value)) {
-        dialog.showSimpleOk('게시글 작성', '올바른 제목을 입력해주세요.', {
+        dialog.showSimpleOk('상품 수정', '올바른 제목을 입력해주세요.', {
             onOkCallback: () => $writeForm['title'].focus()
         });
         return;
     }
     if (content.textContent === '') {
-        dialog.showSimpleOk('게시글 작성', '내용을 입력해주세요.', {
+        dialog.showSimpleOk('상품 수정', '내용을 입력해주세요.', {
             onOkCallback: () => content.focus()
         });
         return;
     }
     if (!contentRegex.test(content.textContent)) {
-        dialog.showSimpleOk('게시글 작성', '올바른 내용을 입력해주세요.', {
+        dialog.showSimpleOk('상품 수정', '올바른 내용을 입력해주세요.', {
             onOkCallback: () => content.focus()
         });
         return;
     }if (price.textContent === '') {
-        dialog.showSimpleOk('게시글 작성', '가격을 입력해주세요.', {
-            onOkCallback: () => content.focus()
+        dialog.showSimpleOk('상품 수정', '가격을 입력해주세요.', {
+            onOkCallback: () => price.focus()
         });
         return;
+    }
+    if (!priceRegex.test(price.textContent)) {
+        dialog.showSimpleOk('상품 등록', '가격을 숫자로만 입력해주세요.',{
+            onOkCallback: () => price.focus()
+        })
     }
 
     const xhr = new XMLHttpRequest();
@@ -112,6 +126,9 @@ $button.addEventListener('click', () => {
                 dialog.showSimpleOk('게시글 등록', '게시글이 수정되었습니다.', {
                     onOkCallback : () => location.href = `/product/production?category=${response.categoryId}&id=${response.id}`
                 });
+                break;
+            case 'failure_unauthorized':
+                dialog.showSimpleOk('상품 수정', '상품을 수정할 권한이 없습니다.')
                 break;
             default:
                 dialog.showSimpleOk('게시글 등록', '알 수 없는 이유로 게시글을 수정하지 못하였습니다. 잠시 후 다시 시도해 주세요.');

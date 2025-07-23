@@ -38,6 +38,7 @@ public class ProductApiController {
         if (result == CommonResult.SUCCESS) {
             response.put("result", "success");
             response.put("id", product.getId());
+            response.put("categoryId", product.getCategoryCode());
         } else if (result == CommonResult.FAILURE_ABSENT){
             response.put("result", "failure_absent");
         } else {

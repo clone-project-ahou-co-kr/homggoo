@@ -6,13 +6,13 @@
     <title>라이프스타일 슈퍼앱, 오늘의집</title>
     <meta name="description" content="감도높은 유저들의 일상 구경부터 제품 구매까지 한번에"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/assets/styles/index.min.css">
     <link rel="stylesheet" type="text/css" href="/product/assets/styles/production.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/styles/index.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/styles/common.min.css">
     <link rel="preconnect" href="https://cdn.jsdelivr.net"/>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css"/>
-    <link rel="icon" href="/assets/images/favicon.png">
+    <link rel="icon" href="/assets/images/image_cover.png">
     <script src="/assets/scripts/common.js" type="module"></script>
     <script defer src="/assets/scripts/index.js" type="text/javascript"></script>
     <script defer src="/product/assets/scripts/production.js"></script>
@@ -26,6 +26,12 @@
 
 <!-- Main Content -->
 <main id="main-production">
+    <div id="productData"
+         th:if="${product != null}"
+         th:data-owner-email="${product.userEmail}"
+         th:data-logged-email="${user != null ? user.email : ''}"
+         hidden>
+    </div>
     <section class="img-section">
         <div class="img-box">
             <img th:src="@{/product/image(id=${product.id})}" alt="상품 이미지"/>
@@ -46,7 +52,7 @@
                 <ul class="list">
                     <li class="item">
                         <button type="button" class="button modify" name="modify">
-                            <a th:href="@{/product/modifyProduct (id = ${product.getId()})}">수정하기</a>
+                            <a th:href="@{/product/modifyProduct (id = ${product.id})}">수정하기</a>
                         </button>
                     </li>
                     <li class="item">
@@ -59,22 +65,25 @@
         </div>
         <div class="explain">
             <div class="title-box">
-                <span class="title" th:text="${product.getTitle()}">거의 안쓴 가구 정리해요</span>
+                <span class="title" th:text="${product.title}">거의 안쓴 가구 정리해요</span>
                 <span class="price" th:text="${product.formattedPrice} + '원'"></span>
                 <span th:text="${product.elapsedTime} + ' · 조회수 ' + ${product.viewCount}">날짜 · 조회 0</span>
             </div>
             <div class="explain-box">
-                <p th:text="${product.getDescription()}">설명 없음</p>
+                <p th:text="${product.description}">설명 없음</p>
             </div>
             <div class="profile">
                 <div class="image-wrapper">
-                    <img th:src="${user != null} ? '/api/user/profile-image' : '/images/default.png'" alt="" class="image">
+                    <a th:href="@{'/user/mypage'}">
+                        <img th:src="${user != null} ? '/api/user/profile-image'" alt="" class="image">
+                    </a>
                 </div>
                 <div class="text-container">
-                    <a href="#" class="name" th:text="${user != null ? product.nickname : '로그인이 필요합니다.'}">로그인이
+                    <a th:href="@{'/user/mypage'}" class="name" th:text="${user != null ? product.nickname : '로그인이 필요합니다.'}">로그인이
                         필요합니다.</a>
-                    <span class="spec-container"> <a href="#" class="link"
-                                                     th:text="${user != null ? '상품 ' + productCount : '상품 정보 없음'}">상품 정보 없음</a> </span>
+                    <span class="spec-container">
+                        <a href="#" class="link" th:text="${user != null ? '상품 ' + productCount.size() : '상품 정보 없음'}">상품 정보 없음</a>
+                    </span>
                 </div>
             </div>
             <div class="pay">

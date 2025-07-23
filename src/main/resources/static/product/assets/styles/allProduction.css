@@ -67,9 +67,6 @@
   margin: 1.45rem 0 0.25rem;
   display: flex;
 }
-#main-category > .item-box > .filter-items > .all-caption > .stretch {
-  flex-grow: 1;
-}
 
 .line-box {
   display: grid;

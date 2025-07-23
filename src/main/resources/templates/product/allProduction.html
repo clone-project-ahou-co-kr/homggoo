@@ -11,13 +11,13 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net"/>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css"/>
-    <link rel="icon" href="/assets/images/index/favicon.png">
+    <link rel="icon" href="/assets/images/image_cover.png">
     <link rel="stylesheet" type="text/css" href="/assets/styles/index.min.css">
     <link rel="stylesheet" type="text/css" href="/product/assets/styles/allProduction.min.css">
     <script defer src="/assets/scripts/index.js" type="text/javascript"></script>
     <script defer src="/product/assets/scripts/category.js"></script>
-    <script defer src="/assets/scripts/index.js" type="text/javascript"></script>
 </head>
+
 
 <body>
 <!-- Header -->
@@ -65,16 +65,7 @@
     <section class="item-box visible">
         <div class="filter-items">
             <div class="all-caption">
-                <span th:text="${'전체 ' + products.size()} +'개' ">전체 286,297개</span>
-                <div class="stretch"></div>
-                <div>
-                    <button type="button">
-                        추천순
-                        <svg class="icon" width="8" height="8" viewBox="0 0 8 8" preserveAspectRatio="xMidYMid meet">
-                            <path fill="#BDBDBD" d="M0 2l4 4 4-4z"></path>
-                        </svg>
-                    </button>
-                </div>
+                <span th:text="${'전체 ' + products.size()} +'개' "></span>
             </div>
         </div>
         <div class="all-product">
@@ -98,99 +89,7 @@
 </main>
 
 <!-- Footer -->
-<footer id="footer">
-    <div class="all">
-        <div class="first">
-            <div class="titleBox">
-                <a href="#" class="title">고객센터</a>
-                <span>></span>
-            </div>
-            <div class="call">
-                <a href="#">1670-XXXX</a>
-                <span>09:00 ~ 18:00</span>
-            </div>
-            <div class="counsel">
-                <ul>
-                    <li>• 평일: 전체 문의 상담</li>
-                    <li>• 토요일, 공휴일: 오늘의집 직접배송 주문건 상담</li>
-                    <li>• 일요일: 휴무</li>
-                </ul>
-            </div>
-            <div class="email">
-                <button>카톡 상담(평일 09:00~18:00)</button>
-                <div>
-                    <a href="#">이메일 문의</a>
-                </div>
-            </div>
-        </div>
-        <div class="line"></div>
-        <div class="second">
-            <div>
-                <a href="#">회사소개</a>
-                <a href="#">채용정보</a>
-                <a href="#">이용약관</a>
-                <a href="#" class="weight">개인정보 처리방침</a>
-                <a href="#">공지사항</a>
-                <a href="#">권리보호센터</a>
-                <a href="#">입점신청</a>
-                <a href="#">제휴/광고 문의</a>
-                <a href="#">시공파트너 안내</a>
-                <a href="#" class="weight">파트너 개인정보 처리방침</a>
-                <a href="#">상품광고 소개</a>
-                <a href="#">고객의 소리</a>
-            </div>
-        </div>
-        <div class="line"></div>
-        <div class="third">
-            <div class="text">
-                <div>
-                    <span>(주)버킷플레이스 | 대표이사 이승재 | 서울 서초구 서초대로74길 4 삼성생명서초타워 25층, 27층</span>
-                </div>
-                <div>
-                    <span><a href="#" class="link">contact@bucketplace.net</a> | 사업자등록번호 119-86-91245 <a href="#">사업자정보확인</a></span>
-                </div>
-                <div class="margin">
-                    <span>통신판매업신고번호 제2018-서울서초-0580호</span>
-                </div>
-            </div>
-            <div class="last">
-                <span>고객님이 현금결제한 금액에 대해 우리은행과 채무지급보증 계약을 체결하여 안전거래를 보장하고 있습니다. <a href="#"
-                                                                                  class="link">서비스가입사실확인</a></span>
-            </div>
-            <div class="box">
-                <div class="first">
-                    <img src="/assets/images/index/footer/shield.png" alt="" class="icon">
-                    <div>
-            <span>오늘의집 서비스 운영<br>
-            2024. 09. 08 ~ 2027. 09. 07</span>
-                    </div>
-                </div>
-                <div class="second">
-                    <img src="/assets/images/index/footer/image.png" alt="" class="icon">
-                </div>
-                <div class="third">
-                    <img src="/assets/images/index/footer/image2.png" alt="" class="icon">
-                </div>
-            </div>
-            <div class="bottom">
-                (주)버킷플레이스는 통신판매중개자로 거래 당사자가 아니므로, 판매자가 등록한 상품정보 및 거래 등에 대해 책임을 지지 않습니다. 단, (주)버킷플레이스가 판매자로 등록 판매한 상품은
-                판매자로서 책임을
-                부담합니다.
-            </div>
-            <div class="link">
-                <a href="#">
-                    <img src="/assets/images/index/footer/youtube.png" alt="">
-                </a>
-                <a href="#">
-                    <img src="/assets/images/index/footer/instagram.png" alt="">
-                </a>
-            </div>
-            <span>
-        Copyright 2014. bucketplace, Co., Ltd. All rights reserved.
-      </span>
-        </div>
-    </div>
-</footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 
 </html>

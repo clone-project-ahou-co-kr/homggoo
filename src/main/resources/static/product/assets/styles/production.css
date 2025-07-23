@@ -211,7 +211,7 @@
   border-radius: 50%;
   overflow: hidden;
 }
-#main-production > .explain-section > .explain > .profile > .image-wrapper > .image {
+#main-production > .explain-section > .explain > .profile > .image-wrapper > a > .image {
   width: 100%;
   height: 100%;
   object-fit: cover;

@@ -152,7 +152,6 @@
         position: relative;
         padding: 0.625rem;
         border-radius: 0.25rem;
-        overflow: scroll;
 
         > .more-box {
           > label {
@@ -161,12 +160,23 @@
               cursor: pointer;
               top: 18%;
               right: 0;
-              width: 2rem;
-              height: 2rem;
+              width: 2.5rem;
+              height: 2.5rem;
               border-radius: 999rem;
-              background-color: #0d65ff;
-              color: #ffffff;
+              border: 1px solid #dadcdf;
+              background-color: #ffffff;
+              box-shadow: 0 1px 2px 0 rgba(0,0,0,.06);
+              color: #000000;
+              font-size: 1.25rem;
+              font-weight: 700;
               position: absolute;
+
+              &:hover {
+                transform:scale(1.05);
+                transition-property: transform;
+                transition-duration: 175ms;
+                transition-timing-function: ease;
+              }
             }
           }
         }

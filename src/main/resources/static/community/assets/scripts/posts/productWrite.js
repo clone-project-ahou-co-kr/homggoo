@@ -103,8 +103,6 @@ $button.addEventListener('click', () => {
         }
         const response = JSON.parse(xhr.responseText);
         console.log(response)
-        console.log("categoryCode:", response.categoryId); // 디버깅
-        console.log("id:", response.id);
         switch (response.result) {
             case 'success':
                 dialog.showSimpleOk('상품 등록', '상품이 등록되었습니다.', {

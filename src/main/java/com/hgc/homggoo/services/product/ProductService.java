@@ -61,6 +61,13 @@ public class ProductService {
     }
 
     public CommonResult updateProduct(ProductEntity product, UserEntity signedUser) {
+
+        if (signedUser == null || signedUser.isDeleted()) {
+            return CommonResult.FAILURE_ABSENT;
+        }
+        if (!signedUser.getEmail().equals(product.getUserEmail())) {
+            return CommonResult.FAILURE_UNAUTHORIZED;
+        }
         UserEntity userEmail = this.productMapper.selectUserEmail(signedUser.getEmail());
 
         product.setUserEmail(userEmail.getEmail());
@@ -72,6 +79,9 @@ public class ProductService {
     public CommonResult deleteProduct(ProductEntity product, UserEntity signedUser) {
         if (signedUser == null || signedUser.isDeleted()) {
             return CommonResult.FAILURE_ABSENT;
+        }
+        if (!signedUser.getEmail().equals(product.getUserEmail())) {
+            return CommonResult.FAILURE_UNAUTHORIZED;
         }
         return this.productMapper.delete(product) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
@@ -94,11 +104,9 @@ public class ProductService {
 
     public CommonResult incrementView(ProductEntity product) {
         if (product == null) {
-            System.out.println(1);
             return CommonResult.FAILURE;
         }
         if (product.getId() < 1) {
-            System.out.println(2);
             return CommonResult.FAILURE;
         }
         product.setViewCount(product.getViewCount() + 1);

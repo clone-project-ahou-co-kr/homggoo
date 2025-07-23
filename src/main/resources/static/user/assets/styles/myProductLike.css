@@ -56,7 +56,6 @@
   position: relative;
   padding: 0.625rem;
   border-radius: 0.25rem;
-  overflow: scroll;
 }
 #main-content > .content-container > .product-container > .list {
   display: grid;

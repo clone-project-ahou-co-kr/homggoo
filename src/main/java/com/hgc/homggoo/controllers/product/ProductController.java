@@ -58,28 +58,34 @@ public class ProductController {
                                 @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
                                 Model model) {
         ProductVo productId = this.productService.getByIdAndCategory(id, category);
-        if (productId != null) {
-            this.productService.incrementView(productId);
-        }
-        if (signedUser != null) {
-            UserEntity signed = this.productService.getUserEmail(signedUser.getEmail());
-            int productCount = this.productService.countProduct(productId.getUserEmail());
-            boolean liked = this.productService.isLikedByUser(id, signedUser.getEmail());
 
+        if (signedUser != null) {
+            boolean liked = this.productService.isLikedByUser(id, signedUser.getEmail());
+            UserEntity signed = this.productService.getUserEmail(signedUser.getEmail());
+            List<ProductVo> products = this.productService.selectByUserEmail(signedUser.getEmail());
+
+            if (productId != null) {
+                this.productService.incrementView(productId);
+            }
+            model.addAttribute("productCount", products);
             model.addAttribute("user", signed);
-            model.addAttribute("productCount", productCount);
             model.addAttribute("liked", liked);
+        } else {
+            model.addAttribute("signedUserEmail", null);
         }
+        model.addAttribute("product", productId);
         int likeCount = this.productService.getLikeCount(id);
         model.addAttribute("likeCount", likeCount);
-        model.addAttribute("product", productId);
         return "product/production";
     }
 
     @RequestMapping(value = "/modifyProduct", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String getProductionModify(@RequestParam(value = "id", required = false) int id,
+                                      @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
                                       Model model) {
         ProductVo productId = this.productService.getById(id);
+        UserEntity signed = this.productService.getUserEmail(signedUser.getEmail());
+        model.addAttribute("user", signed);
         model.addAttribute("product", productId);
         return "product/modifyProduct";
     }
