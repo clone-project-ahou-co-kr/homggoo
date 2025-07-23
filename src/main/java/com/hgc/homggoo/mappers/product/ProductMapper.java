@@ -29,5 +29,7 @@ public interface ProductMapper {
 
     List<ProductVo> selectByCategory(@Param("category") String category);
 
+    List<ProductVo> selectLikedProductsByUserEmail(@Param("userEmail") String userEmail);
+
     int countByUserEmail(@Param("userEmail") String userEmail);
 }

@@ -2,7 +2,6 @@ package com.hgc.homggoo.controllers.user;
 
 import com.hgc.homggoo.entities.images.ImageEntity;
 import com.hgc.homggoo.entities.user.UserEntity;
-import com.hgc.homggoo.results.CommonResult;
 import com.hgc.homggoo.results.ResultTuple;
 import com.hgc.homggoo.services.article.ArticleService;
 import com.hgc.homggoo.services.image.ImageService;
@@ -13,7 +12,6 @@ import com.hgc.homggoo.services.user.UserService;
 import com.hgc.homggoo.vos.ArticleVo;
 import com.hgc.homggoo.vos.NoticeVo;
 import com.hgc.homggoo.vos.ProductVo;
-import com.hgc.homggoo.vos.SearchVo;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -145,6 +143,22 @@ public class UserController {
         model.addAttribute("products", products);
         model.addAttribute("signedUser", signedUser);
         return "user/mypage";
+    }
+
+    @RequestMapping(value = "/myproduct", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public String getMyProduct(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                               Model model) {
+        List<ProductVo> products = this.productService.selectByUserEmail(signedUser.getEmail());
+        model.addAttribute("products", products);
+        return "user/myProduct";
+    }
+
+    @RequestMapping(value = "/myproductlike", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public String getMyProductLike(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                               Model model) {
+        List<ProductVo> products = this.productService.getLikedProductsByUser(signedUser.getEmail());
+        model.addAttribute("products", products);
+        return "user/myProductLike";
     }
 
     @RequestMapping(value = "/mypage/edit", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)

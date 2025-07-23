@@ -37,6 +37,10 @@ public class ProductService {
         return this.productMapper.selectByUserEmail(email);
     }
 
+    public List<ProductVo> getLikedProductsByUser(String userEmail) {
+        return this.productMapper.selectLikedProductsByUserEmail(userEmail);
+    }
+
     public ProductVo getByIdAndCategory(int id, String category) {
         if (id < 1 || category == null) {
             return null;
