@@ -4,6 +4,7 @@ import com.hgc.homggoo.entities.user.UserEntity;
 import com.hgc.homggoo.services.article.ArticleService;
 import com.hgc.homggoo.vos.ArticleVo;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
+@Slf4j
 @Controller
 @RequestMapping(value = "community")
 public class CommunityController {
@@ -90,12 +92,16 @@ public class CommunityController {
     public String getPosts(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
                            Model model,
                            HttpServletRequest request) {
-
+        model.addAttribute("signedUser", signedUser);
         return "/community/posts";
     }
 
     @RequestMapping(value = "/notifications/feed", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String getNotifications(Model model) {
+    public String getNotifications(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                                   Model model) {
+        String signedUserEmail = signedUser == null ? null : signedUser.getEmail();
+        System.out.println(signedUserEmail);
+
         return "community/notifications/feed";
     }
 }

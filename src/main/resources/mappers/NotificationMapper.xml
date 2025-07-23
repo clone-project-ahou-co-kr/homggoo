@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hgc.homggoo.mappers.notification.NotificationMapper">
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyColumn="id"
+            keyProperty="id">
+        INSERT INTO `homggoo`.`notifications` (`receiver_email`, `article_id`, `created_at`, `is_deleted`)
+        VALUES (#{notification.receiverEmail}, #{notification.articleId}, #{notification.createdAt}, #{notification.isDeleted})
+    </insert>
+    <select id="getByEmail" resultType="com.hgc.homggoo.entities.notification.NotificationEntity">
+        SELECT `T0`.`id` AS `id`,
+               `T0`.`receiver_email` AS `receiverEmail`,
+               `T0`.`article_id` AS `articleId`,
+               `T0`.`created_at` AS `createdAt`,
+               `T0`.`is_deleted` AS `isDeleted`
+        FROM `homggoo`.`notifications` AS `T0`
+            LEFT JOIN `homggoo`.`article` AS `T1`
+        ON `T0`.`article_id` = `T1`.`id`
+        WHERE `receiver_email` = #{email}
+    </select>
+
+</mapper>

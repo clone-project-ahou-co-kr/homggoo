@@ -2,7 +2,7 @@ const $main = document.getElementById('main');
 const $like = $main.querySelector('button[name="like"]');
 const params = new URLSearchParams(window.location.search);
 const $isLiked = document.getElementById('isLiked');
-const $signedUser = document.getElementById('signedUser');
+const $signedUser = document.getElementById('signedUser') ?? { value: '' };
 const $commentList = $main.querySelector('.comment-list');
 const $commentsCount = $main.querySelector(':scope > .layout > .comment-content > .title > .comment-count');
 const $sideCommentBtn = $main.querySelector(':scope > .side-actions > .icon-button.comment');
