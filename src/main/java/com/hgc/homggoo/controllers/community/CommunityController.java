@@ -94,5 +94,8 @@ public class CommunityController {
         return "/community/posts";
     }
 
-
+    @RequestMapping(value = "/notifications/feed", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public String getNotifications(Model model) {
+        return "community/notifications/feed";
+    }
 }

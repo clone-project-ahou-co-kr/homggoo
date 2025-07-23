@@ -26,7 +26,7 @@ public class ArticleController {
     private final CommentService commentService;
 
     @Autowired
-    public ArticleController(ArticleMapper articleMapper, ArticleService articleService, CommentService commentService) {
+    public ArticleController(ArticleService articleService, CommentService commentService) {
         this.articleService = articleService;
         this.commentService = commentService;
     }

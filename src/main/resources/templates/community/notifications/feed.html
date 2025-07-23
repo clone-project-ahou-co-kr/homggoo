@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/assets/styles/index.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/styles/common.min.css">
+    <link rel="stylesheet" type="text/css" href="/community/assets/styles/notifications/feed.min.css">
+    <script defer src="/assets/scripts/index.js" type="text/javascript"></script>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<div th:replace="~{fragments/header :: mini-header}"></div>
+<form novalidate id="notification">
+    <h1 class="title">내 소식</h1>
+    <div class="layout">
+        <div class="empty">최근 내 소식이 없습니다.</div>
+    </div>
+</form>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>
