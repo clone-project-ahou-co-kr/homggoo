@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 
 @Service
 public class ArticleService {
-    private static final Logger log = LoggerFactory.getLogger(ArticleService.class);
     private final ArticleMapper articleMapper;
     private final ArticleUserLikeMapper articleUserLikeMapper;
     private final UserMapper userMapper;

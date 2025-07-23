@@ -155,7 +155,7 @@ CREATE TABLE `homggoo`.`comments`
 (
     `id`         INT UNSIGNED AUTO_INCREMENT NOT NULL COMMENT '댓글 ID (PK)',
     `article_id` INT UNSIGNED                NOT NULL COMMENT '게시글 ID(FK)',
-    `user_email`    INT UNSIGNED                NOT NULL COMMENT '유저 테이블 PK (FK)',
+    `user_email`  VARCHAR(50)                 NOT NULL COMMENT '작성자 이메일 (FK)',
     `comment_id` INT UNSIGNED                NULL COMMENT '답글 ID',
     `content`    VARCHAR(1000)               NOT NULL COMMENT '내용',
     `created_at` DATETIME                    NOT NULL DEFAULT NOW() COMMENT '작성 일시',
@@ -196,4 +196,21 @@ VALUES
     ('table', '테이블'),
     ('stand', '스탠드'),
     ('etc', '기타');
+
+CREATE TABLE `homggoo`.`notifications`
+(
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `receiver_email` VARCHAR(50) NOT NULL COMMENT '알림 받을 유저 USER 테이블 매핑',
+    `article_id` INT UNSIGNED NOT NULL COMMENT '어떤 글에 댓글 달렸는지',
+    `created_at` DATETIME DEFAULT NOW(),
+    `is_deleted` BOOLEAN NOT NULL DEFAULT FALSE,
+
+    CONSTRAINT PRIMARY KEY (`id`),
+    CONSTRAINT FOREIGN KEY (`receiver_email`) REFERENCES `homggoo`.`users` (`email`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (`article_id`) REFERENCES `homggoo`.`article` (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+)
 ```

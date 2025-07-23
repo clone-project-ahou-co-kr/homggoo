@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoryNav = miniHeader.querySelector('.category');
 
     const shoppingLink = document.querySelector('.shopping');
-    const noticeLink = document.querySelector('.notice');
+    const noticeLink = document.querySelector('.nav-menu.notice');
     const communityLink = document.querySelector('.community');
     const header = document.getElementById('header');
 
@@ -20,83 +20,53 @@ document.addEventListener('DOMContentLoaded', () => {
       <a href="/product/all">카테고리</a>
     `;
 
-    // const noticeCategoryHTML = `
-    //   <a href="/experts">공지사항</a>
-    //   <a href="/experts/event">이벤트</a>
-    // `;
+    const noticeCategoryHTML = `
+      <a href="/experts/">홈</a>
+    `;
+
+    const currentPath = window.location.pathname;
+    const getHTMLByPath = () => {
+        if (currentPath.startsWith('/product')) return shoppingCategoryHTML;
+        if (currentPath.startsWith('/experts')) return noticeCategoryHTML;
+        return defaultCategoryHTML;
+    };
 
     const setCategoryHTML = (html) => {
         categoryNav.innerHTML = html;
-        setting(); // active 클래스 다시 적용
+        setTimeout(() => {
+            setting();
+        }, 0);
     };
 
-    const showMiniHeader = () => {
-        miniHeader.classList.add('hovered');
-    };
-
-    const hideMiniHeader = () => {
-        miniHeader.classList.remove('hovered');
-    };
-
-    let hoverTimeout = null;
-    let currentSection = '';
-
-    const onMouseEnter = () => {
-        clearTimeout(hoverTimeout);
-        showMiniHeader();
-
-        // 현재 섹션 상태에 따라 카테고리 표시
-        switch (currentSection) {
-            case 'shopping':
-                setCategoryHTML(shoppingCategoryHTML);
-                break;
-            // case 'notice':
-            //     setCategoryHTML(noticeCategoryHTML);
-            //     break;
-            case 'community':
-            default:
-                setCategoryHTML(defaultCategoryHTML);
-                break;
-        }
-    };
-
-    const onMouseLeave = () => {
-        hoverTimeout = setTimeout(() => {
-            if (!header.matches(':hover') && !miniHeader.matches(':hover')) {
-                currentSection = '';
-                hideMiniHeader();
-                if (currentPath.startsWith('/product')) {
-                    setCategoryHTML(shoppingCategoryHTML);
-                }  else if (currentPath.startsWith('/community')) {
-                    setCategoryHTML(defaultCategoryHTML);
-                }
+    const setting = () => {
+        document.querySelectorAll(".category a").forEach(link => {
+            if (link.getAttribute("href") === currentPath) {
+                link.classList.add("active");
+            } else {
+                link.classList.remove("active");
             }
-        }, 100);
+        });
     };
 
-    // 각 메뉴 hover 시 섹션 상태와 카테고리 설정
-    shoppingLink?.addEventListener('mouseenter', () => {
-        currentSection = 'shopping';
-        setCategoryHTML(shoppingCategoryHTML);
+    // 초기 설정
+    setCategoryHTML(getHTMLByPath());
+
+
+    shoppingLink?.addEventListener('mouseenter', () => setCategoryHTML(shoppingCategoryHTML));
+    noticeLink?.addEventListener('mouseenter', () => setCategoryHTML(noticeCategoryHTML));
+    communityLink?.addEventListener('mouseenter', () => setCategoryHTML(defaultCategoryHTML));
+
+    // mouseleave 시 원래 경로 기준 복구
+    [header, miniHeader].forEach(el => {
+        el.addEventListener('mouseleave', () => {
+            setTimeout(() => {
+                if (!header.matches(':hover') && !miniHeader.matches(':hover')) {
+                    setCategoryHTML(getHTMLByPath());
+                }
+            }, 100);
+        });
     });
 
-    noticeLink?.addEventListener('mouseenter', () => {
-        currentSection = 'notice';
-        setCategoryHTML(noticeCategoryHTML);
-    });
-
-    communityLink?.addEventListener('mouseenter', () => {
-        currentSection = 'community';
-        setCategoryHTML(defaultCategoryHTML);
-    });
-
-    // header & miniHeader hover 감지
-    header.addEventListener('mouseenter', onMouseEnter);
-    header.addEventListener('mouseleave', onMouseLeave);
-    miniHeader.addEventListener('mouseenter', onMouseEnter);
-    miniHeader.addEventListener('mouseleave', onMouseLeave);
-
-    // 프로필 메뉴 토글
     if ($profile && $menu) {
         $profile.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -109,29 +79,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // 현재 경로에 따라 active 클래스 설정
-    const currentPath = window.location.pathname;
-    const setting = () => {
-        document.querySelectorAll(".category a").forEach(link => {
-            if (link.getAttribute("href") === currentPath) {
-                link.classList.add("active");
-            } else {
-                link.classList.remove("active");
-            }
-        });
-    };
-
-    if (currentPath.startsWith('/product')) {
-        currentSection = 'shopping';
-        setCategoryHTML(shoppingCategoryHTML);
-    } else if (currentPath.startsWith('/experts')) {
-        currentSection = 'notice';
-        setCategoryHTML(noticeCategoryHTML);
-    } else {
-        currentSection = 'community';
-        setCategoryHTML(defaultCategoryHTML);
-    }
-
-    setting();
 });

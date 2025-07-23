@@ -28,7 +28,7 @@ const loadArticle = () => {
         console.log($signedUser.value === response.userEmail);
         switch (response.result) {
             case 'success':
-                drawArticle(response.id, response.title, response.content, response.view, response.createdAt, response.likeCount, response.nickname, response.profile, response.userEmail);
+                drawArticle(response.id, response.title, response.content, response.view, response.createdAt, response.likeCount, response.nickname, response.profile, response.userEmail, response.categoryId);
                 loadComment(response.id);
                 break;
             case 'failure':
@@ -56,15 +56,37 @@ const getRelativeTime = (createdAtString) => {
     return `${diffDay}일 전`;
 }
 
-const drawArticle = (id, title, content, view, createdAt, likeCount, nickname, profile, userEmail) => {
+const drawArticle = (id, title, content, view, createdAt, likeCount, nickname, profile, userEmail, categoryId) => {
     const $layoutContent = document.getElementById('drawArticle');
-    console.log(userEmail)
-    console.log($signedUser.value)
+    let $category = '';
+    switch (categoryId) {
+        case "sub_popular":
+            $category = '인기';
+            break;
+        case "sub_question":
+            $category = '홈스타일링';
+            break;
+        case "sub_free":
+            $category = '우리집일상';
+            break;
+        case "product_question":
+            $category = '살까말까';
+            break;
+        case "product_popular":
+            $category = '인기';
+            break;
+        case "product_review":
+            $category = '상품후기';
+            break;
+        case "product_free":
+            $category = '꿀템수다';
+            break;
+    }
     $layoutContent.innerHTML = '';
 
     let html = `
         <div class="layout-row">
-            <h1 class="content">홈스타일링</h1>
+            <h1 class="content">${$category}</h1>
             ${
         $signedUser.value === userEmail
             ? `<div class="button-container">
