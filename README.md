@@ -104,18 +104,39 @@ CREATE TABLE homggoo.article_user_likes
 
 CREATE TABLE `homggoo`.`product`
 (
-    `id`          INT UNSIGNED AUTO_INCREMENT COMMENT '상품 ID',
-    `user_email`  VARCHAR(50)  NOT NULL COMMENT '등록자 이메일 (FK)',
-    `image`       longblob     not null COMMENT '등록사진',
-    `title`       VARCHAR(100) NOT NULL COMMENT '상품 제목',
-    `description` TEXT         NOT NULL COMMENT '상품 설명',
-    `price`       INT          NOT NULL COMMENT '상품 가격',
-    `view_count`  INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '조회수',
-    `like_count`  INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '찜 수',
-    `created_at`  DATETIME     NOT NULL DEFAULT NOW() COMMENT '등록일',
-    `updated_at`  DATETIME     NOT NULL DEFAULT NOW() COMMENT '수정일',
-    constraint primary key (`id`),
-    CONSTRAINT FOREIGN KEY (user_email) REFERENCES homggoo.users (email)
+    `id`            INT UNSIGNED AUTO_INCREMENT COMMENT '상품 ID',
+    `is_sold`       boolean      NOT NULL DEFAULT FALSE COMMENT '판매 완료 여부',
+    `user_email`    VARCHAR(50)  NOT NULL COMMENT '등록자 이메일 (FK)',
+    `category_code` VARCHAR(50)  NOT NULL COMMENT '카테고리 코드 (FK)',
+    `image`         LONGBLOB     NOT NULL COMMENT '등록 사진',
+    `title`         VARCHAR(100) NOT NULL COMMENT '상품 제목',
+    `description`   TEXT         NOT NULL COMMENT '상품 설명',
+    `price`         INT          NOT NULL COMMENT '상품 가격',
+    `view_count`    INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '조회수',
+    `created_at`    DATETIME     NOT NULL DEFAULT NOW() COMMENT '등록일',
+    `updated_at`    DATETIME     NOT NULL DEFAULT NOW() COMMENT '수정일',
+    CONSTRAINT PRIMARY KEY (`id`),
+    CONSTRAINT FOREIGN KEY (`user_email`) REFERENCES `homggoo`.`users` (`email`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (`category_code`) REFERENCES `homggoo`.`product_category` (`code`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE `homggoo`.`product_order`
+(
+    `id`          INT UNSIGNED AUTO_INCREMENT COMMENT '주문 ID',
+    `product_id`  INT UNSIGNED NOT NULL COMMENT '상품 ID (FK)',
+    `buyer_email` VARCHAR(50)  NOT NULL COMMENT '구매자 이메일 (FK)',
+    `cancel`      BOOLEAN      NOT NULL,
+    `created_at`  DATETIME     NOT NULL DEFAULT NOW() COMMENT '구매 일시',
+
+    CONSTRAINT PRIMARY KEY (`id`),
+    CONSTRAINT FOREIGN KEY (`product_id`) REFERENCES homggoo.product (`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (`buyer_email`) REFERENCES homggoo.users (`email`)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -173,7 +194,7 @@ create table `homggoo`.`images`
     `article_index` int unsigned null,
     `name`          varchar(255) not null,
     `content_type`  varchar(50)  not null,
-    `data`          longblob     not null, #longblob은 binary 데이터를 쓰기위함.
+    `data`          longblob     not null, 
     `created_at`    datetime     not null default now(),
     constraint primary key (`index`)
 );

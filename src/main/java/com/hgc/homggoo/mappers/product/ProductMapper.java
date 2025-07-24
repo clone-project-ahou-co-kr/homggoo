@@ -14,6 +14,8 @@ public interface ProductMapper {
 
     int update(@Param(value = "product")ProductEntity product);
 
+    int updateBuyProduct(@Param(value = "product")ProductEntity product);
+
     int delete(@Param(value = "product")ProductEntity product);
 
     UserEntity selectUserEmail(@Param(value = "signedUser")String signedUser);
@@ -31,5 +33,4 @@ public interface ProductMapper {
 
     List<ProductVo> selectLikedProductsByUserEmail(@Param("userEmail") String userEmail);
 
-    int countByUserEmail(@Param("userEmail") String userEmail);
 }

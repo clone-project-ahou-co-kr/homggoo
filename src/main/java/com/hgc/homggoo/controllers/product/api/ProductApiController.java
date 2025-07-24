@@ -39,7 +39,7 @@ public class ProductApiController {
             response.put("result", "success");
             response.put("id", product.getId());
             response.put("categoryId", product.getCategoryCode());
-        } else if (result == CommonResult.FAILURE_ABSENT){
+        } else if (result == CommonResult.FAILURE_ABSENT) {
             response.put("result", "failure_absent");
         } else {
             response.put("result", "failure");
@@ -72,8 +72,8 @@ public class ProductApiController {
     }
 
     @RequestMapping(value = "/deleteProduct", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String deleteProduct (@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
-                                 ProductEntity product) {
+    public String deleteProduct(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                                ProductEntity product) {
         CommonResult result = this.productService.deleteProduct(product, signedUser);
         JSONObject response = new JSONObject();
         response.put("result", result);
@@ -81,8 +81,8 @@ public class ProductApiController {
     }
 
     @RequestMapping(value = "/productLike", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String patchProductUserLike (@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
-                                        @RequestParam(value = "id")int id) {
+    public String patchProductUserLike(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                                       @RequestParam(value = "id") int id) {
         Boolean result = this.productService.productUserLike(signedUser, id);
         JSONObject response = new JSONObject();
         if (result == null) {
@@ -91,5 +91,14 @@ public class ProductApiController {
             response.put("result", result);
         }
         return response.toString();
+    }
+
+    @RequestMapping(value = "/patchProduct", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String patchProduct(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                               ProductEntity product) {
+        CommonResult result = this.productService.buyProduct(product, signedUser);
+        JSONObject response = new JSONObject();
+        response.put("result", result);
+        return response.toString().toLowerCase();
     }
 }

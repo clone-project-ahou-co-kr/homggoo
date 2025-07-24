@@ -18,7 +18,7 @@ public class ProductEntity {
     private String description;
     private int price;
     private int viewCount;
-    private int likeCount;
+    private boolean isSold;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
