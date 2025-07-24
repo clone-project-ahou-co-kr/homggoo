@@ -52,7 +52,7 @@ public class ProductService {
         if (signedUser == null || signedUser.isDeleted()) {
             return CommonResult.FAILURE_ABSENT;
         }
-        UserEntity userEmail = this.productMapper.selectUserEmail(signedUser.getEmail());
+        UserEntity userEmail = this.productMapper.selectUserEmail(signedUser);
 
         product.setUserEmail(userEmail.getEmail());
         product.setCreatedAt(LocalDateTime.now());
@@ -68,7 +68,7 @@ public class ProductService {
         if (!signedUser.getEmail().equals(product.getUserEmail())) {
             return CommonResult.FAILURE_UNAUTHORIZED;
         }
-        UserEntity userEmail = this.productMapper.selectUserEmail(signedUser.getEmail());
+        UserEntity userEmail = this.productMapper.selectUserEmail(signedUser);
 
         product.setUserEmail(userEmail.getEmail());
         product.setCreatedAt(LocalDateTime.now());
@@ -104,8 +104,8 @@ public class ProductService {
         return this.productMapper.selectByCategory(category);
     }
 
-    public UserEntity getUserEmail(String email) {
-        return this.productMapper.selectUserEmail(email);
+    public UserEntity getUserEmail(UserEntity signedUser) {
+        return this.productMapper.selectUserEmail(signedUser);
     }
 
     public CommonResult incrementView(ProductEntity product) {

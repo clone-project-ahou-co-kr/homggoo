@@ -18,7 +18,7 @@ public interface ProductMapper {
 
     int delete(@Param(value = "product")ProductEntity product);
 
-    UserEntity selectUserEmail(@Param(value = "signedUser")String signedUser);
+    UserEntity selectUserEmail(@Param(value = "signedUser")UserEntity signedUser);
 
     ProductVo selectById(@Param(value = "id") int id);
 

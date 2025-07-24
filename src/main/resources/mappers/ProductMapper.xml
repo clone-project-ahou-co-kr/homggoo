@@ -6,9 +6,7 @@
             useGeneratedKeys="true"
             keyColumn="id"
             keyProperty="id">
-        insert into `homggoo`.`product` (`user_email`, `title`, `category_code`, `description`, `price`, `view_count`,
-                                         `is_sold`,
-                                         `created_at`, `updated_at`, `image`)
+        insert into `homggoo`.`product` (`user_email`, `title`, `category_code`, `description`, `price`, `view_count`, `is_sold`,`created_at`, `updated_at`, `image`)
         values (#{product.userEmail}, #{product.title}, #{product.categoryCode}, #{product.description},
                 #{product.price}, #{product.viewCount},
                 #{product.isSold}, #{product.createdAt}, #{product.updatedAt}, #{product.image})
@@ -54,7 +52,7 @@
                `created_at`    as `createdAt`,
                `modified_at`   as `modifiedAt`
         from `homggoo`.`users`
-        where `email` = #{signedUser}
+        where `email` = #{signedUser.email}
     </select>
     <select id="selectById" resultType="com.hgc.homggoo.vos.ProductVo">
         select `t0`.`id`            as `id`,

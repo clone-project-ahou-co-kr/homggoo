@@ -3,6 +3,13 @@ const $modifyForm = document.getElementById('modifyForm');
 const $title = document.getElementById('title');
 const $content = document.getElementById('content');
 
+if ($title.value !== null && $content.value !== null) {
+    $uploadButton.style.background = "#0478f8";
+    $uploadButton.style.border = "1px solid rgb(53, 197, 240)";
+    $uploadButton.style.color = "white";
+}
+
+
 $uploadButton.addEventListener('click', () => {
 
     const xhr = new XMLHttpRequest();

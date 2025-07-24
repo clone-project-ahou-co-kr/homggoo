@@ -158,7 +158,7 @@ class Dialog {
             $buttonContainer.classList.add('---button-container');
             for (const button of args.buttons) {
                 const $button = document.createElement('button');
-                $button.classList.add('--object-button', `-color-${button.color ?? 'gray'}`, '---button');
+                $button.classList.add('--object-button', `-color-blue`, '---button');
                 $button.setAttribute('type', 'button');
                 $button.innerText = button.caption;
                 if (typeof button.onclick === 'function') {
