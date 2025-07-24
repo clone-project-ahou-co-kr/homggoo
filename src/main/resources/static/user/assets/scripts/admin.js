@@ -1,6 +1,7 @@
 // import fa from "../../../assets/libraries/ckeditor5/translations/fa";
 
 const $findForm = document.getElementById('find-form');
+let allArticles = [];
 document.addEventListener('DOMContentLoaded', () => {
     const $container = document.getElementById('container');
     const $category = document.getElementById('category');
@@ -53,7 +54,7 @@ const loadNotice = () => {
         const notices = result.data;
         const users = result.user;
         const articles = result.articles;
-
+        allArticles = result.articles;
         // 공지사항, 게시글 tbody 구분해서 선택
         const $noticeTbody = document.querySelector('.notice> .list-container > .list-table > tbody');
         const $articleTbody = document.querySelector('.article> .list-container > .list-table > tbody');
@@ -80,7 +81,7 @@ const loadNotice = () => {
                   <td class="created">${notice.createdAt.split('T')[0]}</td>
                   <td  class="nickname">${notice.nickname || '관리자'}</td>
                   <td  class="view">${notice.view}</td>
-                  <td  class="deleted" style="color: ${notice.deleted ? 'red' : 'inherit'};">${notice.deleted ? '삭제' : '정상'}</td>
+                  <td  class="deleted" style="color: ${notice.deleted ? 'red' : 'inherit'};">${notice.deleted ? '삭제' : '등록'}</td>
                 </tr>
             `;
             $noticeTbody.insertAdjacentHTML('beforeend', rowHTML);
@@ -137,56 +138,124 @@ const loadNotice = () => {
             }
         };
         renderNoticeChart(notices);
-
         articles.forEach((article) => {
+            console.log(article)
             const rowHTML = `
                 <tr data-index="${article.id}">
                   <td class="category">${article.categoryDisplayText}</td>
                   <td class="title">${article.title}</td>
-                  <td class="content">${article.content}</td>
                   <td class="nickname">${article.nickname}</td>
+                  <td class="nickname">${article.view}</td>
                   <td class="created">${article.createdAt.split('T')[0]}</td>
+                  <td class="deleted" style="color:${article.deleted ? 'red' : 'inherit'};">${article.deleted ? '삭제' : '등록'}</td>
                 </tr>
             `;
             $articleTbody.insertAdjacentHTML('beforeend', rowHTML);
         })
         const articleRows = $articleTbody.querySelectorAll(':scope>tr');
-        articleRows.forEach((article) => {
-            article.addEventListener('click', () => {
-                const $articleDialog = document.getElementById('articleDialog');
-                const $articleModal = $articleDialog.querySelector(':scope>.---modal');
-                const $articleContent = $articleModal.querySelector(':scope>.---content');
+        articleRows.forEach((row, idx) => {
+            const articleData = articles[idx]; // ✅ 원본 JSON 객체
+            const $articleDialog = document.getElementById('articleDialog');
+            const $articleModal = $articleDialog.querySelector(':scope>.---modal');
+            const $articleContent = $articleModal.querySelector(':scope>.---content');
+            const deleteBtn = $articleContent.querySelector(':scope>.button-container>.deleteBtn');
+            const restoreBtn = $articleContent.querySelector(':scope>.button-container>.dialogRestoreBtn');
+            const closeBtn = $articleContent.querySelector(':scope>.button-container>.dialogCloseBtn');
+            const restoreArticle = (index) => {
+                const xhr = new XMLHttpRequest();
+                const formData = new FormData();
+                formData.append("index", index);
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState !== XMLHttpRequest.DONE) {
+                        return;
+                    }
+                    if (xhr.status < 200 || xhr.status >= 300) {
+                        dialog.showSimpleOk('경고', '요청 중 오류');
+                        return;
+                    }
+                    const response = JSON.parse(xhr.responseText);
+                    switch (response.result) {
+                        case'success':
+                            dialog.show({
+                                title: '게시글',
+                                content: '복구 완료 하였습니다.',
+                                buttons: [
+                                    {
+                                        caption: '확인',
+                                        color: 'blue',
+                                        onclick: ($modal) => {
+                                            $modal.hide();
+                                            document.body.querySelector(':scope>.--dialog').classList.remove('-visible');
+                                            loadNotice();
+                                        }
+                                    }
+                                ]
+                            });
+                            break;
+                        case'failure_admin':
+                            dialog.showSimpleOk('게시글', '관리자가 아니라서 복구가 불가능합니다.');
+                            break;
+                        case'failure':
+                            dialog.showSimpleOk('게시글', '게시글을 복구하지 못하였습니다.');
+                            break;
+                        case'failure_absent':
+                            dialog.showSimpleOk('게시글', '게시글이 존재하지 않아 복구가 불가능합니다.');
+                            break;
+                        default:
+                            break;
+                    }
+                };
+                xhr.open('PATCH', '/api/user/article-restore');
+                xhr.send(formData);
+            }
+            row.addEventListener('click', () => {
+                // 다이얼로그 표시
+                $articleDialog.setVisible(true);
+                $articleModal.setVisible(true);
 
-                $articleDialog.classList.add('-visible');
-                $articleModal.classList.add('-visible');
-                $articleModal.querySelector(':scope>.---title>.dialogCategory').innerHTML = article.querySelector(':scope>.category').textContent;
-                $articleContent.querySelector(':scope > div >.dialogTitle').innerHTML = article.querySelector(':scope>.title').textContent;
-                $articleContent.querySelector(':scope>div>.dialogContent').innerHTML =
-                    article.querySelector(':scope>.content').textContent;
-                $articleContent.querySelector(':scope>div>.dialogNickname').innerHTML = article.querySelector(':scope>.nickname').textContent;
-                $articleContent.querySelector(':scope>div>.dialogCreatedAt').innerHTML = article.querySelector(':scope>.created').textContent;
-                $articleContent.querySelector('.dialogCloseBtn').addEventListener('click', () => {
-                    $articleDialog.classList.remove('-visible');
-                    $articleModal.classList.remove('-visible');
+                $articleModal.querySelector(':scope>.---title>.dialogCategory').innerHTML = articleData.categoryDisplayText;
+                $articleContent.querySelector(':scope > div > .dialogTitle').innerHTML = articleData.title;
+                $articleContent.querySelector(':scope > div > .dialogContent').innerHTML = articleData.content;
+                $articleContent.querySelector(':scope > div > .dialogNickname').innerHTML = articleData.nickname;
+                $articleContent.querySelector(':scope > div > .dialogCreatedAt').innerHTML = articleData.createdAt.split('T')[0];
+
+                if (articleData.deleted) {
+                    restoreBtn.style.display = 'flex';   // 복구 버튼 보이기
+                    deleteBtn.style.display = 'none';// 삭제 버튼 숨기기
+                    restoreBtn.addEventListener('click', () => {
+                        $articleDialog.setVisible(false);
+                        $articleModal.setVisible(false);
+                        restoreArticle(articleData.id);
+                    })
+                } else {
+                    restoreBtn.style.display = 'none';   // 복구 버튼 숨기기
+                    deleteBtn.style.display = 'flex';    // 삭제 버튼 보이기
+                }
+
+                // 닫기 버튼
+                closeBtn.addEventListener('click', () => {
+                    $articleDialog.setVisible(false);
+                    $articleModal.setVisible(false);
                 });
-                $articleContent.querySelector(':scope>.button-container>.deleteBtn').addEventListener('click', () => {
-                    $articleDialog.classList.remove('-visible');
-                    $articleModal.classList.remove('-visible');
-                    let index = article.dataset['index'];
+
+                // 삭제 버튼
+                deleteBtn.addEventListener('click', () => {
+                    $articleDialog.setVisible(false);
+                    $articleModal.setVisible(false);
                     const xhr = new XMLHttpRequest();
                     const formData = new FormData();
-                    formData.append('index', index);
+                    formData.append('index', articleData.id);
                     xhr.onreadystatechange = () => {
-                        if (xhr.readyState !== XMLHttpRequest.DONE) {
-                            return;
-                        }
+                        if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
                         if (xhr.status < 200 || xhr.status >= 300) {
                             dialog.showSimpleOk('경고', '요청중 오류');
                             return;
                         }
+
                         const response = JSON.parse(xhr.responseText);
                         switch (response.result) {
-                            case'success':
+                            case 'success':
                                 dialog.show({
                                     title: '삭제',
                                     content: '삭제하시는데 성공하였습니다.',
@@ -197,19 +266,19 @@ const loadNotice = () => {
                                             onclick: ($modal) => {
                                                 $modal.hide();
                                                 document.body.querySelector(':scope>.--dialog').classList.remove('-visible');
+                                                loadNotice();
                                             }
                                         }
                                     ]
-                                })
-                                loadNotice();
+                                });
                                 break;
-                            case'failure':
-                                dialog.showSimpleOk('삭제', '알 수 없는 이유로 삭제하지 못하였습니다. ')
+                            case 'failure':
+                                dialog.showSimpleOk('삭제', '알 수 없는 이유로 삭제하지 못하였습니다.');
                                 break;
-                            case'failure_session_expired':
+                            case 'failure_session_expired':
                                 dialog.showSimpleOk('삭제', '이미 삭제된 게시글입니다.');
                                 break;
-                            case'failure_absent':
+                            case 'failure_absent':
                                 dialog.showSimpleOk('삭제', '존재하지 않는 게시글입니다.');
                                 break;
                             default:
@@ -218,9 +287,11 @@ const loadNotice = () => {
                     };
                     xhr.open('DELETE', '/api/user/article-delete');
                     xhr.send(formData);
-                })
-            })
-        })
+                });
+
+            });
+        });
+
         // 게시글 날짜별 등록 수 차트 생성
         const renderArticleChart = (articles) => {
             const dateCounts = {};
@@ -287,7 +358,6 @@ const loadNotice = () => {
                 chart.render();
             }
         };
-
 
         renderArticleChart(articles);
         users.forEach((user) => {
@@ -415,57 +485,53 @@ const showNotice = (index) => {
     const $noticeModal = $noticeDialog.querySelector(':scope>.---modal');
     const $noticeContent = $noticeDialog.querySelector(':scope>.---modal>.---content');
     const restoreBtn = (index) => {
-        const $restoreBtn = $noticeContent.querySelector(':scope>.button-container>.dialogRestoreBtn');
-
-        // 기존 이벤트 제거 (중복 방지)
-        const newBtn = $restoreBtn.cloneNode(true);
-        $restoreBtn.parentNode.replaceChild(newBtn, $restoreBtn);
-
-        newBtn.addEventListener('click', () => {
-            const xhr = new XMLHttpRequest();
-            const formData = new FormData();
-            formData.append('index', index);
-
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState !== XMLHttpRequest.DONE) return;
-
-                if (xhr.status < 200 || xhr.status >= 300) {
-                    dialog.showSimpleOk('경고', '요청 중 오류');
-                    return;
-                }
-
-                const response = JSON.parse(xhr.responseText);
-                switch (response.result) {
-                    case 'success':
-                        dialog.show({
-                            title: '공지사항',
-                            content: '복구 완료 하였습니다.',
-                            buttons: [
-                                {
-                                    caption: '확인',
-                                    color: 'blue',
-                                    onclick: ($modal) => {
-                                        $modal.hide();
-                                        $noticeDialog.setVisible(false);
-                                        $noticeModal.setVisible(false);
-                                        loadNotice();
-                                    }
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData();
+        formData.append('index', index);
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState !== XMLHttpRequest.DONE) {
+                return;
+            }
+            if (xhr.status < 200 || xhr.status >= 300) {
+                dialog.showSimpleOk('경고', '요청 중 오류');
+                return;
+            }
+            const response = JSON.parse(xhr.responseText);
+            switch (response.result) {
+                case'success':
+                    dialog.show({
+                        title: '공지사항',
+                        content: '복구 완료 하였습니다.',
+                        buttons: [
+                            {
+                                caption: '확인',
+                                color: 'blue',
+                                onclick: ($modal) => {
+                                    $modal.hide();
+                                    document.body.querySelector(':scope>.--dialog').classList.remove('-visible');
+                                    loadNotice();
                                 }
-                            ]
-                        });
-                        break;
-                    case 'failure':
-                        dialog.showSimpleOk('공지사항', '게시글이 존재하지 않아 복구에 실패하였습니다.');
-                        break;
-                    default:
-                        dialog.showSimpleOk('오류', '알 수 없는 오류가 발생했습니다.');
-                }
-            };
-
-            xhr.open('PATCH', '/api/user/notice-restore');
-            xhr.send(formData);
-        });
-    };
+                            },
+                            {
+                                caption: '취소',
+                                onclick: ($modal) => {
+                                    $modal.hide();
+                                    document.body.querySelector(':scope>.--dialog').classList.remove('-visible');
+                                }
+                            }
+                        ]
+                    });
+                    break;
+                case'failure':
+                    dialog.showSimpleOk('공지사항', '게시글이 존재하지 않아 복구 시키는데 실패하였습니다.');
+                    break;
+                default:
+                    break;
+            }
+        };
+        xhr.open('PATCH', '/api/user/notice-restore');
+        xhr.send(formData);
+    }
 
     xhr.onreadystatechange = () => {
         if (xhr.readyState !== XMLHttpRequest.DONE) return;
@@ -488,10 +554,14 @@ const showNotice = (index) => {
 
         if (notice.deleted) {
             $noticeContent.querySelector(':scope>.button-container>.dialogRestoreBtn').style.display = 'flex';
-            restoreBtn(notice.index);
+
         } else {
             $noticeContent.querySelector(':scope>.button-container>.dialogModifyBtn').style.display = 'flex';
         }
+        $noticeContent.querySelector(':scope>.button-container>.dialogRestoreBtn').addEventListener('click', () => {
+            restoreBtn(notice.index);
+        });
+
         $noticeContent.querySelector(':scope>.button-container>.dialogModifyBtn').addEventListener('click', () => {
             location.href = `${origin}/user/admin/modify?index=${notice.index}`;
         })
@@ -562,15 +632,53 @@ const updateList = (state, data) => {
         data.forEach(user => {
             rows += `
                 <tr>
-                    <td>${user.email}</td>
-                    <td>${user.nickname}</td>
-                    <td>${user.providerType}</td>
-                    <td>${user.createdAt.split('T')[0]}</td>
-                    <td>${user.deleted ? '탈퇴' : '정상'}</td>
+                    <td class="email">${user.email}</td>
+                    <td class="nickname">${user.nickname}</td>
+                    <td class="providerType">${user.providerType}</td>
+                    <td class="created">${user.createdAt.split('T')[0]}</td>
+                    <td class="deleted">${user.deleted ? '탈퇴' : '정상'}</td>
                 </tr>
             `;
         });
         $userTbody.insertAdjacentHTML('beforeend', rows);
+        const userRows = $userTbody.querySelectorAll(':scope>tr');
+        userRows.forEach((user) => {
+            user.addEventListener('click', () => {
+                const $userDialog = document.getElementById('userDialog');
+                const $userModal = $userDialog.querySelector(':scope>.---modal');
+                const $userContent = $userModal.querySelector(':scope > .---content');
+
+                const nickname = user.querySelector('.nickname').textContent;
+
+                $userContent.querySelector('.dialogNickname').innerHTML = nickname;
+                $userContent.querySelector('.dialogEmail').innerHTML = user.querySelector('.email').textContent;
+                $userContent.querySelector('.dialogCreatedAt').innerHTML = user.querySelector('.created').textContent;
+                $userContent.querySelector('.dialogDeleted').innerHTML = user.querySelector('.deleted').textContent;
+
+                const articleList = $userContent.querySelector(':scope>.dialogArticles>.articleLists');
+                articleList.innerHTML = '';
+
+                const userArticles = allArticles.filter((article) => article.nickname === nickname);
+                if (userArticles.length === 0) {
+                    articleList.innerHTML = `<li>작성된 게시글이 없습니다.</li>`;
+                } else {
+                    userArticles.forEach((article) => {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.setAttribute('href', `${origin}/community/posts?id=${article.id}`);
+                        a.textContent = `(${article.categoryDisplayText}) ${article.title}`;
+                        li.appendChild(a);
+                        articleList.appendChild(li);
+                    })
+                }
+                $userDialog.setVisible(true);
+                $userModal.setVisible(true);
+                $userModal.querySelector('.dialogCloseBtn').addEventListener('click', () => {
+                    $userDialog.classList.remove('-visible');
+                    $userModal.classList.remove('-visible');
+                });
+            })
+        })
     } else {
         $userTbody.insertAdjacentHTML('beforeend', `
             <tr><td colspan="5">검색 실패</td></tr>

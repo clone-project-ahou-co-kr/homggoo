@@ -127,9 +127,9 @@ public class UserApiController {
 
     @RequestMapping(value = "/notice", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getNotice() {
-        ResultTuple<NoticeVo[]> result = this.noticeService.getAllExceptDelete();
+        ResultTuple<NoticeVo[]> result = this.noticeService.getAll();
         UserEntity[] user = this.userService.getAll();
-        ArticleVo[] articles = this.articleService.getAll();
+        ArticleVo[] articles = this.articleService.getAllIncludeDeleted();
 
         JSONObject response = new JSONObject();
         response.put("result", result.getResult().nameToLower());
@@ -173,8 +173,8 @@ public class UserApiController {
     }
 
     @RequestMapping(value = "/modify", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String patchNotice(NoticeVo notice, @RequestParam(value = "index") int index, @RequestParam(value = "password") String password) {
-        Results result = this.noticeService.modifyNotice(notice, password);
+    public String patchNotice(NoticeVo notice, @RequestParam(value = "index") int index, @RequestParam(value = "password") String password, @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser) {
+        Results result = this.noticeService.modifyNotice(notice, password, signedUser);
         JSONObject response = new JSONObject();
         response.put("result", result.nameToLower());
         return response.toString();
@@ -200,6 +200,15 @@ public class UserApiController {
         response.put("result", results.nameToLower());
         return response.toString();
     }
+
+    @RequestMapping(value = "/article-restore", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String patchArticleRestore(@SessionAttribute(value = "signedUser") UserEntity signedUser,@RequestParam(value = "index") int index) {
+        Results results = this.articleService.restoreArticle(signedUser, index);
+        JSONObject response = new JSONObject();
+        response.put("result", results.nameToLower());
+        return response.toString();
+    }
+
 
     @RequestMapping(value = "/mypage/edit", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
     public String patchMypageEdit(@RequestParam(value = "password") String password, @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser, HttpSession session) {

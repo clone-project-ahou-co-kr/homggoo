@@ -9,11 +9,13 @@ import com.hgc.homggoo.results.ResultTuple;
 import com.hgc.homggoo.results.Results;
 import com.hgc.homggoo.utils.Bcrypt;
 import com.hgc.homggoo.vos.NoticeVo;
+import com.hgc.homggoo.vos.SearchVo;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import javax.xml.transform.Result;
 import java.time.LocalDateTime;
 
 @Service
@@ -50,6 +52,7 @@ public class NoticeService {
         return ResultTuple.<NoticeVo[]>builder()
                 .result(CommonResult.SUCCESS).payload(dbNotice).build();
     }
+
     public ResultTuple<NoticeVo[]> getAllExceptDelete() {
         NoticeVo[] dbNotice = this.noticeMapper.selectAllExceptDeleted();
         return ResultTuple.<NoticeVo[]>builder()
@@ -79,10 +82,10 @@ public class NoticeService {
     }
 
 
-
     public Results incrementView(int index) {
-        return this.noticeMapper.incrementView(index)>0?CommonResult.SUCCESS:CommonResult.FAILURE;
+        return this.noticeMapper.incrementView(index) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
+
     public Results restoreNotice(int index) {
         if (index < 1) {
             return CommonResult.FAILURE;
@@ -96,15 +99,24 @@ public class NoticeService {
         return this.noticeMapper.update(dbNotice) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 
-    public Results modifyNotice(NoticeVo notice, String password) {
-        if (notice == null || password == null) {
+    public Results modifyNotice(NoticeVo notice, String password, UserEntity signedUser) {
+        if (notice == null || password == null || signedUser == null) {
             return CommonResult.FAILURE;
         }
         NoticeVo dbNotice = this.noticeMapper.selectByIndex(notice.getIndex());
         if (dbNotice == null) {
             return CommonResult.FAILURE_ABSENT;
         }
-
+        UserEntity dbUser = this.userMapper.selectByEmail(signedUser.getEmail());
+        if (dbUser == null) {
+            return CommonResult.FAILURE;
+        }
+        if(!dbUser.isAdmin()){
+            return CommonResult.FAILURE_SESSION_EXPIRED;
+        }
+        if (!Bcrypt.isMatch(password, signedUser.getPassword())) {
+            return CommonResult.FAILURE_ADMIN;
+        }
         dbNotice.setTitle(notice.getTitle());
         dbNotice.setNickname(notice.getNickname());
         dbNotice.setUserEmail(notice.getUserEmail());
@@ -124,6 +136,22 @@ public class NoticeService {
         }
         dbNotice.setDeleted(true);
         return this.noticeMapper.update(dbNotice) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
+
+    public ResultTuple<NoticeVo[]> searchNotice(SearchVo searchVo) {
+        if (searchVo.getBy() == null || searchVo.getKeyword() == null) {
+            return ResultTuple.<NoticeVo[]>builder()
+                    .result(CommonResult.FAILURE).build();
+        }
+
+        NoticeVo[] dbNoticeVo = this.noticeMapper.selectBySearch(searchVo);
+        if (dbNoticeVo == null||dbNoticeVo.length == 0) {
+            return ResultTuple.<NoticeVo[]>builder()
+                    .result(CommonResult.FAILURE_ABSENT).build();
+        }
+        return ResultTuple.<NoticeVo[]>builder()
+                .result(CommonResult.SUCCESS)
+                .payload(dbNoticeVo).build();
     }
 
 }

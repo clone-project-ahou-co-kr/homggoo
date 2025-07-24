@@ -3,6 +3,7 @@ package com.hgc.homggoo.mappers.notice;
 import com.hgc.homggoo.entities.notice.NoticeEntity;
 import com.hgc.homggoo.entities.user.UserEntity;
 import com.hgc.homggoo.vos.NoticeVo;
+import com.hgc.homggoo.vos.SearchVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,4 +22,5 @@ public interface NoticeMapper {
     int incrementView(@Param(value = "index") int index);
 
 
+    NoticeVo[] selectBySearch(@Param(value = "searchVo") SearchVo searchVo);
 }

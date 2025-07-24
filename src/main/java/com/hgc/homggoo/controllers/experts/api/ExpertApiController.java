@@ -1,9 +1,11 @@
 package com.hgc.homggoo.controllers.experts.api;
 
+import com.hgc.homggoo.results.CommonResult;
 import com.hgc.homggoo.results.ResultTuple;
 import com.hgc.homggoo.results.Results;
 import com.hgc.homggoo.services.notice.NoticeService;
 import com.hgc.homggoo.vos.NoticeVo;
+import com.hgc.homggoo.vos.SearchVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -41,5 +43,14 @@ public class ExpertApiController {
         return response.toString();
     }
 
-
+    @RequestMapping(value = "/search", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getSearch(SearchVo searchVo) {
+        ResultTuple<NoticeVo[]> result = this.noticeService.searchNotice(searchVo);
+        JSONObject response = new JSONObject();
+        response.put("result", result.getResult().nameToLower());
+        if (result.getResult() == CommonResult.SUCCESS) {
+            response.put("data", result.getPayload());
+        }
+        return response.toString();
+    }
 }

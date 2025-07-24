@@ -28,9 +28,7 @@
             `created_at`  = #{article.createdAt},
             `modified_at` = #{article.modifiedAt},
             `is_deleted`  = #{article.isDeleted}
-        WHERE `id` = #{article.id}
-        AND   `is_deleted` = FALSE
-            LIMIT 1
+        WHERE `id` = #{article.id} LIMIT 1;
     </update>
     <update id="modify">
         UPDATE `homggoo`.`article`
@@ -143,4 +141,39 @@
                            ON `T0`.`category_id` = `T2`.`category_id`
         WHERE `T0`.`is_deleted` = FALSE;
     </select>
+    <select id="selectAllIncludeDeleted">
+        SELECT `T0`.`id`           AS `id`,
+               `T0`.`board_id`     AS `boardId`,
+               `T0`.`category_id`  AS `categoryId`,
+               `T0`.`user_email`   AS `userEmail`,
+               `T0`.`title`        AS `title`,
+               `T0`.`content`      AS `content`,
+               `T0`.`view`         AS `view`,
+               `T0`.`created_at`   AS `createdAt`,
+               `T0`.`modified_at`  AS `modifiedAt`,
+               `T0`.`is_deleted`   AS `isDeleted`,
+               `T1`.`nickname`     AS `nickname`,
+               `T2`.`display_text` AS `categoryDisplayText`
+        FROM `homggoo`.`article` AS `T0`
+                 LEFT JOIN `homggoo`.`users` AS `T1`
+                           ON `T0`.`user_email` = `T1`.`email`
+                 LEFT JOIN `homggoo`.`article_category` AS `T2`
+                           ON `T0`.`category_id` = `T2`.`category_id`
+    </select>
+    <select id="selectAdminById" resultType="com.hgc.homggoo.entities.article.ArticleEntity">
+        SELECT `id`          AS `id`,
+               `board_id`    AS `boardId`,
+               `category_id` AS `categoryId`,
+               `user_email`  AS `userEmail`,
+               `title`       AS `title`,
+               `content`     AS `content`,
+               `view`        AS `view`,
+               `created_at`  AS `createdAt`,
+               `modified_at` AS `modifiedAt`,
+               `is_deleted`  AS `isDeleted`
+        from `homggoo`.`article`
+        where `id` = #{id}
+        limit 1;
+    </select>
+
 </mapper>

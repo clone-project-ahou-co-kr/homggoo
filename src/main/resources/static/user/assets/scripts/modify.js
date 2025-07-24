@@ -6,13 +6,13 @@ $modifyForm.onsubmit = (e) => {
     $modifyForm['password'].classList.remove('warning');
     if ($modifyForm['password'].value === '') {
         dialog.show({
-            title:'수정',
-            content:'수정하시려면 비밀번호를 입력해주세요.',
-            buttons:[
+            title: '수정',
+            content: '수정하시려면 비밀번호를 입력해주세요.',
+            buttons: [
                 {
-                    caption:'확인',
-                    color:'blue',
-                    onclick:($modal)=>{
+                    caption: '확인',
+                    color: 'blue',
+                    onclick: ($modal) => {
                         $modal.hide();
                         $modifyForm['password'].focus();
                         document.body.querySelector(':scope>.--dialog').classList.remove('-visible');
@@ -44,8 +44,25 @@ $modifyForm.onsubmit = (e) => {
                 dialog.showSimpleOk('수정', '실패');
                 break;
             case'success':
-                dialog.showSimpleOk('수정', '성공');
-                history.back();
+                dialog.show({
+                    title: '수정',
+                    content: '성공',
+                    buttons:[
+                        {
+                            caption:'확인',
+                            color:'blue',
+                            onclick:($modal)=>{
+                                $modal.hide();
+                                document.body.querySelector(':scope>.--dialog').classList.remove('-visible');
+                                history.back();
+                            }
+                        }
+                    ]
+                });
+
+                break;
+            case'failure_admin':
+                dialog.showSimpleOk('수정', '관리자 비밀번호 다름');
                 break;
             default:
                 break;
@@ -78,13 +95,15 @@ $modifyForm.querySelector(':scope>.button-container>.buttons>.delete').addEventL
             case'success':
                 dialog.show(
                     {
-                        title:'삭제',
+                        title: '삭제',
                         content: '삭제하시는데 성공하셨습니다.',
-                        buttons:[
+                        buttons: [
                             {
-                                caption:'확인',
-                                color:'blue',
-                                onclick:()=>{history.back()}
+                                caption: '확인',
+                                color: 'blue',
+                                onclick: () => {
+                                    history.back()
+                                }
                             }
                         ]
                     }

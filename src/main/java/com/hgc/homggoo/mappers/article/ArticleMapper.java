@@ -19,7 +19,11 @@ public interface ArticleMapper {
 
      ArticleVo selectById(@Param(value = "id") int id);
 
+     ArticleEntity selectAdminById(@Param(value = "id") int id);
+
      ArticleVo[] selectAll();
+
+     ArticleVo[] selectAllIncludeDeleted();
 
      int modify(@Param(value = "article") ArticleEntity article);
 

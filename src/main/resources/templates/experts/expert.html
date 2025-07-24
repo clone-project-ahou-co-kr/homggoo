@@ -31,18 +31,19 @@
             <div class="info-container">
                 <div class="menu-container">
                     <span>공지사항</span>
-                    <div class="notice-container common">
-                        <div class="search-container">
-                            <label class="title-select">
-                                <select name="title" id="">
-                                    <option value="title">제목</option>
-                                    <option value="nickname">내용+제목</option>
-                                </select>
-                            </label>
-                            <label class="find-input">
-                                <input type="text" class="input-object" id="find" placeholder="검색">
-                            </label>
-                        </div>
+                    <div class="search-container">
+                        <label class="title-select">
+                            <select name="by" id="">
+                                <option value="title">제목</option>
+                                <option value="nickname">관리자</option>
+                            </select>
+                        </label>
+                        <label class="find-input">
+                            <input type="text" name="keyword" class="input-object" id="find" placeholder="검색">
+                            <button type="submit" class="--object-button -color-blue">검색</button>
+                        </label>
+                    </div>
+                    <div class="notice-container">
                         <table>
                             <colgroup>
                                 <col style="width: 6%;">

@@ -117,6 +117,10 @@ public class ArticleService {
         return this.articleMapper.selectAll();
     }
 
+    public ArticleVo[] getAllIncludeDeleted() {
+        return this.articleMapper.selectAllIncludeDeleted();
+    }
+
     public Results update(ArticleEntity article, int id, UserEntity user) {
         if (article == null || article.getId() < 1) {
             return CommonResult.FAILURE;
@@ -157,5 +161,22 @@ public class ArticleService {
         }
         dbArticle.setDeleted(true);
         return this.articleMapper.delete(dbArticle) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
+
+    public Results restoreArticle(UserEntity signedUser, int index) {
+        if (index < 1 || signedUser == null) {
+            return CommonResult.FAILURE;
+        }
+        UserEntity dbUser = this.userMapper.selectByEmail(signedUser.getEmail());
+        if (!dbUser.isAdmin()) {
+            return CommonResult.FAILURE_ADMIN;
+        }
+        ArticleEntity dbArticle = this.articleMapper.selectAdminById(index);
+        if (dbArticle == null) {
+            return CommonResult.FAILURE_ABSENT;
+        }
+        dbArticle.setModifiedAt(LocalDateTime.now());
+        dbArticle.setDeleted(false);
+        return this.articleMapper.update(dbArticle) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 }
