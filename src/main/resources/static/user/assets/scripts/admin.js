@@ -103,14 +103,14 @@ const loadNotice = () => {
                     bar: {
                         distributed: true,
                         horizontal: false,
-                        columnWidth: '30%',
+                        columnWidth: '20%',
                     }
                 },
                 dataLabels: {enabled: true},
                 xaxis: {
                     categories: sortedDates,
                     labels: {
-                        rotate: -45,
+                        rotate: -20,
                         style: {
                             fontSize: '0.75rem'
                         }
@@ -118,7 +118,8 @@ const loadNotice = () => {
                 },
                 yaxis: {
                     title: {text: '조회수'},
-                    min: 0
+                    min: 0,
+                    max:100
                 },
                 title: {
                     text: '공지사항별 조회수',
@@ -327,7 +328,7 @@ const loadNotice = () => {
                     labels: {
                         rotate: -20,
                         style: {
-                            fontSize: '0.75rem'
+                            fontSize: '0.6rem'
                         }
                     }
                 },
@@ -335,7 +336,9 @@ const loadNotice = () => {
                     title: {
                         text: '게시글 수'
                     },
-                    min: 0
+                    step: 1,
+                    min: 0,
+                    max:10
                 },
                 title: {
                     text: '날짜별 게시글 등록 수',

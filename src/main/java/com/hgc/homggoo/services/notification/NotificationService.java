@@ -21,7 +21,6 @@ public class NotificationService {
         if (email == null) {
             return null;
         }
-
         return this.notificationMapper.getByEmail(email);
     }
 }
