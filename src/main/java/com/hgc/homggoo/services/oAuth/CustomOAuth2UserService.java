@@ -74,12 +74,22 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
         // ✅ 사용자 등록 여부 확인
-        UserEntity dbUser = this.userMapper.selectByEmailAndProviderType(email,providerType);
-        if (dbUser == null) {
+        UserEntity dbUser = this.userMapper.selectByEmail(email);
+        if (dbUser != null && dbUser.isDeleted()) {
+            // 탈퇴 계정 복구
+            dbUser.setDeleted(false);
+            dbUser.setModifiedAt(LocalDateTime.now());
+            dbUser.setProviderKey(providerKey);
+            dbUser.setProviderType(providerType);
+            dbUser.setProfile(profile);
+            dbUser.setImageUrl(imageUrl);
+            this.userMapper.update(dbUser); // ✅ 업데이트로 복구
+        } else if (dbUser == null) {
+            // 신규 가입
             UserEntity newUser = new UserEntity();
             newUser.setEmail(email);
             newUser.setNickname(nickname);
-            newUser.setPassword(providerKey); // 의미 없음
+            newUser.setPassword(providerKey);
             newUser.setProviderType(providerType);
             newUser.setProviderKey(providerKey);
             newUser.setCreatedAt(LocalDateTime.now());
@@ -89,7 +99,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             newUser.setProfile(profile);
             newUser.setImageUrl(imageUrl);
             this.userMapper.insert(newUser);
-            dbUser = newUser; // 방금 등록한 유저를 세션에 저장
+            dbUser = newUser;
+        }
+        UserEntity existingUser = this.userMapper.selectByEmail(email);
+        if (existingUser != null && !existingUser.getProviderType().equals(providerType)) {
+            // 이미 다른 플랫폼으로 가입된 이메일
+            throw new OAuth2EmailAlreadyExistsException(existingUser.getProviderType(), email);
         }
 
         // ✅ 세션 저장

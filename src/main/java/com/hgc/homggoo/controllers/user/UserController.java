@@ -54,14 +54,24 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String getLogin(@AuthenticationPrincipal CustomOAuth2User user) {
-        // 이미 로그인된 경우 홈으로
+    public String getLogin(@AuthenticationPrincipal CustomOAuth2User user,
+                           HttpSession session,
+                           Model model) {
+        // 이미 로그인된 경우 홈으로 리다이렉트
         if (user != null) {
-            System.out.println(user.getEmail());
             return "redirect:/";
         }
-        return "user/login"; // 로그인 폼
+
+        // 세션에서 에러 메시지를 꺼내고, 모델에 넣고, 제거
+        String errorMessage = (String) session.getAttribute("OAUTH2_ERROR_MESSAGE");
+        if (errorMessage != null) {
+            model.addAttribute("OAUTH2_ERROR_MESSAGE", errorMessage);
+            session.removeAttribute("OAUTH2_ERROR_MESSAGE");
+        }
+
+        return "user/login"; // templates/user/login.html
     }
+
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String postLogout(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser, HttpSession session) {

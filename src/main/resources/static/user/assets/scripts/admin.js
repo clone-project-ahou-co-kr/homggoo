@@ -118,8 +118,7 @@ const loadNotice = () => {
                 },
                 yaxis: {
                     title: {text: '조회수'},
-                    min: 0,
-                    max:100
+                    min: 0
                 },
                 title: {
                     text: '공지사항별 조회수',
@@ -337,8 +336,7 @@ const loadNotice = () => {
                         text: '게시글 수'
                     },
                     step: 1,
-                    min: 0,
-                    max:10
+                    min: 0
                 },
                 title: {
                     text: '날짜별 게시글 등록 수',

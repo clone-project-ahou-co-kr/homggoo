@@ -20,7 +20,7 @@ $loginForm.onsubmit = (e) => {
         dialog.showSimpleOk('로그인', '이메일을 입력해주세요');
         $loginForm['loginEmail'].focus();
         return;
-    }else if (!$loginForm['loginEmail'].validity.valid) {
+    } else if (!$loginForm['loginEmail'].validity.valid) {
         dialog.showSimpleOk('경고', '이메일이 올바르지 않습니다.');
         $loginForm['loginEmail'].focus();
         return;
@@ -29,7 +29,7 @@ $loginForm.onsubmit = (e) => {
         dialog.showSimpleOk('로그인', '비밀번호를 입력해주세요');
         $loginForm['loginPassword'].focus();
         return;
-    }else if (!$loginForm['loginPassword'].validity.valid) {
+    } else if (!$loginForm['loginPassword'].validity.valid) {
         dialog.showSimpleOk('로그인', '비밀번호가 올바르지 않습니다.');
         $loginForm['loginPassword'].focus();
         return;
@@ -67,3 +67,17 @@ $loginForm.onsubmit = (e) => {
     xhr.open('POST', '/api/user/login');
     xhr.send(formData);
 }
+document.addEventListener("DOMContentLoaded", function () {
+    const alert = document.querySelector('.error-alert');
+    if (alert) {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+
+            // 실제로 DOM에서 제거하려면 (선택)
+            setTimeout(() => {
+                alert.remove();
+            }, 600); // transition 시간보다 약간 여유 있게
+        }, 2000);
+    }
+});
+

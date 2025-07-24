@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/assets/styles/common.min.css">
     <link rel="stylesheet" href="/assets/styles/index.min.css">
     <link rel="stylesheet" href="/user/assets/styles/edit.min.css">
+    <script defer src="/assets/scripts/index.js" type="text/javascript"></script>
     <script defer src="/assets/scripts/common.js"></script>
     <script defer src="/user/assets/scripts/edit.js"></script>
 </head>
@@ -19,7 +20,7 @@
     <div class="edit-container">
         <form novalidate id="edit-form">
             <div class="img-container">
-<!--                todo profile-image 교환.-->
+                <!--                todo profile-image 교환.-->
                 <img th:src="@{/api/user/profile-image}"
                      onerror="this.src='/assets/images/index/header/default-profile.png'">
             </div>
@@ -57,11 +58,16 @@
                         <input type="checkbox" id="retire-check" name="agree">
                         <span>회원 탈퇴에 동의하시면 체크 해주십시오.(필수)</span>
                     </label>
-                    <label class="button">
-                        <input required class="input-object password" name="password" type="password"
-                               placeholder="비밀번호를 입력해주세요" minlength="5" maxlength="50">
+                    <label class="confirm-container">
+                        <span>이메일 인증받기</span>
+                        <label class="input-container">
+                            <input type="hidden" name="emailSalt" class="salt">
+                            <input required class="input-object password" name="emailCode" type="password"
+                                   placeholder="인증코드를 입력해주세요" minlength="5" maxlength="50">
+                            <button class="--object-button -color-blue" name="emailCodeVerityButton" type="button">확인</button>
+                        </label>
                     </label>
-                    <button type="button" class="button-object confirm">탈퇴</button>
+                    <button type="button" class="button-object confirm">인증하기</button>
                 </div>
             </div>
         </form>

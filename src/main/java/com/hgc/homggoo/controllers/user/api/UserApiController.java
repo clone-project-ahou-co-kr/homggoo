@@ -84,7 +84,7 @@ public class UserApiController {
     @RequestMapping(value = "/register-email", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String postRegisterEmail(@RequestParam(value = "email", required = false) String email, HttpServletRequest request) throws MessagingException {
         String userAgent = request.getHeader("User-Agent");
-        ResultTuple<EmailTokenEntity> result = this.userService.sendRegisterEmail(email, userAgent);
+        ResultTuple<EmailTokenEntity> result = this.userService.sendEmail(email, userAgent);
         JSONObject response = new JSONObject();
         response.put("result", result.getResult().nameToLower());
         if (result.getResult() == CommonResult.SUCCESS) {
@@ -97,6 +97,30 @@ public class UserApiController {
     @RequestMapping(value = "/register-email", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String patchRegisterEmail(EmailTokenEntity emailToken, HttpServletRequest request) {
+        emailToken.setUserAgent(request.getHeader("User-Agent"));
+        Results result = this.emailTokenService.verifyEmailToken(emailToken);
+        JSONObject response = new JSONObject();
+        response.put("result", result.nameToLower());
+        return response.toString();
+    }
+
+    //탈퇴 이메일 인증
+    @RequestMapping(value="/edit-email",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public String postEditEmail(@RequestParam(value = "email",required = false)String email,HttpServletRequest request) throws MessagingException {
+        String userAgent = request.getHeader("User-Agent");
+        ResultTuple<EmailTokenEntity> result = this.userService.sendRetireEmail(email, userAgent);
+        JSONObject response = new JSONObject();
+        response.put("result", result.getResult().nameToLower());
+        if (result.getResult() == CommonResult.SUCCESS) {
+            response.put("salt", result.getPayload().getSalt());
+            System.out.println(result.getPayload().getSalt());
+        }
+        return response.toString();
+    }
+
+    @RequestMapping(value = "/edit-email", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String patchEditEmail(EmailTokenEntity emailToken, HttpServletRequest request) {
         emailToken.setUserAgent(request.getHeader("User-Agent"));
         Results result = this.emailTokenService.verifyEmailToken(emailToken);
         JSONObject response = new JSONObject();
@@ -211,8 +235,8 @@ public class UserApiController {
 
 
     @RequestMapping(value = "/mypage/edit", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String patchMypageEdit(@RequestParam(value = "password") String password, @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser, HttpSession session) {
-        Results result = this.userService.retire(signedUser, password);
+    public String patchMypageEdit(@RequestParam(value = "email") String email, @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser, HttpSession session) {
+        Results result = this.userService.retire(signedUser, email);
         session.removeAttribute("signedUser");
         JSONObject response = new JSONObject();
         response.put("result", result.nameToLower());

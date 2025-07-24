@@ -13,6 +13,9 @@
     <script defer src="/user/assets/scripts/login.js"></script>
 </head>
 <body>
+<div th:if="${OAUTH2_ERROR_MESSAGE}" class="error-alert">
+    [[${OAUTH2_ERROR_MESSAGE}]]
+</div>
 <form novalidate id="login-form">
     <div class="title-container">
         <a href="/">
@@ -21,7 +24,7 @@
     </div>
     <div class="login-container">
         <label class="login-label">
-            <input class="input-object" required type="email" maxlength="50" minlength="5" name="loginEmail"
+            <input  class="input-object" required type="email" maxlength="50" minlength="5" name="loginEmail"
                    placeholder="이메일">
             <input class="input-object" required type="password" maxlength="50" minlength="5" name="loginPassword"
                    placeholder="비밀번호">

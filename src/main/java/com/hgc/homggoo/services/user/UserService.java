@@ -86,8 +86,8 @@ public class UserService {
     }
 
 
-    //sendRegisterEmail=> provider 가 필요없다.
-    public ResultTuple<EmailTokenEntity> sendRegisterEmail(String email, String userAgent) throws MessagingException {
+    //sendEmail=> provider 가 필요없다.
+    public ResultTuple<EmailTokenEntity> sendEmail(String email, String userAgent) throws MessagingException {
         if (userAgent == null) {
             return ResultTuple.<EmailTokenEntity>builder()
                     .result(CommonResult.FAILURE).build();
@@ -116,6 +116,37 @@ public class UserService {
         mimeMessageHelper.setFrom("hyeongyu98@gmail.com");
         mimeMessageHelper.setTo(emailToken.getEmail());
         mimeMessageHelper.setSubject("오늘의집 인증번호안내");
+        mimeMessageHelper.setText(mailText, true);
+        this.javaMailSender.send(mimeMessage);
+        return ResultTuple.<EmailTokenEntity>builder()
+                .result(CommonResult.SUCCESS)
+                .payload(emailToken).build();
+    }
+
+    public ResultTuple<EmailTokenEntity> sendRetireEmail(String email, String userAgent) throws MessagingException {
+        if (userAgent == null) {
+            return ResultTuple.<EmailTokenEntity>builder()
+                    .result(CommonResult.FAILURE).build();
+        }
+        UserEntity dbUser = this.userMapper.selectByEmail(email);
+        if (dbUser == null) {
+            return ResultTuple.<EmailTokenEntity>builder()
+                    .result(CommonResult.FAILURE_ABSENT)
+                    .build();
+        }
+        EmailTokenEntity emailToken = UserService.generateEmailToken(email, userAgent, 3);
+        if (this.emailTokenMapper.insert(emailToken) < 1) {
+            return ResultTuple.<EmailTokenEntity>builder()
+                    .result(CommonResult.FAILURE_UNAUTHORIZED).build();
+        }
+        Context context = new Context();
+        context.setVariable("code", emailToken.getCode());
+        String mailText = this.springTemplateEngine.process("user/registerEmail", context);
+        MimeMessage mimeMessage = this.javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+        mimeMessageHelper.setFrom("hyeongyu98@gmail.com");
+        mimeMessageHelper.setTo(emailToken.getEmail());
+        mimeMessageHelper.setSubject("homggoo 인증번호 안내");
         mimeMessageHelper.setText(mailText, true);
         this.javaMailSender.send(mimeMessage);
         return ResultTuple.<EmailTokenEntity>builder()
@@ -194,16 +225,18 @@ public class UserService {
         return this.userMapper.selectAll();
     }
 
-    public Results retire(UserEntity signedUser, String password) {
-        if (password.isBlank()) {
+    public Results retire(UserEntity signedUser, String email) {
+        if (signedUser == null) {
             return CommonResult.FAILURE;
         }
-        UserEntity dbUser = this.userMapper.selectByEmailAndProviderType(signedUser.getEmail(), signedUser.getProviderType());
+        if (signedUser.isDeleted()) {
+            return CommonResult.FAILURE_ABSENT;
+        }
+        if (email.isBlank()) {
+            return CommonResult.FAILURE;
+        }
+        UserEntity dbUser = this.userMapper.selectByEmail(email);
         if (dbUser == null) {
-            return CommonResult.FAILURE;
-        }
-        if (!Bcrypt.isMatch(password, dbUser.getPassword())) {
-            System.out.println("failure");
             return CommonResult.FAILURE;
         }
         dbUser.setDeleted(true);

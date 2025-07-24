@@ -76,7 +76,6 @@
 .container > a {
   width: 100%;
   display: block;
-  margin-bottom: 2rem;
 }
 .container > .register-section {
   align-items: center;
@@ -243,8 +242,8 @@
 }
 .container > .register-section > #register-form > .email-container > button {
   border: 0.0625rem solid #cccccc;
-  color: #C2C8CC;
-  background-color: #F7F8FA;
+  color: #ffffff;
+  background-color: #0478F8;
 }
 .container > .register-section > #register-form > .email-container > .email-verify {
   align-items: flex-start;

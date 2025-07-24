@@ -98,7 +98,7 @@
           transition-timing-function: ease;
 
           &.visible {
-            max-height: 9rem;
+            max-height: 11rem;
             opacity: 1;
             //transform: translateY(0rem);
           }
@@ -115,12 +115,33 @@
               }
             }
 
-            &.button {
-              > .confirm {
-                height: 3rem;
+            &.confirm-container {
+              @include flex(column, flex-start, flex-start, 0.5rem);
+              width: 100%;
+
+              > span {
+                color: #888;
+                font-size: 0.8rem;
               }
+
+              > .input-container {
+                width: 100%;
+                @include flex(row, center, space-between, 0.5rem);
+                > input {
+                  width: 13rem;
+                }
+              }
+
+            }
+
+            > .confirm {
+              height: 3rem;
             }
           }
+        }
+
+        > .retire-button {
+          width: 100%;
         }
       }
     }

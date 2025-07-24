@@ -13,12 +13,18 @@
     </insert>
     <update id="update" parameterType="com.hgc.homggoo.entities.user.UserEntity">
         UPDATE `homggoo`.`users`
-        SET `profile` = #{user.profile},
-            `image_url` = #{user.imageUrl},
-            `is_deleted` = #{user.isDeleted},
-            `modified_at` = NOW()
-        WHERE `email` = #{user.email} and `provider_type`=#{user.providerType};
+        SET profile       = #{user.profile},
+            password      = #{user.password},
+            is_admin      = #{user.admin},
+            nickname      = #{user.nickname},
+            provider_type = #{user.providerType},
+            provider_key  = #{user.providerKey},
+            modified_at   = #{user.modifiedAt},
+            is_deleted    = #{user.deleted},
+            image_url     = #{user.imageUrl}
+        WHERE email = #{user.email}
     </update>
+
     <select id="selectByProviderAndEmail" resultType="com.hgc.homggoo.entities.user.UserEntity">
         select `email`         as `email`,
                `profile`       as `profile`,

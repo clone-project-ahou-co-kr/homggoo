@@ -3,8 +3,6 @@ package com.hgc.homggoo.config;
 import com.hgc.homggoo.services.oAuth.CustomOAuth2UserService;
 import com.hgc.homggoo.services.oAuth.OAuth2LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.server.WebServerFactoryCustomizer;
-import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,7 +10,7 @@ import org.springframework.security.oauth2.client.web.HttpSessionOAuth2Authoriza
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.time.Duration;
-
+import com.hgc.homggoo.services.oAuth.OAuth2FailureHandler;
 @Configuration  // ✅ 이 클래스는 Spring의 설정 클래스로 사용됨 (Spring Security 설정을 담당)
 public class SecurityConfig {
 
@@ -25,6 +23,9 @@ public class SecurityConfig {
      * ✅ SecurityFilterChain을 Spring Bean으로 등록
      * Spring Security에서 Http 보안 설정을 정의함
      */
+    @Autowired
+    private OAuth2FailureHandler oAuth2FailureHandler;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -35,28 +36,16 @@ public class SecurityConfig {
 
                 // ✅ OAuth2 로그인 설정
                 .oauth2Login(oauth -> oauth
-                        // 사용자가 인증되지 않은 상태로 보호된 리소스에 접근할 경우 보여줄 커스텀 로그인 페이지 경로
                         .loginPage("/user/login")
-
-                        // 로그인 성공 후 무조건 "/"(홈)으로 리다이렉트
-                        // true → 사용자가 원래 접근하려던 URL이 있어도 무시하고 여기로 감
                         .defaultSuccessUrl("/", true)
-
-                        // 사용자 정보 불러오는 엔드포인트 설정
                         .userInfoEndpoint(userInfo -> userInfo
-                                // 사용자 정보를 처리할 커스텀 서비스 등록 (OAuth2UserService 구현체)
                                 .userService(oAuth2UserService())
                         )
-
-                        // ✅ 로그인 성공 후 실행할 커스텀 핸들러 등록
-                        // 이 핸들러에서 세션에 사용자 정보(signedUser)를 저장함
                         .successHandler(oAuth2LoginSuccessHandler)
-
+                        .failureHandler(oAuth2FailureHandler)  // ✅ 여기 추가!
                         .authorizationEndpoint(endpoint -> endpoint
                                 .authorizationRequestRepository(new HttpSessionOAuth2AuthorizationRequestRepository())
                         )
-
-
                 )
 
                 // ✅ 로그아웃 설정
@@ -73,6 +62,7 @@ public class SecurityConfig {
                         // 브라우저의 JSESSIONID 쿠키도 함께 제거 (완전한 로그아웃 처리)
                         .deleteCookies("JSESSIONID")
                 );
+
 
         // 최종적으로 보안 필터 체인을 반환 (이 설정이 Spring Security에 적용됨)
         return http.build();

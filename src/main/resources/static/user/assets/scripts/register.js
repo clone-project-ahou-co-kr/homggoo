@@ -40,7 +40,6 @@ const updateTimerDisplay = ($timer) => {
 
 $registerForm['emailCodeSendButton'].addEventListener('click', (e) => {
     e.preventDefault();
-
     const emailInput = $registerForm['email'];
     const domainSelect = $registerForm['email-address'];
 
@@ -90,7 +89,6 @@ $registerForm['emailCodeSendButton'].addEventListener('click', (e) => {
             return;
         }
     }
-
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append("email", email);
@@ -102,7 +100,8 @@ $registerForm['emailCodeSendButton'].addEventListener('click', (e) => {
             alert('요청 중 오류가 발생했습니다.');
             return;
         }
-
+        $registerForm['emailCodeSendButton'].style.backgroundColor = '#757575';
+        $registerForm['emailCodeSendButton'].setDisabled(true);
         const response = JSON.parse(xhr.responseText);
         switch (response.result) {
             case 'failure':
@@ -153,7 +152,7 @@ $registerForm['emailCodeVerifyButton'].addEventListener('click', () => {
         if (xhr.readyState !== XMLHttpRequest.DONE) return;
 
         if (xhr.status < 200 || xhr.status >= 300) {
-            alert('요청 중 오류가 발생했습니다.');
+            dialog.showSimpleOk('경고', '요청 중 오류');
             return;
         }
 
