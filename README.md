@@ -225,6 +225,7 @@ CREATE TABLE `homggoo`.`notifications`
     `article_id` INT UNSIGNED NOT NULL COMMENT '어떤 글에 댓글 달렸는지',
     `created_at` DATETIME DEFAULT NOW(),
     `is_deleted` BOOLEAN NOT NULL DEFAULT FALSE,
+    `type` ENUM('article', 'comment') NOT NULL,
 
     CONSTRAINT PRIMARY KEY (`id`),
     CONSTRAINT FOREIGN KEY (`receiver_email`) REFERENCES `homggoo`.`users` (`email`)
