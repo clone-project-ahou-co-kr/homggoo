@@ -31,8 +31,8 @@
                 </div>
                 <div class="--flex-stretch"></div>
                 <div class="nav-right">
-                    <span class="remain">남은 로그인 시간&nbsp:&nbsp</span>
-                    <span id="remainTime">분</span>
+                    <span class="remain" th:if="${signedUser != null}">남은 로그인 시간&nbsp:&nbsp</span>
+                    <span id="remainTime" th:if="${signedUser != null}">분</span>
                     <!--<label class="search">
                         <input required type="text" minlength="1" maxlength="" name="search" placeholder="통합검색">
                     </label>-->
