@@ -61,7 +61,9 @@
                     <span class="views">조회 <span th:text="${article.getView()}">0</span> · </span>
                     <span class="likes">❤ <span th:text="${article.getLikeCount()}"></span> · </span>
                     <span class="comments">
-                        <img src="/community/assets/images/comment.png" alt="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" color="#828C94" class="ey1aqhe0 css-bsbdow">
+                            <path fill="currentColor" fill-rule="evenodd" d="m11.942 10.521.26-.516a4.948 4.948 0 1 0-2.145 2.17l.523-.27 1.886.519zm-1.193 2.986a6.448 6.448 0 1 1 2.794-2.827l.767 2.789a.65.65 0 0 1-.8.798z" clip-rule="evenodd"></path>
+                        </svg>
                         <span th:text="${article.getCommentCount()}"></span>
                     </span>
                 </div>

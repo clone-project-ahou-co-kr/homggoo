@@ -5,15 +5,16 @@
             useGeneratedKeys="true"
             keyColumn="id"
             keyProperty="id">
-        INSERT INTO `homggoo`.`notifications` (`receiver_email`, `article_id`, `created_at`, `is_deleted`)
-        VALUES (#{notification.receiverEmail}, #{notification.articleId}, #{notification.createdAt}, #{notification.isDeleted})
+        INSERT INTO `homggoo`.`notifications` (`receiver_email`, `article_id`, `created_at`, `is_deleted`, `type`)
+        VALUES (#{notification.receiverEmail}, #{notification.articleId}, #{notification.createdAt}, #{notification.isDeleted}, #{notification.type})
     </insert>
     <select id="getByEmail" resultType="com.hgc.homggoo.entities.notification.NotificationEntity">
         SELECT `T0`.`id` AS `id`,
                `T0`.`receiver_email` AS `receiverEmail`,
                `T0`.`article_id` AS `articleId`,
                `T0`.`created_at` AS `createdAt`,
-               `T0`.`is_deleted` AS `isDeleted`
+               `T0`.`is_deleted` AS `isDeleted`,
+               `T0`.`type` AS `type`
         FROM `homggoo`.`notifications` AS `T0`
             LEFT JOIN `homggoo`.`article` AS `T1`
         ON `T0`.`article_id` = `T1`.`id`
