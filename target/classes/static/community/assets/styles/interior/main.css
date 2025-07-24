@@ -1,8 +1,44 @@
+#main {
+  margin: 0 auto;
+  padding: 0 1rem;
+}
 #main > .category {
   max-width: 75rem;
   margin: 0 auto;
   padding: 0 1rem;
   height: 5rem;
+}
+#main > .category > span > a {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+#main > .category > span > a > span {
+  white-space: nowrap;
+  content: "";
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid #E6E6E6;
+  border-radius: 99rem;
+  color: black;
+  display: inline-block;
+  padding: 0.675rem 1rem 0.675rem 1rem;
+  font-size: 0.875rem;
+  margin: 1rem 0 1rem 0;
+  position: relative;
+}
+#main > .category > span > a > span::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  -webkit-transition: background-color 0.1s ease-in-out;
+  transition: background-color 0.1s ease-in-out;
+  border-radius: inherit;
+  background-color: initial;
 }
 #main > .best {
   align-items: flex-start;
@@ -12,9 +48,9 @@
   flex-wrap: nowrap;
   gap: 1rem;
   max-width: 75rem;
-  margin: 0 auto;
   padding: 0 1rem;
   height: 100%;
+  margin: 0 auto 2rem;
 }
 #main > .best > * {
   flex-grow: 0;
@@ -36,9 +72,105 @@
 #main > .board {
   position: relative;
   max-width: 55rem;
+  height: 100%;
   margin: 0 auto;
   padding: 0 1rem;
+}
+#main > .board > .post-card {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 0;
+  padding-top: 2rem;
+  border-bottom: 0.0625rem solid #f2f4f8;
+}
+#main > .board > .post-card > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main > .board > .post-card > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main > .board > .post-card > .item {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 100%;
+}
+#main > .board > .post-card > .item > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main > .board > .post-card > .item > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main > .board > .post-card > .item > .category {
+  background: #EAEDEF;
+  color: #828C94;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  display: inline-flex;
+  font-size: 12px;
+  line-height: 16px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 0.25rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+#main > .board > .post-card > .item > .title {
+  font-size: 18px;
+  line-height: 24px;
+  color: #2F3438;
+  font-weight: 600;
+}
+#main > .board > .post-card > .item > .content {
+  width: 100%;
+  font-size: 15px;
+  line-height: 24px;
+  color: #2F3438;
+  font-weight: 400;
+  margin-bottom: 2rem;
+}
+#main > .board > .post-card > .item > .info {
+  font-size: 15px;
+  line-height: 24px;
+  color: #828C94;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  margin-bottom: 1rem;
+}
+#main > .board > .post-card > .item > .thumbnail {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 0;
   height: 100%;
+  right: 1rem;
+  position: absolute;
+}
+#main > .board > .post-card > .item > .thumbnail > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main > .board > .post-card > .item > .thumbnail > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#main > .board > .post-card > .item > .thumbnail > img {
+  width: 6.125rem;
+  height: 6.125rem;
 }
 
 /*# sourceMappingURL=main.css.map */

@@ -7,7 +7,7 @@
 
   > .hero-section {
     @include container;
-    padding: 1.5rem 0;
+    padding: 1.5rem 3.75rem;
 
     > .hero-banner {
       @include flex(row, flex-start, space-between, 2rem);

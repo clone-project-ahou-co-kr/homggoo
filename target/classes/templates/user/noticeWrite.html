@@ -29,15 +29,21 @@
     location.href = "/user/admin/login";
 </script>
 <body>
+<header>
+    <div>
+        <span>공지사항 등록</span>
+    </div>
+</header>
 <form novalidate id="notice-form">
     <div class="title-container">
+        <span>제목</span>
         <label>
             <input required type="text" placeholder="제목을 입력해 주세요." minlength="1" maxlength="60" name="title">
             <button type="submit">등록하기</button>
         </label>
     </div>
     <label>
-        <textarea name="content" autocomplete="off" class="text-container"></textarea>
+        <textarea name="content" autocomplete="off"  hidden class="text-container"></textarea>
     </label>
 
 </form>

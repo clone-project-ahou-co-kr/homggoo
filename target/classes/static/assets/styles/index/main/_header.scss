@@ -14,6 +14,7 @@ $bg-light: #f8f9fa;
 
   > .header-container {
     @include container;
+    padding: 0 3.75rem;
   }
 
   > .top-banner {
@@ -50,6 +51,7 @@ $bg-light: #f8f9fa;
 
         > .button-object {
           font-size: 0.875rem !important;
+          background-color: #0198ED;
         }
 
         > .fas {
@@ -73,6 +75,8 @@ $bg-light: #f8f9fa;
           padding: 0.5rem 1rem;
           border-bottom: 0.125rem solid transparent;
           transition: all 0.2s ease;
+
+
         }
 
         > .nav-link + .nav-link {
@@ -87,9 +91,9 @@ $bg-light: #f8f9fa;
 
       > .nav-right {
         @include flex(row, center, center);
-        >.search {
-          input[name="search"] {
-            background: url("../../../images/index/header/search-icon.png") no-repeat left center;
+        > .search {
+          > input[name="search"] {
+            background: url("/assets/images/index/header/search-icon.png") no-repeat left center;
             background-position-x: 0.5rem;
             border: 0.0625rem solid #f2f4f8;
             margin: 0 auto;
@@ -102,33 +106,118 @@ $bg-light: #f8f9fa;
           }
         }
 
-        > .nav-icon {
-          font-size: 1rem;
-          padding: 0.5rem;
-          border-radius: 0.5rem;
-          transition: background-color 0.2s ease;
+        > .user-true {
+          @include flex(row, center, center, 1rem);
+          color: black;
+          position: relative;
+          padding-left: 1rem;
 
-          &:hover {
-            background: #ffffff;
+          > a {
+            span {
+
+              img {
+                width: 1.5rem;
+                height: 1.5rem;
+              }
+            }
           }
+
+          .wrapper {
+            position: relative;
+            display: inline-block;
+
+            picture {
+
+              img {
+                width: 2.5rem;
+                height: 2.5rem;
+                background-color: #dfe3e8;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+              }
+            }
+
+            .menu {
+              display: none;
+              position: absolute;
+              right: 0;
+              top: 3rem;
+              background: white;
+              border-radius: 8px;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+              padding: 0.5rem 0.5rem;
+              min-width: 160px;
+              z-index: 999;
+
+              li {
+                list-style: none;
+
+                a {
+                  display: block;
+                  padding: 0.75rem 1rem;
+                  color: #333;
+                  text-decoration: none;
+                  font-size: 14px;
+
+                  &:hover {
+                    background-color: #f5f5f5;
+                  }
+
+                  .new {
+                    background-color: #ff3d3d;
+                    color: white;
+                    font-size: 0.75rem;
+                    padding: 2px 5px;
+                    border-radius: 50%;
+                    margin-left: 6px;
+                  }
+                }
+              }
+            }
+          }
+
         }
 
-        > .nav-link {
+        > .user-false {
           @include flex(row, center, center);
           font-size: 0.875rem;
           color: black;
-          padding: 0.5rem 0.75rem;
           position: relative;
-          border-right: 0.0625rem solid #EAEDEF;
-          height: 1rem;
-          top: 50% + translateY(-50%);
 
-          &:hover {
-            pointer-events: inherit;
+          > .nav-icon {
+            font-size: 1rem;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease;
+
+            &:hover {
+              background: #ffffff;
+            }
+
+            > img {
+              width: 1.5rem;
+              height: 1.625rem;
+            }
           }
 
-          &:last-child {
-            border-right: none;
+          > .nav-link {
+            padding: 0 10px;
+            border-left: 1px solid #EAEDEF;
+
+            &:first-of-type {
+              border-left: none;
+            }
+
+            &:hover {
+              pointer-events: inherit;
+            }
+
+            &:last-child {
+              border-right: none;
+            }
           }
         }
       }

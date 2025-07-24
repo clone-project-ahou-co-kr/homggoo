@@ -1,115 +1,328 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>라이프스타일 슈퍼앱, 오늘의집</title>
-    <meta name="description" content="감도높은 유저들의 일상 구경부터 제품 구매까지 한번에" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>쇼핑은 쉽게, 스타일링은 즐겁게! 오늘의집 쇼핑</title>
+    <meta name="description" content="감도높은 유저들의 일상 구경부터 제품 구매까지 한번에"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/styles/common.min.css">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css" />
-    <link rel="icon" href="/assets/images/index/favicon.png">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css"/>
+    <link rel="icon" href="/assets/images/image_cover.png">
     <link rel="stylesheet" type="text/css" href="/assets/styles/index.min.css">
-    <script defer src="/assets/scripts/product-index.js"></script>
+    <link rel="stylesheet" type="text/css" href="/product/assets/styles/product-main.min.css">
+    <script defer src="/assets/scripts/index.js" type="text/javascript"></script>
+    <script defer src="/product/assets/scripts/product-index.js"></script>
 </head>
 
 <body>
 <!-- Header -->
-<header id="header">
-    <div class="top-banner">
-        <a href="#" class="banner-link">🔥 역대급 초특가 이벤트 진행중!</a>
-    </div>
-    <div class="header-container">
-        <nav class="main-nav">
-            <nav class="nav">
-                <div class="logo">
-                    <a href="#" class="logo">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="71" height="28" fill="none" class="css-40f4ru"><path fill="#2F3438" d="M19.711 7.307h10.226c.759 0 1.374-.606 1.374-1.355s-.615-1.356-1.374-1.356h-8.852v-3.24C21.085.607 20.47 0 19.71 0c-.759 0-1.374.607-1.374 1.356v4.596c0 .749.615 1.355 1.374 1.355Z"></path><path fill="#2F3438" fill-rule="evenodd" d="M13.804 8.877c0 4.711-2.261 7.638-5.9 7.638s-5.901-2.927-5.901-7.638V8.54c0-4.711 2.26-7.638 5.9-7.638s5.9 2.927 5.9 7.638zm-5.9-5.264c-1.178 0-3.153.64-3.153 4.927v.337c0 4.287 1.975 4.927 3.152 4.927s3.153-.64 3.153-4.927V8.54c0-4.287-1.975-4.927-3.153-4.927Z" clip-rule="evenodd"></path><path fill="#2F3438" d="M9.278 23.496h4.655c.76 0 1.374.607 1.374 1.356 0 .748-.615 1.355-1.374 1.355H1.873A1.365 1.365 0 0 1 .5 24.852c0-.75.615-1.356 1.374-1.356H6.53v-4.173c0-.748.615-1.355 1.374-1.355.758 0 1.374.607 1.374 1.355zm22.79-13.84H17.343c-.759 0-1.373.607-1.373 1.355 0 .75.614 1.356 1.373 1.356h14.725c.76 0 1.374-.607 1.374-1.356 0-.748-.615-1.355-1.374-1.355M21.009 24.362c.654.499 2.897 1.475 9.59-.24a1.376 1.376 0 0 1 1.675.97 1.354 1.354 0 0 1-.984 1.653c-2.745.704-5.095 1.055-7.035 1.056-2.15 0-3.797-.432-4.927-1.294-1.103-.843-1.686-2.063-1.686-3.532v-2.163c0-.748.614-1.356 1.373-1.356h9.703v-2.03h-9.703a1.365 1.365 0 0 1-1.373-1.355c0-.749.614-1.356 1.373-1.356h11.077c.759 0 1.373.607 1.373 1.356v4.741c0 .749-.614 1.356-1.373 1.356h-9.703v.807c0 .632.191 1.06.62 1.387M68.135 0a1.41 1.41 0 0 0-1.419 1.4v11.2c0 .773.636 1.4 1.42 1.4a1.41 1.41 0 0 0 1.418-1.4V1.4c0-.773-.635-1.4-1.419-1.4m-6.624 12.39a1.374 1.374 0 0 0 1.759.808 1.35 1.35 0 0 0 .823-1.737c-.045-.12-.944-2.5-3.191-4.195l3.49-3.83c.362-.398.454-.97.233-1.458a1.38 1.38 0 0 0-1.255-.804h-8.56c-.759 0-1.374.607-1.374 1.356 0 .748.615 1.355 1.374 1.355h5.477l-6.499 7.132a1.34 1.34 0 0 0 .103 1.914c.263.233.591.348.919.348.376 0 .75-.152 1.022-.45l3.224-3.538c1.706 1.19 2.437 3.054 2.454 3.1Z"></path><path fill="#2F3438" fill-rule="evenodd" d="M67.072 17.362c0-.749.615-1.356 1.374-1.356s1.374.607 1.374 1.356v6.627c0 1.914-1.579 3.471-3.519 3.471h-6.634c-1.94 0-3.519-1.557-3.519-3.471v-6.627c0-.749.615-1.356 1.374-1.356s1.374.607 1.374 1.356v2.095h8.176zm-7.405 7.387h6.634c.425 0 .771-.34.771-.76v-1.821h-8.176v1.82c0 .42.346.761.771.761m-18.999-8.935c1.664 0 3.052-.87 3.91-2.452.678-1.252 1.037-2.982 1.037-5.004s-.359-3.752-1.038-5.004C43.72 1.772 42.332.902 40.668.902s-3.052.87-3.91 2.452c-.678 1.252-1.037 2.982-1.037 5.004s.359 3.752 1.038 5.004c.857 1.581 2.245 2.452 3.909 2.452m0-12.201c2.093 0 2.2 3.952 2.2 4.745 0 .792-.107 4.745-2.2 4.745s-2.2-3.953-2.2-4.745.106-4.745 2.2-4.745" clip-rule="evenodd"></path><path fill="#2F3438" d="M47.746 1.81c0-.748.615-1.355 1.374-1.355s1.374.607 1.374 1.356V25.73c0 .749-.615 1.355-1.374 1.355a1.365 1.365 0 0 1-1.374-1.355v-4.514c-2.992.733-7.314.95-9.812.95h-2.091a1.365 1.365 0 0 1-1.374-1.355c0-.749.615-1.356 1.374-1.356h2.091c4.378 0 7.991-.493 9.812-1.052z"></path></svg>
-                    </a>
-                </div>
-                <div class="nav-menu">
-                    <a href="#" class="nav-menu"><span class="community">커뮤니티</span></a>
-                    <a href="#" class="nav-menu"><span class="shopping">쇼핑</span></a>
-                    <a href="#" class="nav-menu"><span class="interior">인테리어/생활</span></a>
-                </div>
-                <div class="search-container">
-                    <input required type="text" minlength="1">
-                </div>
-                <div class="nav-right">
-                    <label>
-                        <input required type="text" minlength="1" maxlength="">
-                    </label>
-                    <a href="#" class="nav-icon">🛒</a>
-                    <a href="#" class="nav-link">로그인</a>
-                    <a href="#" class="nav-link">회원가입</a>
-                    <a href="#" class="nav-link">고객센터</a>
-                </div>
-                <div class="button-container">
-                    <div class="button-object -color-blue">글쓰기
-                        <i class="fas fa-chevron-down"></i></div>
-                </div>
-                <!--
-                                <ul class="nav-menu">
-                                    <li><a href="#" class="nav-link active">홈</a></li>
-                                    <li><a href="#" class="nav-link">꿀템발견</a></li>
-                                    <li><a href="#" class="nav-link">집꾸미기</a></li>
-                                    <li><a href="#" class="nav-link">추천</a></li>
-                                    <li><a href="#" class="nav-link">집들이</a></li>
-                                    <li><a href="#" class="nav-link">집사진</a></li>
-                                    <li><a href="#" class="nav-link">3D인테리어</a></li>
-                                </ul>-->
-            </nav>
-
-            <!--            <div class="nav-center">
-                            <div class="search-container">
-                                <input type="text" placeholder="침대 사이드 테이블" class="search-input" />
-                                <button class="search-btn">🔍</button>
-                            </div>
-                            <div class="search-trending">
-                                <span class="trending-tag">침대 사이드 테이블</span>
-                            </div>
-                        </div>-->
-
-            <!--<div class="nav-right">
-                <a href="#" class="nav-icon">🛒</a>
-                <a href="#" class="nav-link">로그인</a>
-                <a href="#" class="nav-link">회원가입</a>
-                <a href="#" class="nav-link">고객센터</a>
-            </div>-->
-        </nav>
-
-    </div>
-
-</header>
-<div id="mini-header">
-    <div class="container">
-        <nav class="category">
-            <a href="#"><span>홈</span></a>
-            <a href="#">꿀템발견</a>
-            <a href="#">집꾸미기</a>
-            <a href="#">추천</a>
-            <a href="#">집들이</a>
-            <a href="#">집사진</a>
-            <a href="#">3D인테리어</a>
-        </nav>
-    </div>
-</div>
+<header th:replace="~{fragments/header :: header}"></header>
+<div th:replace="~{fragments/header :: mini-header}"></div>
 
 <!-- Main Content -->
 <main id="main-content">
-    <div class="container">
-        <h1>SLIDER</h1>
-        <div class="album">
-            <div class="images">
-                <img src="https://prs.ohousecdn.com/apne2/commerce/uploads/store/banners/store_home_banners/v1-384210558828608.png?w=3840" alt="" class="slide">
-                <img src="https://prs.ohousecdn.com/apne2/commerce/uploads/store/banners/store_home_banners/v1-384170264449152.png?w=3840" alt="" class="slide">
-                <img src="https://prs.ohousecdn.com/apne2/commerce/uploads/store/banners/store_home_banners/v1-384171881623616.png?w=3840" alt="" class="slide">
-                <img src="https://prs.ohousecdn.com/apne2/commerce/uploads/store/banners/store_home_banners/v1-384173137973248.png?w=3840" alt="" class="slide">
+    <section class="slide">
+        <div class="carousel-container">
+            <button class="carousel-control prev">&lt;</button>
+            <div class="carousel-wrapper">
+                <ul class="carousel-track">
+                    <li class="carousel-item">
+                        <img src="/product/assets/images/index/banner1.png" alt="배너1">
+                    </li>
+                    <li class="carousel-item">
+                        <img src="/product/assets/images/index/banner2.png" alt="배너2">
+                    </li>
+                    <li class="carousel-item">
+                        <img src="/product/assets/images/index/banner3.png" alt="배너3">
+                    </li>
+                    <li class="carousel-item">
+                        <img src="/product/assets/images/index/banner4.png" alt="배너4">
+                    </li>
+                    <li class="carousel-item">
+                        <img src="/product/assets/images/index/banner5.png" alt="배너5">
+                    </li>
+                </ul>
+            </div>
+            <button class="carousel-control next">&gt;</button>
+        </div>
+    </section>
+    <!--    <section class="first-product">-->
+    <!--        <div class="all">-->
+    <!--            <div class="category">-->
+    <!--                <div class="box">-->
+    <!--                    <div class="position">-->
+    <!--                        <ul class="items">-->
+    <!--                            <li class="item">-->
+    <!--                                <div>-->
+    <!--                                    <label>-->
+    <!--                                        <input type="checkbox" checked>-->
+    <!--                                        <span>추천</span>-->
+    <!--                                    </label>-->
+    <!--                                </div>-->
+    <!--                            </li>-->
+    <!--                            <li class="item">-->
+    <!--                                <div>-->
+    <!--                                    <label>-->
+    <!--                                        <input type="checkbox">-->
+    <!--                                        <span>선반</span>-->
+    <!--                                    </label>-->
+    <!--                                </div>-->
+    <!--                            </li>-->
+    <!--                        </ul>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--            <div class="product-box">-->
+    <!--                <ul class="items">-->
+    <!--                    <li class="item">-->
+    <!--                        <article>-->
+    <!--                            <a href="#"></a>-->
+    <!--                            <div class="img">-->
+    <!--                                <img src="https://prs.ohousecdn.com/apne2/any/uploads/productions/v1-222482030448768.jpg?w=256&h=256&c=c&q=50"-->
+    <!--                                     alt="SUS 스틸 유닛 선반세트 라이트그레이 8size">-->
+    <!--                            </div>-->
+    <!--                            <div>-->
+    <!--                                <div class="caption">-->
+    <!--                                    <span class="store">무인양품</span>-->
+    <!--                                    <span class="title">SUS 스틸 유닛 선반세트 라이트그레이 8size</span>-->
+    <!--                                </div>-->
+    <!--                                <div>-->
+    <!--                                    <span class="price">99,000</span>-->
+    <!--                                </div>-->
+    <!--                            </div>-->
+    <!--                        </article>-->
+    <!--                    </li>-->
+
+    <!--                    <li class="item">-->
+    <!--                        <article>-->
+    <!--                            <a href="#"></a>-->
+    <!--                            <div class="img">-->
+    <!--                                <img src="https://image.ohousecdn.com/i/bucketplace-v2-development/uploads/productions/165484030201109415.jpg?w=256&h=256&c=c&q=50"-->
+    <!--                                     alt="SUS 스테인리스 유닛 선반 실버">-->
+    <!--                            </div>-->
+    <!--                            <div>-->
+    <!--                                <div class="caption">-->
+    <!--                                    <span class="store">무인양품</span>-->
+    <!--                                    <span class="title">SUS 스테인리스 유닛 선반 실버 색상 기본형</span>-->
+    <!--                                </div>-->
+    <!--                                <div>-->
+    <!--                                    <span class="price">249,000</span>-->
+    <!--                                </div>-->
+    <!--                            </div>-->
+    <!--                        </article>-->
+    <!--                    </li>-->
+
+    <!--                    <li class="item">-->
+    <!--                        <article>-->
+    <!--                            <a href="#"></a>-->
+    <!--                            <div class="img">-->
+    <!--                                <img src="https://image.ohousecdn.com/i/bucketplace-v2-development/uploads/productions/168128517539106313.jpg?w=256&h=256&c=c&q=50"-->
+    <!--                                     alt="서랍장 세트 오크">-->
+    <!--                            </div>-->
+    <!--                            <div>-->
+    <!--                                <div class="caption">-->
+    <!--                                    <span class="store">무인양품(해외)</span>-->
+    <!--                                    <span class="title">[해외] SUS 유닛선반 2단 수납 서랍장 세트 오크</span>-->
+    <!--                                </div>-->
+    <!--                                <div>-->
+    <!--                                    <span class="price"><span>20%</span> 814,000</span>-->
+    <!--                                </div>-->
+    <!--                            </div>-->
+    <!--                        </article>-->
+    <!--                    </li>-->
+
+    <!--                    <li class="item">-->
+    <!--                        <article>-->
+    <!--                            <a href="#"></a>-->
+    <!--                            <div class="img">-->
+    <!--                                <img src="https://prs.ohousecdn.com/apne2/any/uploads/productions/v1-374311295467520.jpg?w=256&h=256&c=c&q=50"-->
+    <!--                                     alt="책장 세트">-->
+    <!--                            </div>-->
+    <!--                            <div>-->
+    <!--                                <div class="caption">-->
+    <!--                                    <span class="store">무인양품(해외)</span>-->
+    <!--                                    <span class="title">[해외] 모듈 선반 책장 수납 장식장 3단 세트</span>-->
+    <!--                                </div>-->
+    <!--                                <div>-->
+    <!--                                    <span class="price"><span>25%</span> 359,000</span>-->
+    <!--                                </div>-->
+    <!--                            </div>-->
+    <!--                        </article>-->
+    <!--                    </li>-->
+    <!--                </ul>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </section>-->
+    <section class="category-box">
+        <div class="category">
+            <div class="box">
+                <div class="position">
+                    <ul class="items">
+                        <li class="item">
+                            <div>
+                                <h2 class="title">카테고리</h2>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <button class="prev">prev</button>
-        <button class="next">next</button>
-    </div>
+        <div class="image-box">
+            <ul class="items">
+                <li class="item" >
+                    <a th:href="@{/product/all}">
+                        <div>
+                            <div>
+                                <img class="img" src="/product/assets/images/index/category/category_all.png" alt="">
+                            </div>
+                            <span>전체</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="item">
+                    <a th:href="@{/product/all(category='bed')}">
+                        <div>
+                            <div>
+                                <img class="img" src="/product/assets/images/index/category/category_bed.png" alt="">
+                            </div>
+                            <span>침대</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="item">
+                    <a th:href="@{/product/all(category='chair')}">
+                        <div>
+                            <div>
+                                <img class="img" src="/product/assets/images/index/category/category_chair.png" alt="">
+                            </div>
+                            <span>의자</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="item">
+                    <a th:href="@{/product/all(category='closet')}">
+                        <div>
+                            <div>
+                                <img class="img" src="/product/assets/images/index/category/category_closet_black.png" alt="">
+                            </div>
+                            <span>옷장</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="item">
+                    <a th:href="@{/product/all(category='desk')}">
+                        <div>
+                            <div>
+                                <img class="img" src="/product/assets/images/index/category/category_desk.png" alt="">
+                            </div>
+                            <span>책상</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="item">
+                    <a th:href="@{/product/all(category='sofa')}">
+                        <div>
+                            <div>
+                                <img class="img" src="/product/assets/images/index/category/category_sofa.png" alt="">
+                            </div>
+                            <span>소파</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="item">
+                    <a th:href="@{/product/all(category='stand')}">
+                        <div>
+                            <div>
+                                <img class="img" src="/product/assets/images/index/category/category_stand.png" alt="">
+                            </div>
+                            <span>스탠드</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="item">
+                    <a th:href="@{/product/all(category='table')}">
+                        <div>
+                            <div>
+                                <img class="img" src="/product/assets/images/index/category/category_table.png" alt="">
+                            </div>
+                            <span>테이블</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="item">
+                    <a th:href="@{/product/all(category='tray')}">
+                        <div>
+                            <div>
+                                <img class="img" src="/product/assets/images/index/category/category_tray.png" alt="">
+                            </div>
+                            <span>선반</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="item">
+                    <a th:href="@{/product/all(category='etc')}">
+                        <div>
+                            <div>
+                                <img class="img" src="/product/assets/images/index/category/category_etc.png" alt="">
+                            </div>
+                            <span>기타</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section class="products">
+        <div class="all">
+            <div class="category">
+                <div class="box">
+                    <div class="position">
+                        <ul class="items">
+                            <li class="item">
+                                <div>
+                                    <label>
+                                        <input type="radio" checked>
+                                        <span>날짜순</span>
+                                    </label>
+                                </div>
+                            </li>
+                            <li class="item">
+                                <div>
+                                    <label>
+                                        <input type="radio">
+                                        <span>인기</span>
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="product-all-box">
+                <ul class="items">
+                    <li class="item">
+                        <a th:each="product : ${products}"
+                           th:href="@{/product/production (category=${product.categoryCode}, id=${product.id})}">
+                            <div class="box">
+                                <div class="img">
+                                    <img th:src="@{/product/image(id=${product.id})}" alt="">
+                                </div>
+                                <div class="caption">
+                                    <span class="title" th:text="${product.getTitle()}">제목칸</span>
+                                    <span class="price" th:text="${product.formattedPrice} + '원'">가격칸</span>
+                                    <span class="date" th:text="${product.elapsedTime}">올라온 날짜</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
 </main>
 
 <!-- Footer -->
@@ -169,7 +382,8 @@
                 </div>
             </div>
             <div class="last">
-                <span>고객님이 현금결제한 금액에 대해 우리은행과 채무지급보증 계약을 체결하여 안전거래를 보장하고 있습니다. <a href="#" class="link">서비스가입사실확인</a></span>
+                <span>고객님이 현금결제한 금액에 대해 우리은행과 채무지급보증 계약을 체결하여 안전거래를 보장하고 있습니다. <a href="#"
+                                                                                  class="link">서비스가입사실확인</a></span>
             </div>
             <div class="box">
                 <div class="first">
@@ -187,7 +401,8 @@
                 </div>
             </div>
             <div class="bottom">
-                (주)버킷플레이스는 통신판매중개자로 거래 당사자가 아니므로, 판매자가 등록한 상품정보 및 거래 등에 대해 책임을 지지 않습니다. 단, (주)버킷플레이스가 판매자로 등록 판매한 상품은 판매자로서 책임을
+                (주)버킷플레이스는 통신판매중개자로 거래 당사자가 아니므로, 판매자가 등록한 상품정보 및 거래 등에 대해 책임을 지지 않습니다. 단, (주)버킷플레이스가 판매자로 등록 판매한 상품은
+                판매자로서 책임을
                 부담합니다.
             </div>
             <div class="link">
@@ -205,7 +420,6 @@
     </div>
 </footer>
 
-<script type="module" src="/src/main.js"></script>
 </body>
 
 </html>

@@ -1,3 +1,57 @@
+#loading {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(44, 44, 44, 0.6274509804);
+  backdrop-filter: blur(0.5rem);
+  z-index: 9;
+  opacity: 0;
+  pointer-events: none;
+  transition-duration: 175ms;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+#loading > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#loading > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+#loading.-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+#loading > .icon {
+  width: 3rem;
+  height: 3rem;
+  animation-duration: 1000ms;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-name: loadingAni;
+}
+@keyframes loadingAni {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+#loading > .caption {
+  color: white;
+  font-size: 1.5rem;
+}
+
 .container {
   align-items: center;
   display: flex;
@@ -93,20 +147,15 @@
   flex-grow: 1;
   flex-shrink: 1;
 }
-.container > .register-section > #register-form > .sns-login > .list > .item {
-  padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5rem;
-  font-size: 0.875rem;
+.container > .register-section > #register-form > .sns-login > .list > .item.naver > .icon {
+  width: 3rem;
+  height: 3rem;
   cursor: pointer;
 }
-.container > .register-section > #register-form > .sns-login > .list > .item.naver {
-  background-color: #03c75a;
-  color: #fff;
-}
-.container > .register-section > #register-form > .sns-login > .list > .item.kakao {
-  background-color: #fee500;
-  color: #000;
+.container > .register-section > #register-form > .sns-login > .list > .item > a > .icon {
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
 }
 .container > .register-section > #register-form .email-container,
 .container > .register-section > #register-form .password-container,
@@ -177,6 +226,18 @@
   flex-grow: 1;
   flex-shrink: 1;
 }
+.container > .register-section > #register-form .email-container > .label-object ~ .---warning,
+.container > .register-section > #register-form .password-container > .label-object ~ .---warning,
+.container > .register-section > #register-form .nickname-container > .label-object ~ .---warning,
+.container > .register-section > #register-form .agree-container > .label-object ~ .---warning {
+  display: flex;
+}
+.container > .register-section > #register-form .email-container > .label-object .disabled,
+.container > .register-section > #register-form .password-container > .label-object .disabled,
+.container > .register-section > #register-form .nickname-container > .label-object .disabled,
+.container > .register-section > #register-form .agree-container > .label-object .disabled {
+  background-color: #cccccc;
+}
 .container > .register-section > #register-form > .email-container > .label-object > input {
   width: 10.625rem;
 }
@@ -194,10 +255,12 @@
   gap: 0;
   margin-top: 0.5rem;
   width: 100%;
-  height: 9.75rem;
+  height: 0;
   background-color: #F6F9FA;
   border-radius: 0.25rem;
   padding: 1.25rem 1rem;
+  opacity: 0;
+  pointer-events: none;
 }
 .container > .register-section > #register-form > .email-container > .email-verify > * {
   flex-grow: 0;
@@ -206,6 +269,18 @@
 .container > .register-section > #register-form > .email-container > .email-verify > .stretch {
   flex-grow: 1;
   flex-shrink: 1;
+}
+.container > .register-section > #register-form > .email-container > .email-verify.-visible {
+  height: 9.75rem;
+  opacity: 1;
+  pointer-events: auto;
+  transition-duration: 175ms;
+  transition-property: opacity, height;
+  transition-timing-function: ease;
+}
+.container > .register-section > #register-form > .password-container > label .input-objectdisabled {
+  background-color: #828C94;
+  color: #888888;
 }
 .container > .register-section > #register-form > .agree-container > .contract {
   align-items: center;
@@ -238,3 +313,16 @@
   margin-top: 1.2rem;
 }
 
+[data-role=passwordCheck-error], [data-role=password-error],
+[data-role=email-error], [data-role=nickname-error] {
+  color: #e74c3c !important;
+  display: none;
+}
+
+[data-role=passwordCheck-common], [data-role=password-common],
+[data-role=email-common], [data-role=nickname-common] {
+  color: #e74c3c !important;
+  display: none;
+}
+
+/*# sourceMappingURL=register.css.map */

@@ -8,6 +8,10 @@
     <link rel="stylesheet" type="text/css" href="/product/assets/styles/writeProduct.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/styles/common.min.css">
     <link rel="icon" href="/assets/images/image_cover.png">
+    <script th:if="${user==null}">
+            alert('로그인이 필요합니다.');
+            location.href = `${origin}/user/login`;
+    </script>
     <script src="/assets/scripts/common.js" type="module"></script>
     <script defer src="/community/assets/scripts/posts/productWrite.js"></script>
     <title>Document</title>

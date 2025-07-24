@@ -1,23 +1,38 @@
 @charset "UTF-8";
 
 @import "../../def";
-
 #mini-header {
   border-bottom: 0.0625rem solid #f2f4f8;
   width: 100%;
   height: 3rem;
-
   > .container {
     @include flex(column, flex-start, center, 1rem);
-    max-width: 75rem;
+    max-width: 78.5rem;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 3.75rem;
     height: 100%;
 
     > .category {
       @include flex(row, center, center, 1rem);
       font-weight: 700;
+      height: 100%;
+
+      > a {
+        @include flex(row center, center);
+        height: 100%;
+        &:hover {
+          color: #0aa5ff;
+          transition: none;
+        }
+      }
+
+      > .active {
+        color: #0aa5ff;
+        border-bottom: 0.0625rem solid #0aa5ff;
+        animation-delay: 0ms;
+        transition: none;
+      }
     }
   }
-
 }
+

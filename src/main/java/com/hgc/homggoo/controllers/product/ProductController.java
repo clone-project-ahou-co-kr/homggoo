@@ -46,7 +46,6 @@ public class ProductController {
         } else {
             products = this.productService.getProductsByCategory(category);
         }
-
         model.addAttribute("products", products);
         model.addAttribute("category", category);
         return "product/allProduction";
@@ -104,7 +103,10 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/newProduct", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String getNewProduct() {
+    public String getNewProduct(@SessionAttribute(value = "signedUser")UserEntity signedUser,
+                                Model model) {
+        UserEntity signed = this.productService.getUserEmail(signedUser.getEmail());
+        model.addAttribute("user", signed);
         return "product/newProduct";
     }
 }

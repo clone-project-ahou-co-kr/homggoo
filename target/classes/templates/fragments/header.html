@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<script defer src="/assets/scripts/index.js" type="text/javascript"></script>
 <header id="header" th:fragment="header">
-    <div class="top-banner">
-        <a href="#" class="banner-link">🔥 역대급 초특가 이벤트 진행중!</a>
-    </div>
+<!--    <div th:text="${signedUser}"></div>
+    <img th:src="@{/api/user/profile-image}" alt="프로필 이미지" />-->
     <div class="header-container">
         <nav class="main-nav">
             <nav class="nav">
                 <div class="logo">
-                    <a href="#" class="logo">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="71" height="28" fill="none" class="css-40f4ru">
+                    <a href="/" class="logo">
+                        <img src="/assets/images/index/header/logo.png" alt="" style="width: 9rem; height: 2rem;">
                             <path fill="#2F3438"
                                   d="M19.711 7.307h10.226c.759 0 1.374-.606 1.374-1.355s-.615-1.356-1.374-1.356h-8.852v-3.24C21.085.607 20.47 0 19.71 0c-.759 0-1.374.607-1.374 1.356v4.596c0 .749.615 1.355 1.374 1.355Z"></path>
                             <path fill="#2F3438" fill-rule="evenodd"
@@ -26,23 +26,52 @@
                     </a>
                 </div>
                 <div class="nav-menu">
-                    <a href="#" class="nav-menu"><span class="community">커뮤니티</span></a>
-                    <a href="#" class="nav-menu"><span class="shopping">쇼핑</span></a>
-                    <a href="#" class="nav-menu"><span class="interior">인테리어/생활</span></a>
+                    <a href="/" class="nav-menu community"><span class="community">커뮤니티</span></a>
+                    <a href="/product/" class="nav-menu shopping"><span class="shopping">쇼핑</span></a>
+                    <a href="/experts/" class="nav-menu notice"><span class="interior">공지사항</span></a>
                 </div>
                 <div class="--flex-stretch"></div>
                 <div class="nav-right">
                     <label class="search">
                         <input required type="text" minlength="1" maxlength="" name="search" placeholder="통합검색">
                     </label>
-                    <a href="#" class="nav-icon">🛒</a>
-                    <a href="#" class="nav-link">로그인</a>
-                    <a href="/user/register" class="nav-link">회원가입</a>
-                    <a href="#" class="nav-link">고객센터</a>
+                    <div class="user-true" th:if="${signedUser != null}">
+                        <a th:href="@{/user/myproductlike}" class="nav-link">
+                            <span><img src="/assets/images/index/header/scrap.png" alt=""></span>
+                        </a>
+                        <a th:href="@{/community/notifications/feed}" class="nav-link">
+                            <span><img src="/assets/images/index/header/notification.png" alt=""></span>
+                        </a>
+                        <a href="#" class="nav-link">
+                            <span><img src="/assets/images/index/header/cart.png" alt=""></span>
+                        </a>
+                        <div class="wrapper">
+                            <picture>
+                                <img th:src="@{/api/user/profile-image}"  alt="프로필"
+                                     width="50" height="50"
+                                     onerror="this.src='/assets/images/index/header/default-profile.png'"
+                                     th:style="'width: 3rem; height: 3rem;'"
+                                     id="profile">
+                            </picture>
+                            <ul class="menu" id="menu">
+                                <li><a href="/user/mypage">마이페이지 <span class="new">N</span></a></li>
+                                <li><a href="#">나의 쇼핑</a></li>
+                                <li><a href="/logout">로그아웃</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="user-false" th:if="${signedUser == null}">
+                        <a href="#" class="nav-icon">
+                            <img src="/assets/images/index/header/cart.png" alt="">
+                        </a>
+                        <a href="/user/login" class="nav-link">로그인</a>
+                        <a href="/user/register" class="nav-link">회원가입</a>
+                        <a href="#" class="nav-link">고객센터</a>
+                    </div>
                 </div>
                 <div class="button-container">
-                    <div class="button-object -color-blue">글쓰기
-                        <i class="fas fa-chevron-down"></i></div>
+                    <a th:if="${signedUser != null}" href="/community/posts/new" class="button-object -color-blue">글쓰기</a>
+                    <a th:if="${signedUser == null}" href="/user/login" class="button-object -color-blue">글쓰기</a>
                 </div>
                 <!--
                                 <ul class="nav-menu">
@@ -79,13 +108,9 @@
 <div id="mini-header" th:fragment="mini-header">
     <div class="container">
         <nav class="category">
-            <a href="#"><span>홈</span></a>
-            <a href="#">꿀템발견</a>
+            <a href="/"><span>홈</span></a>
             <a href="/community/interior">집꾸미기</a>
-            <a href="#">추천</a>
-            <a href="#">집들이</a>
-            <a href="#">집사진</a>
-            <a href="#">3D인테리어</a>
+            <a href="/community/product">꿀템발견</a>
         </nav>
     </div>
 </div>

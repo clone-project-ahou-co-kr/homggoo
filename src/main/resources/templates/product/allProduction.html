@@ -71,6 +71,7 @@
         <div class="all-product">
             <div class="line-box">
                 <a th:each="product : ${products}"
+                   th:if="${!product.sold}"
                    th:href="@{/product/production (category=${product.categoryCode}, id=${product.id})}">
                     <div class="box">
                         <div class="img">
