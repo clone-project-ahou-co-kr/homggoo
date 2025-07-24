@@ -3,11 +3,15 @@ package com.hgc.homggoo.config;
 import com.hgc.homggoo.services.oAuth.CustomOAuth2UserService;
 import com.hgc.homggoo.services.oAuth.OAuth2LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.web.SecurityFilterChain;
+
+import java.time.Duration;
 
 @Configuration  // ✅ 이 클래스는 Spring의 설정 클래스로 사용됨 (Spring Security 설정을 담당)
 public class SecurityConfig {
