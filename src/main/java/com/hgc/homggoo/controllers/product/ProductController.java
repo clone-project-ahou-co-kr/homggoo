@@ -60,7 +60,7 @@ public class ProductController {
 
         if (signedUser != null) {
             boolean liked = this.productService.isLikedByUser(id, signedUser.getEmail());
-            UserEntity signed = this.productService.getUserEmail(signedUser.getEmail());
+            UserEntity signed = this.productService.getUserEmail(signedUser);
             List<ProductVo> products = this.productService.selectByUserEmail(signedUser.getEmail());
 
             if (productId != null) {
@@ -83,7 +83,7 @@ public class ProductController {
                                       @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
                                       Model model) {
         ProductVo productId = this.productService.getById(id);
-        UserEntity signed = this.productService.getUserEmail(signedUser.getEmail());
+        UserEntity signed = this.productService.getUserEmail(signedUser);
         model.addAttribute("user", signed);
         model.addAttribute("product", productId);
         return "product/modifyProduct";
@@ -105,7 +105,7 @@ public class ProductController {
     @RequestMapping(value = "/newProduct", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String getNewProduct(@SessionAttribute(value = "signedUser")UserEntity signedUser,
                                 Model model) {
-        UserEntity signed = this.productService.getUserEmail(signedUser.getEmail());
+        UserEntity signed = this.productService.getUserEmail(signedUser);
         model.addAttribute("user", signed);
         return "product/newProduct";
     }
