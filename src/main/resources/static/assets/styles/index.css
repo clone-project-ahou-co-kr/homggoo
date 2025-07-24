@@ -68,7 +68,7 @@
 }
 #header .main-nav > .nav > .button-container > .button-object {
   font-size: 0.875rem !important;
-  background-color: #0198ED;
+  background-color: #0478f8;
 }
 #header .main-nav > .nav > .button-container > .fas {
   color: white;
@@ -119,6 +119,12 @@
 #header .main-nav > .nav > .nav-right > .stretch {
   flex-grow: 1;
   flex-shrink: 1;
+}
+#header .main-nav > .nav > .nav-right > .remain {
+  font-size: 15px;
+}
+#header .main-nav > .nav > .nav-right > .remainTime {
+  font-size: 15px;
 }
 #header .main-nav > .nav > .nav-right > .search > input[name=search] {
   background: url("/assets/images/index/header/search-icon.png") no-repeat left center;
@@ -384,12 +390,12 @@
   flex-shrink: 1;
 }
 #mini-header > .container > .category > a:hover {
-  color: #0aa5ff;
+  color: #0478f8;
   transition: none;
 }
 #mini-header > .container > .category > .active {
-  color: #0aa5ff;
-  border-bottom: 0.0625rem solid #0aa5ff;
+  color: #0478f8;
+  border-bottom: 0.0625rem solid #0478f8;
   animation-delay: 0ms;
   transition: none;
 }
@@ -455,6 +461,7 @@
   justify-content: center;
   flex-wrap: nowrap;
   gap: 1rem;
+  width: 8rem;
   padding: 1rem 0.5rem;
   cursor: pointer;
   margin-bottom: 2rem;

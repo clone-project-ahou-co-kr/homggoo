@@ -91,6 +91,14 @@ $bg-light: #f8f9fa;
 
       > .nav-right {
         @include flex(row, center, center);
+        > .remain {
+          font-size: 15px;
+        }
+
+        > .remainTime {
+          font-size: 15px;
+        }
+
         > .search {
           > input[name="search"] {
             background: url("/assets/images/index/header/search-icon.png") no-repeat left center;
