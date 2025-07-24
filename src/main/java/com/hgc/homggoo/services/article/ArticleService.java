@@ -1,5 +1,7 @@
 package com.hgc.homggoo.services.article;
 
+import com.hgc.homggoo.entities.notification.NotificationEntity;
+import com.hgc.homggoo.mappers.notification.NotificationMapper;
 import com.hgc.homggoo.mappers.user.UserMapper;
 import com.hgc.homggoo.results.Results;
 import com.hgc.homggoo.vos.ArticleVo;
@@ -23,12 +25,14 @@ import java.time.LocalDateTime;
 public class ArticleService {
     private final ArticleMapper articleMapper;
     private final ArticleUserLikeMapper articleUserLikeMapper;
+    private final NotificationMapper notificationMapper;
     private final UserMapper userMapper;
 
     @Autowired
-    public ArticleService(ArticleMapper articleMapper, ArticleUserLikeMapper articleUserLikeMapper, UserMapper userMapper) {
+    public ArticleService(ArticleMapper articleMapper, ArticleUserLikeMapper articleUserLikeMapper, NotificationMapper notificationMapper, UserMapper userMapper) {
         this.articleMapper = articleMapper;
         this.articleUserLikeMapper = articleUserLikeMapper;
+        this.notificationMapper = notificationMapper;
         this.userMapper = userMapper;
     }
 
@@ -60,10 +64,24 @@ public class ArticleService {
         article.setCreatedAt(LocalDateTime.now());
         article.setModifiedAt(LocalDateTime.now());
         article.setDeleted(false);
+        this.articleMapper.insert(article);
 
-        return this.articleMapper.insert(article) > 0 ?
-                ResultTuple.<ArticleEntity>builder().result(CommonResult.SUCCESS).payload(article).build() :
-                ResultTuple.<ArticleEntity>builder().result(CommonResult.FAILURE).build();
+        int rowCount = this.articleMapper.insert(article);
+        if (rowCount == 0) {
+            return ResultTuple.<ArticleEntity>builder().result(CommonResult.FAILURE).build();
+        }
+        
+        // 게시글 등록 알림
+        NotificationEntity notification = NotificationEntity.builder()
+                .receiverEmail(article.getUserEmail())
+                .articleId(article.getId())
+                .createdAt(LocalDateTime.now())
+                .type("article")
+                .build();
+        this.notificationMapper.insert(notification);
+
+        return ResultTuple.<ArticleEntity>builder().result(CommonResult.SUCCESS).payload(article).build();
+
     }
 
     public Boolean articleLike(UserEntity signedUser, int articleId) {

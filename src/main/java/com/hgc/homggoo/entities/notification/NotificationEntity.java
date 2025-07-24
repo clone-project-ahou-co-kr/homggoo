@@ -17,4 +17,5 @@ public class NotificationEntity {
     private int articleId;
     private LocalDateTime createdAt;
     private boolean isDeleted;
+    private String type;
 }

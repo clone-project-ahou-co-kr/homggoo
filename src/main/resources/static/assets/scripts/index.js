@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const $header = document.getElementById('header');
     const $profile = document.getElementById('profile');
     const $menu = document.getElementById('menu');
     const miniHeader = document.getElementById('mini-header');
@@ -79,4 +80,52 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    const sessionTimeout = () => {
+
+        const xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState !== XMLHttpRequest.DONE) {
+                return;
+            }
+            if (xhr.status < 200 || xhr.status >= 300) {
+                dialog.showSimpleOk('오류', '요청을 처리하는 도중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.', {
+                    onClickCallback: () => location.reload()
+                });
+                return;
+            }
+
+            const response = JSON.parse(xhr.responseText);
+            const $time = document.getElementById('remainTime');
+            if ($time) {
+                let remaining = response.remaining; // 단위: 초
+
+                $time.innerText = formatTime(remaining);
+
+                // 1초마다 업데이트
+                const timer = setInterval(() => {
+                    remaining--;
+                    if (remaining <= 0) {
+                        clearInterval(timer);
+                        $time.innerText = "세션 만료됨";
+                        return;
+                    }
+                    $time.innerText = formatTime(remaining);
+                }, 1000);
+            }
+
+        }
+        xhr.open('GET','/api/session-info/');
+        xhr.send();
+    }
+
+
+    const formatTime = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const sec = seconds % 60;
+        return `${minutes}분 ${sec < 10 ? '0' + sec : sec}초`;
+    }
+
+    sessionTimeout();
 });

@@ -37,6 +37,7 @@ public class NotificationController {
                 obj.put("articleId", result.getArticleId());
                 obj.put("email", signedUser.getEmail());
                 obj.put("createdAt", result.getCreatedAt());
+                obj.put("type", result.getType());
                 response.put(obj);
             }
         }

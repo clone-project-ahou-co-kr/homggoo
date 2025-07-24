@@ -14,6 +14,7 @@ const $favoriteSvg = $favorite.querySelector(':scope > svg');
 const productData = document.getElementById('productData');
 const ownerEmail = productData.dataset.ownerEmail;
 const loggedEmail = productData.dataset.loggedEmail;
+const nickname = productData.dataset.nickname;
 
 $favorite.addEventListener('click', (e) => {
     e.preventDefault();
@@ -155,12 +156,39 @@ $payButton.addEventListener('click', () => {
                         merchant_uid: `IMP-${Date.now()}`,
                         name: productTitle,
                         amount: productPrice,
-                        buyer_email: 'dbswjdgus94@naver.com',
-                        buyer_name: '윤정현'
+                        buyer_email: loggedEmail,
+                        buyer_name: nickname
                     }, (resp) => {
                         if (resp.success === true) {
-                            dialog.showSimpleOk('상품 결제', '상품 결제완료!');
-                            location.reload();
+                            const xhr = new XMLHttpRequest();
+                            const formData = new FormData();
+                            const url = new URL(location.href);
+                            const id = url.searchParams.get("id");
+                            formData.append("id", id);
+                            xhr.onreadystatechange = () => {
+                                if (xhr.readyState !== XMLHttpRequest.DONE) {
+                                    return;
+                                }
+                                if (xhr.status < 200 || xhr.status >= 300) {
+                                    dialog.showSimpleOk('오류', '요청을 처리하는 도중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.', {
+                                        onClickCallback: () => location.reload()
+                                    });
+                                    return;
+                                }
+                                const response = JSON.parse(xhr.responseText);
+                                switch (response.result) {
+                                    case 'success':
+                                        dialog.showSimpleOk('상품 결제', '상품 결제완료!');
+                                        break;
+                                    case 'failure' :
+                                        dialog.showSimpleOk('상품 결재', '상품 결재실패!')
+                                        break;
+                                    default :
+                                        dialog.showSimpleOk('상품 결재', '알 수 없는 이유로 상품 결재가 실패하였습니다. 잠시후 다시 시도해 주세요.')
+                                }
+                            };
+                            xhr.open('PATCH', '/api/posts/patchProduct');
+                            xhr.send(formData);
                         } else {
                             dialog.showSimpleOk('상품 결제', `${resp.error_msg}`);
                         }

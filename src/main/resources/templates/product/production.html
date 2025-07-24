@@ -30,6 +30,7 @@
          th:if="${product != null}"
          th:data-owner-email="${product.userEmail}"
          th:data-logged-email="${user != null ? user.email : ''}"
+         th:data-nickname="${product.nickname}"
          hidden>
     </div>
     <section class="img-section">

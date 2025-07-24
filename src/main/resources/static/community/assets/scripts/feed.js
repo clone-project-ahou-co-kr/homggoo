@@ -31,16 +31,28 @@ const drawList = (notifications) => {
     }
 
     let html = '';
-    for (const notification of notifications) {
-        html += `
-            <div class="comment info">
-                <img src="/community/assets/images/comment.png" alt="" class="favicon">
-                <a class="content" href="/community/posts?id=${notification.articleId}">
-                    <span>커뮤니티에 내 게시글에 댓글이 달렸어요!</span>
-                    <span>${getRelativeTime(notification.createdAt)}</span>
-                </a>
-            </div>
-        `;
+    for (const notification of notifications.slice(-10).reverse()) {
+        if (notification.type === 'comment') {
+            html += `
+                <div class="comment info">
+                    <img src="/community/assets/images/comment.png" alt="" class="favicon">
+                    <a class="content" href="/community/posts?id=${notification.articleId}">
+                        <span>커뮤니티에 내 게시글에 댓글이 달렸어요!</span>
+                        <span>${getRelativeTime(notification.createdAt)}</span>
+                    </a>
+                </div>
+            `;
+        } else if (notification.type === 'article') {
+            html += `
+                <div class="comment info">
+                    <img src="/community/assets/images/comment.png" alt="" class="favicon">
+                    <a class="content" href="/community/posts?id=${notification.articleId}">
+                        <span>커뮤니티에 내 게시글이 등록되었어요!</span>
+                        <span>${getRelativeTime(notification.createdAt)}</span>
+                    </a>
+                </div>
+            `;
+        }
     }
 
     $info.innerHTML = html;
@@ -59,6 +71,10 @@ const getRelativeTime = (createdAtString) => {
     if (diffMin < 60) return `${diffMin}분 전`;
     if (diffHour < 24) return `${diffHour}시간 전`;
     return `${diffDay}일 전`;
+}
+
+const deleteInfo = () => {
+
 }
 
 feed();

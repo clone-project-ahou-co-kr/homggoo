@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<script defer src="/assets/scripts/index.js" type="text/javascript"></script>
 <header id="header" th:fragment="header">
 <!--    <div th:text="${signedUser}"></div>
     <img th:src="@{/api/user/profile-image}" alt="프로필 이미지" />-->
@@ -32,9 +31,11 @@
                 </div>
                 <div class="--flex-stretch"></div>
                 <div class="nav-right">
-                    <label class="search">
+                    <span class="remain" th:if="${signedUser != null}">남은 로그인 시간&nbsp:&nbsp</span>
+                    <span id="remainTime" th:if="${signedUser != null}">분</span>
+                    <!--<label class="search">
                         <input required type="text" minlength="1" maxlength="" name="search" placeholder="통합검색">
-                    </label>
+                    </label>-->
                     <div class="user-true" th:if="${signedUser != null}">
                         <a th:href="@{/user/myproductlike}" class="nav-link">
                             <span><img src="/assets/images/index/header/scrap.png" alt=""></span>

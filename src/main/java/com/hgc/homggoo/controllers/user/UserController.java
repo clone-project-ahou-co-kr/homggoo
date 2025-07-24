@@ -139,10 +139,12 @@ public class UserController {
             return "redirect:/user/login"; // 또는 401 페이지로 리다이렉트
         }
         List<ProductVo> products = this.productService.selectByUserEmail(signedUser.getEmail());
+        List<ProductVo> productSize = this.productService.selectByUserEmail(signedUser.getEmail());
         if (products.size() > 3) {
             products = products.subList(0, 3); // 앞 3개만
         }
         model.addAttribute("products", products);
+        model.addAttribute("productSize", productSize);
         model.addAttribute("signedUser", signedUser);
         return "user/mypage";
     }

@@ -22,7 +22,8 @@
 }
 #main-content .carousel-container .carousel-wrapper .carousel-track {
   display: flex;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.5s ease-in-out;
+  width: 100%;
 }
 #main-content .carousel-container .carousel-wrapper .carousel-track .carousel-item {
   min-width: 33.3333333333%;

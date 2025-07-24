@@ -6,10 +6,12 @@
             useGeneratedKeys="true"
             keyColumn="id"
             keyProperty="id">
-        insert into `homggoo`.`product` (`user_email`, `title`, `category_code`, `description`, `price`, `view_count`, `like_count`,
+        insert into `homggoo`.`product` (`user_email`, `title`, `category_code`, `description`, `price`, `view_count`,
+                                         `is_sold`,
                                          `created_at`, `updated_at`, `image`)
-        values (#{product.userEmail}, #{product.title}, #{product.categoryCode}, #{product.description}, #{product.price}, #{product.viewCount},
-                #{product.likeCount}, #{product.createdAt}, #{product.updatedAt}, #{product.image})
+        values (#{product.userEmail}, #{product.title}, #{product.categoryCode}, #{product.description},
+                #{product.price}, #{product.viewCount},
+                #{product.isSold}, #{product.createdAt}, #{product.updatedAt}, #{product.image})
     </insert>
 
     <update id="update">
@@ -19,10 +21,17 @@
             `description` = #{product.description},
             `price`       = #{product.price},
             `view_count`  = #{product.viewCount},
-            `like_count`  = #{product.likeCount},
+            `is_sold`     = #{product.isSold},
             `created_at`  = #{product.createdAt},
             `updated_at`  = #{product.updatedAt},
-            `image` = #{product.image}
+            `image`       = #{product.image}
+        where `id` = #{product.id}
+        limit 1
+    </update>
+    <update id="updateBuyProduct">
+        update `homggoo`.`product`
+        set `is_sold`  = #{product.isSold},
+            updated_at = #{product.updatedAt}
         where `id` = #{product.id}
         limit 1
     </update>
@@ -48,42 +57,36 @@
         where `email` = #{signedUser}
     </select>
     <select id="selectById" resultType="com.hgc.homggoo.vos.ProductVo">
-        select `t0`.`id`          as `id`,
-               `t0`.`user_email`  as `userEmail`,
+        select `t0`.`id`            as `id`,
+               `t0`.`user_email`    as `userEmail`,
                `t0`.`category_code` as `categoryCode`,
-               `t0`.`title`       as `title`,
-               `t0`.`description` as `description`,
-               `t0`.`price`       as `price`,
-               `t0`.`view_count`  as `viewCount`,
-               `t0`.`like_count`  as `likeCount`,
-               `t0`.`created_at`  as `createdAt`,
-               `t0`.`updated_at`  as `updatedAt`,
-               `t0`.`image`       as `image`,
-               `t1`.`nickname`    as `nickname`
+               `t0`.`title`         as `title`,
+               `t0`.`description`   as `description`,
+               `t0`.`price`         as `price`,
+               `t0`.`view_count`    as `viewCount`,
+               `t0`.`is_sold`       as `isSold`,
+               `t0`.`created_at`    as `createdAt`,
+               `t0`.`updated_at`    as `updatedAt`,
+               `t0`.`image`         as `image`,
+               `t1`.`nickname`      as `nickname`
         from `homggoo`.`product` as `t0`
                  join `homggoo`.`users` `t1` on `t0`.`user_email` = `t1`.`email`
         where `id` = #{id}
     </select>
     <select id="selectAll" resultType="com.hgc.homggoo.vos.ProductVo">
-        select `id`          as `id`,
-               `user_email`  as `userEmail`,
+        select `id`            as `id`,
+               `user_email`    as `userEmail`,
                `category_code` as `categoryCode`,
-               `title`       as `title`,
-               `description` as `description`,
-               `price`       as `price`,
-               `view_count`  as `viewCount`,
-               `like_count`  as `likeCount`,
-               `created_at`  as `createdAt`,
-               `updated_at`  as `updatedAt`,
-               `image`       as `image`
+               `title`         as `title`,
+               `description`   as `description`,
+               `price`         as `price`,
+               `view_count`    as `viewCount`,
+               `is_sold`       as `isSold`,
+               `created_at`    as `createdAt`,
+               `updated_at`    as `updatedAt`,
+               `image`         as `image`
         from `homggoo`.`product`
         order by `created_at` desc
-    </select>
-
-    <select id="countByUserEmail" resultType="java.lang.Integer">
-        SELECT COUNT(0)
-        FROM `homggoo`.`product`
-        WHERE `user_email` = #{userEmail}
     </select>
 
     <select id="selectByIdAndCategory" resultType="com.hgc.homggoo.vos.ProductVo">
@@ -94,7 +97,7 @@
                `t0`.`description`   as `description`,
                `t0`.`price`         as `price`,
                `t0`.`view_count`    as `viewCount`,
-               `t0`.`like_count`    as `likeCount`,
+               `t0`.`is_sold`       as `isSold`,
                `t0`.`created_at`    as `createdAt`,
                `t0`.`updated_at`    as `updatedAt`,
                `t0`.`image`         as `image`,
@@ -113,7 +116,7 @@
                `description`   as `description`,
                `price`         as `price`,
                `view_count`    as `viewCount`,
-               `like_count`    as `likeCount`,
+               `is_sold`       as `isSold`,
                `created_at`    as `createdAt`,
                `updated_at`    as `updatedAt`,
                `image`
@@ -131,7 +134,7 @@
                `description`   as `description`,
                `price`         as `price`,
                `view_count`    as `viewCount`,
-               `like_count`    as `likeCount`,
+               `is_sold`       as `isSold`,
                `created_at`    as `createdAt`,
                `updated_at`    as `updatedAt`
         from `homggoo`.`product`
@@ -147,7 +150,7 @@
                `t0`.`description`   as `description`,
                `t0`.`price`         as `price`,
                `t0`.`view_count`    as `viewCount`,
-               `t0`.`like_count`    as `likeCount`,
+               `t0`.`is_sold`       as `isSold`,
                `t0`.`created_at`    as `createdAt`,
                `t0`.`updated_at`    as `updatedAt`,
                `t0`.`image`         as `image`

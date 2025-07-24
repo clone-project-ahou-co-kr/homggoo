@@ -23,9 +23,7 @@ const loadArticle = () => {
         }
         const response = JSON.parse(xhr.responseText);
         // alert(response.userEmail)
-        console.log('signedUser:', $signedUser.value);
-        console.log('userEmail:', response.userEmail);
-        console.log($signedUser.value === response.userEmail);
+
         switch (response.result) {
             case 'success':
                 drawArticle(response.id, response.title, response.content, response.view, response.createdAt, response.likeCount, response.nickname, response.profile, response.userEmail, response.categoryId);
@@ -217,6 +215,7 @@ const loadComment = () => {
 }
 
 const appendComments = (targetComments, wholeComments, step) => {
+    $main[name="comment"].value = '';
     for (const comment of targetComments) {
         const isReply = comment.commentId !== null;
         const replyTag = isReply ? `<span style="color: #0AA5FF;">@${comment.userNickname} &nbsp;</span>` : '';

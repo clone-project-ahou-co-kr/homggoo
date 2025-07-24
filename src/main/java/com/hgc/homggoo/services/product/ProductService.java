@@ -76,6 +76,16 @@ public class ProductService {
         return this.productMapper.update(product) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 
+    public CommonResult buyProduct(ProductEntity product, UserEntity signedUser) {
+        if (signedUser == null || signedUser.isDeleted()) {
+            return CommonResult.FAILURE_ABSENT;
+        }
+
+        product.setSold(true);
+        product.setUpdatedAt(LocalDateTime.now());
+        return this.productMapper.updateBuyProduct(product) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
+
     public CommonResult deleteProduct(ProductEntity product, UserEntity signedUser) {
         if (signedUser == null || signedUser.isDeleted()) {
             return CommonResult.FAILURE_ABSENT;
@@ -92,10 +102,6 @@ public class ProductService {
 
     public List<ProductVo> getProductsByCategory(String category) {
         return this.productMapper.selectByCategory(category);
-    }
-
-    public int countProduct(String email) {
-        return this.productMapper.countByUserEmail(email);
     }
 
     public UserEntity getUserEmail(String email) {
