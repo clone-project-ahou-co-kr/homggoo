@@ -204,10 +204,13 @@
                 }
 
                 > .title {
-
                   width: 100%;
                   font-size: 0.875rem;
                   text-align: left;
+
+                  &.sold {
+                    color: #cccccc;
+                  }
                 }
 
                 > .price {
@@ -215,6 +218,11 @@
                   font-size: 0.875rem;
                   font-weight: 800;
                   text-align: left;
+
+                  &.sold {
+                    color: #cccccc;
+                    text-decoration: line-through;
+                  }
                 }
 
                 &:hover{

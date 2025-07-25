@@ -2,6 +2,7 @@ package com.hgc.homggoo.mappers.product;
 
 import com.hgc.homggoo.entities.product.ProductEntity;
 import com.hgc.homggoo.entities.user.UserEntity;
+import com.hgc.homggoo.vos.ProductBuyVo;
 import com.hgc.homggoo.vos.ProductVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -36,5 +37,9 @@ public interface ProductMapper {
     List<ProductVo> selectByCategory(@Param("category") String category);
 
     List<ProductVo> selectLikedProductsByUserEmail(@Param("userEmail") String userEmail);
+
+    List<ProductBuyVo> selectBuyProductsByUserEmail(@Param("userEmail") String userEmail);
+
+    int selectCountByIsNotSold(@Param(value = "categoryCode")String category);
 
 }

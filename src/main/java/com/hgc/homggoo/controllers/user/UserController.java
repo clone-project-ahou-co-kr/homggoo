@@ -1,6 +1,7 @@
 package com.hgc.homggoo.controllers.user;
 
 import com.hgc.homggoo.entities.images.ImageEntity;
+import com.hgc.homggoo.entities.product.ProductOrderEntity;
 import com.hgc.homggoo.entities.user.UserEntity;
 import com.hgc.homggoo.results.ResultTuple;
 import com.hgc.homggoo.services.article.ArticleService;
@@ -11,6 +12,7 @@ import com.hgc.homggoo.services.product.ProductService;
 import com.hgc.homggoo.services.user.UserService;
 import com.hgc.homggoo.vos.ArticleVo;
 import com.hgc.homggoo.vos.NoticeVo;
+import com.hgc.homggoo.vos.ProductBuyVo;
 import com.hgc.homggoo.vos.ProductVo;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,13 +150,34 @@ public class UserController {
         if (signedUser == null) {
             return "redirect:/user/login"; // 또는 401 페이지로 리다이렉트
         }
+
         List<ProductVo> products = this.productService.selectByUserEmail(signedUser.getEmail());
-        List<ProductVo> productSize = this.productService.selectByUserEmail(signedUser.getEmail());
+        List<ProductBuyVo> productOrders = this.productService.selectOrderProduct(signedUser);
+
+        int productCount = products.size();
+        int orderCount = productOrders.size();
+
         if (products.size() > 3) {
             products = products.subList(0, 3); // 앞 3개만
+        } else {
+            List<ProductVo> productSize = this.productService.selectByUserEmail(signedUser.getEmail());
+            model.addAttribute("productSize", productSize);
         }
+
+        if (productOrders.size() > 3) {
+            productOrders = productOrders.subList(0, 3);
+        } else {
+            List<ProductBuyVo> productOrderSize = this.productService.selectOrderProduct(signedUser);
+            model.addAttribute("productOrderSize", productOrderSize);
+        }
+
         model.addAttribute("products", products);
-        model.addAttribute("productSize", productSize);
+        model.addAttribute("productOrders", productOrders);
+
+        model.addAttribute("productCount", productCount);
+        model.addAttribute("price", productOrders);
+        model.addAttribute("orderCount", orderCount);
+
         model.addAttribute("signedUser", signedUser);
         return "user/mypage";
     }

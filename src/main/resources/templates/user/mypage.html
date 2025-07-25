@@ -66,7 +66,7 @@
             <div class="content-container">
                 <div class="product-info">
                     <span class="caption">내 상품</span>
-                    <span class="number" th:text="${productSize.size()} +'개' ">0</span>
+                    <span class="number" th:text="${productCount} +'개' ">0</span>
                 </div>
                 <div class="divider"></div>
                 <div class="product-container">
@@ -80,8 +80,10 @@
                             <a th:href="@{/product/production (category=${product.categoryCode}, id=${product.id})}"
                                th:each="product : ${products}">
                                 <img th:src="@{/product/image(id=${product.id})}" alt="">
-                                <span class="title" th:text="${product.title}">제목</span>
-                                <span class="price" th:text="${product.formattedPrice} + '원'">가격</span>
+                                <span class="title" th:text="${product.title}"
+                                      th:classappend="${product.isSold() ? 'sold' : ''}">제목</span>
+                                <span class="price" th:text="${product.formattedPrice + '원'}"
+                                      th:classappend="${product.isSold() ? 'sold' : ''}">가격</span>
                             </a>
                         </li>
                     </ul>
@@ -90,7 +92,7 @@
             <div class="content-container">
                 <div class="product-info">
                     <span class="caption">구매 상품</span>
-                    <span class="number" th:text="${productSize.size()} +'개' ">0</span>
+                    <span class="number" th:text="${orderCount} +'개' ">0</span>
                 </div>
                 <div class="divider"></div>
                 <div class="product-container">
@@ -101,11 +103,11 @@
                     </div>
                     <ul class="list">
                         <li class="item">
-                            <a th:href="@{/product/production (category=${product.categoryCode}, id=${product.id})}"
-                               th:each="product : ${products}">
-                                <img th:src="@{/product/image(id=${product.id})}" alt="">
-                                <span class="title" th:text="${product.title}">제목</span>
-                                <span class="price" th:text="${product.formattedPrice} + '원'">가격</span>
+                            <a th:href="@{/product/production (category=${productOrder.category}, id=${productOrder.productId})}"
+                               th:each="productOrder : ${productOrders}">
+                                <img th:src="@{/product/image(id=${productOrder.productId})}" alt="">
+                                <span class="title" th:text="${productOrder.title}">제목</span>
+                                <span class="price" th:text="${productOrder.formattedPrice} + '원'">가격</span>
                             </a>
                         </li>
                     </ul>

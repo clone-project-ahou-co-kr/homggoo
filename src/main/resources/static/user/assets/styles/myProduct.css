@@ -109,11 +109,18 @@
   font-size: 1rem;
   text-align: left;
 }
+#main-content > .content-container > .product-container > .list > .item > a > .title.sold {
+  color: #cccccc;
+}
 #main-content > .content-container > .product-container > .list > .item > a > .price {
   width: 100%;
   font-size: 1.25rem;
   font-weight: 800;
   text-align: left;
+}
+#main-content > .content-container > .product-container > .list > .item > a > .price.sold {
+  color: #cccccc;
+  text-decoration: line-through;
 }
 #main-content > .content-container > .product-container > .list > .item > a:hover > img {
   transform: scale(1.05);
