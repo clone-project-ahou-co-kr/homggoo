@@ -39,7 +39,7 @@ $subject.addEventListener('change', () => {
 
         $subject.style.color = "black";
         $posts.style.color = "black";
-        $button.style.background = "rgb(53, 197, 240)";
+        $button.style.background = "#0478f8";
         $button.style.border = "1px solid rgb(53, 197, 240)";
         $button.style.color = "white";
     }
