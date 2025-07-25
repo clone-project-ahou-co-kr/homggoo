@@ -49,10 +49,10 @@ $bg-light: #f8f9fa;
       > .button-container {
         @include flex(column, center, center, 0.25rem);
 
-        > .button-object {
-          font-size: 0.875rem !important;
-          background-color: #0478f8;
-        }
+        //> .button-object {
+        //  font-size: 0.875rem !important;
+        //  background-color: #0478f8;
+        //}
 
         > .fas {
           color: white;

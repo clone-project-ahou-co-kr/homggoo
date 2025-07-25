@@ -66,10 +66,6 @@
   flex-grow: 1;
   flex-shrink: 1;
 }
-#header .main-nav > .nav > .button-container > .button-object {
-  font-size: 0.875rem !important;
-  background-color: #0478f8;
-}
 #header .main-nav > .nav > .button-container > .fas {
   color: white;
 }
