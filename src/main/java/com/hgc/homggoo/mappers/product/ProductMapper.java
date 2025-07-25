@@ -5,12 +5,16 @@ import com.hgc.homggoo.entities.user.UserEntity;
 import com.hgc.homggoo.vos.ProductVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
 @Mapper
 public interface ProductMapper {
     int insert(@Param(value = "product")ProductEntity product);
+
+    int insertProductOrder(@Param(value = "product")ProductEntity product,
+                           @Param(value = "signedUser")UserEntity signedUser);
 
     int update(@Param(value = "product")ProductEntity product);
 

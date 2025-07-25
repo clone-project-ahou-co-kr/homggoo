@@ -12,6 +12,14 @@
                 #{product.isSold}, #{product.createdAt}, #{product.updatedAt}, #{product.image})
     </insert>
 
+    <insert id="insertProductOrder"
+            useGeneratedKeys="true"
+            keyColumn="id"
+            keyProperty="id">
+        insert into `homggoo`.`product_order` (`product_id`, `buyer_email`, `cancel`)
+        values (#{product.id}, #{signedUser.email}, false)
+    </insert>
+
     <update id="update">
         update `homggoo`.`product`
         set `user_email`  = #{product.userEmail},
