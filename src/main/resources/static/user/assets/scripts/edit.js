@@ -128,3 +128,39 @@ $retireForm.querySelector(':scope>.confirm').addEventListener('click', (e) => {
     xhr.open('PATCH', '/api/user/mypage/edit');
     xhr.send(formData);
 })
+$editForm.querySelector(':scope>.modify-btn').addEventListener('click',(e)=>{
+    e.preventDefault();
+    const nickname = $editForm.querySelector(':scope>.nickname-container>.label-object>input[name="nickname"]').value;
+
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('newNickname', nickname);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState !== XMLHttpRequest.DONE) {
+            return;
+        }
+        if (xhr.status < 200 || xhr.status >= 300) {
+            dialog.showSimpleOk('오류', '요청을 처리하는 도중 오류가 발생하였습니다. 잠시 후 다시 시도해 주세요.', {
+                onClickCallback: () => location.reload()
+            });
+            return;
+        }
+        const response = JSON.parse(xhr.responseText);
+        switch (response.results){
+            case'failure':
+                dialog.showSimpleOk('수정','수정에 실패했습니다.');
+                break;
+            case'failure_duplicate':
+                dialog.showSimpleOk('수정','닉네임이 중복됩니다.');
+                break;
+            case'success':
+                dialog.showSimpleOk('수정','수정 완료했습니다.');
+                break;
+            default:
+                break;
+        }
+
+    }
+    xhr.open('PATCH', '/api/user/edit-update');
+    xhr.send(formData);
+})

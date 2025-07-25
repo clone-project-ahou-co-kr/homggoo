@@ -6,6 +6,7 @@
 $button-field-height: 2rem;
 
 .--object-button {
+  font-size: 0.875rem;
   @mixin buttonEffect($background-color, $color, $factor) {
     background-color: $background-color;
     color: $color;
@@ -55,6 +56,10 @@ $button-field-height: 2rem;
     @include buttonEffect(#e74c3c, #fafcfe, -2.5%);
   }
 
+  &.-color-yellow {
+    @include buttonEffect(#ffc357, #fafcfe, -2.5%);
+  }
+
   > .---icon {
     width: 0.9375rem;
     height: 0.9375rem;
@@ -66,7 +71,7 @@ $button-field-height: 2rem;
 .button-object {
   width: 100%;
   padding: 0.75rem;
-  background-color: #0478F8;
+  background-color: #ffc357;
   color: #fff;
   font-size: 1rem;
   font-weight: 600;

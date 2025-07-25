@@ -368,7 +368,7 @@ const loadNotice = () => {
                   <td class="nickname">${user.nickname}</td>
                   <td class="providerType">${user.providerType}</td>
                   <td class="created">${user.createdAt.split('T')[0]}</td>
-                  <td class="deleted">${user.isDeleted ? '탈퇴됨' : '정상'}</td>
+                  <td class="deleted" style="color:${user.deleted ? 'red' : 'inherit'};">${user.deleted ? '탈퇴' : '정상'}</td>
                 </tr>
             `;
             $userTbody.insertAdjacentHTML('beforeend', rowHTML);

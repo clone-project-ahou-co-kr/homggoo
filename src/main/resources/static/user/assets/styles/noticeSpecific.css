@@ -107,5 +107,8 @@
   border-radius: 0.25rem;
   padding: 0.5rem;
 }
+#main-content > .info-section > .inner-container > .back {
+  width: auto !important;
+}
 
 /*# sourceMappingURL=noticeSpecific.css.map */

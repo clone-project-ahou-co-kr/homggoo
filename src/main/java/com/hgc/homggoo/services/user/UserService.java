@@ -261,4 +261,24 @@ public class UserService {
                 .payload(dbSearch).build();
     }
 
+
+    public Results updateInfo(UserEntity signedUser,String newNickname) {
+        if (signedUser == null) {
+            return CommonResult.FAILURE;
+        }
+        if (isNicknameAvailable(signedUser.getNickname()) == CommonResult.FAILURE) {
+            return CommonResult.FAILURE;
+        }
+        if(newNickname == null || newNickname.trim().isEmpty()) {
+            return CommonResult.FAILURE_ABSENT;
+        }
+        System.out.println(newNickname);
+        if (this.userMapper.selectCountByNickname(newNickname) > 0) {
+            return CommonResult.FAILURE_DUPLICATE;
+        }
+
+        signedUser.setNickname(newNickname);
+        signedUser.setModifiedAt(LocalDateTime.now());
+        return this.userMapper.update(signedUser) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
 }

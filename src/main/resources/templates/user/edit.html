@@ -18,6 +18,7 @@
 <header th:replace="~{fragments/header :: header}"></header>
 <div id="main-content">
     <div class="edit-container">
+
         <form novalidate id="edit-form">
             <div class="img-container">
                 <!--                todo profile-image 교환.-->
@@ -48,8 +49,7 @@
                       th:if="${signedUser.providerType.toString().equals('KAKAO')}"
                       th:text="'카카오로 가입한 계정이에요.'"></span>
             </div>
-            <button type="submit" class="button-object">수정하기</button>
-
+            <button type="submit" class="button-object modify-btn" name="modify">수정하기</button>
             <div class="divider"></div>
             <div class="retire-container">
                 <button class="button-object retire-button" name="retire">탈퇴하기</button>
@@ -64,7 +64,7 @@
                             <input type="hidden" name="emailSalt" class="salt">
                             <input required class="input-object password" name="emailCode" type="password"
                                    placeholder="인증코드를 입력해주세요" minlength="5" maxlength="50">
-                            <button class="--object-button -color-blue" name="emailCodeVerityButton" type="button">확인</button>
+                            <button class="--object-button -color-yellow" name="emailCodeVerityButton" type="button">확인</button>
                         </label>
                     </label>
                     <button type="button" class="button-object confirm">인증하기</button>
