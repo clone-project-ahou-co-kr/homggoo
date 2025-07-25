@@ -6,6 +6,7 @@ const $signedUser = document.getElementById('signedUser') ?? { value: '' };
 const $commentList = $main.querySelector('.comment-list');
 const $commentsCount = $main.querySelector(':scope > .layout > .comment-content > .title > .comment-count');
 const $sideCommentBtn = $main.querySelector(':scope > .side-actions > .icon-button.comment');
+const $title = document.getElementById('title');
 
 
 const loadArticle = () => {
@@ -56,6 +57,7 @@ const getRelativeTime = (createdAtString) => {
 
 const drawArticle = (id, title, content, view, createdAt, likeCount, nickname, profile, userEmail, categoryId) => {
     const $layoutContent = document.getElementById('drawArticle');
+    $title.innerText = title;
     let $category = '';
     switch (categoryId) {
         case "sub_popular":

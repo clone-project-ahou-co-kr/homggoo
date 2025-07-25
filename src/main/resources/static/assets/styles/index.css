@@ -413,12 +413,11 @@
   align-items: flex-start;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: nowrap;
-  gap: 2rem;
+  gap: 1rem;
   padding-top: 2rem;
   position: relative;
-  border-radius: 0.75rem;
   overflow: hidden;
 }
 #main-content > .hero-section > .hero-banner > * {
