@@ -7,6 +7,7 @@ import com.hgc.homggoo.mappers.product.ProductMapper;
 import com.hgc.homggoo.mappers.product.ProductUserLikeMapper;
 import com.hgc.homggoo.results.CommonResult;
 import com.hgc.homggoo.services.user.UserService;
+import com.hgc.homggoo.vos.ProductBuyVo;
 import com.hgc.homggoo.vos.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,14 @@ public class ProductService {
 
     public List<ProductVo> getLikedProductsByUser(String userEmail) {
         return this.productMapper.selectLikedProductsByUserEmail(userEmail);
+    }
+
+    public List<ProductBuyVo> selectOrderProduct(UserEntity signedUser) {
+        return this.productMapper.selectBuyProductsByUserEmail(signedUser.getEmail());
+    }
+
+    public int getIsNotSold(String categoryCode) {
+        return this.productMapper.selectCountByIsNotSold(categoryCode);
     }
 
     public ProductVo getByIdAndCategory(int id, String category) {

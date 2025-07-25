@@ -12,10 +12,7 @@
                 #{product.isSold}, #{product.createdAt}, #{product.updatedAt}, #{product.image})
     </insert>
 
-    <insert id="insertProductOrder"
-            useGeneratedKeys="true"
-            keyColumn="id"
-            keyProperty="id">
+    <insert id="insertProductOrder">
         insert into `homggoo`.`product_order` (`product_id`, `buyer_email`, `cancel`)
         values (#{product.id}, #{signedUser.email}, false)
     </insert>
@@ -165,5 +162,33 @@
         where `t1`.`user_email` = #{userEmail}
         order by `t1`.`created_at` desc
     </select>
+
+    <select id="selectBuyProductsByUserEmail" resultType="com.hgc.homggoo.vos.ProductBuyVo">
+        select `t0`.`id` as `id`,
+               `t0`.`product_id` as `productId`,
+               `t0`.`buyer_email` as `buyerEmail`,
+               `t0`.`cancel` as `cancel`,
+               `t0`.`created_at` as `createdAt`,
+               `t1`.`nickname` as `nickname`,
+               `t2`.`id` as `id`,
+               `t2`.`category_code` as `category`,
+               `t2`.`title` as `title`,
+               `t2`.`price` as `price`
+        from `homggoo`.`product_order` as `t0`
+                 join `homggoo`.`users` as `t1` on `t0`.`buyer_email` = `t1`.`email`
+                 join `homggoo`.`product` as `t2` on `t0`.`product_id` = `t2`.`id`
+        where `t0`.`buyer_email` = #{userEmail}
+        order by `t0`.`created_at` desc
+    </select>
+
+    <select id="selectCountByIsNotSold" resultType="java.lang.Integer">
+        select count(0)
+        from `homggoo`.`product`
+        where `is_sold` = false
+        <if test="categoryCode != null and categoryCode != ''">
+            and `category_code` = #{categoryCode}
+        </if>
+    </select>
+
 
 </mapper>

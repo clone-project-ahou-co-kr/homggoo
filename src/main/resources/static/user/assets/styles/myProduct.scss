@@ -65,6 +65,10 @@
               width: 100%;
               font-size: 1rem;
               text-align: left;
+
+              &.sold {
+                color: #cccccc;
+              }
             }
 
             > .price {
@@ -72,6 +76,11 @@
               font-size: 1.25rem;
               font-weight: 800;
               text-align: left;
+
+              &.sold {
+                color: #cccccc;
+                text-decoration: line-through;
+              }
             }
 
             &:hover{

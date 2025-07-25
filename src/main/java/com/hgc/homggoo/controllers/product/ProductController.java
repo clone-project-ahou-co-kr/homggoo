@@ -40,12 +40,12 @@ public class ProductController {
                          @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
                          Model model) {
         List<ProductVo> products;
-
         if (category == null || category.isBlank()) {
             products = this.productService.getAllProducts();
         } else {
             products = this.productService.getProductsByCategory(category);
         }
+        model.addAttribute("counts", this.productService.getIsNotSold(category));
         model.addAttribute("products", products);
         model.addAttribute("category", category);
         return "product/allProduction";
