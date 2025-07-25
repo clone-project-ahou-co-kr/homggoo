@@ -7,7 +7,7 @@
   height: 100%;
 
   > .mypage-container {
-    @include flex(row, center, center);
+    @include flex(row, center, center, 3rem);
     width: 100%;
     max-width: 78.5rem;
     min-height: calc(100vh - 15rem);
@@ -111,114 +111,67 @@
           }
         }
       }
-
-
     }
 
-    > .content-container {
-      @include flex(column, flex-start, flex-start, 0.5rem);
-      width: 43.75rem;
-      height: 37.5rem;
-      padding: 3.125rem 0 0;
-      margin: 0 auto;
+    > .view-category {
+      @include flex(column, flex-start, flex-start);
+      margin: 4rem 0;
+      > .content-container {
+        @include flex(column, flex-start, flex-start, 0.5rem);
+        width: 43.75rem;
+        height: 100%;
+        margin: 0 auto;
 
-      > .product-info {
-        @include flex(row, center, flex-start, 0.5rem);
-        width: 100%;
-        height: 3rem;
+        > .product-info {
+          @include flex(row, center, flex-start, 0.5rem);
+          width: 100%;
+          height: 3rem;
 
-        > .caption {
-          font-size: 1.5rem;
-          font-weight: 800;
-        }
+          > .caption {
+            font-size: 1.5rem;
+            font-weight: 800;
+          }
 
-        > .number {
-          color: #0198ED;
-          font-size: 1.5rem;
-          font-weight: 500;
-        }
-      }
-
-      .divider {
-        width: 100%;
-        border: none;
-        border-top: 0.2rem dotted #cccccc;
-        margin-top: 0.5rem;
-      }
-
-      > .product-container {
-        width: 100%;
-        height: calc(100% - 3rem);
-        position: relative;
-        padding: 0.625rem;
-        border-radius: 0.25rem;
-
-        > .more-box {
-          > label {
-            > .more {
-              @include flex(column, center, center);
-              cursor: pointer;
-              top: 18%;
-              right: 0;
-              width: 2.5rem;
-              height: 2.5rem;
-              border-radius: 999rem;
-              border: 1px solid #dadcdf;
-              background-color: #ffffff;
-              box-shadow: 0 1px 2px 0 rgba(0,0,0,.06);
-              color: #000000;
-              font-size: 1.25rem;
-              font-weight: 700;
-              position: absolute;
-
-              &:hover {
-                transform:scale(1.05);
-                transition-property: transform;
-                transition-duration: 175ms;
-                transition-timing-function: ease;
-              }
-            }
+          > .number {
+            color: #0198ED;
+            font-size: 1.5rem;
+            font-weight: 500;
           }
         }
 
-        > .list {
-          width: 11.875rem;
-          height: 15.5rem;
-          border-radius: 0.625rem;
-          padding:0.5rem;
+        .divider {
+          width: 100%;
+          border: none;
+          border-top: 0.2rem dotted #cccccc;
+          margin-top: 0.5rem;
+        }
 
-          > .item {
-            @include flex(row, flex-start, flex-start, 1rem);
-            width: 100%;
-            height: 100%;
+        > .product-container {
+          width: 100%;
+          height: calc(100% - 3rem);
+          position: relative;
+          padding: 0.625rem;
+          border-radius: 0.25rem;
 
-            a {
-              @include flex(column, center, center,0.6rem);
+          > .more-box {
+            > label {
+              > .more {
+                @include flex(column, center, center);
+                cursor: pointer;
+                top: 34%;
+                right: 0;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 999rem;
+                border: 1px solid #dadcdf;
+                background-color: #ffffff;
+                box-shadow: 0 1px 2px 0 rgba(0,0,0,.06);
+                color: #000000;
+                font-size: 1.25rem;
+                font-weight: 700;
+                position: absolute;
 
-              > img {
-                width: 12rem;
-                height: 12rem;
-                border-radius: 0.625rem;
-                object-fit: cover;
-                object-position: center;
-              }
-
-              > .title {
-
-                width: 100%;
-                font-size: 0.875rem;
-                text-align: left;
-              }
-
-              > .price {
-                width: 100%;
-                font-size: 0.875rem;
-                font-weight: 800;
-                text-align: left;
-              }
-
-              &:hover{
-                >img{
+                &:hover {
                   transform:scale(1.05);
                   transition-property: transform;
                   transition-duration: 175ms;
@@ -227,8 +180,56 @@
               }
             }
           }
-        }
 
+          > .list {
+            width: 11.875rem;
+            height: 15.5rem;
+            border-radius: 0.625rem;
+            padding:0.5rem;
+
+            > .item {
+              @include flex(row, flex-start, flex-start, 1rem);
+              width: 100%;
+              height: 100%;
+
+              a {
+                @include flex(column, center, center,0.6rem);
+
+                > img {
+                  width: 12rem;
+                  height: 12rem;
+                  border-radius: 0.625rem;
+                  object-fit: cover;
+                  object-position: center;
+                }
+
+                > .title {
+
+                  width: 100%;
+                  font-size: 0.875rem;
+                  text-align: left;
+                }
+
+                > .price {
+                  width: 100%;
+                  font-size: 0.875rem;
+                  font-weight: 800;
+                  text-align: left;
+                }
+
+                &:hover{
+                  >img{
+                    transform:scale(1.05);
+                    transition-property: transform;
+                    transition-duration: 175ms;
+                    transition-timing-function: ease;
+                  }
+                }
+              }
+            }
+          }
+
+        }
       }
     }
   }

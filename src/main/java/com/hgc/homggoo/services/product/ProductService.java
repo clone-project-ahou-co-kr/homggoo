@@ -83,7 +83,13 @@ public class ProductService {
 
         product.setSold(true);
         product.setUpdatedAt(LocalDateTime.now());
-        return this.productMapper.updateBuyProduct(product) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+
+        int updated = this.productMapper.updateBuyProduct(product);
+        if (updated > 0) {
+            this.productMapper.insertProductOrder(product, signedUser);
+            return CommonResult.SUCCESS;
+        }
+        return CommonResult.FAILURE;
     }
 
     public CommonResult deleteProduct(ProductEntity product, UserEntity signedUser) {
