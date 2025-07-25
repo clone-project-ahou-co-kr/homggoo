@@ -2,6 +2,13 @@
 @use "sass:color";
 @import "../../../../assets/styles/def";
 
+.more-replies {
+  color: #0AA5FF;
+  cursor: pointer;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
 #main {
   @include flex(column, center, center);
   margin-top: 3rem;
