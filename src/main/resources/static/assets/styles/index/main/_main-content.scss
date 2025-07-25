@@ -10,10 +10,10 @@
     padding: 1.5rem 3.75rem;
 
     > .hero-banner {
-      @include flex(row, flex-start, space-between, 2rem);
+      @include flex(row, flex-start, flex-start, 1rem);
       padding-top: 2rem;
       position: relative;
-      border-radius: 0.75rem;
+      //border-radius: 0.75rem;
       overflow: hidden;
 
       > .image {

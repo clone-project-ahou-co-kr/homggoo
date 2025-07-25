@@ -2,6 +2,7 @@ package com.hgc.homggoo.services.oAuth;
 
 import com.hgc.homggoo.entities.user.UserEntity;
 import com.hgc.homggoo.mappers.user.UserMapper;
+import com.hgc.homggoo.utils.Bcrypt;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -89,7 +90,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             UserEntity newUser = new UserEntity();
             newUser.setEmail(email);
             newUser.setNickname(nickname);
-            newUser.setPassword(providerKey);
+            newUser.setPassword(Bcrypt.encrypt(providerKey));
             newUser.setProviderType(providerType);
             newUser.setProviderKey(providerKey);
             newUser.setCreatedAt(LocalDateTime.now());

@@ -72,6 +72,7 @@
 #main > .board {
   position: relative;
   max-width: 55rem;
+  min-height: 40vh;
   height: 100%;
   margin: 0 auto;
   padding: 0 1rem;

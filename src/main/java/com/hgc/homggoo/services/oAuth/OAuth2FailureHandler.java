@@ -18,17 +18,17 @@ public class OAuth2FailureHandler implements AuthenticationFailureHandler {
 
         String message = "로그인 실패";
 
-        Throwable cause = exception.getCause();
-        if (cause instanceof OAuth2EmailAlreadyExistsException emailEx) {
+        // ✅ 예외 본체 검사로 변경
+        if (exception instanceof OAuth2EmailAlreadyExistsException emailEx) {
             message = "이미 " + emailEx.getExistingProvider() + "로 가입된 이메일입니다.";
-        } else if (exception.getMessage().contains("rate limit exceeded")) {
-            message = "잠시 후 다시 시도해주세요 (로그인 요청이 너무 많습니다)";
+        } else if (exception.getMessage() != null && exception.getMessage().contains("rate limit exceeded")) {
+            message = "요청이 너무 많습니다. 잠시 후 다시 시도해주세요.";
+        } else if (exception.getMessage() != null) {
+            message = "로그인 실패: " + exception.getMessage();
         }
 
-        // ✅ URL에 에러를 붙이지 않고, 세션에만 저장!
         request.getSession().setAttribute("OAUTH2_ERROR_MESSAGE", message);
-
-        // ✅ 순수히 login 페이지로만 리다이렉트 (쿼리 없음!)
         response.sendRedirect("/user/login");
     }
+
 }
