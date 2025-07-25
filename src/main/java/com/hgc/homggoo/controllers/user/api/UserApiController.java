@@ -118,13 +118,21 @@ public class UserApiController {
         return response.toString();
     }
 
-    @RequestMapping(value = "/edit-email", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
+    @RequestMapping(value = "/edit-email", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)    @ResponseBody
     public String patchEditEmail(EmailTokenEntity emailToken, HttpServletRequest request) {
         emailToken.setUserAgent(request.getHeader("User-Agent"));
         Results result = this.emailTokenService.verifyEmailToken(emailToken);
         JSONObject response = new JSONObject();
         response.put("result", result.nameToLower());
+        return response.toString();
+    }
+    @RequestMapping(value="/edit-update", method = RequestMethod.PATCH,produces = MediaType.APPLICATION_JSON_VALUE)
+    public String patchEditUpdate(@SessionAttribute(value = "signedUser",required = false) UserEntity signedUser,
+                                  @RequestParam(value = "newNickname")String newNickname
+    ) {
+        Results results = this.userService.updateInfo(signedUser,newNickname);
+        JSONObject response = new JSONObject();
+        response.put("results", results.nameToLower());
         return response.toString();
     }
 
