@@ -29,4 +29,7 @@ public interface UserMapper {
 
     UserEntity[] selectBySearch(@Param(value = "searchVo") SearchVo searchVo);
 
+    int selectCountByNickname(@Param(value = "nickname") String nickname);
+
+
 }

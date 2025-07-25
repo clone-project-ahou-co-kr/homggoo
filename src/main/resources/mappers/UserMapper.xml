@@ -124,4 +124,9 @@
         where `email` = #{email}
         limit 1;
     </select>
+    <select id="selectCountByNickname" resultType="java.lang.Integer">
+        select count(0)
+        from `homggoo`.`users`
+        where `nickname`=#{nickname}
+    </select>
 </mapper>

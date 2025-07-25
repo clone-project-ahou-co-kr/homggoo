@@ -125,7 +125,6 @@
 }
 #main-content > .edit-container > #edit-form > .retire-container > .retire-button {
   width: 100%;
-  height: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

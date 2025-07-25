@@ -1,5 +1,6 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 .--object-button {
+  font-size: 0.875rem;
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -71,6 +72,16 @@
 .--object-button.-color-red:active {
   background-color: rgb(228.2054794521, 55.1575342466, 37.2945205479);
 }
+.--object-button.-color-yellow {
+  background-color: #ffc357;
+  color: #fafcfe;
+}
+.--object-button.-color-yellow:hover {
+  background-color: rgb(255, 190.4464285714, 74.25);
+}
+.--object-button.-color-yellow:active {
+  background-color: rgb(255, 185.8928571429, 61.5);
+}
 .--object-button > .---icon {
   width: 0.9375rem;
   height: 0.9375rem;
@@ -81,7 +92,7 @@
 .button-object {
   width: 100%;
   padding: 0.75rem;
-  background-color: #0478F8;
+  background-color: #ffc357;
   color: #fff;
   font-size: 1rem;
   font-weight: 600;

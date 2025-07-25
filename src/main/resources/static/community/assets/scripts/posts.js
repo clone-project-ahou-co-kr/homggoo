@@ -216,11 +216,12 @@ const loadComment = () => {
     xhr.send();
 }
 
-const appendComments = (targetComments, wholeComments, step) => {
+const appendComments = (targetComments, wholeComments, step, parentNickname = '') => {
     $main[name="comment"].value = '';
     for (const comment of targetComments) {
         const isReply = comment.commentId !== null;
-        const replyTag = isReply ? `<span style="color: #0AA5FF;">@${comment.userNickname} &nbsp;</span>` : '';
+        console.log(comment);
+        const replyTag = isReply ? `<span style="color: #0AA5FF;">@${parentNickname} &nbsp;</span>` : '';
         const replyBackgroundColor = step > 0 ? `background-color: rgb(247, 249, 250);` : ``;
 
         // noinspection CssInvalidPropertyValue
@@ -257,7 +258,7 @@ const appendComments = (targetComments, wholeComments, step) => {
         `)
         const nextComments = wholeComments.filter((nextComment) => nextComment.commentId === comment.id);
         if (nextComments.length > 0) {
-            appendComments(nextComments, wholeComments, 1);
+            appendComments(nextComments, wholeComments, 1, comment.userNickname);
         }
     }
 }

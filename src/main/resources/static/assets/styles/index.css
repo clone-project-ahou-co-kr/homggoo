@@ -390,12 +390,12 @@
   flex-shrink: 1;
 }
 #mini-header > .container > .category > a:hover {
-  color: #0478f8;
+  color: #ff9f00;
   transition: none;
 }
 #mini-header > .container > .category > .active {
-  color: #0478f8;
-  border-bottom: 0.0625rem solid #0478f8;
+  color: #ff9f00;
+  border-bottom: 0.0625rem solid #ff9f00;
   animation-delay: 0ms;
   transition: none;
 }
