@@ -21,7 +21,6 @@
 #notification > .title {
   font-size: 1.5rem;
   line-height: 2rem;
-  margin-bottom: 2.5rem;
 }
 #notification > .layout {
   align-items: center;
@@ -31,7 +30,7 @@
   flex-wrap: nowrap;
   gap: 1rem;
   width: 100%;
-  height: 13rem;
+  min-height: 13vh;
 }
 #notification > .layout > * {
   flex-grow: 0;

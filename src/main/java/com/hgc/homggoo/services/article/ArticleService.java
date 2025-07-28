@@ -64,7 +64,6 @@ public class ArticleService {
         article.setCreatedAt(LocalDateTime.now());
         article.setModifiedAt(LocalDateTime.now());
         article.setDeleted(false);
-        this.articleMapper.insert(article);
 
         int rowCount = this.articleMapper.insert(article);
         if (rowCount == 0) {
