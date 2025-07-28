@@ -5,7 +5,6 @@ const emailCodeVerifyButton = document.querySelector('#retire-form [name="emailC
 const emailCodeInput = document.querySelector('#retire-form [name="emailCode"]');
 const emailSaltInput = document.querySelector('#retire-form [name="emailSalt"]');
 const emailInput = document.querySelector('#edit-form [name="email"]');
-const $fileInput = $editForm.querySelector('input[type="file"]');
 const $previewImg = $editForm.querySelector('#profilePreview');
 const $changeBtn = $editForm.querySelector('button[name="change-image"]');
 $retireBtn.addEventListener('click', (e) => {
@@ -72,8 +71,27 @@ emailCodeVerifyButton?.addEventListener('click', () => {
                 dialog.showSimpleOk('이메일 인증', '인증번호가 틀렸습니다. 다시 시도해주세요.');
                 break;
             case 'success':
-                dialog.showSimpleOk('이메일 인증', '이메일 인증에 성공하셨습니다.');
+                dialog.show({
+                    title: '이메일 인증',
+                    content: '이메일 인증에 성공하셨습니다.',
+                    buttons: [
+                        {
+                            caption: '확인',
+                            color: 'blue',
+                            onclick: ($modal) => {
+                                $modal.hide();
+                                const dialog = document.body.querySelector(':scope > .--dialog');
+                                if (dialog) {
+                                    dialog.classList.remove('-visible');
+                                }
+                                emailInput.setAttribute('disabled', '');
+                                emailInput.style.backgroundColor = '#cccccc';
+                            }
+                        }
+                    ]
+                });
                 break;
+
             default:
                 break;
         }
@@ -111,8 +129,10 @@ $retireForm.querySelector(':scope>.confirm').addEventListener('click', (e) => {
                         caption: '확인',
                         color:
                             '#0478F8',
-                        onOkCallback:
-                            () => {
+                        onclick:
+                            ($modal) => {
+                                $modal.hide();
+                                document.body.querySelector('.--dialog').classList.remove('.--visible');
                                 location.href = `${origin}/`;
                             }
                     }]
@@ -134,19 +154,16 @@ $retireForm.querySelector(':scope>.confirm').addEventListener('click', (e) => {
 $editForm.querySelector(':scope>.modify-btn').addEventListener('click', (e) => {
     e.preventDefault();
     const nickname = $editForm.querySelector(':scope>.nickname-container>.label-object>input[name="nickname"]').value;
-
+    if (!RegExp("^([\\da-zA-Z가-힣]{2,10})$").test(nickname)) {
+        dialog.showSimpleOk('수정', '닉네임의 길이는 최소 2자 최대 10자 입니다.');
+        return;
+    }
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('newNickname', nickname);
     if (profileImage != null) {
         formData.append('_profile', profileImage);
     }
-
-    // const file = $fileInput.files[0];
-    // if (file) {
-    //     formData.append('image', file);
-    //     console.log(file);
-    // }
 
     xhr.onreadystatechange = () => {
         if (xhr.readyState !== XMLHttpRequest.DONE) {
@@ -161,7 +178,7 @@ $editForm.querySelector(':scope>.modify-btn').addEventListener('click', (e) => {
         const response = JSON.parse(xhr.responseText);
         switch (response.results) {
             case'failure':
-                dialog.showSimpleOk('수정', '수정에 실패했습니다.');
+                dialog.showSimpleOk('수정', '로그인이 되어있지 않거나 닉네임의 길이가 길어 실패하였습니다.');
                 break;
             case'failure_duplicate':
                 dialog.showSimpleOk('수정', '닉네임이 중복됩니다.');
@@ -197,17 +214,3 @@ $changeBtn.addEventListener('click', () => {
     });
     $input.click();
 });
-
-// 파일 선택 → 미리보기로 표시
-// $fileInput.addEventListener('change', () => {
-//     const file = $fileInput.files[0];
-//     if (file) {
-//         const reader = new FileReader();
-//         //파일을 읽어올수 있도록 하는 것=> fileReader;
-//         //이미지를 읽고 base64로 변환해
-//         reader.onload = e => {
-//             $previewImg.src = e.target.result;
-//         };
-//         reader.readAsDataURL(file);
-//     }
-// });
