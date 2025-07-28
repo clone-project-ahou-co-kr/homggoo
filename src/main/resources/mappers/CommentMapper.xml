@@ -21,13 +21,13 @@
             lIMIT 1
     </update>
     <select id="selectById" resultType="com.hgc.homggoo.entities.comment.CommentEntity">
-        SELECT `id`         AS `id`,
-               `article_id` AS `articleId`,
-               `user_email` AS `userEmail`,
-               `comment_id` AS `commentId`,
-               `content`    AS `content`,
-               `created_at` AS `createdAt`,
-               `is_deleted` AS `isDeleted`
+        SELECT `T0`.`id`         AS `id`,
+               `T0`.`article_id` AS `articleId`,
+               `T0`.`user_email` AS `userEmail`,
+               `T0`.`comment_id` AS `commentId`,
+               `T0`.`content`    AS `content`,
+               `T0`.`created_at` AS `createdAt`,
+               `T0`.`is_deleted` AS `isDeleted`
         FROM `homggoo`.`comments`
         WHERE `id` = #{id}
             LIMIT 1
@@ -40,7 +40,8 @@
                `t0`.`content`    AS `content`,
                `t0`.`created_at` AS `createdAt`,
                `t0`.`is_deleted` AS `isDeleted`,
-               `t1`.`nickname`   AS `userNickname`
+               `t1`.`nickname`   AS `userNickname`,
+               `t1`.`image_url`    AS `imageUrl`
         FROM `homggoo`.`comments` AS `t0`
                  LEFT JOIN `homggoo`.`users` AS `t1` ON `t0`.`user_email` = `t1`.`email`
         WHERE `t0`.`article_id` = #{articleId}

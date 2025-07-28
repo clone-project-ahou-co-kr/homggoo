@@ -52,7 +52,10 @@
 <!--            </div>-->
         </div>
         <div class="comment-input">
-            <div class="profile">
+            <div class="profile" th:if="${signedUser != null}">
+                <img th:src="${signedUser.imageUrl}" alt="">
+            </div>
+            <div class="profile" th:if="${signedUser == null}">
                 <img src="/assets/images/index/header/default-profile.png" alt="">
             </div>
             <div class="input-container">

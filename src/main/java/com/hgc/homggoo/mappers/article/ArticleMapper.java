@@ -1,10 +1,11 @@
 package com.hgc.homggoo.mappers.article;
 
-import com.hgc.homggoo.entities.user.UserEntity;
 import com.hgc.homggoo.vos.ArticleVo;
 import com.hgc.homggoo.entities.article.ArticleEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface ArticleMapper {

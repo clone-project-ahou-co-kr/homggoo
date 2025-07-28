@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/posts")
 public class ArticleController {
@@ -140,9 +142,4 @@ public class ArticleController {
         return response.toString();
     }
 
-//    @RequestMapping(value = "/reply", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public String postReply(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
-//                            CommentEntity comment) {
-//
-//    }
 }

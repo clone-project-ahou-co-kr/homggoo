@@ -7,7 +7,12 @@ const $commentList = $main.querySelector('.comment-list');
 const $commentsCount = $main.querySelector(':scope > .layout > .comment-content > .title > .comment-count');
 const $sideCommentBtn = $main.querySelector(':scope > .side-actions > .icon-button.comment');
 const $title = document.getElementById('title');
-
+$main[name="comment"].addEventListener('keydown', function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        return false;
+    }
+});
 
 const loadArticle = () => {
 
@@ -227,7 +232,7 @@ const appendComments = (targetComments, wholeComments, step, parentNickname = ''
         $commentList.insertAdjacentHTML('beforeend', `
             <div class="comment" style="margin-left: ${step * 3}rem; ${replyBackgroundColor};" th:if="step != 0 ? ">
                 <div class="profile">
-                    <img src="/assets/images/index/header/default-profile.png" alt="">
+                    <img src="${comment['imageUrl']}" alt="">
                 </div>
                 <div class="content-wrapper">
                     <div class="name-time">

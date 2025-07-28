@@ -1,4 +1,6 @@
+
 document.addEventListener('DOMContentLoaded', () => {
+    let isLoading = false;
     const $main = document.getElementById('main');
     const $content = $main.querySelector(':scope > .board > .post-card > .content');
     const categoryMap = {
@@ -18,14 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.item').forEach($item => {
 
         const board = $item.dataset.board;
-        console.log(board)
         const categoryId = $item.dataset.categoryId;
-        console.log(categoryId)
         const $category = $item.querySelector('.category');
-        console.log($category)
         const $time = $item.querySelector('.time');
-        console.log($time);
-
         const display = categoryMap[board]?.[categoryId];
 
         $category.textContent = display;
