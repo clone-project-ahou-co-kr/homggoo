@@ -23,9 +23,9 @@
                 <div class="title-container">
                     <span th:text="${notice.title}"></span>
                     <div class="other-container">
-                        <span th:text="'작성자 '+ ${notice.nickname}"></span>
-                        <span th:text="'날짜 ' + ${#temporals.format(notice.createdAt, 'yyyy-MM-dd')}"></span>
-                        <span th:text="'조회수 ' + ${notice.view}"></span>
+                        <span th:text="'작성자: '+ ${notice.nickname}"></span>
+                        <span th:text="'날짜: ' + ${#temporals.format(notice.createdAt, 'yyyy-MM-dd')}"></span>
+                        <span th:text="'조회수: ' + ${notice.view}"></span>
                     </div>
                 </div>
                 <div class="content-container">
@@ -34,8 +34,10 @@
                         <span th:utext="${notice.content}"></span>
                     </div>
                 </div>
+                <div class="button-container">
+                    <button type="button" onclick="history.back()" class="back button-object">뒤로가기</button>
+                </div>
             </div>
-            <button type="button" onclick="history.back()" class="back button-object">뒤로가기</button>
         </div>
     </section>
 </main>

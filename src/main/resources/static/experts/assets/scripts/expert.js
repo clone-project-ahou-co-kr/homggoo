@@ -1,10 +1,11 @@
 const $mainContent = document.getElementById('main-content');
 
 const $menuContainer = $mainContent.querySelector(
-    ':scope > .info-section > .inner-container > .info-container > .menu-container'
+    '.info-section >.inner-container >.info-container >.menu-container'
 );
 
-const $table = $menuContainer.querySelector(':scope > .notice-container > table');
+const $table = $menuContainer.querySelector('.notice-container> table');
+
 const $selector = $menuContainer.querySelector(':scope>.search-container>.title-select>select');
 const $input = $menuContainer.querySelector(':scope>.search-container>.find-input>input');
 const $noticeContainer = $menuContainer.querySelector(':scope>.notice-container');

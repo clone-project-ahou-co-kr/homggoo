@@ -207,6 +207,10 @@ public class UserService {
                     .result(CommonResult.FAILURE).build();
         }
         UserEntity dbUser = this.userMapper.selectLocalUserEmail(email);
+        if (dbUser == null) {
+            return ResultTuple.<UserEntity>builder()
+                    .result(CommonResult.FAILURE).build();
+        }
         if (!dbUser.isAdmin()) {
             return ResultTuple.<UserEntity>builder()
                     .result(CommonResult.FAILURE).build();
