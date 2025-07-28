@@ -17,7 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/posts")
@@ -140,9 +143,18 @@ public class ArticleController {
         return response.toString();
     }
 
-//    @RequestMapping(value = "/reply", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public String postReply(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
-//                            CommentEntity comment) {
-//
-//    }
+    @PostMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> postPage(
+            @RequestParam(value = "boardId", required = false) String boardId,
+            @RequestParam(value = "categoryId", required = false) String categoryId,
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+
+        Pair<ArticleVo[], PageVo> result = articleService.getPagedArticles(boardId, categoryId, page);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("articles", result.getLeft());
+        response.put("pageInfo", result.getRight());
+
+        return ResponseEntity.ok(response);
+    }
 }

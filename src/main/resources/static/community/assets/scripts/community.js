@@ -1,4 +1,6 @@
+
 document.addEventListener('DOMContentLoaded', () => {
+    let isLoading = false;
     const $main = document.getElementById('main');
     const $content = $main.querySelector(':scope > .board > .post-card > .content');
     const categoryMap = {

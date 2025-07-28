@@ -196,4 +196,14 @@ public class ArticleService {
         dbArticle.setDeleted(false);
         return this.articleMapper.update(dbArticle) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
+
+    public Pair<ArticleVo[], PageVo> getPagedArticles(String boardId, String categoryId, int page) {
+        if (page < 1) {
+            page = 1;
+        }
+        int totalCount = this.articleMapper.selectCountByBoardId(boardId);
+        PageVo pageVo = new PageVo(10, page, totalCount);
+        ArticleVo[] articles = this.articleMapper.selectPagedArticles(pageVo, boardId, categoryId);
+        return Pair.of(articles, pageVo);
+    }
 }

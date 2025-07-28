@@ -12,6 +12,8 @@ public interface ArticleMapper {
 
      int update(@Param(value = "article") ArticleEntity article);
 
+     int selectCountByBoardId(@Param(value = "boardId") String boardId);
+
      ArticleVo[] selectByBoardId(@Param(value = "boardId") String boardId);
 
      ArticleVo[] selectByBoardIdAndCategoryId(@Param(value = "boardId") String boardId,
