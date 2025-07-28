@@ -17,8 +17,6 @@
 <header th:replace="~{fragments/header :: header}"></header>
 <div th:replace="~{fragments/header :: mini-header}"></div>
 <form novalidate id="main" th:action="@{'/community/' + ${boardId}}" method="get">
-    <input type="hidden" id="boardId" th:value="${boardId}">
-    <input type="hidden" id="categoryId" th:value="${categoryId}">
     <!-- decoration 게시판일 때 -->
     <div class="category" th:if="${boardId == 'interior'}">
         <span><a th:href="@{/community/interior}"><span>전체</span></a></span>

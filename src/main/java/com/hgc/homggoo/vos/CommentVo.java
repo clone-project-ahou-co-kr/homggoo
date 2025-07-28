@@ -13,4 +13,5 @@ import lombok.Setter;
 public class CommentVo extends CommentEntity {
     private String userNickname;
     private boolean isMine;
+    private String imageUrl;
 }

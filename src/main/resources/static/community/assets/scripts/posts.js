@@ -233,7 +233,7 @@ const appendComments = (targetComments, wholeComments, step, parentNickname = ''
         $commentList.insertAdjacentHTML('beforeend', `
             <div class="comment" style="margin-left: ${step * 3}rem; ${replyBackgroundColor};" th:if="step != 0 ? ">
                 <div class="profile">
-                    <img src="/assets/images/index/header/default-profile.png" alt="">
+                    <img src="${comment['imageUrl']}" alt="">
                 </div>
                 <div class="content-wrapper">
                     <div class="name-time">

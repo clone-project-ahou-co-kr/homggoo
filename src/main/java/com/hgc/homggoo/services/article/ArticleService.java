@@ -13,13 +13,11 @@ import com.hgc.homggoo.mappers.article.ArticleUserLikeMapper;
 import com.hgc.homggoo.regexes.ArticleRegex;
 import com.hgc.homggoo.results.CommonResult;
 import com.hgc.homggoo.results.ResultTuple;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.transform.Result;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ArticleService {
@@ -69,7 +67,7 @@ public class ArticleService {
         if (rowCount == 0) {
             return ResultTuple.<ArticleEntity>builder().result(CommonResult.FAILURE).build();
         }
-        
+
         // 게시글 등록 알림
         NotificationEntity notification = NotificationEntity.builder()
                 .receiverEmail(article.getUserEmail())
@@ -197,13 +195,4 @@ public class ArticleService {
         return this.articleMapper.update(dbArticle) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 
-    public Pair<ArticleVo[], PageVo> getPagedArticles(String boardId, String categoryId, int page) {
-        if (page < 1) {
-            page = 1;
-        }
-        int totalCount = this.articleMapper.selectCountByBoardId(boardId);
-        PageVo pageVo = new PageVo(10, page, totalCount);
-        ArticleVo[] articles = this.articleMapper.selectPagedArticles(pageVo, boardId, categoryId);
-        return Pair.of(articles, pageVo);
-    }
 }

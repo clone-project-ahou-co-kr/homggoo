@@ -175,29 +175,5 @@
         where `id` = #{id}
         limit 1;
     </select>
-    <select id="selectPagedArticles" resultType="com.hgc.homggoo.entities.article.ArticleEntity">
-        SELECT `id`          AS `id`,
-        `board_id`    AS `boardId`,
-        `category_id` AS `categoryId`,
-        `user_email`  AS `userEmail`,
-        `title`       AS `title`,
-        `content`     AS `content`,
-        `view`        AS `view`,
-        `created_at`  AS `createdAt`,
-        `modified_at` AS `modifiedAt`,
-        `is_deleted`  AS `isDeleted`
-        FROM `homggoo`.`article`
-        WHERE board_id = #{boardId}
-        <if test="categoryId != null">
-            AND category_id = #{categoryId}
-        </if>
-        ORDER BY `id` DESC
-        LIMIT #{pageVo.rowCount} OFFSET #{pageVo.dbOffset}
-    </select>
-    <select id="selectCountByBoardId" resultType="java.lang.Integer">
-        SELECT COUNT(0)
-        FROM `homggoo`.`article`
-        WHERE board_id = #{boardId}
-    </select>
 
 </mapper>
