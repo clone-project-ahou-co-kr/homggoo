@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const $header = document.getElementById('header');
     const $profile = document.getElementById('profile');
     const $menu = document.getElementById('menu');
+    const $writeButton = document.getElementById('writeButton');
+    const $writeMenu = document.getElementById('writeMenu');
     const miniHeader = document.getElementById('mini-header');
     const categoryNav = miniHeader.querySelector('.category');
 
@@ -24,6 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const noticeCategoryHTML = `
       <a href="/experts/">홈</a>
     `;
+
+    $writeButton.addEventListener('click', () => {
+        $writeMenu.style.display = ($writeMenu.style.display === 'block') ? 'none' : 'block';
+    });
 
     const currentPath = window.location.pathname;
     const getHTMLByPath = () => {
@@ -129,3 +135,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sessionTimeout();
 });
+

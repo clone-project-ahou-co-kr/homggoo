@@ -71,8 +71,11 @@
                     </div>
                 </div>
                 <div class="button-container">
-                    <a th:if="${signedUser != null}" href="/community/posts/new" class="--object-button -color-blue" style="margin-right: 1rem;">글쓰기</a>
-                    <a th:if="${signedUser == null}" href="/user/login" class="--object-button -color-blue" style="margin-right: 1rem;">글쓰기</a>
+                    <button th:if="${signedUser != null}" type="button" id="writeButton" class="--object-button -color-blue" style="margin-right: 1rem;">글쓰기</button>
+                    <ul class="menu" id="writeMenu">
+                        <li><a href="/community/posts/new">커뮤니티 <span class="new">N</span></a></li>
+                        <li><a href="/product/newProduct">상품 등록 <span class="new">N</span></a></li>
+                    </ul>
                 </div>
                 <!--
                                 <ul class="nav-menu">

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>나의 상품 페이지</title>
+    <link rel="icon" href="/assets/images/image_cover.png">
+    <link rel="stylesheet" href="/assets/styles/common.min.css">
+    <link rel="stylesheet" href="/assets/styles/index.min.css">
+    <link rel="stylesheet" href="/user/assets/styles/buyProduct.min.css">
+    <script defer src="/assets/scripts/common.js"></script>
+    <script defer src="/assets/scripts/index.js" type="text/javascript"></script>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<div th:replace="~{fragments/header :: mini-header}"></div>
+
+<div id="main-content">
+
+    <div class="content-container">
+        <div class="product-info">
+            <span class="caption">구매 상품</span>
+            <span class="number" th:text="${productOrders.size()} +'개' ">0개</span>
+        </div>
+        <div class="divider"></div>
+        <div class="product-container">
+            <ul class="list">
+                <li class="item" th:each="productOrder : ${productOrders}">
+                    <a th:href="@{/product/production (category=${productOrder.category}, id=${productOrder.productId})}">
+                        <img th:src="@{/product/image(id=${productOrder.productId})}" alt="">
+                        <span class="title" th:text="${productOrder.title}">제목</span>
+                        <span class="price" th:text="${productOrder.formattedPrice} + '원'">가격</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>
