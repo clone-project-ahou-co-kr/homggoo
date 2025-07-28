@@ -214,4 +214,16 @@ public class UserController {
         return "user/admin";
     }
 
+    @RequestMapping(value = "/profile", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getProfileImage(@RequestParam(value = "email", required = false) String email) {
+        UserEntity user = this.userService.getUserByEmail(email);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        byte[] profileImage = user.getProfile();
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(profileImage);
+    }
+
 }

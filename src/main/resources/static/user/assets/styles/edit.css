@@ -80,6 +80,13 @@
   height: 7rem;
   border-radius: 999rem;
 }
+#main-content > .edit-container > #edit-form > .img-container #imageForm {
+  position: relative;
+}
+#main-content > .edit-container > #edit-form > .img-container #imageForm > button {
+  height: 1.5rem;
+  font-size: 0.9rem;
+}
 #main-content > .edit-container > #edit-form > .email-container {
   width: 100%;
 }

@@ -31,6 +31,17 @@
           height: 7rem;
           border-radius: 999rem;
         }
+
+        #imageForm {
+          //width: 100%;
+          position: relative;
+          > button {
+            height: 1.5rem;
+            font-size: 0.9rem;
+            //position: absolute;
+            //right: 0;
+          }
+        }
       }
 
       > .email-container {
@@ -126,6 +137,7 @@
               > .input-container {
                 width: 100%;
                 @include flex(row, center, space-between, 0.5rem);
+
                 > input {
                   width: 13rem;
                 }

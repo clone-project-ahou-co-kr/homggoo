@@ -15,14 +15,17 @@ import jakarta.mail.internet.MimeMessage;
 import org.apache.catalina.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Service
@@ -265,24 +268,33 @@ public class UserService {
                 .payload(dbSearch).build();
     }
 
-
-    public Results updateInfo(UserEntity signedUser,String newNickname) {
+    public Results updateInfo(UserEntity signedUser, String newNickname, MultipartFile profile) throws IOException {
         if (signedUser == null) {
+            System.out.println(1);
             return CommonResult.FAILURE;
         }
-        if (isNicknameAvailable(signedUser.getNickname()) == CommonResult.FAILURE) {
+        if (isNicknameAvailable(newNickname) == CommonResult.FAILURE) {
+            System.out.println(2);
             return CommonResult.FAILURE;
         }
         if(newNickname == null || newNickname.trim().isEmpty()) {
             return CommonResult.FAILURE_ABSENT;
         }
-        System.out.println(newNickname);
-        if (this.userMapper.selectCountByNickname(newNickname) > 0) {
+        if (!newNickname.equals(signedUser.getNickname()) && this.userMapper.selectCountByNickname(newNickname) > 0) {
             return CommonResult.FAILURE_DUPLICATE;
         }
-
+        if (profile != null) {
+            signedUser.setProfile(profile.getBytes());
+            signedUser.setImageUrl("/user/profile?email=" + signedUser.getEmail());
+        }
         signedUser.setNickname(newNickname);
         signedUser.setModifiedAt(LocalDateTime.now());
+        System.out.println(signedUser.getEmail());
+        System.out.println(signedUser.getNickname());
         return this.userMapper.update(signedUser) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
+
+    public UserEntity getUserByEmail(String email) {
+        return this.userMapper.selectByEmail(email);
     }
 }

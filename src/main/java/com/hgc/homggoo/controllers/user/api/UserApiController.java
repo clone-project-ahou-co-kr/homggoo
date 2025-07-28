@@ -20,12 +20,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -128,13 +130,14 @@ public class UserApiController {
     }
     @RequestMapping(value="/edit-update", method = RequestMethod.PATCH,produces = MediaType.APPLICATION_JSON_VALUE)
     public String patchEditUpdate(@SessionAttribute(value = "signedUser",required = false) UserEntity signedUser,
-                                  @RequestParam(value = "newNickname")String newNickname
-    ) {
-        Results results = this.userService.updateInfo(signedUser,newNickname);
+                                  @RequestParam(value = "newNickname")String newNickname,
+                                  @RequestParam(value = "_profile", required = false) MultipartFile profile) throws IOException {
+        Results results = this.userService.updateInfo(signedUser,newNickname, profile);
         JSONObject response = new JSONObject();
         response.put("results", results.nameToLower());
         return response.toString();
     }
+
 
     //    admin
     @RequestMapping(value = "/admin", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

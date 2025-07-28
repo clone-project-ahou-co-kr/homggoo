@@ -5,6 +5,9 @@ const emailCodeVerifyButton = document.querySelector('#retire-form [name="emailC
 const emailCodeInput = document.querySelector('#retire-form [name="emailCode"]');
 const emailSaltInput = document.querySelector('#retire-form [name="emailSalt"]');
 const emailInput = document.querySelector('#edit-form [name="email"]');
+const $fileInput = $editForm.querySelector('input[type="file"]');
+const $previewImg = $editForm.querySelector('#profilePreview');
+const $changeBtn = $editForm.querySelector('button[name="change-image"]');
 $retireBtn.addEventListener('click', (e) => {
     e.preventDefault();
     $retireForm.classList.toggle('visible');
@@ -128,13 +131,23 @@ $retireForm.querySelector(':scope>.confirm').addEventListener('click', (e) => {
     xhr.open('PATCH', '/api/user/mypage/edit');
     xhr.send(formData);
 })
-$editForm.querySelector(':scope>.modify-btn').addEventListener('click',(e)=>{
+$editForm.querySelector(':scope>.modify-btn').addEventListener('click', (e) => {
     e.preventDefault();
     const nickname = $editForm.querySelector(':scope>.nickname-container>.label-object>input[name="nickname"]').value;
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('newNickname', nickname);
+    if (profileImage != null) {
+        formData.append('_profile', profileImage);
+    }
+
+    // const file = $fileInput.files[0];
+    // if (file) {
+    //     formData.append('image', file);
+    //     console.log(file);
+    // }
+
     xhr.onreadystatechange = () => {
         if (xhr.readyState !== XMLHttpRequest.DONE) {
             return;
@@ -146,15 +159,15 @@ $editForm.querySelector(':scope>.modify-btn').addEventListener('click',(e)=>{
             return;
         }
         const response = JSON.parse(xhr.responseText);
-        switch (response.results){
+        switch (response.results) {
             case'failure':
-                dialog.showSimpleOk('수정','수정에 실패했습니다.');
+                dialog.showSimpleOk('수정', '수정에 실패했습니다.');
                 break;
             case'failure_duplicate':
-                dialog.showSimpleOk('수정','닉네임이 중복됩니다.');
+                dialog.showSimpleOk('수정', '닉네임이 중복됩니다.');
                 break;
             case'success':
-                dialog.showSimpleOk('수정','수정 완료했습니다.');
+                dialog.showSimpleOk('수정', '수정 완료했습니다.');
                 break;
             default:
                 break;
@@ -164,3 +177,37 @@ $editForm.querySelector(':scope>.modify-btn').addEventListener('click',(e)=>{
     xhr.open('PATCH', '/api/user/edit-update');
     xhr.send(formData);
 })
+
+let profileImage = null;
+// 버튼 클릭 → 파일 선택창 열기
+$changeBtn.addEventListener('click', () => {
+    // $fileInput.click();
+    const $input = document.createElement('input');
+    $input.setAttribute('accept', 'image/*');
+    $input.setAttribute('type', 'file');
+    $input.addEventListener('input', () => {
+        if ($input.files == null || $input.files.length === 0) {
+            return;
+        }
+        const file = $input.files[0];
+        const reader = new FileReader();
+        reader.onload = e => $previewImg.src = e.target.result;
+        reader.readAsDataURL(file);
+        profileImage = file;
+    });
+    $input.click();
+});
+
+// 파일 선택 → 미리보기로 표시
+// $fileInput.addEventListener('change', () => {
+//     const file = $fileInput.files[0];
+//     if (file) {
+//         const reader = new FileReader();
+//         //파일을 읽어올수 있도록 하는 것=> fileReader;
+//         //이미지를 읽고 base64로 변환해
+//         reader.onload = e => {
+//             $previewImg.src = e.target.result;
+//         };
+//         reader.readAsDataURL(file);
+//     }
+// });

@@ -20,16 +20,20 @@
 <div id="main-content">
     <div class="edit-container">
 
-        <form novalidate id="edit-form">
+        <form novalidate id="edit-form" enctype="multipart/form-data">
             <div class="img-container">
                 <!--                todo profile-image 교환.-->
-                <img th:src="@{/api/user/profile-image}"
+                <img id="profilePreview" th:src="@{/api/user/profile-image}"
                      onerror="this.src='/assets/images/index/header/default-profile.png'">
+                <label id="imageForm">
+                    <input type="file" style="display:none;" name="image" accept="image/*" />
+                    <button name="change-image" class="--object-button -color-blue" type="button">프로필 수정</button>
+                </label>
             </div>
             <div class="nickname-container common">
                 <strong>닉네임</strong>
                 <label class="label-object">
-                    <input class="input-object stretch" required type="text"
+                    <input class="input-object stretch" autocomplete="off" required type="text"
                            name="nickname"
                            th:value="${signedUser.nickname}">
                 </label>
@@ -63,7 +67,7 @@
                         <span>이메일 인증받기</span>
                         <label class="input-container">
                             <input type="hidden" name="emailSalt" class="salt">
-                            <input required class="input-object password" name="emailCode" type="password"
+                            <input autocomplete="off" required class="input-object password" name="emailCode" type="password"
                                    placeholder="인증코드를 입력해주세요" minlength="5" maxlength="50">
                             <button class="--object-button -color-yellow" name="emailCodeVerityButton" type="button">확인</button>
                         </label>

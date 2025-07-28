@@ -23,6 +23,6 @@ public class HomeController {
             model.addAttribute("image", image.getProfileImage());
         }
         model.addAttribute("signedUser", signedUser);
-        return "/home/index";
+        return "home/index";
     }
 }
