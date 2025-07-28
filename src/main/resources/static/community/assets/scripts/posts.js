@@ -7,11 +7,10 @@ const $commentList = $main.querySelector('.comment-list');
 const $commentsCount = $main.querySelector(':scope > .layout > .comment-content > .title > .comment-count');
 const $sideCommentBtn = $main.querySelector(':scope > .side-actions > .icon-button.comment');
 const $title = document.getElementById('title');
-document.addEventListener('keydown', function(event) {
+$main[name="comment"].addEventListener('keydown', function(event) {
     if (event.key === "Enter") {
-        event.preventDefault(); // 기본 동작 방지
-        // 추가적인 작업 수행
-        return false; // 선택적으로 false 반환
+        event.preventDefault();
+        return false;
     }
 });
 
