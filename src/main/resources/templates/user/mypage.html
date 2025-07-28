@@ -63,16 +63,16 @@
         </div>
         <!--        <div class="stretch"></div>-->
         <div class="view-category">
-            <div class="content-container">
+            <div class="content-container my">
                 <div class="product-info">
                     <span class="caption">내 상품</span>
                     <span class="number" th:text="${productCount} +'개' ">0</span>
                 </div>
                 <div class="divider"></div>
                 <div class="product-container">
-                    <div class="more-box">
+                    <div class="more-box myproduct-more">
                         <label>
-                            <button type="button" class="more" name="more">+</button>
+                            <button type="button" class="my-more more" name="more">+</button>
                         </label>
                     </div>
                     <ul class="list">
@@ -89,16 +89,16 @@
                     </ul>
                 </div>
             </div>
-            <div class="content-container">
+            <div class="content-container buy">
                 <div class="product-info">
                     <span class="caption">구매 상품</span>
                     <span class="number" th:text="${orderCount} +'개' ">0</span>
                 </div>
                 <div class="divider"></div>
                 <div class="product-container">
-                    <div class="more-box">
+                    <div class="more-box buyproduct-more">
                         <label>
-                            <button type="button" class="more" name="more">+</button>
+                            <button type="button" class="buy-more more" name="more">+</button>
                         </label>
                     </div>
                     <ul class="list">

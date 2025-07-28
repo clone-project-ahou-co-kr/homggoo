@@ -190,6 +190,14 @@ public class UserController {
         return "user/myProduct";
     }
 
+    @RequestMapping(value = "/buyproduct", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public String getBuyProduct(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                               Model model) {
+        List<ProductBuyVo> productOrders = this.productService.selectOrderProduct(signedUser);
+        model.addAttribute("productOrders", productOrders);
+        return "user/buyProduct";
+    }
+
     @RequestMapping(value = "/myproductlike", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String getMyProductLike(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
                                Model model) {
