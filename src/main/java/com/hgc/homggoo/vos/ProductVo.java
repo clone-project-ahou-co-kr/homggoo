@@ -13,6 +13,7 @@ import java.util.Locale;
 @Setter
 public class ProductVo extends ProductEntity {
     private String nickname;
+    private String imageUrl;
 
     public String getElapsedTime() {
         if (getCreatedAt() == null) return "알 수 없음";

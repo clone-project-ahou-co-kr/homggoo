@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const $main = document.getElementById('main');
 const $button = document.getElementById('uploadButton');
 const $writeForm = document.getElementById('writeForm');
+const $subject = document.getElementById('subject');
 const $title = $main.querySelector('input[name="title"]');
 const content = $writeForm.querySelector(':scope > .content > .main-content > .text-container > .custom-placeholder');
 const price = $writeForm.querySelector(':scope > .content > .main-content > .text-container > .custom-placeholder.price');
@@ -57,6 +58,18 @@ const imageInput = document.getElementById('productImage');
 const productData = document.getElementById('productData');
 const ownerEmail = productData.dataset.ownerEmail;
 const loggedEmail = productData.dataset.loggedEmail;
+
+document.addEventListener("DOMContentLoaded", function () {
+    const selectElement = document.querySelector("#subject");
+
+    selectElement.addEventListener("change", function () {
+        if (this.value) {
+            this.classList.add("selected");
+        } else {
+            this.classList.remove("selected");
+        }
+    });
+});
 
 $button.addEventListener('click', () => {
     if (ownerEmail !== loggedEmail) {
@@ -97,6 +110,7 @@ $button.addEventListener('click', () => {
         dialog.showSimpleOk('상품 등록', '가격을 숫자로만 입력해주세요.',{
             onOkCallback: () => price.focus()
         })
+        return;
     }
 
     const xhr = new XMLHttpRequest();
@@ -106,6 +120,7 @@ $button.addEventListener('click', () => {
     formData.append('description', content.textContent);
     formData.append('price', price.textContent);
     formData.append('title', $writeForm['title'].value);
+    formData.append('categoryCode', $subject.value);
     formData.append('id', id);
     formData.append('_image', imageInput.files[0]);
 

@@ -40,6 +40,10 @@ public interface ProductMapper {
 
     List<ProductBuyVo> selectBuyProductsByUserEmail(@Param("userEmail") String userEmail);
 
+    List<ProductVo> sortDateProduct();
+
+    List<ProductVo> sortViewProduct();
+
     int selectCountByIsNotSold(@Param(value = "categoryCode")String category);
 
 }

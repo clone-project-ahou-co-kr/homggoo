@@ -144,7 +144,7 @@ public class UserController {
     //마이페이지
     @RequestMapping(value = "/mypage", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE
     )
-    public String getMypage(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+    public String getMyPage(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
                             Model model) {
 
         if (signedUser == null) {
@@ -158,7 +158,7 @@ public class UserController {
         int orderCount = productOrders.size();
 
         if (products.size() > 3) {
-            products = products.subList(0, 3); // 앞 3개만
+            products = products.subList(0, 3);
         } else {
             List<ProductVo> productSize = this.productService.selectByUserEmail(signedUser.getEmail());
             model.addAttribute("productSize", productSize);

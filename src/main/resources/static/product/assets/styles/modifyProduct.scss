@@ -39,12 +39,12 @@
         box-sizing: border-box;
         margin: 0 0.425rem;
         padding: 0.75rem 0.425rem;
-        background: rgb(53, 197, 240);
-        border: 0.0625rem solid rgb(53, 197, 240);
-        border-radius: 4px;
-        font: inherit;
-        font-size: 15px;
-        line-height: 20px;
+        background: #0478f8;
+        border: #0478f8;
+        border-radius: 0.25rem;
+        font-family: inherit;
+        font-size: 0.9375rem; // 15px
+        line-height: 1.25rem; // 20px
         font-weight: bold;
         color: #ffffff;
         transition: opacity 0.1s;
@@ -70,22 +70,32 @@
       @include flex(row, flex-start, flex-start, 1rem);
       padding-top: 2.5rem;
 
-      > label > select {
-        display: inline-block;
-        margin: 0;
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg fill='%23999' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 12px center;
-        background-size: 1.5rem;
-        font-size: 16px;
-        line-height: 20px;
-        appearance: none;
-        width: 100%;
-        height: 40px;
-        border-radius: 4px;
-        border: 1px solid #e6e6e6;
-        color: #c2c8cc;
-        padding: 0 37px 0 13px;
+      > label {
+        > select {
+          display: inline-block;
+          margin: 0;
+          background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg fill='%23999' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 0.75rem center; // 12px
+          background-size: 1.5rem; // 24px
+          font: inherit;
+          font-size: 1rem; // 16px
+          line-height: 1.25rem; // 20px
+          position: relative;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          -ms-appearance: none;
+          width: 100%;
+          height: 2.5rem; // 40px
+          border-radius: 0.25rem; // 4px
+          border: 0.0625rem solid #e6e6e6;
+          color: #c2c8cc; // 기본 글자색
+          padding: 0 2.313rem 0 0.813rem; // 37px 13px
+
+          &.selected {
+            color: #000000;
+          }
+        }
       }
     }
 
@@ -184,24 +194,26 @@
 
             &.price {
               height: 2.5rem;
+              position: relative;
+              min-height: 1.5rem;
               line-height: 2.5rem;
               font-size: 1.5rem;
               border-bottom: 0.0625rem solid #dbdbdb;
             }
+          }
 
-            &:empty::before {
-              content: attr(data-ph);
-              color: #ccc;
-              pointer-events: none;
-              position: absolute;
-              left: 0;
-              top: 0;
-              opacity: 1;
-            }
+          .custom-placeholder:empty::before {
+            content: attr(data-ph);
+            color: #ccc;
+            pointer-events: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 1;
+          }
 
-            &:focus:empty::before {
-              opacity: 0;
-            }
+          .custom-placeholder:focus:empty::before {
+            opacity: 0;
           }
 
           > p[contenteditable="true"] {
