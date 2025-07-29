@@ -46,6 +46,14 @@ public class ProductService {
         return this.productMapper.selectBuyProductsByUserEmail(signedUser.getEmail());
     }
 
+    public List<ProductVo> sortDateProduct() {
+        return this.productMapper.sortDateProduct();
+    }
+
+    public List<ProductVo> sortViewProduct() {
+        return this.productMapper.sortViewProduct();
+    }
+
     public int getIsNotSold(String categoryCode) {
         return this.productMapper.selectCountByIsNotSold(categoryCode);
     }
@@ -74,7 +82,7 @@ public class ProductService {
         if (signedUser == null || signedUser.isDeleted()) {
             return CommonResult.FAILURE_ABSENT;
         }
-        if (!signedUser.getEmail().equals(product.getUserEmail())) {
+        if (signedUser.getEmail().equals(product.getUserEmail())) {
             return CommonResult.FAILURE_UNAUTHORIZED;
         }
         UserEntity userEmail = this.productMapper.selectUserEmail(signedUser);

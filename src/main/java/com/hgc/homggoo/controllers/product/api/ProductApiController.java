@@ -49,9 +49,13 @@ public class ProductApiController {
 
     @RequestMapping(value = "/modifyProduct", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> postModifyProduct(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+                                                 @RequestParam(value = "categoryCode", required = false) String categoryCode,
                                                  @RequestParam(value = "_image", required = false) MultipartFile image,
                                                  ProductEntity product) throws IOException {
         Map<String, Object> response = new HashMap<>();
+        if (categoryCode != null) {
+            product.setCategoryCode(categoryCode);
+        }
 
         if (image != null && !image.isEmpty()) {
             product.setImage(image.getBytes());
@@ -65,6 +69,7 @@ public class ProductApiController {
         if (result == CommonResult.SUCCESS) {
             response.put("result", "success");
             response.put("id", product.getId());
+            response.put("categoryId", product.getCategoryCode());
         } else {
             response.put("result", "failure");
         }

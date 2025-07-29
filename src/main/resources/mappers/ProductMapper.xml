@@ -22,6 +22,7 @@
         set `user_email`  = #{product.userEmail},
             `title`       = #{product.title},
             `description` = #{product.description},
+            `category_code` = #{product.categoryCode},
             `price`       = #{product.price},
             `view_count`  = #{product.viewCount},
             `is_sold`     = #{product.isSold},
@@ -31,6 +32,7 @@
         where `id` = #{product.id}
         limit 1
     </update>
+
     <update id="updateBuyProduct">
         update `homggoo`.`product`
         set `is_sold`  = #{product.isSold},
@@ -71,7 +73,8 @@
                `t0`.`created_at`    as `createdAt`,
                `t0`.`updated_at`    as `updatedAt`,
                `t0`.`image`         as `image`,
-               `t1`.`nickname`      as `nickname`
+               `t1`.`nickname`      as `nickname`,
+               `t1`.`profile`       as `profile`
         from `homggoo`.`product` as `t0`
                  join `homggoo`.`users` `t1` on `t0`.`user_email` = `t1`.`email`
         where `id` = #{id}
@@ -104,7 +107,8 @@
                `t0`.`created_at`    as `createdAt`,
                `t0`.`updated_at`    as `updatedAt`,
                `t0`.`image`         as `image`,
-               `t1`.`nickname`      as `nickname`
+               `t1`.`nickname`      as `nickname`,
+               `t1`.`image_url`     as `imageUrl`
         from `homggoo`.`product` as `t0`
                  join `homggoo`.`users` `t1` on `t0`.`user_email` = `t1`.`email`
         where `id` = #{id}
@@ -188,6 +192,18 @@
         <if test="categoryCode != null and categoryCode != ''">
             and `category_code` = #{categoryCode}
         </if>
+    </select>
+
+    <select id="sortDateProduct" resultType="com.hgc.homggoo.vos.ProductVo">
+        select count(0)
+        from `homggoo`.`product`
+        order by `created_at` desc
+    </select>
+
+    <select id="sortViewProduct" resultType="com.hgc.homggoo.vos.ProductVo">
+        select count(0)
+        from `homggoo`.`product`
+        order by `view_count` desc
     </select>
 
 

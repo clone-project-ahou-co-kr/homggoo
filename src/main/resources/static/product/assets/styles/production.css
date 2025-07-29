@@ -205,6 +205,9 @@
   gap: 1rem;
   justify-content: flex-start;
 }
+#main-production > .explain-section > .explain > .profile a {
+  cursor: default;
+}
 #main-production > .explain-section > .explain > .profile > .image-wrapper {
   width: 3rem;
   height: 3rem;

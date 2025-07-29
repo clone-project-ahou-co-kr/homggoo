@@ -27,7 +27,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String getIndexProduct(@SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
+    public String getIndexProduct(@RequestParam(value = "category", required = false) String category,
                                   Model model) {
         List<ProductVo> products = this.productService.getAllProducts();
 
@@ -37,7 +37,6 @@ public class ProductController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String getAll(@RequestParam(value = "category", required = false) String category,
-                         @SessionAttribute(value = "signedUser", required = false) UserEntity signedUser,
                          Model model) {
         List<ProductVo> products;
         if (category == null || category.isBlank()) {

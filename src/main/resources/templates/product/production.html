@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>라이프스타일 슈퍼앱, 오늘의집</title>
+    <title>Homggoo | 상품 상세 페이지</title>
     <meta name="description" content="감도높은 유저들의 일상 구경부터 제품 구매까지 한번에"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <link rel="stylesheet" type="text/css" href="/product/assets/styles/production.min.css">
@@ -80,7 +80,7 @@
             <div class="profile">
                 <div class="image-wrapper">
                     <a th:href="@{'/user/mypage'}">
-                        <img th:src="${product != null} ? '/api/user/profile-image'" alt="" class="image">
+                        <img th:src="${product.imageUrl}" alt="" class="image">
                     </a>
                 </div>
                 <div class="text-container">

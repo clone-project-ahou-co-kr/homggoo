@@ -43,7 +43,7 @@
                         <a th:href="@{/community/notifications/feed}" class="nav-link">
                             <span><img src="/assets/images/index/header/notification.png" alt=""></span>
                         </a>
-                        <a href="#" class="nav-link">
+                        <a th:href="@{/user/buyproduct}" class="nav-link">
                             <span><img src="/assets/images/index/header/cart.png" alt=""></span>
                         </a>
                         <div class="wrapper">
@@ -56,7 +56,7 @@
                             </picture>
                             <ul class="menu" id="menu">
                                 <li><a href="/user/mypage">마이페이지 <span class="new">N</span></a></li>
-                                <li><a href="#">나의 쇼핑</a></li>
+                                <li><a href="/user/buyproduct">나의 쇼핑</a></li>
                                 <li><a href="/logout">로그아웃</a></li>
                             </ul>
                         </div>
@@ -74,7 +74,7 @@
                     <button th:if="${signedUser != null}" type="button" id="writeButton" class="--object-button -color-blue" style="margin-right: 1rem;">글쓰기</button>
                     <ul class="menu" id="writeMenu">
                         <li><a href="/community/posts/new">커뮤니티 <span class="new">N</span></a></li>
-                        <li><a href="/product/newProduct">상품 등록 <span class="new">N</span></a></li>
+                        <li><a href="/product/newProduct">상품등록 <span class="new">N</span></a></li>
                     </ul>
                 </div>
                 <!--
