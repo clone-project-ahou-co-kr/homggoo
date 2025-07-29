@@ -28,9 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
       <a href="/experts/">홈</a>
     `;
 
-    $writeButton?.addEventListener('click', () => {
-        $writeMenu.style.display = ($writeMenu.style.display === 'block') ? 'none' : 'block';
-    });
+
+
+
 
     const currentPath = window.location.pathname;
     const getHTMLByPath = () => {
@@ -75,10 +75,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    if ($profile && $menu) {
-        $profile.addEventListener('click', (e) => {
+    if ($profile && $menu && $writeButton) {
+        $profile?.addEventListener('click', (e) => {
             e.stopPropagation();
             $menu.style.display = ($menu.style.display === 'block') ? 'none' : 'block';
+            $writeMenu.style.display = 'none';
+        });
+
+        $writeButton?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            $writeMenu.style.display = ($writeMenu.style.display === 'block') ? 'none' : 'block';
+            $menu.style.display = 'none';
         });
 
         document.addEventListener('click', (e) => {
