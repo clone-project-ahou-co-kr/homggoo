@@ -28,8 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
       <a href="/experts/">홈</a>
     `;
 
-    console.log($isLogin.value);
-
     $writeButton?.addEventListener('click', () => {
         $writeMenu.style.display = ($writeMenu.style.display === 'block') ? 'none' : 'block';
     });
