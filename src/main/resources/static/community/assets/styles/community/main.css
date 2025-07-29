@@ -77,6 +77,28 @@
   margin: 0 auto;
   padding: 0 1rem;
 }
+#main > .board > .empty {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  font-size: 15px;
+  line-height: 100%;
+  color: #828C94;
+  overflow: hidden;
+  text-align: center;
+  height: 40vh;
+}
+#main > .board > .empty > * {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#main > .board > .empty > .stretch {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
 #main > .board > .post-card {
   align-items: flex-start;
   display: flex;
