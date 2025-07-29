@@ -11,6 +11,7 @@ import com.hgc.homggoo.services.article.ArticleService;
 import com.hgc.homggoo.services.comment.CommentService;
 import com.hgc.homggoo.vos.ArticleVo;
 import com.hgc.homggoo.vos.CommentVo;
+import com.hgc.homggoo.vos.PageVo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -141,5 +142,44 @@ public class ArticleController {
 
         return response.toString();
     }
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String getArticles(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                                  @RequestParam(value = "boardId", required = false) String boardId,
+                                  @RequestParam(value = "categoryId", required = false) String categoryId) {
 
+        if (categoryId != null && categoryId.isBlank() && categoryId.equals("null")) {
+            categoryId = null;
+        }
+
+        int rowCount = 5;
+        int totalCount = articleService.getTotalCount(boardId, categoryId);
+        PageVo pageVo = new PageVo(rowCount, page, totalCount);
+
+        List<ArticleVo> articles = articleService.getArticles(pageVo, categoryId, boardId);
+
+        JSONArray articlesArray = new JSONArray();
+        for (ArticleVo article : articles) {
+            JSONObject obj = new JSONObject();
+            obj.put("id", article.getId());
+            obj.put("title", article.getTitle());
+            obj.put("content", article.getContent());
+            obj.put("nickname", article.getNickname());
+            obj.put("createdAt", article.getCreatedAt());
+            obj.put("likeCount", article.getLikeCount());
+            obj.put("commentCount", article.getCommentCount());
+            obj.put("boardId", article.getBoardId());
+            obj.put("categoryId", article.getCategoryId());
+            obj.put("view", article.getView());
+            articlesArray.put(obj);
+        }
+
+        JSONObject response = new JSONObject();
+        response.put("totalCount", totalCount);
+        response.put("currentPage", page);
+        response.put("rowCount", rowCount);
+        response.put("articles", articlesArray);
+
+        return response.toString();
+    }
 }

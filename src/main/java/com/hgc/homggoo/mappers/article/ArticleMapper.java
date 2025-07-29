@@ -2,6 +2,7 @@ package com.hgc.homggoo.mappers.article;
 
 import com.hgc.homggoo.vos.ArticleVo;
 import com.hgc.homggoo.entities.article.ArticleEntity;
+import com.hgc.homggoo.vos.PageVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,4 +30,11 @@ public interface ArticleMapper {
      int modify(@Param(value = "article") ArticleEntity article);
 
      int delete(@Param(value = "article") ArticleEntity article);
+
+     int selectTotalCount(@Param(value = "boardId") String boardId,
+                          @Param(value = "categoryId") String categoryId);
+
+     List<ArticleVo> selectArticles(@Param("boardId") String boardId,
+                                    @Param("categoryId") String categoryId,
+                                    @Param("pageVo") PageVo pageVo);
 }

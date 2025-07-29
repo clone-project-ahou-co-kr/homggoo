@@ -1,8 +1,10 @@
 package com.hgc.homggoo.controllers.community;
 
+import com.hgc.homggoo.entities.article.ArticleEntity;
 import com.hgc.homggoo.entities.user.UserEntity;
 import com.hgc.homggoo.services.article.ArticleService;
 import com.hgc.homggoo.vos.ArticleVo;
+import com.hgc.homggoo.vos.PageVo;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -104,4 +107,5 @@ public class CommunityController {
 
         return "community/notifications/feed";
     }
+
 }

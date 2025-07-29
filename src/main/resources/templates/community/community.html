@@ -17,6 +17,8 @@
 <header th:replace="~{fragments/header :: header}"></header>
 <div th:replace="~{fragments/header :: mini-header}"></div>
 <form novalidate id="main" th:action="@{'/community/' + ${boardId}}" method="get">
+    <input type="hidden" th:value="${boardId}" id="boardId">
+
     <!-- decoration 게시판일 때 -->
     <div class="category" th:if="${boardId == 'interior'}">
         <span><a th:href="@{/community/interior}"><span>전체</span></a></span>
@@ -47,32 +49,33 @@
 <!--            네모네모사인-->
 <!--        </div>-->
 <!--    </div>-->
-    <div class="board">
-        <div class="post-card" th:each="article : ${articles}">
-            <div class="item" th:attr="data-board=${article.getBoardId}, data-category-id=${article.getCategoryId}">
-                <div class="category" th:text="${article.getCategoryId()}">#홈스타일링</div>
-                <a class="title" th:text="${article.getTitle()}" th:href="@{/community/posts (id=${article.getId()})}">로봇청소기 배치 도와주세요..!</a>
-                <p class="content" th:text="${article.getContent()}">
-                    안녕하세요! 한 달 후에 입주할 집의 가구 배치를 고민 중인데, 로봇청소기 위치를 정하는 게 너무 어렵네요..
-                    현재로선 거실 소파 옆이 가장 적당해 보이긴 하는데, 바로 앞에 의자가 있어서 로봇청소기가 제자리에서 나가...
-                </p>
-                <div class="info">
-                    <span class="username" th:text="${article.getNickname()}"><!--nickname ·--></span><span> · </span>
-                    <span class="time" th:text="${article.getCreatedAt()}"><!--1분 ·--></span><span> · </span>
-                    <span class="views">조회 <span th:text="${article.getView()}">0</span> · </span>
-                    <span class="likes">❤ <span th:text="${article.getLikeCount()}"></span> · </span>
-                    <span class="comments">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" color="#828C94" class="ey1aqhe0 css-bsbdow">
-                            <path fill="currentColor" fill-rule="evenodd" d="m11.942 10.521.26-.516a4.948 4.948 0 1 0-2.145 2.17l.523-.27 1.886.519zm-1.193 2.986a6.448 6.448 0 1 1 2.794-2.827l.767 2.789a.65.65 0 0 1-.8.798z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span th:text="${article.getCommentCount()}"></span>
-                    </span>
-                </div>
-<!--                <div class="thumbnail">-->
-<!--                    <img src="/assets/images/example-thumbnail.png" alt="thumbnail" />-->
+    <div class="board" id="board" th:attr="data-board-id=${boardId}, data-category-id=${categoryId}">
+<!--        <div class="empty">게시물이 존재하지 않습니다.</div>-->
+<!--        <div class="post-card" th:each="article : ${articles}">-->
+<!--            <div class="item" th:attr="data-board=${article.getBoardId}, data-category-id=${article.getCategoryId}">-->
+<!--                <div class="category" th:text="${article.getCategoryId()}">#홈스타일링</div>-->
+<!--                <a class="title" th:text="${article.getTitle()}" th:href="@{/community/posts (id=${article.getId()})}">로봇청소기 배치 도와주세요..!</a>-->
+<!--                <p class="content" th:text="${article.getContent()}">-->
+<!--                    안녕하세요! 한 달 후에 입주할 집의 가구 배치를 고민 중인데, 로봇청소기 위치를 정하는 게 너무 어렵네요..-->
+<!--                    현재로선 거실 소파 옆이 가장 적당해 보이긴 하는데, 바로 앞에 의자가 있어서 로봇청소기가 제자리에서 나가...-->
+<!--                </p>-->
+<!--                <div class="info">-->
+<!--                    <span class="username" th:text="${article.getNickname()}">&lt;!&ndash;nickname ·&ndash;&gt;</span><span> · </span>-->
+<!--                    <span class="time" th:text="${article.getCreatedAt()}">&lt;!&ndash;1분 ·&ndash;&gt;</span><span> · </span>-->
+<!--                    <span class="views">조회 <span th:text="${article.getView()}">0</span> · </span>-->
+<!--                    <span class="likes">❤ <span th:text="${article.getLikeCount()}"></span> · </span>-->
+<!--                    <span class="comments">-->
+<!--                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" color="#828C94" class="ey1aqhe0 css-bsbdow">-->
+<!--                            <path fill="currentColor" fill-rule="evenodd" d="m11.942 10.521.26-.516a4.948 4.948 0 1 0-2.145 2.17l.523-.27 1.886.519zm-1.193 2.986a6.448 6.448 0 1 1 2.794-2.827l.767 2.789a.65.65 0 0 1-.8.798z" clip-rule="evenodd"></path>-->
+<!--                        </svg>-->
+<!--                        <span th:text="${article.getCommentCount()}"></span>-->
+<!--                    </span>-->
 <!--                </div>-->
-            </div>
-        </div>
+<!--&lt;!&ndash;                <div class="thumbnail">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <img src="/assets/images/example-thumbnail.png" alt="thumbnail" />&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </form>
 <footer th:replace="~{fragments/footer :: footer}"></footer>

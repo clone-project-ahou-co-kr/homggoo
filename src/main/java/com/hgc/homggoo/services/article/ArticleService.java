@@ -13,6 +13,7 @@ import com.hgc.homggoo.mappers.article.ArticleUserLikeMapper;
 import com.hgc.homggoo.regexes.ArticleRegex;
 import com.hgc.homggoo.results.CommonResult;
 import com.hgc.homggoo.results.ResultTuple;
+import com.hgc.homggoo.vos.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -193,6 +194,14 @@ public class ArticleService {
         dbArticle.setModifiedAt(LocalDateTime.now());
         dbArticle.setDeleted(false);
         return this.articleMapper.update(dbArticle) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
+
+    public int getTotalCount(String boardId, String categoryId) {
+        return this.articleMapper.selectTotalCount(boardId, categoryId);
+    }
+
+    public List<ArticleVo> getArticles(PageVo pageVo, String categoryId, String boardId) {
+        return this.articleMapper.selectArticles(boardId, categoryId, pageVo);
     }
 
 }

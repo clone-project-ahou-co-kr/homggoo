@@ -10,8 +10,8 @@ public class PageVo {
     public PageVo(int rowCount, int page, int totalCount) {
         this.rowCount = rowCount;
         this.totalCount = totalCount;
-        this.maxPage = totalCount / rowCount + (totalCount % rowCount == 0 ? 0 : 1);
-        this.page = Math.min(page, this.maxPage);
-        this.dbOffset = Math.max(0, (this.page - 1) * rowCount);
+        this.maxPage = (totalCount == 0) ? 1 : (totalCount / rowCount + (totalCount % rowCount == 0 ? 0 : 1));
+        this.page = Math.max(1, Math.min(page, this.maxPage));
+        this.dbOffset = (this.page - 1) * rowCount;
     }
 }
