@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const $writeMenu = document.getElementById('writeMenu');
     const miniHeader = document.getElementById('mini-header');
     const categoryNav = miniHeader.querySelector('.category');
+    const $isLogin = document.getElementById('isLogin');
 
     const shoppingLink = document.querySelector('.shopping');
     const noticeLink = document.querySelector('.nav-menu.notice');
@@ -27,7 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
       <a href="/experts/">홈</a>
     `;
 
-    $writeButton.addEventListener('click', () => {
+    console.log($isLogin.value);
+
+    $writeButton?.addEventListener('click', () => {
         $writeMenu.style.display = ($writeMenu.style.display === 'block') ? 'none' : 'block';
     });
 
