@@ -249,7 +249,7 @@ const appendComments = (targetComments, wholeComments, step, parentNickname = ''
             </div>
             <div class="reply-container"  style="margin-left: ${step * 3}rem; display: none;">
                 <div class="profile">
-                    <img src="/assets/images/index/header/default-profile.png" alt="">
+                    <img src="${comment['imageUrl']}" alt="">
                 </div>
                 <div class="input-container">
                     <label class="label" style="width: calc(100% - ${step * 3}rem);">

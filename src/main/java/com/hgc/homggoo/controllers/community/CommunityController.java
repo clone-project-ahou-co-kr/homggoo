@@ -53,7 +53,7 @@ public class CommunityController {
             return "redirect:/user/login";
         }
 
-        return "/community/posts/new";
+        return "community/posts/new";
     }
 
     @RequestMapping(value = "/{boardId}", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
@@ -96,7 +96,7 @@ public class CommunityController {
                            Model model,
                            HttpServletRequest request) {
         model.addAttribute("signedUser", signedUser);
-        return "/community/posts";
+        return "community/posts";
     }
 
     @RequestMapping(value = "/notifications/feed", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)

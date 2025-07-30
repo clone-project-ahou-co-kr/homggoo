@@ -114,6 +114,7 @@
     }
     > .comment-content {
       @include flex(row, center, space-between);
+      margin-top: 6rem;
       width: 100%;
       margin-bottom: 1.5rem;
       > .title {
